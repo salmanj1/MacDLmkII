@@ -9,7 +9,9 @@
     "lint": "eslint . --ext .ts,.tsx",
     "test": "vitest",
     "format": "prettier --write .",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "data:extract": "tsx scripts/extractPdfText.ts",
+    "data:build": "pnpm data:extract && tsx scripts/generateEffects.ts"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.0.0",
@@ -19,12 +21,14 @@
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2.0.0",
+    "@types/node": "^22.7.4",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^8.7.0",
     "@typescript-eslint/parser": "^8.7.0",
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.20",
+    "pdfjs-dist": "^4.6.82",
     "eslint": "^9.9.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
@@ -32,6 +36,7 @@
     "postcss": "^8.4.47",
     "prettier": "^3.3.3",
     "tailwindcss": "^3.4.10",
+    "tsx": "^4.19.1",
     "typescript": "^5.6.2",
     "vite": "^5.4.6",
     "vitest": "^2.1.1"
