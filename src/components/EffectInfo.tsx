@@ -22,15 +22,46 @@ const EffectInfo = ({ effect }: EffectInfoProps) => {
       <div className="mt-2 text-2xl font-semibold text-glow">{effect.model}</div>
       <div className="text-sm text-slate-300">Inspired by {effect.inspiration}</div>
       <p className="mt-3 text-slate-200 leading-relaxed">{effect.description}</p>
-      <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
+      <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2 text-sm">
         <div className="rounded-lg border border-slate-700 p-3">
-          <div className="text-xs uppercase tracking-wide text-slate-400">Twist CCW</div>
-          <div className="text-slate-100">{effect.tweak.ccw}</div>
+          <div className="text-xs uppercase tracking-wide text-slate-400">Tweak</div>
+          <div className="text-sm font-semibold text-slate-100">{effect.tweak.label}</div>
+          <div className="mt-2 space-y-1">
+            <div>
+              <div className="text-[10px] uppercase tracking-wide text-slate-400">CCW</div>
+              <div className="text-slate-100">{effect.tweak.behaviorCCW}</div>
+            </div>
+            <div>
+              <div className="text-[10px] uppercase tracking-wide text-slate-400">CW</div>
+              <div className="text-slate-100">{effect.tweak.behaviorCW}</div>
+            </div>
+          </div>
         </div>
         <div className="rounded-lg border border-slate-700 p-3">
-          <div className="text-xs uppercase tracking-wide text-slate-400">Twist CW</div>
-          <div className="text-slate-100">{effect.tweak.cw}</div>
+          <div className="text-xs uppercase tracking-wide text-slate-400">Tweez</div>
+          <div className="text-sm font-semibold text-slate-100">{effect.tweez.label}</div>
+          <div className="mt-2 space-y-1">
+            <div>
+              <div className="text-[10px] uppercase tracking-wide text-slate-400">CCW</div>
+              <div className="text-slate-100">{effect.tweez.behaviorCCW}</div>
+            </div>
+            <div>
+              <div className="text-[10px] uppercase tracking-wide text-slate-400">CW</div>
+              <div className="text-slate-100">{effect.tweez.behaviorCW}</div>
+            </div>
+          </div>
         </div>
+      </div>
+      <div className="mt-3 text-sm text-slate-300">
+        <div className="font-semibold text-slate-100">Range / Notes</div>
+        <p className="text-slate-200">{effect.rangeNote}</p>
+        {effect.notes.length > 0 && (
+          <ul className="mt-2 list-disc space-y-1 pl-5 text-slate-200">
+            {effect.notes.map((note) => (
+              <li key={note}>{note}</li>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );

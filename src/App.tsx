@@ -4,14 +4,8 @@ import ModeSwitch from './components/ModeSwitch';
 import EffectInfo from './components/EffectInfo';
 import SearchBox from './components/SearchBox';
 import type { EffectInfo as EffectInfoType, Mode } from './data/commonParams';
-import { modes } from './data/commonParams';
-import { clampDetent } from './data/selectorMaps';
-import effectsSkeleton from './data/effects.skeleton.json';
-import effectsFull from './data/effects.full.json';
-
-const resolvedEffects: EffectInfoType[] = (effectsFull as EffectInfoType[]).length
-  ? (effectsFull as EffectInfoType[])
-  : (effectsSkeleton as EffectInfoType[]);
+import { modes, notSpecified } from './data/commonParams';
+import { clampDetent, detentsByMode, mergeEffects, skeletonEffects } from './data/effects';
 
 const App = () => {
   const [mode, setMode] = useState<Mode>('MkII Delay');
@@ -20,19 +14,41 @@ const App = () => {
     'Legacy Delay': 0,
     'Secret Reverb': 0
   });
+  const [effects, setEffects] = useState<EffectInfoType[]>(skeletonEffects);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchInput, setSearchInput] = useState<HTMLInputElement | null>(null);
+  const [showQa, setShowQa] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    const loadEffects = async () => {
+      try {
+        const response = await fetch(new URL('./data/effects.full.json', import.meta.url).href);
+        if (!response.ok) throw new Error(`Failed to load effects.full.json (${response.status})`);
+        const payload = await response.json();
+        if (!cancelled) setEffects(mergeEffects(payload));
+      } catch (error) {
+        console.warn('Falling back to skeleton effects', error);
+        if (!cancelled) setEffects(mergeEffects([]));
+      }
+    };
+
+    loadEffects();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const currentDetent = detentByMode[mode];
 
   const filteredEffects = useMemo(() => {
     const q = searchTerm.toLowerCase().trim();
-    if (!q) return resolvedEffects;
-    return resolvedEffects.filter((effect) => {
+    if (!q) return effects;
+    return effects.filter((effect) => {
       const corpus = `${effect.model} ${effect.inspiration} ${effect.description}`.toLowerCase();
       return corpus.includes(q);
     });
-  }, [searchTerm]);
+  }, [effects, searchTerm]);
 
   const currentEffect = filteredEffects.find(
     (effect) => effect.mode === mode && effect.detent === currentDetent
@@ -44,6 +60,64 @@ const App = () => {
     },
     [mode]
   );
+
+  const qaStats = useMemo(() => {
+    const countsByMode = modes.map((entry) => {
+      const totalForMode = effects.filter((effect) => effect.mode === entry).length;
+      return {
+        mode: entry,
+        count: totalForMode,
+        expected: detentsByMode[entry].length
+      };
+    });
+
+    let missingInspiration = 0;
+    let missingDescription = 0;
+    let missingTweakBehavior = 0;
+    let missingTweezBehavior = 0;
+    let missingRange = 0;
+    let missingNotes = 0;
+    let notSpecifiedCount = 0;
+
+    effects.forEach((effect) => {
+      if (effect.inspiration === notSpecified) missingInspiration += 1;
+      if (effect.description === notSpecified) missingDescription += 1;
+      if (effect.tweak.behaviorCCW === notSpecified || effect.tweak.behaviorCW === notSpecified) {
+        missingTweakBehavior += 1;
+      }
+      if (effect.tweez.behaviorCCW === notSpecified || effect.tweez.behaviorCW === notSpecified) {
+        missingTweezBehavior += 1;
+      }
+      if (effect.rangeNote === notSpecified) missingRange += 1;
+      if (!effect.notes.length || effect.notes.every((note) => note === notSpecified)) missingNotes += 1;
+
+      [
+        effect.inspiration,
+        effect.description,
+        effect.tweak.behaviorCCW,
+        effect.tweak.behaviorCW,
+        effect.tweez.behaviorCCW,
+        effect.tweez.behaviorCW,
+        effect.rangeNote,
+        ...effect.notes
+      ].forEach((value) => {
+        if (value === notSpecified) notSpecifiedCount += 1;
+      });
+    });
+
+    return {
+      countsByMode,
+      missing: {
+        inspiration: missingInspiration,
+        description: missingDescription,
+        tweak: missingTweakBehavior,
+        tweez: missingTweezBehavior,
+        range: missingRange,
+        notes: missingNotes,
+        totalNotSpecified: notSpecifiedCount
+      }
+    };
+  }, [effects]);
 
   useEffect(() => {
     const handleKey = (event: KeyboardEvent) => {
@@ -80,7 +154,16 @@ const App = () => {
               Mode switch (1/2/3), detent arrows, and ⌘F to focus search.
             </p>
           </div>
-          <ModeSwitch value={mode} onChange={setMode} />
+          <div className="flex items-center gap-3">
+            <ModeSwitch value={mode} onChange={setMode} />
+            <button
+              type="button"
+              onClick={() => setShowQa((prev) => !prev)}
+              className="rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-200 transition hover:border-glow hover:text-glow"
+            >
+              {showQa ? 'Hide Data QA' : 'Show Data QA'}
+            </button>
+          </div>
         </header>
 
         <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
@@ -91,6 +174,34 @@ const App = () => {
               onChange={setSearchTerm}
               onFocusedShortcut={setSearchInput}
             />
+            {showQa && (
+              <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-4 text-sm text-slate-300">
+                <div className="flex items-center justify-between">
+                  <p className="font-semibold text-slate-100">Data QA</p>
+                  <span className="text-xs text-slate-400">
+                    Not specified: {qaStats.missing.totalNotSpecified}
+                  </span>
+                </div>
+                <div className="mt-2 space-y-1 text-slate-400">
+                  {qaStats.countsByMode.map((entry) => (
+                    <div key={entry.mode} className="flex items-center justify-between">
+                      <span>{entry.mode}</span>
+                      <span>
+                        {entry.count} models (expected {entry.expected})
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-3 grid grid-cols-2 gap-2 text-xs text-slate-400">
+                  <span>Inspiration missing: {qaStats.missing.inspiration}</span>
+                  <span>Description missing: {qaStats.missing.description}</span>
+                  <span>Tweak behavior missing: {qaStats.missing.tweak}</span>
+                  <span>Tweez behavior missing: {qaStats.missing.tweez}</span>
+                  <span>Range note missing: {qaStats.missing.range}</span>
+                  <span>Notes missing: {qaStats.missing.notes}</span>
+                </div>
+              </div>
+            )}
             <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-4 text-sm text-slate-300">
               <p className="font-semibold text-slate-100">Controls</p>
               <ul className="mt-2 space-y-1 text-slate-400">
