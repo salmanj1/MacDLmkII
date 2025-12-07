@@ -1,0 +1,81 @@
+{
+  "meta": {
+    "version": 1,
+    "source": "DL4 MkII Owner's Manual (English)",
+    "notes": [
+      "This file is a skeleton: ONLY model identity + selector mapping + tweak/tweez label fields.",
+      "Codex will generate effects.full.json by reading the manual and filling inspiration/description and CCW/CW behavior."
+    ]
+  },
+  "modes": {
+    "mkii_delay": {
+      "detents": 16,
+      "includesLooper": true,
+      "models": [
+        { "id": "mkii_vintage_digital", "displayName": "VINTAGE DIGITAL", "selectorIndex": 0, "tweakLabel": "Bit Depth & Sample Rate", "tweezLabel": "Mod Depth" },
+        { "id": "mkii_crisscross", "displayName": "CRISSCROSS", "selectorIndex": 1, "tweakLabel": "Delay Time B", "tweezLabel": "Crossfeed Amount" },
+        { "id": "mkii_euclidean", "displayName": "EUCLIDEAN", "selectorIndex": 2, "tweakLabel": "Step Fill", "tweezLabel": "Rotate" },
+        { "id": "mkii_dual_delay", "displayName": "DUAL DELAY", "selectorIndex": 3, "tweakLabel": "Delay Time B", "tweezLabel": "Feedback B" },
+        { "id": "mkii_harmony", "displayName": "HARMONY", "selectorIndex": 4, "tweakLabel": "Key", "tweezLabel": "Harmony Interval" },
+        { "id": "mkii_transistor_tape", "displayName": "TRANSISTOR TAPE", "selectorIndex": 5, "tweakLabel": "Wow & Flutter", "tweezLabel": "Drive" },
+        { "id": "mkii_lcdigital", "displayName": "LC DIGITAL", "selectorIndex": 6, "tweakLabel": "Mod Rate", "tweezLabel": "Mod Depth" },
+        { "id": "mkii_glitch", "displayName": "GLITCH", "selectorIndex": 7, "tweakLabel": "Glitch Amount", "tweezLabel": "Time Randomness" },
+        { "id": "mkii_sweep_echo", "displayName": "SWEEP ECHO", "selectorIndex": 8, "tweakLabel": "Filter Position", "tweezLabel": "Filter Resonance" },
+        { "id": "mkii_pitch_echo", "displayName": "PITCH ECHO", "selectorIndex": 9, "tweakLabel": "Pitch", "tweezLabel": "Mix (Pitch/Delay)" },
+        { "id": "mkii_reverse", "displayName": "REVERSE", "selectorIndex": 10, "tweakLabel": "Reverse Level", "tweezLabel": "Forward Level" },
+        { "id": "mkii_drum", "displayName": "DRUM", "selectorIndex": 11, "tweakLabel": "Head Select", "tweezLabel": "Head Drift" },
+        { "id": "mkii_adriatic_delay", "displayName": "ADRIATIC DELAY", "selectorIndex": 12, "tweakLabel": "Age", "tweezLabel": "Wow & Flutter" },
+        { "id": "mkii_dynamic", "displayName": "DYNAMIC", "selectorIndex": 13, "tweakLabel": "Threshold", "tweezLabel": "Release" },
+        { "id": "mkii_cosmos", "displayName": "COSMOS", "selectorIndex": 14, "tweakLabel": "Mod Rate", "tweezLabel": "Mod Depth" },
+        { "id": "mkii_looper", "displayName": "LOOPER", "selectorIndex": 15, "tweakLabel": "N/A", "tweezLabel": "N/A" }
+      ]
+    },
+    "legacy_delay": {
+      "detents": 16,
+      "includesLooper": true,
+      "models": [
+        { "id": "legacy_digital", "displayName": "DIGITAL", "selectorIndex": 0, "tweakLabel": "Bass", "tweezLabel": "Treble" },
+        { "id": "legacy_modulation", "displayName": "MODULATION", "selectorIndex": 1, "tweakLabel": "Mod Rate", "tweezLabel": "Mod Depth" },
+        { "id": "legacy_echo_platter", "displayName": "ECHO PLATTER", "selectorIndex": 2, "tweakLabel": "Wow & Flutter", "tweezLabel": "Drive" },
+        { "id": "legacy_sweep_echo", "displayName": "SWEEP ECHO", "selectorIndex": 3, "tweakLabel": "Filter Position", "tweezLabel": "Filter Resonance" },
+        { "id": "legacy_lo_res", "displayName": "LO RES", "selectorIndex": 4, "tweakLabel": "Bit Depth", "tweezLabel": "Sample Rate" },
+        { "id": "legacy_tube_echo", "displayName": "TUBE ECHO", "selectorIndex": 5, "tweakLabel": "Wow & Flutter", "tweezLabel": "Drive" },
+        { "id": "legacy_multi_head", "displayName": "MULTI-HEAD", "selectorIndex": 6, "tweakLabel": "Head Select", "tweezLabel": "Head Drift" },
+        { "id": "legacy_ping_pong", "displayName": "PING PONG", "selectorIndex": 7, "tweakLabel": "Spread", "tweezLabel": "Depth" },
+        { "id": "legacy_dynamic", "displayName": "DYNAMIC", "selectorIndex": 8, "tweakLabel": "Threshold", "tweezLabel": "Release" },
+        { "id": "legacy_reverse", "displayName": "REVERSE", "selectorIndex": 9, "tweakLabel": "Reverse Level", "tweezLabel": "Forward Level" },
+        { "id": "legacy_autovolume_echo", "displayName": "AUTO-VOLUME ECHO", "selectorIndex": 10, "tweakLabel": "Attack", "tweezLabel": "Release" },
+        { "id": "legacy_analog", "displayName": "ANALOG", "selectorIndex": 11, "tweakLabel": "Drive", "tweezLabel": "Tone" },
+        { "id": "legacy_analog_w_mod", "displayName": "ANALOG W/ MOD", "selectorIndex": 12, "tweakLabel": "Mod Rate", "tweezLabel": "Mod Depth" },
+        { "id": "legacy_tape_echo", "displayName": "TAPE ECHO", "selectorIndex": 13, "tweakLabel": "Wow & Flutter", "tweezLabel": "Drive" },
+        { "id": "legacy_swell", "displayName": "SWELL", "selectorIndex": 14, "tweakLabel": "Attack", "tweezLabel": "Release" },
+        { "id": "legacy_looper", "displayName": "LOOPER", "selectorIndex": 15, "tweakLabel": "N/A", "tweezLabel": "N/A" }
+      ]
+    },
+    "secret_reverb": {
+      "detents": 16,
+      "includesReverbOff": true,
+      "models": [
+        { "id": "reverb_room", "displayName": "ROOM", "selectorIndex": 0, "tweakLabel": "Predelay", "tweezLabel": "Delay/Reverb Routing (ALT+TWEEZ)" },
+        { "id": "reverb_searchlights", "displayName": "SEARCHLIGHTS", "selectorIndex": 1, "tweakLabel": "Mod Mix & Intensity", "tweezLabel": "Delay/Reverb Routing (ALT+TWEEZ)" },
+        { "id": "reverb_particle", "displayName": "PARTICLE", "selectorIndex": 2, "tweakLabel": "Particle Mix", "tweezLabel": "Delay/Reverb Routing (ALT+TWEEZ)" },
+        { "id": "reverb_octoverb", "displayName": "OCTO", "selectorIndex": 3, "tweakLabel": "Octave Mix", "tweezLabel": "Delay/Reverb Routing (ALT+TWEEZ)" },
+        { "id": "reverb_cave", "displayName": "CAVE", "selectorIndex": 4, "tweakLabel": "Predelay", "tweezLabel": "Delay/Reverb Routing (ALT+TWEEZ)" },
+        { "id": "reverb_ducks", "displayName": "DUCKS", "selectorIndex": 5, "tweakLabel": "Threshold", "tweezLabel": "Release" },
+        { "id": "reverb_plate", "displayName": "PLATE", "selectorIndex": 6, "tweakLabel": "Predelay", "tweezLabel": "Delay/Reverb Routing (ALT+TWEEZ)" },
+        { "id": "reverb_ganymede", "displayName": "GANYMEDE", "selectorIndex": 7, "tweakLabel": "Size", "tweezLabel": "Delay/Reverb Routing (ALT+TWEEZ)" },
+        { "id": "reverb_dynamics", "displayName": "DYNAMICS", "selectorIndex": 8, "tweakLabel": "Threshold", "tweezLabel": "Release" },
+        { "id": "reverb_dual", "displayName": "DUAL", "selectorIndex": 9, "tweakLabel": "Predelay", "tweezLabel": "Delay/Reverb Routing (ALT+TWEEZ)" },
+        { "id": "reverb_shimmer", "displayName": "SHIMMER", "selectorIndex": 10, "tweakLabel": "Shimmer Mix", "tweezLabel": "Delay/Reverb Routing (ALT+TWEEZ)" },
+        { "id": "reverb_glitz", "displayName": "GLITZ", "selectorIndex": 11, "tweakLabel": "Mod Mix", "tweezLabel": "Delay/Reverb Routing (ALT+TWEEZ)" },
+        { "id": "reverb_hall", "displayName": "HALL", "selectorIndex": 12, "tweakLabel": "Predelay", "tweezLabel": "Delay/Reverb Routing (ALT+TWEEZ)" },
+        { "id": "reverb_kaleidoscope", "displayName": "KALEIDOSCOPE", "selectorIndex": 13, "tweakLabel": "Texture", "tweezLabel": "Delay/Reverb Routing (ALT+TWEEZ)" },
+        { "id": "reverb_life", "displayName": "LIFE", "selectorIndex": 14, "tweakLabel": "Texture", "tweezLabel": "Delay/Reverb Routing (ALT+TWEEZ)" },
+        { "id": "reverb_off", "displayName": "REVERB OFF", "selectorIndex": 15, "tweakLabel": "N/A", "tweezLabel": "Delay/Reverb Routing (ALT+TWEEZ)" }
+      ],
+      "notes": [
+        "Verify selectorIndex ordering against the manual's secret reverb 'decoder ring' diagram or the printed cheat sheet."
+      ]
+    }
+  }
+}
