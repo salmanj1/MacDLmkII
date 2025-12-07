@@ -1,1 +1,11 @@
-[]
+{
+  "meta": {
+    "version": 0,
+    "source": "DL4 MkII Owner's Manual (English) + DL4 MkII Cheat Sheet (English)",
+    "notes": [
+      "Full parameter data will be regenerated from the committed PDFs in docs/ during the next step.",
+      "Leave this file tracked so downstream tooling can overwrite it with parsed content."
+    ]
+  },
+  "modes": {}
+}
