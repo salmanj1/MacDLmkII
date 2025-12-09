@@ -1,16 +1,14 @@
 import { useEffect, useMemo, useState, useCallback } from 'react';
 import Pedal from './components/organisms/Pedal/Pedal';
 import LibraryPanel from './components/organisms/LibraryPanel/LibraryPanel';
-import EffectInfo from './components/organisms/EffectInfo/EffectInfo';
 import useEffectLibrary from './hooks/useEffectLibrary';
 import useKeyboardShortcuts from './hooks/useKeyboardShortcuts';
 import { buildQaStats } from './utils/effectQa';
 import styles from './App.module.less';
 import ErrorBoundary from './components/organisms/ErrorBoundary/ErrorBoundary';
-import SearchBox from './components/molecules/SearchBox/SearchBox';
 
 // Top-level page wiring: orchestrates data hooks, keyboard shortcuts, and composes the atomic
-// UI blocks (pedal, detail pane, library panel) so layout remains predictable.
+// UI blocks (pedal and library panel) so layout remains predictable.
 const App = () => {
   const [searchInput, setSearchInput] = useState<HTMLInputElement | null>(null);
   const [showQa, setShowQa] = useState(false);
@@ -66,14 +64,6 @@ const App = () => {
         <main className={styles.main}>
           {loadingError && <p className={styles.error}>{loadingError}</p>}
 
-          <section className={styles.utilityBar}>
-            <SearchBox
-              value={searchTerm}
-              onChange={setSearchTerm}
-              onFocusedShortcut={setSearchInput}
-            />
-          </section>
-
           <section className={styles.pedalWrap}>
             <Pedal
               mode={mode}
@@ -82,10 +72,6 @@ const App = () => {
               onModeChange={setMode}
               onDetentChange={handleDetentChange}
             />
-          </section>
-
-          <section className={styles.infoWrap}>
-            <EffectInfo effect={currentEffect} loading={isLoading} />
           </section>
 
           <section className={styles.librarySection}>
@@ -127,6 +113,9 @@ const App = () => {
                   filteredEffects={filteredEffects}
                   mode={mode}
                   currentDetent={currentDetent}
+                  searchTerm={searchTerm}
+                  onSearchChange={setSearchTerm}
+                  onSearchInputRef={setSearchInput}
                   onSelectEffect={jumpToEffect}
                   qaStats={qaStats}
                   showQa={showQa}

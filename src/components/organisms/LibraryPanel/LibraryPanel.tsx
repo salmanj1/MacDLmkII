@@ -1,5 +1,6 @@
 import type { EffectInfo, Mode } from '../../../data/commonParams';
 import type { QaStats } from '../../../utils/effectQa';
+import SearchBox from '../../molecules/SearchBox/SearchBox';
 import Skeleton from '../../atoms/Skeleton/Skeleton';
 import styles from './LibraryPanel.module.less';
 
@@ -7,6 +8,9 @@ type LibraryPanelProps = {
   filteredEffects: EffectInfo[];
   mode: Mode;
   currentDetent: number;
+  searchTerm: string;
+  onSearchChange: (value: string) => void;
+  onSearchInputRef: (ref: HTMLInputElement | null) => void;
   onSelectEffect: (effect: EffectInfo) => void;
   qaStats: QaStats;
   showQa: boolean;
@@ -21,6 +25,9 @@ const LibraryPanel = ({
   filteredEffects,
   mode,
   currentDetent,
+  searchTerm,
+  onSearchChange,
+  onSearchInputRef,
   onSelectEffect,
   qaStats,
   showQa,
@@ -28,6 +35,14 @@ const LibraryPanel = ({
 }: LibraryPanelProps) => {
   return (
     <div className={styles.panel}>
+      <div className={styles.searchWrap}>
+        <SearchBox
+          value={searchTerm}
+          onChange={onSearchChange}
+          onFocusedShortcut={onSearchInputRef}
+        />
+      </div>
+
       {showQa && (
         <div className={styles.qaCard}>
           <div className={styles.qaHeader}>
