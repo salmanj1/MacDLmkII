@@ -40,15 +40,15 @@ const EffectInfo = ({ effect }: EffectInfoProps) => {
         <span className="text-xs text-slate-400">Selector #{effect.selectorIndex + 1}</span>
       </div>
 
-      <div className="mt-3 flex flex-wrap items-start justify-between gap-4">
-        <div>
+      <div className="mt-3 grid gap-4 sm:grid-cols-[1fr_auto] sm:items-start">
+        <div className="space-y-1">
           <div className="text-xs uppercase tracking-[0.24em] text-lime-100">Current model</div>
           <div className="text-3xl font-semibold leading-tight text-slate-50">{effect.model}</div>
           <div className="text-sm text-slate-300">
             Inspired by <span className="text-slate-100">{inspiration}</span>
           </div>
         </div>
-        <div className="rounded-xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-slate-200">
+        <div className="rounded-xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-slate-200 sm:min-w-[220px]">
           <div className="text-[11px] uppercase tracking-wide text-slate-400">Range</div>
           <div className="font-semibold text-slate-100">{rangeNote}</div>
         </div>

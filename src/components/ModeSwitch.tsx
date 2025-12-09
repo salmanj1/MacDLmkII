@@ -8,7 +8,11 @@ type ModeSwitchProps = {
 
 const ModeSwitch = ({ value, onChange }: ModeSwitchProps) => {
   return (
-    <div className="flex gap-3 items-center" role="radiogroup" aria-label="Mode selector">
+    <div
+      className="flex flex-wrap items-center gap-2 sm:gap-3"
+      role="radiogroup"
+      aria-label="Mode selector"
+    >
       {modes.map((mode) => (
         <button
           key={mode}
@@ -16,7 +20,7 @@ const ModeSwitch = ({ value, onChange }: ModeSwitchProps) => {
           role="radio"
           aria-checked={value === mode}
           onClick={() => onChange(mode)}
-          className={`rounded-full px-4 py-2 text-sm font-medium border transition-colors ${
+          className={`w-full rounded-full border px-4 py-2 text-center text-sm font-medium transition-colors sm:w-auto ${
             value === mode
               ? 'bg-glow text-slate-900 border-glow shadow-lg shadow-lime-400/40'
               : 'border-slate-500 text-slate-200 hover:border-glow'

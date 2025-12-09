@@ -30,3 +30,8 @@ body {
   background: rgba(183, 255, 56, 0.22);
   color: #111;
 }
+
+.safe-padded {
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
+    env(safe-area-inset-left);
+}

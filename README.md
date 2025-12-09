@@ -7,6 +7,10 @@ A Tauri 2 + React + TypeScript + Vite + Tailwind desktop shell for exploring MkI
 - Rust toolchain (via `rustup`) for Tauri
 - On macOS, Xcode Command Line Tools are sufficient. If the build process prompts for them, accept the install; full Xcode is **not** required.
 
+## Setup
+- Install dependencies with `pnpm install` (other package managers aren’t supported).
+- If you switch branches or update the lockfile, rerun `pnpm install` to keep `node_modules` in sync.
+
 ## Scripts
 - `pnpm dev` – start Vite in development mode (Tauri watcher can reuse it)
 - `pnpm tauri dev` – run the Tauri shell with hot reload

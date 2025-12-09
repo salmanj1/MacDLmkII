@@ -24,12 +24,23 @@ const Knob = ({ mode, detent, onDetentChange }: KnobProps) => {
   const indicatorAngle = angleForIndex(detent);
 
   useEffect(() => {
-    const handleMouseMove = (event: MouseEvent) => {
+    const handlePointerMove = (clientY: number) => {
       if (!dragStart.current) return;
-      const delta = dragStart.current.y - event.clientY;
+      const delta = dragStart.current.y - clientY;
       const steps = Math.round(delta / knobBehavior.dragPixelsPerDetent);
       const next = clampDetent(mode, dragStart.current.detent + steps);
       onDetentChange(next);
+    };
+
+    const handleMouseMove = (event: MouseEvent) => {
+      event.preventDefault();
+      handlePointerMove(event.clientY);
+    };
+
+    const handleTouchMove = (event: TouchEvent) => {
+      if (!event.touches.length) return;
+      event.preventDefault();
+      handlePointerMove(event.touches[0].clientY);
     };
 
     const handleMouseUp = () => {
@@ -37,22 +48,39 @@ const Knob = ({ mode, detent, onDetentChange }: KnobProps) => {
       dragStart.current = null;
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleMouseUp);
+      window.removeEventListener('touchcancel', handleMouseUp);
     };
 
     if (isDragging) {
       window.addEventListener('mousemove', handleMouseMove);
       window.addEventListener('mouseup', handleMouseUp);
+      window.addEventListener('touchmove', handleTouchMove, { passive: false });
+      window.addEventListener('touchend', handleMouseUp);
+      window.addEventListener('touchcancel', handleMouseUp);
     }
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleMouseUp);
+      window.removeEventListener('touchcancel', handleMouseUp);
     };
   }, [isDragging, mode, onDetentChange]);
 
   const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
     dragStart.current = { y: event.clientY, detent };
+    setIsDragging(true);
+  };
+
+  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    const touch = event.touches[0];
+    if (!touch) return;
+    dragStart.current = { y: touch.clientY, detent };
     setIsDragging(true);
   };
 
@@ -122,7 +150,7 @@ const Knob = ({ mode, detent, onDetentChange }: KnobProps) => {
 
   return (
     <div className="flex flex-col items-center gap-4 select-none">
-      <div className="relative h-64 w-64">
+      <div className="relative h-56 w-56 sm:h-64 sm:w-64 lg:h-72 lg:w-72">
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
           <div className="relative h-full w-full">{renderLabels()}</div>
         </div>
@@ -134,6 +162,7 @@ const Knob = ({ mode, detent, onDetentChange }: KnobProps) => {
           aria-valuemax={detents.length - 1}
           aria-valuenow={detent}
           tabIndex={0}
+          onTouchStart={handleTouchStart}
           onKeyDown={(event) => {
             if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') {
               event.preventDefault();
@@ -146,7 +175,7 @@ const Knob = ({ mode, detent, onDetentChange }: KnobProps) => {
           }}
           onWheel={handleWheel}
           onMouseDown={handleMouseDown}
-          className={`absolute left-1/2 top-1/2 h-36 w-36 -translate-x-1/2 -translate-y-1/2 rounded-full transition-transform ${
+          className={`absolute left-1/2 top-1/2 h-32 w-32 -translate-x-1/2 -translate-y-1/2 rounded-full transition-transform touch-none sm:h-36 sm:w-36 lg:h-40 lg:w-40 ${
             isDragging ? 'scale-105 drop-shadow-[0_0_30px_rgba(99,255,219,0.45)]' : ''
           }`}
         >
