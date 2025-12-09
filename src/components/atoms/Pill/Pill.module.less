@@ -1,0 +1,35 @@
+@import '../../../styles/tokens.less';
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border: 1px solid @borderSoft;
+  background: fade(@textPrimary, 4%);
+  color: @textSecondary;
+}
+
+.glow {
+  border-color: fade(@glow, 60%);
+  background: fade(@glow, 12%);
+  color: lighten(@glow, 40%);
+  box-shadow: @shadowGlow;
+}
+
+.muted {
+  border-color: @borderSoft;
+  background: fade(@textPrimary, 3%);
+  color: fade(@textSecondary, 80%);
+}
+
+.inverse {
+  background: #0f172a;
+  border-color: @borderSoft;
+  color: lighten(@textSecondary, 4%);
+}

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import styles from './SearchBox.module.less';
 
 type SearchBoxProps = {
   value: string;
@@ -6,6 +7,10 @@ type SearchBoxProps = {
   onFocusedShortcut: (ref: HTMLInputElement | null) => void;
 };
 
+/**
+ * Library filter input with an explicit keyboard shortcut hint so users know how
+ * to refocus it quickly. The ref is exposed to the keyboard shortcut hook.
+ */
 const SearchBox = ({ value, onChange, onFocusedShortcut }: SearchBoxProps) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -14,16 +19,16 @@ const SearchBox = ({ value, onChange, onFocusedShortcut }: SearchBoxProps) => {
   }, [onFocusedShortcut]);
 
   return (
-    <label className="block">
-      <div className="flex items-center justify-between text-[11px] uppercase tracking-wide text-slate-400">
+    <label className={styles.searchLabel}>
+      <div className={styles.labelRow}>
         <span>Search the library</span>
-        <span className="flex items-center gap-2 text-[10px] font-semibold text-slate-300">
-          <span className="rounded-md bg-white/5 px-1.5 py-0.5">⌘/Ctrl</span>
-          <span className="rounded-md bg-white/5 px-1.5 py-0.5">F</span>
+        <span className={styles.shortcutKeys} aria-label="Shortcut hint">
+          <span className={styles.key}>⌘/Ctrl</span>
+          <span className={styles.key}>F</span>
         </span>
       </div>
-      <div className="mt-2 flex items-center gap-3 rounded-2xl border border-white/10 bg-slate-950/70 px-3 py-3 shadow-inner transition focus-within:border-glow">
-        <span className="text-lg text-slate-500" aria-hidden>
+      <div className={styles.field}>
+        <span className={styles.icon} aria-hidden>
           🔎
         </span>
         <input
@@ -31,14 +36,15 @@ const SearchBox = ({ value, onChange, onFocusedShortcut }: SearchBoxProps) => {
           value={value}
           onChange={(event) => onChange(event.target.value)}
           placeholder="Filter by model name, inspiration, or keywords..."
-          className="w-full bg-transparent text-slate-100 outline-none placeholder:text-slate-500"
+          className={styles.input}
           type="search"
         />
         {value && (
           <button
             type="button"
             onClick={() => onChange('')}
-            className="rounded-lg px-2 py-1 text-xs text-slate-400 transition hover:bg-white/5 hover:text-slate-100"
+            className={styles.clearButton}
+            aria-label="Clear search"
           >
             Clear
           </button>

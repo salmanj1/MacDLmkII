@@ -1,0 +1,187 @@
+@import '../../../styles/tokens.less';
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  user-select: none;
+}
+
+.dialFrame {
+  position: relative;
+  width: clamp(12rem, 34vw, 16rem);
+  height: clamp(12rem, 34vw, 16rem);
+}
+
+.labelsLayer {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.labelAnchor {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translate(-50%, -50%);
+}
+
+.labelDot {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 9999px;
+  margin-bottom: 0.25rem;
+  background: @textMuted;
+}
+
+.labelDotActive {
+  background: @glow;
+  box-shadow: 0 0 10px rgba(99, 255, 219, 0.6);
+}
+
+.labelText {
+  font-size: 0.7rem;
+  text-align: center;
+  color: @textMuted;
+  line-height: 1.2;
+}
+
+.labelTextActive {
+  font-weight: 700;
+  color: @textPrimary;
+}
+
+.dial {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: clamp(8.5rem, 26vw, 10.5rem);
+  height: clamp(8.5rem, 26vw, 10.5rem);
+  transform: translate(-50%, -50%);
+  border-radius: 9999px;
+  touch-action: none;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.dialDragging {
+  transform: translate(-50%, -50%) scale(1.05);
+  box-shadow: 0 0 30px fade(#63ffdb, 45%);
+}
+
+.dialBase,
+.dialRing,
+.dialSurface,
+.dialMetal,
+.dialSheen {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+}
+
+.dialBase {
+  background: linear-gradient(180deg, #bae6fd, #0ea5e9 50%, #0f172a);
+  box-shadow: 0 16px 30px fade(#000, 55%);
+}
+
+.dialRing {
+  inset: 5px;
+  border: 1px solid fade(#000, 60%);
+  background: linear-gradient(180deg, #0b1218, #0b1920 55%, #0f172a);
+  box-shadow: inset 0 10px 14px fade(#fff, 12%), inset 0 -16px 18px fade(#000, 60%);
+}
+
+.dialSurface {
+  inset: 14px;
+  border: 1px solid fade(#fff, 20%);
+  background: linear-gradient(180deg, #2f2f2f, #111 60%, #000);
+  box-shadow: inset 10px 14px 22px fade(#fff, 6%), inset -14px -18px 28px fade(#000, 90%);
+}
+
+.dialMetal {
+  inset: 28px;
+  border: 1px solid fade(#fff, 20%);
+  background: linear-gradient(180deg, fade(#6c6c6c, 70%), fade(#b5b5b5, 60%), fade(#6c6c6c, 70%));
+  box-shadow: inset 0 8px 14px fade(#fff, 25%), inset 0 -10px 16px fade(#000, 35%);
+}
+
+.dialSheen {
+  inset: 36px;
+  background: radial-gradient(circle at 30% 20%, fade(#fff, 18%), fade(#fff, 0%));
+}
+
+.tick {
+  position: absolute;
+  height: 0.8rem;
+  width: 0.18rem;
+  border-radius: 9999px;
+  transform-origin: bottom;
+  background: @textMuted;
+}
+
+.tickActive {
+  background: @glow;
+  box-shadow: 0 0 12px fade(#3b82f6, 35%);
+}
+
+.indicatorLayer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.indicatorStack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  transform: translateY(-2.4rem);
+}
+
+.indicatorBody {
+  height: 3.4rem;
+  width: 1.9rem;
+  border-radius: 1rem;
+  border: 1px solid fade(#fff, 15%);
+  background: linear-gradient(180deg, #2d2d2d, #0f0f0f);
+  box-shadow: inset 0 8px 14px fade(#fff, 16%), inset 0 -14px 20px fade(#000, 82%);
+}
+
+.indicatorStem {
+  height: 2.6rem;
+  width: 0.22rem;
+  border-radius: 9999px;
+  background: #fff;
+  box-shadow: 0 0 12px fade(#fff, 70%);
+}
+
+.topMarker {
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  width: 0.38rem;
+  height: 0.38rem;
+  transform: translateX(-50%);
+  border-radius: 9999px;
+  background: fade(@textSecondary, 80%);
+  box-shadow: 0 0 10px fade(#fff, 45%);
+}
+
+.detentCopy {
+  text-align: center;
+  font-size: 0.95rem;
+  color: @textSecondary;
+}
+
+.detentTitle {
+  font-weight: 700;
+  color: lighten(@textSecondary, 4%);
+}

@@ -1,0 +1,175 @@
+@import '../../../styles/tokens.less';
+
+.shell {
+  position: relative;
+  overflow: hidden;
+  border-radius: 2.75rem;
+  border: 1px solid @borderDark;
+  padding: 1.25rem;
+  background: radial-gradient(circle at 16% 16%, fade(#fff, 14%), transparent 34%),
+    radial-gradient(circle at 82% 10%, fade(#fff, 8%), transparent 26%),
+    linear-gradient(145deg, #2a8c3f, #0f4d25 38%, #0b2e17);
+  box-shadow: 0 40px 80px fade(#000, 50%), inset 0 1px 0 fade(#fff, 6%),
+    inset 0 -1px 0 fade(#000, 50%);
+}
+
+.shellBackdrop {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+}
+
+.shellBorder {
+  position: absolute;
+  inset: 1.1rem;
+  border-radius: 2.25rem;
+  border: 1px solid fade(#fff, 10%);
+  background: linear-gradient(90deg, fade(#fff, 6%), transparent 30%, transparent 70%, fade(#fff, 6%));
+}
+
+.shellLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 4.5rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, fade(#fff, 35%), transparent);
+  opacity: 0.5;
+}
+
+.shellShadow {
+  position: absolute;
+  left: 1.5rem;
+  right: 1.5rem;
+  bottom: 5rem;
+  height: 3.5rem;
+  border-radius: 999px;
+  background: radial-gradient(circle, fade(#000, 24%), fade(#000, 0));
+  filter: blur(14px);
+}
+
+.shellPeg {
+  position: absolute;
+  top: 1.2rem;
+  height: 0.5rem;
+  width: 0.5rem;
+  border-radius: 9999px;
+  background: fade(#000, 60%);
+  border: 1px solid fade(#fff, 20%);
+}
+
+.pegLeft {
+  left: 1.5rem;
+}
+
+.pegRight {
+  right: 1.5rem;
+}
+
+.content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.statusBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem;
+  border-radius: 1.25rem;
+  border: 1px solid @borderDark;
+  background: fade(#000, 20%);
+  padding: 0.85rem 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.72rem;
+  color: lighten(@glow, 10%);
+  box-shadow: inset 0 1px 0 fade(#000, 40%);
+  backdrop-filter: blur(4px);
+}
+
+.statusLeft {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.statusLight {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: @textSecondary;
+}
+
+.statusDot {
+  height: 0.45rem;
+  width: 0.45rem;
+  border-radius: 9999px;
+  background: @glow;
+  box-shadow: 0 0 10px fade(@glow, 90%);
+}
+
+.panelGrid {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.modelCard {
+  border-radius: 1.7rem;
+  border: 1px solid @borderDark;
+  background: fade(#000, 18%);
+  padding: 1.2rem;
+  box-shadow: inset 0 1px 0 fade(#000, 50%);
+  backdrop-filter: blur(8px);
+}
+
+.modelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modelLabel {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: lighten(@glow, 10%);
+}
+
+.modelName {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: @textPrimary;
+}
+
+.liveBadge {
+  border-radius: 9999px;
+  background: fade(@glow, 28%);
+  color: @textPrimary;
+  padding: 0.25rem 0.8rem;
+  letter-spacing: 0.14em;
+  font-size: 0.72rem;
+  border: 1px solid fade(@glow, 60%);
+}
+
+.selectorStack {
+  margin-top: 1.5rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.detentStack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+@media (min-width: 1024px) {
+  .panelGrid {
+    grid-template-columns: 340px 1fr;
+  }
+}
