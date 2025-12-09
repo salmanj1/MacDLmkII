@@ -1,0 +1,62 @@
+@import '../../../styles/tokens.less';
+
+.effectCard {
+  border-radius: 1rem;
+  border: 1px solid @borderSoft;
+  background: fade(#030712, 70%);
+  padding: 0.9rem;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 140ms ease,
+    background 140ms ease,
+    box-shadow 140ms ease;
+  color: @textSecondary;
+}
+
+.effectCard:hover {
+  border-color: fade(@glow, 50%);
+  background: fade(@panel, 90%);
+}
+
+.effectCardActive {
+  border-color: fade(@glow, 75%);
+  box-shadow: 0 14px 26px fade(@glow, 22%);
+  background: fade(@panel, 90%);
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: @textMuted;
+}
+
+.cardTitle {
+  margin-top: 0.35rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: @textPrimary;
+}
+
+.cardMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.25rem;
+  font-size: 0.95rem;
+  color: @textMuted;
+}
+
+.activeBadge {
+  border-radius: 9999px;
+  background: @glowSoft;
+  border: 1px solid fade(@glow, 60%);
+  color: lighten(@glow, 5%);
+  padding: 0.25rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+}

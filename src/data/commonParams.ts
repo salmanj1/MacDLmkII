@@ -26,6 +26,8 @@ export type EffectInfo = {
   tweak: KnobBehavior;
   tweez: KnobBehavior;
   rangeNote: string;
+  tweakRange?: string;
+  tweezRange?: string;
   notes: string[];
 };
 

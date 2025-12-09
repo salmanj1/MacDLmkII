@@ -1,5 +1,6 @@
 import type { EffectInfo } from '../../../data/commonParams';
 import { notSpecified } from '../../../data/commonParams';
+import ControlCard from '../ControlCard/ControlCard';
 import styles from './DetentWindow.module.less';
 
 type DetentWindowProps = {
@@ -33,12 +34,6 @@ const DetentWindow = ({ effect }: DetentWindowProps) => {
     effect.inspiration === notSpecified
       ? 'Inspiration not listed'
       : effect.inspiration;
-  const rangeNote =
-    effect.rangeNote === notSpecified
-      ? 'Range not listed in the manual'
-      : effect.rangeNote;
-  const notes = effect.notes.filter((note) => note !== notSpecified);
-
   return (
     <div className={styles.window} aria-live="polite">
       <div className={styles.header}>
@@ -56,47 +51,32 @@ const DetentWindow = ({ effect }: DetentWindowProps) => {
             <span className={styles.inspirationHighlight}>{inspiration}</span>
           </div>
         </div>
-        <div className={styles.rangeCard}>
-          <div className={styles.rangeLabel}>Range</div>
-          <div className={styles.rangeValue}>{rangeNote}</div>
-        </div>
       </div>
 
       <p className={styles.description}>{description}</p>
 
       <div className={styles.controlsGrid}>
-        {[
-          { title: 'Tweak', data: effect.tweak },
-          { title: 'Tweez', data: effect.tweez }
-        ].map((entry) => (
-          <div key={entry.title} className={styles.controlCard}>
-            <div className={styles.controlHeader}>
-              <div className={styles.controlTitle}>{entry.title}</div>
-              <div className={styles.controlLabel}>{entry.data.label}</div>
-            </div>
-            <div className={styles.behaviorGrid}>
-              <div className={styles.behaviorCell}>
-                <span className={styles.behaviorLabel}>CCW</span>
-                <div className={styles.behaviorValue}>
-                  {entry.data.behaviorCCW}
-                </div>
-              </div>
-              <div className={styles.behaviorCell}>
-                <span className={styles.behaviorLabel}>CW</span>
-                <div className={styles.behaviorValue}>
-                  {entry.data.behaviorCW}
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
+        <ControlCard
+          title="Tweak"
+          label={effect.tweak.label}
+          range={effect.tweakRange}
+          behaviorCCW={effect.tweak.behaviorCCW}
+          behaviorCW={effect.tweak.behaviorCW}
+        />
+        <ControlCard
+          title="Tweez"
+          label={effect.tweez.label}
+          range={effect.tweezRange}
+          behaviorCCW={effect.tweez.behaviorCCW}
+          behaviorCW={effect.tweez.behaviorCW}
+        />
       </div>
 
       <div className={styles.notesSection}>
         <div className={styles.notesTitle}>Notes</div>
         <div className={styles.notesList}>
-          {notes.length ? (
-            notes.map((note) => (
+          {effect.notes.length ? (
+            effect.notes.map((note) => (
               <span key={note} className={styles.notePill}>
                 {note}
               </span>

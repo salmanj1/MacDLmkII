@@ -2,6 +2,7 @@ import type { EffectInfo, Mode } from '../../../data/commonParams';
 import type { QaStats } from '../../../utils/effectQa';
 import SearchBox from '../../molecules/SearchBox/SearchBox';
 import Skeleton from '../../atoms/Skeleton/Skeleton';
+import EffectCard from '../../molecules/EffectCard/EffectCard';
 import styles from './LibraryPanel.module.less';
 
 type LibraryPanelProps = {
@@ -84,27 +85,14 @@ const LibraryPanel = ({
               </div>
             ))
           : filteredEffects.map((effect) => {
-              const isActive =
-                effect.mode === mode && effect.detent === currentDetent;
               return (
-                <button
+                <EffectCard
                   key={`${effect.mode}-${effect.detent}`}
-                  type="button"
-                  onClick={() => onSelectEffect(effect)}
-                  className={`${styles.effectCard} ${isActive ? styles.effectCardActive : ''}`}
-                >
-                  <div className={styles.cardTop}>
-                    <span>{effect.mode}</span>
-                    <span>Detent {effect.detent + 1}</span>
-                  </div>
-                  <div className={styles.cardTitle}>{effect.model}</div>
-                  <div className={styles.cardMeta}>
-                    <span>{effect.inspiration}</span>
-                    {isActive && (
-                      <span className={styles.activeBadge}>Active</span>
-                    )}
-                  </div>
-                </button>
+                  effect={effect}
+                  mode={mode}
+                  currentDetent={currentDetent}
+                  onSelect={onSelectEffect}
+                />
               );
             })}
       </div>

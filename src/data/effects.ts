@@ -40,6 +40,62 @@ const asSkeleton: SkeletonSchema = skeletonJson as SkeletonSchema;
 const sanitizeString = (value: unknown, fallback = notSpecified) =>
   typeof value === 'string' && value.trim().length > 0 ? value : fallback;
 
+const splitRangeNote = (
+  rangeNote: string
+): { tweakRange: string; tweezRange: string } => {
+  if (rangeNote === notSpecified) {
+    return {
+      tweakRange: 'Range not listed in the manual',
+      tweezRange: 'Range not listed in the manual'
+    };
+  }
+
+  const clauses = rangeNote
+    .split(/;\s*/)
+    .map((clause) => clause.trim())
+    .filter(Boolean);
+
+  const tweakClauses: string[] = [];
+  const tweezClauses: string[] = [];
+
+  clauses.forEach((clause) => {
+    const lowered = clause.toLowerCase();
+    if (lowered.includes('tweez')) {
+      tweezClauses.push(clause);
+    } else if (lowered.includes('tweak')) {
+      tweakClauses.push(clause);
+    } else {
+      tweakClauses.push(clause);
+    }
+  });
+
+  const fallbackRange = 'Range not listed in the manual';
+  return {
+    tweakRange: tweakClauses.join('; ') || tweezClauses.join('; ') || fallbackRange,
+    tweezRange: tweezClauses.join('; ') || tweakClauses.join('; ') || fallbackRange
+  };
+};
+
+const dedupeNotes = (
+  rawNotes: unknown,
+  compareAgainst: string[]
+): string[] => {
+  if (!Array.isArray(rawNotes) || rawNotes.length === 0) return [];
+
+  const normalizedCompare = compareAgainst
+    .filter(Boolean)
+    .map((entry) => entry.toLowerCase());
+
+  return rawNotes
+    .map((note) => sanitizeString(note))
+    .filter((note) => note !== notSpecified)
+    .filter(
+      (note, idx, arr) =>
+        arr.indexOf(note) === idx &&
+        !normalizedCompare.includes(note.toLowerCase())
+    );
+};
+
 const normalizeKnob = (
   base: KnobBehavior,
   override?: Partial<KnobBehavior>
@@ -84,6 +140,8 @@ const buildBaseEffects = (skeleton: SkeletonSchema): EffectInfo[] => {
           behaviorCW: notSpecified
         },
         rangeNote: notSpecified,
+        tweakRange: 'Range not listed in the manual',
+        tweezRange: 'Range not listed in the manual',
         notes: []
       });
     });
@@ -143,6 +201,9 @@ export const mergeEffects = (fullEffects: unknown): EffectInfo[] => {
 
     if (!override) return base;
 
+    const rangeNote = sanitizeString(override.rangeNote, base.rangeNote);
+    const { tweakRange, tweezRange } = splitRangeNote(rangeNote);
+
     return {
       ...base,
       ...override,
@@ -150,11 +211,18 @@ export const mergeEffects = (fullEffects: unknown): EffectInfo[] => {
       description: sanitizeString(override.description, base.description),
       tweak: normalizeKnob(base.tweak, override.tweak),
       tweez: normalizeKnob(base.tweez, override.tweez),
-      rangeNote: sanitizeString(override.rangeNote, base.rangeNote),
+      rangeNote,
+      tweakRange,
+      tweezRange,
       notes:
-        Array.isArray(override.notes) && override.notes.length > 0
-          ? override.notes.map((note) => sanitizeString(note))
-          : base.notes
+        dedupeNotes(override.notes, [
+          base.tweak.behaviorCCW,
+          base.tweak.behaviorCW,
+          base.tweez.behaviorCCW,
+          base.tweez.behaviorCW,
+          tweakRange,
+          tweezRange
+        ]) || base.notes
     };
   });
 };

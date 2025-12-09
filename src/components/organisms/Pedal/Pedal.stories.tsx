@@ -22,7 +22,9 @@ const baseEffect: EffectInfo = {
     behaviorCCW: 'Light wobble',
     behaviorCW: 'Deep wobble'
   },
-  rangeNote: '10ms–1s',
+  rangeNote: 'Bit Depth 6–24 bit; Sample Rate 8–48 kHz; modulation depth via Tweez.',
+  tweakRange: 'Bit Depth 6–24 bit; Sample Rate 8–48 kHz.',
+  tweezRange: 'Modulation depth via Tweez.',
   notes: ['Tap tempo friendly', 'Keeps articulation intact']
 };
 
