@@ -12,14 +12,7 @@ module.exports = {
     }
   },
   plugins: ['@typescript-eslint', 'react-hooks', 'react-refresh'],
-  extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended-type-checked',
-    'plugin:@typescript-eslint/stylistic-type-checked',
-    'plugin:react-hooks/recommended',
-    'plugin:react-refresh/recommended',
-    'prettier'
-  ],
+  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended-type-checked', 'plugin:@typescript-eslint/stylistic-type-checked', 'plugin:react-hooks/recommended', 'plugin:react-refresh/recommended', 'prettier', 'plugin:storybook/recommended'],
   settings: {
     react: {
       version: 'detect'

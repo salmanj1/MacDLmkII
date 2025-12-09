@@ -22,11 +22,8 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@storybook/addon-essentials": "^8.3.5",
-    "@storybook/addon-interactions": "^8.3.5",
-    "@storybook/react": "^8.3.5",
-    "@storybook/react-vite": "^8.3.5",
-    "@storybook/test": "^8.3.5",
+    "@storybook/react": "^10.1.5",
+    "@storybook/react-vite": "^10.1.5",
     "@tauri-apps/cli": "^2.0.0",
     "@types/node": "^22.7.4",
     "@types/react": "^18.3.3",
@@ -44,12 +41,14 @@
     "pdfjs-dist": "^4.6.82",
     "postcss": "^8.4.47",
     "prettier": "^3.3.3",
-    "storybook": "^8.3.5",
+    "storybook": "^10.1.5",
     "tailwindcss": "^3.4.10",
     "tsx": "^4.19.1",
     "typescript": "^5.6.2",
     "vite": "^5.4.6",
-    "vitest": "^2.1.1"
+    "vitest": "^2.1.1",
+    "eslint-plugin-storybook": "10.1.5",
+    "@storybook/addon-docs": "^10.1.5"
   },
   "packageManager": "pnpm@8.15.4"
 }
