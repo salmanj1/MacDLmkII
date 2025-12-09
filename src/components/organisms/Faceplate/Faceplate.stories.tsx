@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useMemo, useState } from 'react';
 import Faceplate from './Faceplate';
 import type { EffectInfo, Mode } from '../../../data/commonParams';

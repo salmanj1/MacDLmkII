@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import EffectInfo from './EffectInfo';
 import type { EffectInfo as EffectInfoType } from '../../../data/commonParams';
 
