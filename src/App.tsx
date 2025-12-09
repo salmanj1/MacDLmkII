@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, useCallback } from 'react';
-import Faceplate from './components/organisms/Faceplate/Faceplate';
+import Pedal from './components/organisms/Pedal/Pedal';
 import LibraryPanel from './components/organisms/LibraryPanel/LibraryPanel';
 import EffectInfo from './components/organisms/EffectInfo/EffectInfo';
 import useEffectLibrary from './hooks/useEffectLibrary';
@@ -10,7 +10,7 @@ import ErrorBoundary from './components/organisms/ErrorBoundary/ErrorBoundary';
 import SearchBox from './components/molecules/SearchBox/SearchBox';
 
 // Top-level page wiring: orchestrates data hooks, keyboard shortcuts, and composes the atomic
-// UI blocks (faceplate, detail pane, library panel) so layout remains predictable.
+// UI blocks (pedal, detail pane, library panel) so layout remains predictable.
 const App = () => {
   const [searchInput, setSearchInput] = useState<HTMLInputElement | null>(null);
   const [showQa, setShowQa] = useState(false);
@@ -74,8 +74,8 @@ const App = () => {
             />
           </section>
 
-          <section className={styles.faceplateWrap}>
-            <Faceplate
+          <section className={styles.pedalWrap}>
+            <Pedal
               mode={mode}
               detent={currentDetent}
               currentEffect={currentEffect}

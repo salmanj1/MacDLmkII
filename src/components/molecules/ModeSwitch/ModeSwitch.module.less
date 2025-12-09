@@ -2,16 +2,16 @@
 
 .switchGroup {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 0.75rem;
+  justify-content: center;
+  gap: 0.6rem;
 }
 
 .modeButton {
-  width: 100%;
+  min-width: 0;
   border-radius: 9999px;
   border: 1px solid fade(@textMuted, 60%);
-  padding: 0.5rem 1rem;
+  padding: 0.55rem 1rem;
   text-align: center;
   font-size: 0.95rem;
   font-weight: 600;
@@ -33,10 +33,4 @@
   color: #0b0f13;
   border-color: @glow;
   box-shadow: 0 16px 30px fade(@glow, 35%);
-}
-
-@media (min-width: 640px) {
-  .modeButton {
-    width: auto;
-  }
 }

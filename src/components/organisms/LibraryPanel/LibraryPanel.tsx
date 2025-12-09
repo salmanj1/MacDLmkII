@@ -15,7 +15,7 @@ type LibraryPanelProps = {
 
 /**
  * Lists the available effects plus optional QA stats.
- * Separated from the faceplate so the atomic layers stay clear.
+ * Separated from the pedal so the atomic layers stay clear.
  */
 const LibraryPanel = ({
   filteredEffects,

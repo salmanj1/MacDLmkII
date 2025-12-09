@@ -36,16 +36,6 @@
   );
 }
 
-.shellLine {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 4.5rem;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, fade(#fff, 35%), transparent);
-  opacity: 0.5;
-}
-
 .shellShadow {
   position: absolute;
   left: 1.5rem;
@@ -82,56 +72,17 @@
   gap: 1.25rem;
 }
 
-.statusBar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.85rem;
-  border-radius: 1.25rem;
-  border: 1px solid @borderDark;
-  background: fade(#000, 20%);
-  padding: 0.85rem 1.1rem;
-  text-transform: uppercase;
-  letter-spacing: 0.22em;
-  font-size: 0.72rem;
-  color: lighten(@glow, 10%);
-  box-shadow: inset 0 1px 0 fade(#000, 40%);
-  backdrop-filter: blur(4px);
-}
-
-.statusLeft {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.statusLight {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  color: @textSecondary;
-}
-
-.statusDot {
-  height: 0.45rem;
-  width: 0.45rem;
-  border-radius: 9999px;
-  background: @glow;
-  box-shadow: 0 0 10px fade(@glow, 90%);
-}
-
 .panelGrid {
   display: grid;
   gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 }
 
 .modelCard {
   border-radius: 1.7rem;
   border: 1px solid @borderDark;
   background: fade(#000, 18%);
-  padding: 1.2rem;
+  padding: 1rem 1.1rem;
   box-shadow: inset 0 1px 0 fade(#000, 50%);
   backdrop-filter: blur(8px);
 }
@@ -149,12 +100,6 @@
   color: lighten(@glow, 10%);
 }
 
-.modelName {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: @textPrimary;
-}
-
 .liveBadge {
   border-radius: 9999px;
   background: fade(@glow, 28%);
@@ -166,9 +111,9 @@
 }
 
 .selectorStack {
-  margin-top: 1.5rem;
+  margin-top: 1rem;
   display: grid;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .detentStack {
@@ -177,8 +122,17 @@
   gap: 0.9rem;
 }
 
+.footswitchRow {
+  margin-top: 0.5rem;
+  padding: 0.35rem 0.25rem 0;
+}
+
 @media (min-width: 1024px) {
   .panelGrid {
-    grid-template-columns: 340px 1fr;
+    grid-template-columns: minmax(360px, 440px) 1fr;
+  }
+
+  .footswitchRow {
+    margin-top: 0.35rem;
   }
 }

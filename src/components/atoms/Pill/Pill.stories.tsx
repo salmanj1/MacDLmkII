@@ -30,6 +30,6 @@ export const Muted: Story = {
 export const Inverse: Story = {
   args: {
     tone: 'inverse',
-    children: 'Pedal faceplate view'
+    children: 'Pedal view'
   }
 };

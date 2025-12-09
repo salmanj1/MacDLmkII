@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useMemo, useState } from 'react';
-import Faceplate from './Faceplate';
+import Pedal from './Pedal';
 import type { EffectInfo, Mode } from '../../../data/commonParams';
 import { modes } from '../../../data/commonParams';
 
 const baseEffect: EffectInfo = {
-  id: 'faceplate-demo',
+  id: 'pedal-demo',
   mode: 'MkII Delay',
   detent: 0,
   selectorIndex: 0,
@@ -26,17 +26,17 @@ const baseEffect: EffectInfo = {
   notes: ['Tap tempo friendly', 'Keeps articulation intact']
 };
 
-const meta: Meta<typeof Faceplate> = {
-  title: 'Organisms/Faceplate',
-  component: Faceplate,
+const meta: Meta<typeof Pedal> = {
+  title: 'Organisms/Pedal',
+  component: Pedal,
   tags: ['autodocs']
 };
 
 export default meta;
 
-type Story = StoryObj<typeof Faceplate>;
+type Story = StoryObj<typeof Pedal>;
 
-export const InteractiveFaceplate: Story = {
+export const InteractivePedal: Story = {
   render: () => {
     const [mode, setMode] = useState<Mode>(modes[0]);
     const [detent, setDetent] = useState(1);
@@ -54,7 +54,7 @@ export const InteractiveFaceplate: Story = {
     }, [detent, mode]);
 
     return (
-      <Faceplate
+      <Pedal
         mode={mode}
         detent={detent}
         currentEffect={currentEffect}

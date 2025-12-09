@@ -2,7 +2,7 @@ import Pill from '../../atoms/Pill/Pill';
 import styles from './HeroHeader.module.less';
 
 /**
- * Top-of-page messaging that sets the vibe before the faceplate takes over.
+ * Top-of-page messaging that sets the vibe before the pedal takes over.
  */
 const HeroHeader = () => {
   return (
@@ -16,7 +16,7 @@ const HeroHeader = () => {
           Twist the selector, stomp the row — just like the green box.
         </h1>
         <p className={styles.lede}>
-          The faceplate leads the page so the pedal stays front-and-center. Below
+          The pedal leads the page so the hardware stays front-and-center. Below
           it you get the details, and the library tucks away until you need it.
         </p>
       </div>

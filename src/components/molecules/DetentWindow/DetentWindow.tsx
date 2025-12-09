@@ -15,9 +15,6 @@ const DetentWindow = ({ effect }: DetentWindowProps) => {
     <div className={styles.window} aria-live="polite">
       <div className={styles.header}>
         <span>Detent Window</span>
-        <span className={styles.pill}>
-          {effect ? effect.model : 'No model'}
-        </span>
       </div>
       <div className={styles.grid}>
         <div className={styles.cell}>
