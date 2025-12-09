@@ -12,7 +12,7 @@ A Tauri 2 + React + TypeScript + Vite + Tailwind desktop shell for exploring MkI
 - `pnpm tauri dev` – run the Tauri shell with hot reload
 - `pnpm build` – build the Vite frontend then bundle with Tauri
 - `pnpm lint` – run ESLint with the TypeScript rules
-- `pnpm test` – run Vitest
+- `pnpm test` – run Vitest (supports `--runInBand`/`-i` to force sequential runs)
 - `pnpm format` – format the codebase with Prettier
 
 ## Notes
