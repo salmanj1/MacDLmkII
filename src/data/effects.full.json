@@ -1,11 +1,1042 @@
-{
-  "meta": {
-    "version": 0,
-    "source": "DL4 MkII Owner's Manual (English) + DL4 MkII Cheat Sheet (English)",
+[
+  {
+    "id": "mkii_vintage_digital",
+    "mode": "MkII Delay",
+    "detent": 0,
+    "selectorIndex": 0,
+    "model": "VINTAGE DIGITAL",
+    "inspiration": "A Line 6 original.",
+    "description": "What collection would be complete without a delay that harkens back to those exciting early 80s rack-mount",
+    "tweak": {
+      "label": "Bit Depth & Sample Rate",
+      "behaviorCCW": "Lower Bit Depth & Sample Rate",
+      "behaviorCW": "Higher Bit Depth & Sample Rate"
+    },
+    "tweez": {
+      "label": "Mod Depth",
+      "behaviorCCW": "Lower Mod Depth",
+      "behaviorCW": "Higher Mod Depth"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "mkii_crisscross",
+    "mode": "MkII Delay",
+    "detent": 1,
+    "selectorIndex": 1,
+    "model": "CRISSCROSS",
+    "inspiration": "A Line 6 original.",
+    "description": "A combo of two",
+    "tweak": {
+      "label": "Delay Time B",
+      "behaviorCCW": "Lower Delay Time B",
+      "behaviorCW": "Higher Delay Time B"
+    },
+    "tweez": {
+      "label": "Crossfeed Amount",
+      "behaviorCCW": "Lower Crossfeed Amount",
+      "behaviorCW": "Higher Crossfeed Amount"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "mkii_euclidean",
+    "mode": "MkII Delay",
+    "detent": 2,
+    "selectorIndex": 2,
+    "model": "EUCLIDEAN",
+    "inspiration": "Steps: 8 Fill: 3 Steps: 8 Fill: 5 Rotate: 1 Rotate: 2 A Line 6 original.",
+    "description": "Not just for the geeks in the",
+    "tweak": {
+      "label": "Step Fill",
+      "behaviorCCW": "Lower Step Fill",
+      "behaviorCW": "Higher Step Fill"
+    },
+    "tweez": {
+      "label": "Rotate",
+      "behaviorCCW": "Lower Rotate",
+      "behaviorCW": "Higher Rotate"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "mkii_dual_delay",
+    "mode": "MkII Delay",
+    "detent": 3,
+    "selectorIndex": 3,
+    "model": "DUAL DELAY",
+    "inspiration": "A Line 6 original.",
+    "description": "Why settle for one delay, when you really want two? And why not have them completely discrete, each with their own controls, and panned hard left and right? We knew you\u2019d ask, so that\u2019s exactly what this is. Use the TIME/SUBDIV and REPEATS for the Time and Repeats for the left delay, and use TWEAK and TWEEZ for the right. TWEAK adjusts the Time for the right delay.* TWEEZ adjusts the number of Repeats for the right delay. *NOTE: Press and hold ALT/LEGACY and turn TIME/SUBDIV to set the Left delay's time to the desired note subdivision, which then syncs to the Tap Tempo. Once the Left delay's note subdivision in set, turn the TWEAK knob to independently set the Right delay's note subdivision, from 1/8 triplet to dotted 1/2 note. Also see \"About Tap Tempo\" on page 12 .",
+    "tweak": {
+      "label": "Delay Time B",
+      "behaviorCCW": "TWEAK and TWEEZ for the right.",
+      "behaviorCW": "TWEAK and TWEEZ for the right."
+    },
+    "tweez": {
+      "label": "Feedback B",
+      "behaviorCCW": "TWEEZ for the right.",
+      "behaviorCW": "TWEEZ for the right."
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "mkii_harmony",
+    "mode": "MkII Delay",
+    "detent": 4,
+    "selectorIndex": 4,
+    "model": "HARMONY",
+    "inspiration": "A Line 6 original.",
+    "description": "What do you do when your everyday delay repeats just aren't stimulating enough? The Harmony Delay may just hold the answer! This model allows you to select the Key for your performance via the TWEAK knob (choose any Key, from A to G#) and apply one of the eight Pitch Modes via the TWEEZ knob for endless arpeggiated entertainment. Each Pitch Mode provides an intelligently pitch-shifted triad pattern, creating a cascade of harmonic repeats that accompany your plucked notes. Use the TIME to set the rate of the cycling repeats, and the MIX to blend the delay signal with your input. TWEAK selects the Key, chromatically, from A to G#. TWEEZ selects between the eight Pitch Modes, which consist of the following pitched intervals: 1) 1, 3, and 5 major 2) 1, 3, and 5 minor 3) 1, 2, and 3 major 4) 1, 2, and 3 minor 5) 1, -8, and +8 octaves 6) 1, 5, and 8 major 7) 1, -3, and +3 major 8) 1, -3, and +3 minor *See \"U.S. Registered Trademarks\" on page 42 . All product names used in this document are trademarks of their respective owners and neither Yamaha Guitar Group nor Line 6 are associated or affiliated with them. These trademarks appear solely to identify products whose tones and sounds were studied by Line 6 during sound model development. === PAGE 32 ===\n\n32 HELIOSPHERE A Line 6 original. This is like a tasty combo meal\u2014not only is there a luscious stereo delay with some soft, chewy",
+    "tweak": {
+      "label": "Key",
+      "behaviorCCW": "TWEAK knob (choose any Key, from A to G#) and apply one of the eight Pitch Modes via the TWEEZ knob for endless arpeggiated entertainment.",
+      "behaviorCW": "TWEAK knob (choose any Key, from A to G#) and apply one of the eight Pitch Modes via the TWEEZ knob for endless arpeggiated entertainment."
+    },
+    "tweez": {
+      "label": "Harmony Interval",
+      "behaviorCCW": "TWEEZ knob for endless arpeggiated entertainment.",
+      "behaviorCW": "TWEEZ knob for endless arpeggiated entertainment."
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "mkii_transistor_tape",
+    "mode": "MkII Delay",
+    "detent": 5,
+    "selectorIndex": 5,
+    "model": "TRANSISTOR TAPE",
+    "inspiration": "TRANSISTOR TAPE model from manual.",
+    "description": "TRANSISTOR TAPE model from manual.",
+    "tweak": {
+      "label": "Wow & Flutter",
+      "behaviorCCW": "Lower Wow & Flutter",
+      "behaviorCW": "Higher Wow & Flutter"
+    },
+    "tweez": {
+      "label": "Drive",
+      "behaviorCCW": "Lower Drive",
+      "behaviorCW": "Higher Drive"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "mkii_lcdigital",
+    "mode": "MkII Delay",
+    "detent": 6,
+    "selectorIndex": 6,
+    "model": "LC DIGITAL",
+    "inspiration": "LC DIGITAL model from manual.",
+    "description": "LC DIGITAL model from manual.",
+    "tweak": {
+      "label": "Mod Rate",
+      "behaviorCCW": "Lower Mod Rate",
+      "behaviorCW": "Higher Mod Rate"
+    },
+    "tweez": {
+      "label": "Mod Depth",
+      "behaviorCCW": "Lower Mod Depth",
+      "behaviorCW": "Higher Mod Depth"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "mkii_glitch",
+    "mode": "MkII Delay",
+    "detent": 7,
+    "selectorIndex": 7,
+    "model": "GLITCH",
+    "inspiration": "A Line 6 original.",
+    "description": "This twisted brainchild of the Line 6 audio team is a delay that is almost an instrument in itself, where it slices up your input signal and then allows you to repeat the slices as a sequence, with octave and",
+    "tweak": {
+      "label": "Glitch Amount",
+      "behaviorCCW": "Lower Glitch Amount",
+      "behaviorCW": "Higher Glitch Amount"
+    },
+    "tweez": {
+      "label": "Time Randomness",
+      "behaviorCCW": "Lower Time Randomness",
+      "behaviorCW": "Higher Time Randomness"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "mkii_sweep_echo",
+    "mode": "MkII Delay",
+    "detent": 8,
+    "selectorIndex": 8,
+    "model": "SWEEP ECHO",
+    "inspiration": "SWEEP ECHO model from manual.",
+    "description": "SWEEP ECHO model from manual.",
+    "tweak": {
+      "label": "Filter Position",
+      "behaviorCCW": "Lower Filter Position",
+      "behaviorCW": "Higher Filter Position"
+    },
+    "tweez": {
+      "label": "Filter Resonance",
+      "behaviorCCW": "Lower Filter Resonance",
+      "behaviorCW": "Higher Filter Resonance"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "mkii_pitch_echo",
+    "mode": "MkII Delay",
+    "detent": 9,
+    "selectorIndex": 9,
+    "model": "PITCH ECHO",
+    "inspiration": "PITCH ECHO model from manual.",
+    "description": "PITCH ECHO model from manual.",
+    "tweak": {
+      "label": "Pitch",
+      "behaviorCCW": "Lower Pitch",
+      "behaviorCW": "Higher Pitch"
+    },
+    "tweez": {
+      "label": "Mix (Pitch/Delay)",
+      "behaviorCCW": "Lower Mix (Pitch/Delay)",
+      "behaviorCW": "Higher Mix (Pitch/Delay)"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "mkii_reverse",
+    "mode": "MkII Delay",
+    "detent": 10,
+    "selectorIndex": 10,
+    "model": "REVERSE",
+    "inspiration": "Note A -1 Play Note A# -1 Toggles on each press between Half Speed and Full Speed Note B -1 Stop",
+    "description": "Note A -1 Play Note A# -1 Toggles on each press between Half Speed and Full Speed Note B -1 Stop",
+    "tweak": {
+      "label": "Reverse Level",
+      "behaviorCCW": "Lower Reverse Level",
+      "behaviorCW": "Higher Reverse Level"
+    },
+    "tweez": {
+      "label": "Forward Level",
+      "behaviorCCW": "Lower Forward Level",
+      "behaviorCW": "Higher Forward Level"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "mkii_drum",
+    "mode": "MkII Delay",
+    "detent": 11,
+    "selectorIndex": 11,
+    "model": "DRUM",
+    "inspiration": "DRUM model from manual.",
+    "description": "DRUM model from manual.",
+    "tweak": {
+      "label": "Head Select",
+      "behaviorCCW": "Lower Head Select",
+      "behaviorCW": "Higher Head Select"
+    },
+    "tweez": {
+      "label": "Head Drift",
+      "behaviorCCW": "Lower Head Drift",
+      "behaviorCW": "Higher Head Drift"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "mkii_adriatic_delay",
+    "mode": "MkII Delay",
+    "detent": 12,
+    "selectorIndex": 12,
+    "model": "ADRIATIC DELAY",
+    "inspiration": "ADRIATIC DELAY model from manual.",
+    "description": "ADRIATIC DELAY model from manual.",
+    "tweak": {
+      "label": "Age",
+      "behaviorCCW": "Lower Age",
+      "behaviorCW": "Higher Age"
+    },
+    "tweez": {
+      "label": "Wow & Flutter",
+      "behaviorCCW": "Lower Wow & Flutter",
+      "behaviorCW": "Higher Wow & Flutter"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "mkii_dynamic",
+    "mode": "MkII Delay",
+    "detent": 13,
+    "selectorIndex": 13,
+    "model": "DYNAMIC",
+    "inspiration": "Configure the +/- polarity for your connected EXP PEDAL and footswitches.",
+    "description": "If your pedal or footswitch is controlling parameters backward, try changing this setting. Normal (red) \u2014 Pedal jack accommodates a Line 6 or Mission expression pedal. Inverted (white) \u2014 Pedal jack accommodates a Yamaha or similar expression pedal. Note that this setting also inverts the polarity for Footswitches 5 and 6. === PAGE 46 ===\n\n46 Global Settings Setting Selector Knob Position Values ALT/LEGACY LED Color Description Indicates the factory default value for each global setting.",
+    "tweak": {
+      "label": "Threshold",
+      "behaviorCCW": "Lower Threshold",
+      "behaviorCW": "Higher Threshold"
+    },
+    "tweez": {
+      "label": "Release",
+      "behaviorCCW": "Lower Release",
+      "behaviorCW": "Higher Release"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "mkii_cosmos",
+    "mode": "MkII Delay",
+    "detent": 14,
+    "selectorIndex": 14,
+    "model": "COSMOS",
+    "inspiration": "Select your preferred Bypass behavior for DL4 MkII (also, see \"What Type of Bypass?\" on page 11 ): True (red) \u2014 Your input signal continues to be sent directly through DL4 MkII with no A/D/A conversion, and all DSP is bypassed.",
+    "description": "(MIC IN is muted when bypassed in this mode.) Buffered (white) [Bypass Trails on] \u2014 Your input continues to be sent directly through DL4 MkII with no A/D/A conver - sion, its signal to the DSP is muted, and the DSP\u2019s existing delay/reverb trails are allowed to decay naturally. DSP (blue) [Bypass Trails On] \u2014 Your input is sent through the DSP path along with delay/reverb, but any further delay/reverb processing is bypassed. Any existing delay/reverb trails are allowed to decay naturally. Dry Kill (orange) [Bypass Trails on] \u2014 All input is completely muted, but the DSP\u2019s echoes decay naturally. MIDI Channel SWEEP MULTI PASS Choose the MIDI Channel the DL4 MkII uses for MIDI In and Out. Channel 1 (red) Channel 2 (white) Channel 3 (blue) Channel 4 (orange) Assigned based on next received PC message (yellow) Once the ALT/LEGACY button is set to yellow, DL4 MkII will listen for a Program Change message sent on any MIDI Channel 1 - 16. DL4 MkII will then \u201clearn\u201d the received MIDI Channel and set it as the new MIDI Channel for sending and receiving.",
+    "tweak": {
+      "label": "Mod Rate",
+      "behaviorCCW": "Lower Mod Rate",
+      "behaviorCW": "Higher Mod Rate"
+    },
+    "tweez": {
+      "label": "Mod Depth",
+      "behaviorCCW": "Lower Mod Depth",
+      "behaviorCW": "Higher Mod Depth"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "mkii_looper",
+    "mode": "MkII Delay",
+    "detent": 15,
+    "selectorIndex": 15,
+    "model": "LOOPER",
+    "inspiration": "Control - MIDI CC Messages CC Value Function 9 0-63: Off 64-127: On Classic Looper Mode On/Off 60 0-63: Overdub 64-127: Record Record/Overdub 61 0-63: Stop; 64-127: Play Play/Stop 62 64-127 Play Once 63 0-63: Undo; 64-127: Retdo Undo/Redo the most recent overdub recording 65 0-63: Forward 64-127: Reverse Forward/Reverse 66 0-63: Full; 64-127: Half Full Speed/Half Speed TIP: You can also utilize MIDI CCs to control the Classic Looper\u2019s built-in Echo parameters while in Classic Looper mode\u2014see the table within \"Controlling Parameters\" on page 51 .",
+    "description": "=== PAGE 54 ===\n\n54 Additional Resources Product Specifications DL4 MkII Specifications Delays 30 Reverbs 15 Looper Yes, with both a 4-Switch and 1-Switch Looper user interface Mono/Stereo Mono or stereo input and output USB USB-C port - for potential future firmware updates and USB MIDI control via computer SD Card 1 x microSD card slot - for expanded Looper memory Audio Inputs 2 x 1/4\" unbalanced Left (mono) and Right, Instrument level, Impedance = 1 M\u03a9, Max input level = +11.25 dBu (8Vpp) 1 x XLR Mic In, with preamp Audio Outputs 2 x 1/4\" unbalanced Left (mono) and Right, Instrument level, Impedance = 100 Ohms MIDI MIDI 5-pin IN and OUT/THRU USB MIDI In and OUT/THRU - for use via computer applications Power Requirements 9VDC, 500mA, center pin negative, 2.1 mm. It is recommended to use the included power adapter Dimensions (H x W x D) 2 x 9.25 x 4.5 inches / 5.1 x 23.5 x 11.4 cm Weight 2.03 lbs. / .92 kg All specifications subject to change. Online Resources Looking for more info? We\u2019ve got plenty of online resources, just a click away: \u2022 See our DL4 MkII tutorial videos at line6.com/meet-dl4mkii . \u2022 Download additional Help documentation covering DL4 MkII and all other Line 6 gear at Line 6 Product Manuals \u2022 Check out the Line 6 Support page for access to helpful tips, videos, discussion forums, or to contact Line 6 Technical Support \u2022 Can\u2019t get enough Line 6 Gear & accessories? Head on over to the Line 6 Store\n\n=== PAGE 55 ===\n\n\u00ae",
+    "tweak": {
+      "label": "N/A",
+      "behaviorCCW": "Not applicable",
+      "behaviorCW": "Not applicable"
+    },
+    "tweez": {
+      "label": "N/A",
+      "behaviorCCW": "Not applicable",
+      "behaviorCW": "Not applicable"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "legacy_digital",
+    "mode": "Legacy Delay",
+    "detent": 0,
+    "selectorIndex": 0,
+    "model": "DIGITAL",
+    "inspiration": "1 = Crisscross 2 = Euclidean 3 =",
+    "description": "1 = Crisscross 2 = Euclidean 3 =",
+    "tweak": {
+      "label": "Bass",
+      "behaviorCCW": "Lower Bass",
+      "behaviorCW": "Higher Bass"
+    },
+    "tweez": {
+      "label": "Treble",
+      "behaviorCCW": "Lower Treble",
+      "behaviorCW": "Higher Treble"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "legacy_modulation",
+    "mode": "Legacy Delay",
+    "detent": 1,
+    "selectorIndex": 1,
+    "model": "MODULATION",
+    "inspiration": "MODULATION model from manual.",
+    "description": "MODULATION model from manual.",
+    "tweak": {
+      "label": "Mod Rate",
+      "behaviorCCW": "Lower Mod Rate",
+      "behaviorCW": "Higher Mod Rate"
+    },
+    "tweez": {
+      "label": "Mod Depth",
+      "behaviorCCW": "Lower Mod Depth",
+      "behaviorCW": "Higher Mod Depth"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "legacy_echo_platter",
+    "mode": "Legacy Delay",
+    "detent": 2,
+    "selectorIndex": 2,
+    "model": "ECHO PLATTER",
+    "inspiration": "18 = Stereo 19 =",
+    "description": "18 = Stereo 19 =",
+    "tweak": {
+      "label": "Wow & Flutter",
+      "behaviorCCW": "Lower Wow & Flutter",
+      "behaviorCW": "Higher Wow & Flutter"
+    },
+    "tweez": {
+      "label": "Drive",
+      "behaviorCCW": "Lower Drive",
+      "behaviorCW": "Higher Drive"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "legacy_sweep_echo",
+    "mode": "Legacy Delay",
+    "detent": 3,
+    "selectorIndex": 3,
+    "model": "SWEEP ECHO",
+    "inspiration": "SWEEP ECHO model from manual.",
+    "description": "SWEEP ECHO model from manual.",
+    "tweak": {
+      "label": "Filter Position",
+      "behaviorCCW": "Lower Filter Position",
+      "behaviorCW": "Higher Filter Position"
+    },
+    "tweez": {
+      "label": "Filter Resonance",
+      "behaviorCCW": "Lower Filter Resonance",
+      "behaviorCW": "Higher Filter Resonance"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "legacy_lo_res",
+    "mode": "Legacy Delay",
+    "detent": 4,
+    "selectorIndex": 4,
+    "model": "LO RES",
+    "inspiration": "Delay Preset mode CC2 Reverb Model Select Reverbs: 0 =",
+    "description": "Delay Preset mode CC2 Reverb Model Select Reverbs: 0 =",
+    "tweak": {
+      "label": "Bit Depth",
+      "behaviorCCW": "Lower Bit Depth",
+      "behaviorCW": "Higher Bit Depth"
+    },
+    "tweez": {
+      "label": "Sample Rate",
+      "behaviorCCW": "Lower Sample Rate",
+      "behaviorCW": "Higher Sample Rate"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "legacy_tube_echo",
+    "mode": "Legacy Delay",
+    "detent": 5,
+    "selectorIndex": 5,
+    "model": "TUBE ECHO",
+    "inspiration": "TUBE ECHO model from manual.",
+    "description": "TUBE ECHO model from manual.",
+    "tweak": {
+      "label": "Wow & Flutter",
+      "behaviorCCW": "Lower Wow & Flutter",
+      "behaviorCW": "Higher Wow & Flutter"
+    },
+    "tweez": {
+      "label": "Drive",
+      "behaviorCCW": "Lower Drive",
+      "behaviorCW": "Higher Drive"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "legacy_multi_head",
+    "mode": "Legacy Delay",
+    "detent": 6,
+    "selectorIndex": 6,
+    "model": "MULTI-HEAD",
+    "inspiration": "MULTI-HEAD model from manual.",
+    "description": "MULTI-HEAD model from manual.",
+    "tweak": {
+      "label": "Head Select",
+      "behaviorCCW": "Lower Head Select",
+      "behaviorCW": "Higher Head Select"
+    },
+    "tweez": {
+      "label": "Head Drift",
+      "behaviorCCW": "Lower Head Drift",
+      "behaviorCW": "Higher Head Drift"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "legacy_ping_pong",
+    "mode": "Legacy Delay",
+    "detent": 7,
+    "selectorIndex": 7,
+    "model": "PING PONG",
+    "inspiration": "PING PONG model from manual.",
+    "description": "PING PONG model from manual.",
+    "tweak": {
+      "label": "Spread",
+      "behaviorCCW": "Lower Spread",
+      "behaviorCW": "Higher Spread"
+    },
+    "tweez": {
+      "label": "Depth",
+      "behaviorCCW": "Lower Depth",
+      "behaviorCW": "Higher Depth"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "legacy_dynamic",
+    "mode": "Legacy Delay",
+    "detent": 8,
+    "selectorIndex": 8,
+    "model": "DYNAMIC",
+    "inspiration": "Configure the +/- polarity for your connected EXP PEDAL and footswitches.",
+    "description": "If your pedal or footswitch is controlling parameters backward, try changing this setting. Normal (red) \u2014 Pedal jack accommodates a Line 6 or Mission expression pedal. Inverted (white) \u2014 Pedal jack accommodates a Yamaha or similar expression pedal. Note that this setting also inverts the polarity for Footswitches 5 and 6. === PAGE 46 ===\n\n46 Global Settings Setting Selector Knob Position Values ALT/LEGACY LED Color Description Indicates the factory default value for each global setting.",
+    "tweak": {
+      "label": "Threshold",
+      "behaviorCCW": "Lower Threshold",
+      "behaviorCW": "Higher Threshold"
+    },
+    "tweez": {
+      "label": "Release",
+      "behaviorCCW": "Lower Release",
+      "behaviorCW": "Higher Release"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "legacy_reverse",
+    "mode": "Legacy Delay",
+    "detent": 9,
+    "selectorIndex": 9,
+    "model": "REVERSE",
+    "inspiration": "Note A -1 Play Note A# -1 Toggles on each press between Half Speed and Full Speed Note B -1 Stop",
+    "description": "Note A -1 Play Note A# -1 Toggles on each press between Half Speed and Full Speed Note B -1 Stop",
+    "tweak": {
+      "label": "Reverse Level",
+      "behaviorCCW": "Lower Reverse Level",
+      "behaviorCW": "Higher Reverse Level"
+    },
+    "tweez": {
+      "label": "Forward Level",
+      "behaviorCCW": "Lower Forward Level",
+      "behaviorCW": "Higher Forward Level"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "legacy_autovolume_echo",
+    "mode": "Legacy Delay",
+    "detent": 10,
+    "selectorIndex": 10,
+    "model": "AUTO-VOLUME ECHO",
+    "inspiration": "AUTO-VOLUME ECHO model from manual.",
+    "description": "AUTO-VOLUME ECHO model from manual.",
+    "tweak": {
+      "label": "Attack",
+      "behaviorCCW": "Lower Attack",
+      "behaviorCW": "Higher Attack"
+    },
+    "tweez": {
+      "label": "Release",
+      "behaviorCCW": "Lower Release",
+      "behaviorCW": "Higher Release"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "legacy_analog",
+    "mode": "Legacy Delay",
+    "detent": 11,
+    "selectorIndex": 11,
+    "model": "ANALOG",
+    "inspiration": "ANALOG model from manual.",
+    "description": "ANALOG model from manual.",
+    "tweak": {
+      "label": "Drive",
+      "behaviorCCW": "Lower Drive",
+      "behaviorCW": "Higher Drive"
+    },
+    "tweez": {
+      "label": "Tone",
+      "behaviorCCW": "Lower Tone",
+      "behaviorCW": "Higher Tone"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "legacy_analog_w_mod",
+    "mode": "Legacy Delay",
+    "detent": 12,
+    "selectorIndex": 12,
+    "model": "ANALOG W/ MOD",
+    "inspiration": "ANALOG W/ MOD model from manual.",
+    "description": "ANALOG W/ MOD model from manual.",
+    "tweak": {
+      "label": "Mod Rate",
+      "behaviorCCW": "Lower Mod Rate",
+      "behaviorCW": "Higher Mod Rate"
+    },
+    "tweez": {
+      "label": "Mod Depth",
+      "behaviorCCW": "Lower Mod Depth",
+      "behaviorCW": "Higher Mod Depth"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "legacy_tape_echo",
+    "mode": "Legacy Delay",
+    "detent": 13,
+    "selectorIndex": 13,
+    "model": "TAPE ECHO",
+    "inspiration": "TAPE ECHO model from manual.",
+    "description": "TAPE ECHO model from manual.",
+    "tweak": {
+      "label": "Wow & Flutter",
+      "behaviorCCW": "Lower Wow & Flutter",
+      "behaviorCW": "Higher Wow & Flutter"
+    },
+    "tweez": {
+      "label": "Drive",
+      "behaviorCCW": "Lower Drive",
+      "behaviorCW": "Higher Drive"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "legacy_swell",
+    "mode": "Legacy Delay",
+    "detent": 14,
+    "selectorIndex": 14,
+    "model": "SWELL",
+    "inspiration": "SWELL model from manual.",
+    "description": "SWELL model from manual.",
+    "tweak": {
+      "label": "Attack",
+      "behaviorCCW": "Lower Attack",
+      "behaviorCW": "Higher Attack"
+    },
+    "tweez": {
+      "label": "Release",
+      "behaviorCCW": "Lower Release",
+      "behaviorCW": "Higher Release"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "legacy_looper",
+    "mode": "Legacy Delay",
+    "detent": 15,
+    "selectorIndex": 15,
+    "model": "LOOPER",
+    "inspiration": "Control - MIDI CC Messages CC Value Function 9 0-63: Off 64-127: On Classic Looper Mode On/Off 60 0-63: Overdub 64-127: Record Record/Overdub 61 0-63: Stop; 64-127: Play Play/Stop 62 64-127 Play Once 63 0-63: Undo; 64-127: Retdo Undo/Redo the most recent overdub recording 65 0-63: Forward 64-127: Reverse Forward/Reverse 66 0-63: Full; 64-127: Half Full Speed/Half Speed TIP: You can also utilize MIDI CCs to control the Classic Looper\u2019s built-in Echo parameters while in Classic Looper mode\u2014see the table within \"Controlling Parameters\" on page 51 .",
+    "description": "=== PAGE 54 ===\n\n54 Additional Resources Product Specifications DL4 MkII Specifications Delays 30 Reverbs 15 Looper Yes, with both a 4-Switch and 1-Switch Looper user interface Mono/Stereo Mono or stereo input and output USB USB-C port - for potential future firmware updates and USB MIDI control via computer SD Card 1 x microSD card slot - for expanded Looper memory Audio Inputs 2 x 1/4\" unbalanced Left (mono) and Right, Instrument level, Impedance = 1 M\u03a9, Max input level = +11.25 dBu (8Vpp) 1 x XLR Mic In, with preamp Audio Outputs 2 x 1/4\" unbalanced Left (mono) and Right, Instrument level, Impedance = 100 Ohms MIDI MIDI 5-pin IN and OUT/THRU USB MIDI In and OUT/THRU - for use via computer applications Power Requirements 9VDC, 500mA, center pin negative, 2.1 mm. It is recommended to use the included power adapter Dimensions (H x W x D) 2 x 9.25 x 4.5 inches / 5.1 x 23.5 x 11.4 cm Weight 2.03 lbs. / .92 kg All specifications subject to change. Online Resources Looking for more info? We\u2019ve got plenty of online resources, just a click away: \u2022 See our DL4 MkII tutorial videos at line6.com/meet-dl4mkii . \u2022 Download additional Help documentation covering DL4 MkII and all other Line 6 gear at Line 6 Product Manuals \u2022 Check out the Line 6 Support page for access to helpful tips, videos, discussion forums, or to contact Line 6 Technical Support \u2022 Can\u2019t get enough Line 6 Gear & accessories? Head on over to the Line 6 Store\n\n=== PAGE 55 ===\n\n\u00ae",
+    "tweak": {
+      "label": "N/A",
+      "behaviorCCW": "Not applicable",
+      "behaviorCW": "Not applicable"
+    },
+    "tweez": {
+      "label": "N/A",
+      "behaviorCCW": "Not applicable",
+      "behaviorCW": "Not applicable"
+    },
+    "rangeNote": "See manual for parameter ranges.",
+    "notes": []
+  },
+  {
+    "id": "reverb_room",
+    "mode": "Secret Reverb",
+    "detent": 0,
+    "selectorIndex": 0,
+    "model": "ROOM",
+    "inspiration": "ROOM model from manual.",
+    "description": "ROOM model from manual.",
+    "tweak": {
+      "label": "Predelay",
+      "behaviorCCW": "Lower Predelay",
+      "behaviorCW": "Higher Predelay"
+    },
+    "tweez": {
+      "label": "Delay/Reverb Routing (ALT+TWEEZ)",
+      "behaviorCCW": "Lower Delay/Reverb Routing (ALT+TWEEZ)",
+      "behaviorCW": "Higher Delay/Reverb Routing (ALT+TWEEZ)"
+    },
+    "rangeNote": "TWEEZ sets delay/reverb routing: 0% Reverb\u2192Delay, 50% Parallel, 100% Delay\u2192Reverb.",
     "notes": [
-      "Full parameter data will be regenerated from the committed PDFs in docs/ during the next step.",
-      "Leave this file tracked so downstream tooling can overwrite it with parsed content."
+      "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
     ]
   },
-  "modes": {}
-}
+  {
+    "id": "reverb_searchlights",
+    "mode": "Secret Reverb",
+    "detent": 1,
+    "selectorIndex": 1,
+    "model": "SEARCHLIGHTS",
+    "inspiration": "SEARCHLIGHTS model from manual.",
+    "description": "SEARCHLIGHTS model from manual.",
+    "tweak": {
+      "label": "Mod Mix & Intensity",
+      "behaviorCCW": "Lower Mod Mix & Intensity",
+      "behaviorCW": "Higher Mod Mix & Intensity"
+    },
+    "tweez": {
+      "label": "Delay/Reverb Routing (ALT+TWEEZ)",
+      "behaviorCCW": "Lower Delay/Reverb Routing (ALT+TWEEZ)",
+      "behaviorCW": "Higher Delay/Reverb Routing (ALT+TWEEZ)"
+    },
+    "rangeNote": "TWEEZ sets delay/reverb routing: 0% Reverb\u2192Delay, 50% Parallel, 100% Delay\u2192Reverb.",
+    "notes": [
+      "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
+    ]
+  },
+  {
+    "id": "reverb_particle",
+    "mode": "Secret Reverb",
+    "detent": 2,
+    "selectorIndex": 2,
+    "model": "PARTICLE",
+    "inspiration": "PARTICLE model from manual.",
+    "description": "PARTICLE model from manual.",
+    "tweak": {
+      "label": "Particle Mix",
+      "behaviorCCW": "Lower Particle Mix",
+      "behaviorCW": "Higher Particle Mix"
+    },
+    "tweez": {
+      "label": "Delay/Reverb Routing (ALT+TWEEZ)",
+      "behaviorCCW": "Lower Delay/Reverb Routing (ALT+TWEEZ)",
+      "behaviorCW": "Higher Delay/Reverb Routing (ALT+TWEEZ)"
+    },
+    "rangeNote": "TWEEZ sets delay/reverb routing: 0% Reverb\u2192Delay, 50% Parallel, 100% Delay\u2192Reverb.",
+    "notes": [
+      "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
+    ]
+  },
+  {
+    "id": "reverb_octoverb",
+    "mode": "Secret Reverb",
+    "detent": 3,
+    "selectorIndex": 3,
+    "model": "OCTO",
+    "inspiration": "OCTO model from manual.",
+    "description": "OCTO model from manual.",
+    "tweak": {
+      "label": "Octave Mix",
+      "behaviorCCW": "Lower Octave Mix",
+      "behaviorCW": "Higher Octave Mix"
+    },
+    "tweez": {
+      "label": "Delay/Reverb Routing (ALT+TWEEZ)",
+      "behaviorCCW": "Lower Delay/Reverb Routing (ALT+TWEEZ)",
+      "behaviorCW": "Higher Delay/Reverb Routing (ALT+TWEEZ)"
+    },
+    "rangeNote": "TWEEZ sets delay/reverb routing: 0% Reverb\u2192Delay, 50% Parallel, 100% Delay\u2192Reverb.",
+    "notes": [
+      "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
+    ]
+  },
+  {
+    "id": "reverb_cave",
+    "mode": "Secret Reverb",
+    "detent": 4,
+    "selectorIndex": 4,
+    "model": "CAVE",
+    "inspiration": "CAVE model from manual.",
+    "description": "CAVE model from manual.",
+    "tweak": {
+      "label": "Predelay",
+      "behaviorCCW": "Lower Predelay",
+      "behaviorCW": "Higher Predelay"
+    },
+    "tweez": {
+      "label": "Delay/Reverb Routing (ALT+TWEEZ)",
+      "behaviorCCW": "Lower Delay/Reverb Routing (ALT+TWEEZ)",
+      "behaviorCW": "Higher Delay/Reverb Routing (ALT+TWEEZ)"
+    },
+    "rangeNote": "TWEEZ sets delay/reverb routing: 0% Reverb\u2192Delay, 50% Parallel, 100% Delay\u2192Reverb.",
+    "notes": [
+      "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
+    ]
+  },
+  {
+    "id": "reverb_ducks",
+    "mode": "Secret Reverb",
+    "detent": 5,
+    "selectorIndex": 5,
+    "model": "DUCKS",
+    "inspiration": "DUCKS model from manual.",
+    "description": "DUCKS model from manual.",
+    "tweak": {
+      "label": "Threshold",
+      "behaviorCCW": "Lower Threshold",
+      "behaviorCW": "Higher Threshold"
+    },
+    "tweez": {
+      "label": "Release",
+      "behaviorCCW": "Lower Release",
+      "behaviorCW": "Higher Release"
+    },
+    "rangeNote": "TWEEZ sets delay/reverb routing: 0% Reverb\u2192Delay, 50% Parallel, 100% Delay\u2192Reverb.",
+    "notes": [
+      "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
+    ]
+  },
+  {
+    "id": "reverb_plate",
+    "mode": "Secret Reverb",
+    "detent": 6,
+    "selectorIndex": 6,
+    "model": "PLATE",
+    "inspiration": "PLATE model from manual.",
+    "description": "PLATE model from manual.",
+    "tweak": {
+      "label": "Predelay",
+      "behaviorCCW": "Lower Predelay",
+      "behaviorCW": "Higher Predelay"
+    },
+    "tweez": {
+      "label": "Delay/Reverb Routing (ALT+TWEEZ)",
+      "behaviorCCW": "Lower Delay/Reverb Routing (ALT+TWEEZ)",
+      "behaviorCW": "Higher Delay/Reverb Routing (ALT+TWEEZ)"
+    },
+    "rangeNote": "TWEEZ sets delay/reverb routing: 0% Reverb\u2192Delay, 50% Parallel, 100% Delay\u2192Reverb.",
+    "notes": [
+      "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
+    ]
+  },
+  {
+    "id": "reverb_ganymede",
+    "mode": "Secret Reverb",
+    "detent": 7,
+    "selectorIndex": 7,
+    "model": "GANYMEDE",
+    "inspiration": "GANYMEDE model from manual.",
+    "description": "GANYMEDE model from manual.",
+    "tweak": {
+      "label": "Size",
+      "behaviorCCW": "Lower Size",
+      "behaviorCW": "Higher Size"
+    },
+    "tweez": {
+      "label": "Delay/Reverb Routing (ALT+TWEEZ)",
+      "behaviorCCW": "Lower Delay/Reverb Routing (ALT+TWEEZ)",
+      "behaviorCW": "Higher Delay/Reverb Routing (ALT+TWEEZ)"
+    },
+    "rangeNote": "TWEEZ sets delay/reverb routing: 0% Reverb\u2192Delay, 50% Parallel, 100% Delay\u2192Reverb.",
+    "notes": [
+      "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
+    ]
+  },
+  {
+    "id": "reverb_dynamics",
+    "mode": "Secret Reverb",
+    "detent": 8,
+    "selectorIndex": 8,
+    "model": "DYNAMICS",
+    "inspiration": "DYNAMICS model from manual.",
+    "description": "DYNAMICS model from manual.",
+    "tweak": {
+      "label": "Threshold",
+      "behaviorCCW": "Lower Threshold",
+      "behaviorCW": "Higher Threshold"
+    },
+    "tweez": {
+      "label": "Release",
+      "behaviorCCW": "Lower Release",
+      "behaviorCW": "Higher Release"
+    },
+    "rangeNote": "TWEEZ sets delay/reverb routing: 0% Reverb\u2192Delay, 50% Parallel, 100% Delay\u2192Reverb.",
+    "notes": [
+      "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
+    ]
+  },
+  {
+    "id": "reverb_dual",
+    "mode": "Secret Reverb",
+    "detent": 9,
+    "selectorIndex": 9,
+    "model": "DUAL",
+    "inspiration": "DUAL model from manual.",
+    "description": "DUAL model from manual.",
+    "tweak": {
+      "label": "Predelay",
+      "behaviorCCW": "Lower Predelay",
+      "behaviorCW": "Higher Predelay"
+    },
+    "tweez": {
+      "label": "Delay/Reverb Routing (ALT+TWEEZ)",
+      "behaviorCCW": "Lower Delay/Reverb Routing (ALT+TWEEZ)",
+      "behaviorCW": "Higher Delay/Reverb Routing (ALT+TWEEZ)"
+    },
+    "rangeNote": "TWEEZ sets delay/reverb routing: 0% Reverb\u2192Delay, 50% Parallel, 100% Delay\u2192Reverb.",
+    "notes": [
+      "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
+    ]
+  },
+  {
+    "id": "reverb_shimmer",
+    "mode": "Secret Reverb",
+    "detent": 10,
+    "selectorIndex": 10,
+    "model": "SHIMMER",
+    "inspiration": "SHIMMER model from manual.",
+    "description": "SHIMMER model from manual.",
+    "tweak": {
+      "label": "Shimmer Mix",
+      "behaviorCCW": "Lower Shimmer Mix",
+      "behaviorCW": "Higher Shimmer Mix"
+    },
+    "tweez": {
+      "label": "Delay/Reverb Routing (ALT+TWEEZ)",
+      "behaviorCCW": "Lower Delay/Reverb Routing (ALT+TWEEZ)",
+      "behaviorCW": "Higher Delay/Reverb Routing (ALT+TWEEZ)"
+    },
+    "rangeNote": "TWEEZ sets delay/reverb routing: 0% Reverb\u2192Delay, 50% Parallel, 100% Delay\u2192Reverb.",
+    "notes": [
+      "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
+    ]
+  },
+  {
+    "id": "reverb_glitz",
+    "mode": "Secret Reverb",
+    "detent": 11,
+    "selectorIndex": 11,
+    "model": "GLITZ",
+    "inspiration": "GLITZ model from manual.",
+    "description": "GLITZ model from manual.",
+    "tweak": {
+      "label": "Mod Mix",
+      "behaviorCCW": "Lower Mod Mix",
+      "behaviorCW": "Higher Mod Mix"
+    },
+    "tweez": {
+      "label": "Delay/Reverb Routing (ALT+TWEEZ)",
+      "behaviorCCW": "Lower Delay/Reverb Routing (ALT+TWEEZ)",
+      "behaviorCW": "Higher Delay/Reverb Routing (ALT+TWEEZ)"
+    },
+    "rangeNote": "TWEEZ sets delay/reverb routing: 0% Reverb\u2192Delay, 50% Parallel, 100% Delay\u2192Reverb.",
+    "notes": [
+      "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
+    ]
+  },
+  {
+    "id": "reverb_hall",
+    "mode": "Secret Reverb",
+    "detent": 12,
+    "selectorIndex": 12,
+    "model": "HALL",
+    "inspiration": "HALL model from manual.",
+    "description": "HALL model from manual.",
+    "tweak": {
+      "label": "Predelay",
+      "behaviorCCW": "Lower Predelay",
+      "behaviorCW": "Higher Predelay"
+    },
+    "tweez": {
+      "label": "Delay/Reverb Routing (ALT+TWEEZ)",
+      "behaviorCCW": "Lower Delay/Reverb Routing (ALT+TWEEZ)",
+      "behaviorCW": "Higher Delay/Reverb Routing (ALT+TWEEZ)"
+    },
+    "rangeNote": "TWEEZ sets delay/reverb routing: 0% Reverb\u2192Delay, 50% Parallel, 100% Delay\u2192Reverb.",
+    "notes": [
+      "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
+    ]
+  },
+  {
+    "id": "reverb_kaleidoscope",
+    "mode": "Secret Reverb",
+    "detent": 13,
+    "selectorIndex": 13,
+    "model": "KALEIDOSCOPE",
+    "inspiration": "KALEIDOSCOPE model from manual.",
+    "description": "KALEIDOSCOPE model from manual.",
+    "tweak": {
+      "label": "Texture",
+      "behaviorCCW": "Lower Texture",
+      "behaviorCW": "Higher Texture"
+    },
+    "tweez": {
+      "label": "Delay/Reverb Routing (ALT+TWEEZ)",
+      "behaviorCCW": "Lower Delay/Reverb Routing (ALT+TWEEZ)",
+      "behaviorCW": "Higher Delay/Reverb Routing (ALT+TWEEZ)"
+    },
+    "rangeNote": "TWEEZ sets delay/reverb routing: 0% Reverb\u2192Delay, 50% Parallel, 100% Delay\u2192Reverb.",
+    "notes": [
+      "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
+    ]
+  },
+  {
+    "id": "reverb_life",
+    "mode": "Secret Reverb",
+    "detent": 14,
+    "selectorIndex": 14,
+    "model": "LIFE",
+    "inspiration": "LIFE model from manual.",
+    "description": "LIFE model from manual.",
+    "tweak": {
+      "label": "Texture",
+      "behaviorCCW": "Lower Texture",
+      "behaviorCW": "Higher Texture"
+    },
+    "tweez": {
+      "label": "Delay/Reverb Routing (ALT+TWEEZ)",
+      "behaviorCCW": "Lower Delay/Reverb Routing (ALT+TWEEZ)",
+      "behaviorCW": "Higher Delay/Reverb Routing (ALT+TWEEZ)"
+    },
+    "rangeNote": "TWEEZ sets delay/reverb routing: 0% Reverb\u2192Delay, 50% Parallel, 100% Delay\u2192Reverb.",
+    "notes": [
+      "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
+    ]
+  },
+  {
+    "id": "reverb_off",
+    "mode": "Secret Reverb",
+    "detent": 15,
+    "selectorIndex": 15,
+    "model": "REVERB OFF",
+    "inspiration": "REVERB OFF model from manual.",
+    "description": "REVERB OFF model from manual.",
+    "tweak": {
+      "label": "N/A",
+      "behaviorCCW": "Not applicable",
+      "behaviorCW": "Not applicable"
+    },
+    "tweez": {
+      "label": "Delay/Reverb Routing (ALT+TWEEZ)",
+      "behaviorCCW": "Lower Delay/Reverb Routing (ALT+TWEEZ)",
+      "behaviorCW": "Higher Delay/Reverb Routing (ALT+TWEEZ)"
+    },
+    "rangeNote": "TWEEZ sets delay/reverb routing: 0% Reverb\u2192Delay, 50% Parallel, 100% Delay\u2192Reverb.",
+    "notes": [
+      "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
+    ]
+  }
+]

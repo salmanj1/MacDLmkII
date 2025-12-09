@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist';
+import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist/legacy/build/pdf.mjs';
 
 type PdfJob = {
   filename: string;
@@ -20,14 +20,15 @@ const jobs: PdfJob[] = [
 ];
 
 GlobalWorkerOptions.workerSrc = new URL(
-  '../node_modules/pdfjs-dist/build/pdf.worker.min.js',
+  '../node_modules/pdfjs-dist/legacy/build/pdf.worker.min.mjs',
   import.meta.url
 ).toString();
 
 const extractPdf = async ({ filename, output }: PdfJob) => {
   const inputPath = path.join(docsDir, filename);
   const outputPath = path.join(docsDir, output);
-  const data = await fs.readFile(inputPath);
+  const fileBuffer = await fs.readFile(inputPath);
+  const data = new Uint8Array(fileBuffer);
   const loadingTask = getDocument({ data, isEvalSupported: false });
   const pdf = await loadingTask.promise;
   const pages: string[] = [];
