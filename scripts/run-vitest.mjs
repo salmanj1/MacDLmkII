@@ -21,6 +21,14 @@ if (runInBandRequested) {
   forwardedArgs.push('--sequence.concurrent=false');
 }
 
+const hasModeArgument = forwardedArgs.some((arg) =>
+  ['run', 'watch', 'dev', 'related', 'bench', 'open'].includes(arg)
+);
+
+if (!hasModeArgument) {
+  forwardedArgs.unshift('run');
+}
+
 const child = spawn(process.execPath, [vitestBin, ...forwardedArgs], {
   stdio: 'inherit',
   env: process.env
