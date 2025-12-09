@@ -45,3 +45,33 @@ export const WithQaAndSearch: Story = {
     );
   }
 };
+
+export const Loading: Story = {
+  args: {
+    filteredEffects: [],
+    mode: sampleEffects[0].mode,
+    currentDetent: 0,
+    searchTerm: '',
+    onSearchChange: () => {},
+    onSearchInputRef: () => {},
+    onSelectEffect: () => {},
+    qaStats: buildQaStats(sampleEffects),
+    showQa: true,
+    loading: true
+  }
+};
+
+export const EmptyResults: Story = {
+  args: {
+    filteredEffects: [],
+    mode: sampleEffects[0].mode,
+    currentDetent: 0,
+    searchTerm: 'nope',
+    onSearchChange: () => {},
+    onSearchInputRef: () => {},
+    onSelectEffect: () => {},
+    qaStats: buildQaStats(sampleEffects),
+    showQa: false,
+    loading: false
+  }
+};

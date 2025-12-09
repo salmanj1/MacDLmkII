@@ -1,0 +1,37 @@
+@import '../../../styles/tokens.less';
+
+.fallback {
+  border-radius: 1rem;
+  border: 1px solid fade(#fbbf24, 30%);
+  background: rgba(251, 191, 36, 0.08);
+  padding: 1.25rem;
+  color: #fef3c7;
+  box-shadow: inset 0 1px 0 fade(#fbbf24, 12%);
+}
+
+.title {
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
+}
+
+.actions {
+  margin-top: 0.75rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.button {
+  border: 1px solid fade(@textSecondary, 50%);
+  background: fade(#000, 25%);
+  color: @textPrimary;
+  border-radius: 0.55rem;
+  padding: 0.45rem 0.8rem;
+  cursor: pointer;
+  transition: border-color 120ms ease, background 120ms ease;
+}
+
+.button:hover {
+  border-color: @glow;
+  background: fade(@glow, 12%);
+}

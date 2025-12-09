@@ -27,6 +27,7 @@ A Tauri 2 + React + TypeScript + Vite + Tailwind desktop shell for exploring MkI
 - State: hooks in `src/hooks` (e.g., `useEffectLibrary`, `useKeyboardShortcuts`) drive selector state, search, and shortcuts (arrow keys for detents, 1/2/3 for modes, Cmd/Ctrl+F focuses search).
 - Data: delay/reverb metadata comes from `src/data/effects.full.json` when present; otherwise `effects.skeleton.json` seeds the UI.
 - Storybook: stories sit next to components for isolated dev; run with `pnpm storybook` (see command above) to preview atoms/molecules/organisms.
+- Resilience: `ErrorBoundary` wraps the UI, and components expose `loading` with `Skeleton` atoms for friendly placeholders.
 
 ## Contributing (frontend conventions)
 - Component placement: atoms (pure UI primitives), molecules (small compositions), organisms (feature blocks). Keep CSS in the component’s `.module.less`.
@@ -34,6 +35,7 @@ A Tauri 2 + React + TypeScript + Vite + Tailwind desktop shell for exploring MkI
 - Tokens first: pull colors/spacings from `src/styles/tokens.less` instead of hardcoding values.
 - Comments: add brief intent-driven comments only where behavior isn’t obvious (interaction handlers, layout quirks).
 - Stories: add/update Storybook stories alongside new components to keep the catalog in sync.
+- Use `Skeleton` for loading states and lean on `ErrorBoundary` when rendering potentially unstable trees.
 
 ## Notes
 - The project avoids macOS frameworks that require full Xcode. If Tauri asks for developer tools, install the Command Line Tools only.

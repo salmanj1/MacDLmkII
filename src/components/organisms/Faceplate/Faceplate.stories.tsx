@@ -67,3 +67,12 @@ export const InteractiveFaceplate: Story = {
     );
   }
 };
+
+export const WithoutCurrentEffect: Story = {
+  args: {
+    mode: modes[0],
+    detent: 0,
+    onModeChange: () => {},
+    onDetentChange: () => {}
+  }
+};

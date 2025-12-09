@@ -1,16 +1,77 @@
 import Pill from '../../atoms/Pill/Pill';
+import Skeleton from '../../atoms/Skeleton/Skeleton';
 import { notSpecified, type EffectInfo as EffectInfoType } from '../../../data/commonParams';
 import styles from './EffectInfo.module.less';
 
 type EffectInfoProps = {
   effect?: EffectInfoType;
+  loading?: boolean;
 };
 
 /**
- * Detailed readout for the currently selected detent. The component handles the empty state,
- * normalizes "Not specified" entries from the data source, and keeps layout predictable.
+ * Detailed readout for the currently selected detent. The component handles loading,
+ * empty state, normalizes "Not specified" entries from the data source, and keeps layout predictable.
  */
-const EffectInfo = ({ effect }: EffectInfoProps) => {
+const EffectInfo = ({ effect, loading = false }: EffectInfoProps) => {
+  if (loading) {
+    return (
+      <div className={styles.card} aria-busy>
+        <div className={styles.badgeRow}>
+          <Skeleton width="120px" height="24px" rounded aria-label="Mode loading" />
+          <Skeleton width="90px" height="18px" rounded aria-label="Selector loading" />
+        </div>
+        <div className={styles.headlineRow} style={{ marginTop: '1rem' }}>
+          <div>
+            <Skeleton width="140px" height="12px" />
+            <div style={{ marginTop: '0.4rem' }}>
+              <Skeleton width="240px" height="26px" />
+            </div>
+            <div style={{ marginTop: '0.4rem' }}>
+              <Skeleton width="220px" height="14px" />
+            </div>
+          </div>
+          <div className={styles.rangeCard}>
+            <Skeleton width="80px" height="12px" />
+            <div style={{ marginTop: '0.35rem' }}>
+              <Skeleton width="120px" height="16px" />
+            </div>
+          </div>
+        </div>
+        <div style={{ marginTop: '1rem' }}>
+          <Skeleton width="100%" height="14px" />
+          <div style={{ marginTop: '0.4rem' }}>
+            <Skeleton width="85%" height="14px" />
+          </div>
+        </div>
+        <div className={styles.controlsGrid} style={{ marginTop: '1.25rem' }}>
+          {[0, 1].map((idx) => (
+            <div key={idx} className={styles.controlCard}>
+              <Skeleton width="70px" height="12px" />
+              <div style={{ marginTop: '0.6rem' }} className={styles.behaviorGrid}>
+                {[0, 1].map((child) => (
+                  <div key={child} className={styles.behaviorCell}>
+                    <Skeleton width="50px" height="10px" />
+                    <div style={{ marginTop: '0.3rem' }}>
+                      <Skeleton width="90%" height="14px" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className={styles.notesSection}>
+          <Skeleton width="60px" height="12px" />
+          <div className={styles.notesList} style={{ marginTop: '0.5rem' }}>
+            {[0, 1, 2].map((chip) => (
+              <Skeleton key={chip} width="90px" height="22px" rounded />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (!effect) {
     return (
       <div className={styles.empty}>

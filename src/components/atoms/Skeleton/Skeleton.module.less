@@ -1,0 +1,22 @@
+@import '../../../styles/tokens.less';
+
+.skeleton {
+  display: inline-block;
+  background: linear-gradient(90deg, fade(@textMuted, 18%), fade(@textMuted, 8%), fade(@textMuted, 18%));
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+  border-radius: 0.4rem;
+}
+
+.rounded {
+  border-radius: 9999px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

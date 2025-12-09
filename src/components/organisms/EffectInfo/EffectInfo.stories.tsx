@@ -43,3 +43,21 @@ export const WithSelection: Story = {};
 export const EmptyState: Story = {
   args: { effect: undefined }
 };
+
+export const Loading: Story = {
+  args: { loading: true, effect: undefined }
+};
+
+export const MissingFields: Story = {
+  args: {
+    effect: {
+      ...sampleEffect,
+      inspiration: 'Not specified in manual',
+      description: 'Not specified in manual',
+      rangeNote: 'Not specified in manual',
+      tweak: { label: 'Mod Rate', behaviorCCW: 'Not specified in manual', behaviorCW: 'Not specified in manual' },
+      tweez: { label: 'Mod Depth', behaviorCCW: 'Not specified in manual', behaviorCW: 'Not specified in manual' },
+      notes: ['Not specified in manual']
+    }
+  }
+};

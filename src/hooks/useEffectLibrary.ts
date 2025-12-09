@@ -30,6 +30,7 @@ const useEffectLibrary = () => {
   const [effects, setEffects] = useState<EffectInfo[]>(skeletonEffects);
   const [searchTerm, setSearchTerm] = useState('');
   const [loadingError, setLoadingError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
@@ -42,12 +43,14 @@ const useEffectLibrary = () => {
         if (!cancelled) {
           setEffects(mergeEffects(payload));
           setLoadingError(null);
+          setIsLoading(false);
         }
       } catch (error) {
         console.warn('Falling back to skeleton effects', error);
         if (!cancelled) {
           setEffects(mergeEffects([]));
           setLoadingError('Using skeleton data; some fields may be placeholders.');
+          setIsLoading(false);
         }
       }
     };
@@ -93,7 +96,8 @@ const useEffectLibrary = () => {
     jumpToEffect,
     searchTerm,
     setSearchTerm,
-    loadingError
+    loadingError,
+    isLoading
   };
 };
 

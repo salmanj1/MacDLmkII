@@ -12,11 +12,13 @@ This project uses React + TypeScript + Vite with an atomic component stack and L
 - Design tokens: use `src/styles/tokens.less`; avoid hardcoded colors/spacings. LESS module typing is provided by `src/less.d.ts`.
 - State/behavior: prefer hooks in `src/hooks` for shared logic (e.g., selector/search/shortcuts). Keep components mostly presentational.
 - Data: effect metadata is loaded from `src/data/effects.full.json` when present; `effects.skeleton.json` seeds the UI for previews.
+- Resilience: wrap risky UI in `ErrorBoundary` and expose `loading` props that use the `Skeleton` atom for placeholders.
 
 ## Style & naming
 - Name components descriptively (e.g., `FootswitchRail`, `DetentWindow`). Align Storybook story filenames with component names.
 - Comments should explain intent when behavior isn’t obvious (interaction handlers, layout quirks). Avoid redundant comments.
 - Keep stories next to components and update them with any UI change; this keeps the catalog and visual checks in sync.
+- Use `Skeleton` for loading visuals; only reach for inline styles to size skeletons when necessary.
 
 ## Testing and checks
 - Type check: `pnpm tsc --noEmit`

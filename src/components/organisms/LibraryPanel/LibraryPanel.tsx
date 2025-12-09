@@ -1,6 +1,7 @@
 import type { EffectInfo, Mode } from '../../../data/commonParams';
 import type { QaStats } from '../../../utils/effectQa';
 import SearchBox from '../../molecules/SearchBox/SearchBox';
+import Skeleton from '../../atoms/Skeleton/Skeleton';
 import styles from './LibraryPanel.module.less';
 
 type LibraryPanelProps = {
@@ -13,6 +14,7 @@ type LibraryPanelProps = {
   onSelectEffect: (effect: EffectInfo) => void;
   qaStats: QaStats;
   showQa: boolean;
+  loading?: boolean;
 };
 
 /**
@@ -28,13 +30,16 @@ const LibraryPanel = ({
   onSearchInputRef,
   onSelectEffect,
   qaStats,
-  showQa
+  showQa,
+  loading = false
 }: LibraryPanelProps) => {
   return (
     <div className={styles.panel}>
       <div className={styles.headerRow}>
         <span className={styles.headerTitle}>Library &amp; Search</span>
-        <span className={styles.countPill}>{filteredEffects.length} selectable</span>
+        <span className={styles.countPill}>
+          {loading ? 'Loading…' : `${filteredEffects.length} selectable`}
+        </span>
       </div>
 
       <div className={styles.searchWrap}>
@@ -76,28 +81,46 @@ const LibraryPanel = ({
       )}
 
       <div className={styles.listGrid}>
-        {filteredEffects.map((effect) => {
-          const isActive = effect.mode === mode && effect.detent === currentDetent;
-          return (
-            <button
-              key={`${effect.mode}-${effect.detent}`}
-              type="button"
-              onClick={() => onSelectEffect(effect)}
-              className={`${styles.effectCard} ${isActive ? styles.effectCardActive : ''}`}
-            >
-              <div className={styles.cardTop}>
-                <span>{effect.mode}</span>
-                <span>Detent {effect.detent + 1}</span>
+        {loading
+          ? Array.from({ length: 6 }).map((_, idx) => (
+              <div key={idx} className={styles.effectCard} aria-busy>
+                <Skeleton width="60px" height="10px" />
+                <div style={{ marginTop: '0.35rem' }}>
+                  <Skeleton width="140px" height="20px" />
+                </div>
+                <div style={{ marginTop: '0.35rem' }}>
+                  <Skeleton width="110px" height="12px" />
+                </div>
               </div>
-              <div className={styles.cardTitle}>{effect.model}</div>
-              <div className={styles.cardMeta}>
-                <span>{effect.inspiration}</span>
-                {isActive && <span className={styles.activeBadge}>Active</span>}
-              </div>
-            </button>
-          );
-        })}
+            ))
+          : filteredEffects.map((effect) => {
+              const isActive = effect.mode === mode && effect.detent === currentDetent;
+              return (
+                <button
+                  key={`${effect.mode}-${effect.detent}`}
+                  type="button"
+                  onClick={() => onSelectEffect(effect)}
+                  className={`${styles.effectCard} ${isActive ? styles.effectCardActive : ''}`}
+                >
+                  <div className={styles.cardTop}>
+                    <span>{effect.mode}</span>
+                    <span>Detent {effect.detent + 1}</span>
+                  </div>
+                  <div className={styles.cardTitle}>{effect.model}</div>
+                  <div className={styles.cardMeta}>
+                    <span>{effect.inspiration}</span>
+                    {isActive && <span className={styles.activeBadge}>Active</span>}
+                  </div>
+                </button>
+              );
+            })}
       </div>
+
+      {!loading && filteredEffects.length === 0 && (
+        <div className={styles.emptyState} role="status">
+          No matches yet — try adjusting the search or mode.
+        </div>
+      )}
     </div>
   );
 };
