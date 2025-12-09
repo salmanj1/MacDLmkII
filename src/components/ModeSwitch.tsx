@@ -18,7 +18,7 @@ const ModeSwitch = ({ value, onChange }: ModeSwitchProps) => {
           onClick={() => onChange(mode)}
           className={`rounded-full px-4 py-2 text-sm font-medium border transition-colors ${
             value === mode
-              ? 'bg-glow text-slate-900 border-glow shadow-lg shadow-cyan-500/40'
+              ? 'bg-glow text-slate-900 border-glow shadow-lg shadow-lime-400/40'
               : 'border-slate-500 text-slate-200 hover:border-glow'
           }`}
         >

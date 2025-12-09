@@ -5,7 +5,7 @@ module.exports = {
     extend: {
       colors: {
         ink: '#0f172a',
-        glow: '#a5f3fc'
+        glow: '#b7ff38'
       }
     }
   },
