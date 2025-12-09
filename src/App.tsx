@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback } from 'react';
+import { useEffect, useMemo, useState, useCallback } from 'react';
 import Faceplate from './components/organisms/Faceplate/Faceplate';
 import HeroHeader from './components/organisms/HeroHeader/HeroHeader';
 import LibraryPanel from './components/organisms/LibraryPanel/LibraryPanel';
@@ -16,6 +16,11 @@ const App = () => {
   const [searchInput, setSearchInput] = useState<HTMLInputElement | null>(null);
   const [showQa, setShowQa] = useState(false);
   const [libraryOpen, setLibraryOpen] = useState(false);
+  useEffect(() => {
+    if (window.matchMedia('(min-width: 1024px)').matches) {
+      setLibraryOpen(true);
+    }
+  }, []);
 
   const {
     mode,
