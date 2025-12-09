@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState, useCallback } from 'react';
 import Faceplate from './components/organisms/Faceplate/Faceplate';
-import HeroHeader from './components/organisms/HeroHeader/HeroHeader';
 import LibraryPanel from './components/organisms/LibraryPanel/LibraryPanel';
 import EffectInfo from './components/organisms/EffectInfo/EffectInfo';
 import useEffectLibrary from './hooks/useEffectLibrary';
@@ -62,12 +61,9 @@ const App = () => {
           <div className={`${styles.orb} ${styles.orbA}`} />
           <div className={`${styles.orb} ${styles.orbB}`} />
           <div className={styles.ground} />
-          <div className={styles.horizon} />
         </div>
 
         <main className={styles.main}>
-          <HeroHeader />
-
           {loadingError && <p className={styles.error}>{loadingError}</p>}
 
           <section className={styles.utilityBar}>
@@ -76,12 +72,6 @@ const App = () => {
               onChange={setSearchTerm}
               onFocusedShortcut={setSearchInput}
             />
-            <div className={styles.instructions}>
-              <span>Drag/scroll knob for detents</span>
-              <span>Arrow keys move detents</span>
-              <span>Numbers 1/2/3 swap modes</span>
-              <span>Click cards to jump</span>
-            </div>
           </section>
 
           <section className={styles.faceplateWrap}>
