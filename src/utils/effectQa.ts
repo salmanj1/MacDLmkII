@@ -16,7 +16,9 @@ export type QaStats = {
 
 export const buildQaStats = (effects: EffectInfo[]): QaStats => {
   const countsByMode = modes.map((entry) => {
-    const totalForMode = effects.filter((effect) => effect.mode === entry).length;
+    const totalForMode = effects.filter(
+      (effect) => effect.mode === entry
+    ).length;
     return {
       mode: entry,
       count: totalForMode,
@@ -35,14 +37,24 @@ export const buildQaStats = (effects: EffectInfo[]): QaStats => {
   effects.forEach((effect) => {
     if (effect.inspiration === notSpecified) missingInspiration += 1;
     if (effect.description === notSpecified) missingDescription += 1;
-    if (effect.tweak.behaviorCCW === notSpecified || effect.tweak.behaviorCW === notSpecified) {
+    if (
+      effect.tweak.behaviorCCW === notSpecified ||
+      effect.tweak.behaviorCW === notSpecified
+    ) {
       missingTweakBehavior += 1;
     }
-    if (effect.tweez.behaviorCCW === notSpecified || effect.tweez.behaviorCW === notSpecified) {
+    if (
+      effect.tweez.behaviorCCW === notSpecified ||
+      effect.tweez.behaviorCW === notSpecified
+    ) {
       missingTweezBehavior += 1;
     }
     if (effect.rangeNote === notSpecified) missingRange += 1;
-    if (!effect.notes.length || effect.notes.every((note) => note === notSpecified)) missingNotes += 1;
+    if (
+      !effect.notes.length ||
+      effect.notes.every((note) => note === notSpecified)
+    )
+      missingNotes += 1;
 
     [
       effect.inspiration,

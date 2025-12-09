@@ -18,11 +18,14 @@ const HeroHeader = ({ showQa, onToggleQa }: HeroHeaderProps) => {
           <Pill tone="glow">DL4 MkII Brain</Pill>
           <Pill tone="inverse">Pedal faceplate view</Pill>
         </div>
-        <h1 className={styles.title}>Twist the selector, stomp the row — just like the green box.</h1>
+        <h1 className={styles.title}>
+          Twist the selector, stomp the row — just like the green box.
+        </h1>
         <p className={styles.lede}>
-          This layout mimics the DL4 MkII faceplate: left cluster for the model selector knob,
-          center light strip for feedback, and a four-switch rail at the bottom. Use search and QA
-          on the right without losing the pedal vibe.
+          This layout mimics the DL4 MkII faceplate: left cluster for the model
+          selector knob, center light strip for feedback, and a four-switch rail
+          at the bottom. Use search and QA on the right without losing the pedal
+          vibe.
         </p>
       </div>
       <button type="button" onClick={onToggleQa} className={styles.qaButton}>

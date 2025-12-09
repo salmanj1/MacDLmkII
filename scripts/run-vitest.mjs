@@ -23,7 +23,7 @@ if (runInBandRequested) {
 
 const child = spawn(process.execPath, [vitestBin, ...forwardedArgs], {
   stdio: 'inherit',
-  env: process.env,
+  env: process.env
 });
 
 child.on('exit', (code, signal) => {

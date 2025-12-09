@@ -3,7 +3,13 @@
 @tailwind utilities;
 
 :root {
-  font-family: 'Space Grotesk', 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont,
+  font-family:
+    'Space Grotesk',
+    'Inter',
+    'Segoe UI',
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
     sans-serif;
   background-color: #040708;
   color: #e2e8f0;
@@ -21,8 +27,17 @@ a {
 }
 
 body {
-  background: radial-gradient(circle at 18% 22%, rgba(183, 255, 56, 0.16), transparent 32%),
-    radial-gradient(circle at 82% 6%, rgba(117, 255, 138, 0.12), transparent 30%),
+  background:
+    radial-gradient(
+      circle at 18% 22%,
+      rgba(183, 255, 56, 0.16),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 82% 6%,
+      rgba(117, 255, 138, 0.12),
+      transparent 30%
+    ),
     linear-gradient(180deg, #050708 0%, #0a1114 45%, #050708 100%);
 }
 
@@ -32,6 +47,6 @@ body {
 }
 
 .safe-padded {
-  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
-    env(safe-area-inset-left);
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
 }

@@ -13,7 +13,11 @@ type ModeSwitchProps = {
  */
 const ModeSwitch = ({ value, onChange }: ModeSwitchProps) => {
   return (
-    <div className={styles.switchGroup} role="radiogroup" aria-label="Mode selector">
+    <div
+      className={styles.switchGroup}
+      role="radiogroup"
+      aria-label="Mode selector"
+    >
       {modes.map((mode) => {
         const isActive = value === mode;
         return (

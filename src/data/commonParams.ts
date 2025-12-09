@@ -34,7 +34,10 @@ export const knobBehavior = {
   wheelDeltaStep: 60
 };
 
-export const commonKnobBehaviors: Record<string, { behaviorCCW: string; behaviorCW: string }> = {
+export const commonKnobBehaviors: Record<
+  string,
+  { behaviorCCW: string; behaviorCW: string }
+> = {
   bass: {
     behaviorCCW: 'Reduces low frequencies',
     behaviorCW: 'Boosts low frequencies'

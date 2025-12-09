@@ -99,7 +99,8 @@ const Knob = ({ mode, detent, onDetentChange }: KnobProps) => {
     while (Math.abs(wheelAccumulator.current) >= threshold) {
       const direction = wheelAccumulator.current > 0 ? -1 : 1;
       nextDetent = clampDetent(mode, nextDetent + direction);
-      wheelAccumulator.current -= threshold * Math.sign(wheelAccumulator.current);
+      wheelAccumulator.current -=
+        threshold * Math.sign(wheelAccumulator.current);
     }
 
     if (nextDetent !== detent) onDetentChange(nextDetent);
@@ -132,8 +133,12 @@ const Knob = ({ mode, detent, onDetentChange }: KnobProps) => {
             transform: `translate(-50%, -50%) rotate(${angle}deg) translateY(-6.2rem) rotate(${-angle}deg)`
           }}
         >
-          <span className={`${styles.labelDot} ${isActive ? styles.labelDotActive : ''}`} />
-          <span className={`${styles.labelText} ${isActive ? styles.labelTextActive : ''}`}>
+          <span
+            className={`${styles.labelDot} ${isActive ? styles.labelDotActive : ''}`}
+          />
+          <span
+            className={`${styles.labelText} ${isActive ? styles.labelTextActive : ''}`}
+          >
             {entry.label}
           </span>
         </div>
@@ -176,7 +181,10 @@ const Knob = ({ mode, detent, onDetentChange }: KnobProps) => {
           <div className={styles.dialMetal} />
           <div className={styles.dialSheen} />
 
-          <div className={styles.indicatorLayer} style={{ transform: `rotate(${indicatorAngle}deg)` }}>
+          <div
+            className={styles.indicatorLayer}
+            style={{ transform: `rotate(${indicatorAngle}deg)` }}
+          >
             <div className={styles.indicatorStack}>
               <div className={styles.indicatorBody} />
               <div className={styles.indicatorStem} />

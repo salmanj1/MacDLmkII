@@ -19,7 +19,11 @@ const FootswitchRail = ({ switches }: FootswitchRailProps) => {
       <div className={styles.grid}>
         {switches.map((sw) => (
           <div key={sw.label} className={styles.cell}>
-            <button type="button" className={styles.footswitch} aria-label={`${sw.label} footswitch`} />
+            <button
+              type="button"
+              className={styles.footswitch}
+              aria-label={`${sw.label} footswitch`}
+            />
             <span className={styles.label}>{sw.label}</span>
             <span className={styles.hint}>{sw.hint}</span>
           </div>

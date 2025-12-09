@@ -43,7 +43,11 @@ const LibraryPanel = ({
       </div>
 
       <div className={styles.searchWrap}>
-        <SearchBox value={searchTerm} onChange={onSearchChange} onFocusedShortcut={onSearchInputRef} />
+        <SearchBox
+          value={searchTerm}
+          onChange={onSearchChange}
+          onFocusedShortcut={onSearchInputRef}
+        />
       </div>
 
       <div className={styles.shortcuts}>
@@ -94,7 +98,8 @@ const LibraryPanel = ({
               </div>
             ))
           : filteredEffects.map((effect) => {
-              const isActive = effect.mode === mode && effect.detent === currentDetent;
+              const isActive =
+                effect.mode === mode && effect.detent === currentDetent;
               return (
                 <button
                   key={`${effect.mode}-${effect.detent}`}
@@ -109,7 +114,9 @@ const LibraryPanel = ({
                   <div className={styles.cardTitle}>{effect.model}</div>
                   <div className={styles.cardMeta}>
                     <span>{effect.inspiration}</span>
-                    {isActive && <span className={styles.activeBadge}>Active</span>}
+                    {isActive && (
+                      <span className={styles.activeBadge}>Active</span>
+                    )}
                   </div>
                 </button>
               );

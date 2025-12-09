@@ -1,4 +1,9 @@
-import type { DetentMeta, EffectInfo, Mode, KnobBehavior } from './commonParams';
+import type {
+  DetentMeta,
+  EffectInfo,
+  Mode,
+  KnobBehavior
+} from './commonParams';
 import { modes, notSpecified } from './commonParams';
 import skeletonJson from './effects.skeleton.json';
 
@@ -35,7 +40,10 @@ const asSkeleton: SkeletonSchema = skeletonJson as SkeletonSchema;
 const sanitizeString = (value: unknown, fallback = notSpecified) =>
   typeof value === 'string' && value.trim().length > 0 ? value : fallback;
 
-const normalizeKnob = (base: KnobBehavior, override?: Partial<KnobBehavior>): KnobBehavior => ({
+const normalizeKnob = (
+  base: KnobBehavior,
+  override?: Partial<KnobBehavior>
+): KnobBehavior => ({
   label: sanitizeString(override?.label, base.label),
   behaviorCCW: sanitizeString(override?.behaviorCCW),
   behaviorCW: sanitizeString(override?.behaviorCW)
@@ -60,12 +68,18 @@ const buildBaseEffects = (skeleton: SkeletonSchema): EffectInfo[] => {
         inspiration: notSpecified,
         description: notSpecified,
         tweak: {
-          label: sanitizeString(model.tweakLabel, model.tweakLabel ?? notSpecified),
+          label: sanitizeString(
+            model.tweakLabel,
+            model.tweakLabel ?? notSpecified
+          ),
           behaviorCCW: notSpecified,
           behaviorCW: notSpecified
         },
         tweez: {
-          label: sanitizeString(model.tweezLabel, model.tweezLabel ?? notSpecified),
+          label: sanitizeString(
+            model.tweezLabel,
+            model.tweezLabel ?? notSpecified
+          ),
           behaviorCCW: notSpecified,
           behaviorCW: notSpecified
         },
@@ -87,7 +101,9 @@ const buildDetents = (skeleton: SkeletonSchema): Record<Mode, DetentMeta[]> => {
 
   Object.entries(skeleton.modes).forEach(([modeKey, modeData]) => {
     const modeLabel = modeKeyToLabel[modeKey as SkeletonModeKey];
-    const sorted = [...modeData.models].sort((a, b) => a.selectorIndex - b.selectorIndex);
+    const sorted = [...modeData.models].sort(
+      (a, b) => a.selectorIndex - b.selectorIndex
+    );
     detents[modeLabel] = sorted.map((model) => ({
       label: model.displayName,
       description: `${sanitizeString(model.tweakLabel, 'N/A')} • ${sanitizeString(
@@ -121,7 +137,9 @@ export const mergeEffects = (fullEffects: unknown): EffectInfo[] => {
   if (!Array.isArray(fullEffects)) return skeletonEffects;
 
   return skeletonEffects.map((base) => {
-    const override = (fullEffects as PartialEffect[]).find((effect) => effect.id === base.id);
+    const override = (fullEffects as PartialEffect[]).find(
+      (effect) => effect.id === base.id
+    );
 
     if (!override) return base;
 

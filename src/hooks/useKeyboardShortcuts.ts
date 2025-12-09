@@ -10,7 +10,7 @@ type KeyboardShortcutConfig = {
 };
 
 const useKeyboardShortcuts = ({
-  mode,
+  mode: _mode,
   currentDetent,
   onModeChange,
   onDetentChange,
@@ -30,9 +30,12 @@ const useKeyboardShortcuts = ({
         return;
       }
 
-      if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
+      if (
+        ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)
+      ) {
         event.preventDefault();
-        const delta = event.key === 'ArrowLeft' || event.key === 'ArrowDown' ? -1 : 1;
+        const delta =
+          event.key === 'ArrowLeft' || event.key === 'ArrowDown' ? -1 : 1;
         onDetentChange(currentDetent + delta);
       }
     };

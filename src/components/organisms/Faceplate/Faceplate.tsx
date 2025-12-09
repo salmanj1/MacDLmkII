@@ -19,7 +19,13 @@ type FaceplateProps = {
  * UI chrome (detent window + footswitch rail). Built as an organism so App only
  * passes state/handlers and keeps the structure declarative.
  */
-const Faceplate = ({ mode, detent, currentEffect, onModeChange, onDetentChange }: FaceplateProps) => {
+const Faceplate = ({
+  mode,
+  detent,
+  currentEffect,
+  onModeChange,
+  onDetentChange
+}: FaceplateProps) => {
   return (
     <section className={styles.shell} aria-label="DL4 MkII faceplate">
       <div className={styles.shellBackdrop} aria-hidden>
@@ -53,7 +59,11 @@ const Faceplate = ({ mode, detent, currentEffect, onModeChange, onDetentChange }
             </div>
             <div className={styles.selectorStack}>
               <ModeSwitch value={mode} onChange={onModeChange} />
-              <Knob mode={mode} detent={detent} onDetentChange={onDetentChange} />
+              <Knob
+                mode={mode}
+                detent={detent}
+                onDetentChange={onDetentChange}
+              />
             </div>
           </div>
 

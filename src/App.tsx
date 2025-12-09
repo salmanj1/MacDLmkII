@@ -46,7 +46,10 @@ const App = () => {
   const qaStats = useMemo(() => buildQaStats(effects), [effects]);
 
   return (
-    <ErrorBoundary fallbackTitle="UI hiccup" fallbackMessage="Reload to keep jamming.">
+    <ErrorBoundary
+      fallbackTitle="UI hiccup"
+      fallbackMessage="Reload to keep jamming."
+    >
       <div className={styles.page}>
         <div className={styles.background} aria-hidden>
           <div className={`${styles.orb} ${styles.orbA}`} />
@@ -56,7 +59,10 @@ const App = () => {
         </div>
 
         <main className={styles.main}>
-          <HeroHeader showQa={showQa} onToggleQa={() => setShowQa((prev) => !prev)} />
+          <HeroHeader
+            showQa={showQa}
+            onToggleQa={() => setShowQa((prev) => !prev)}
+          />
 
           {loadingError && <p className={styles.error}>{loadingError}</p>}
 

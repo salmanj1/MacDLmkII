@@ -1,6 +1,9 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist/legacy/build/pdf.mjs';
+import {
+  getDocument,
+  GlobalWorkerOptions
+} from 'pdfjs-dist/legacy/build/pdf.mjs';
 
 type PdfJob = {
   filename: string;

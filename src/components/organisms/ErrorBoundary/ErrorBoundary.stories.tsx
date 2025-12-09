@@ -20,7 +20,10 @@ export const CatchesErrors: Story = {
   render: () => {
     const [shouldThrow, setShouldThrow] = useState(false);
     return (
-      <ErrorBoundary fallbackTitle="Error caught" fallbackMessage="Reload to retry.">
+      <ErrorBoundary
+        fallbackTitle="Error caught"
+        fallbackMessage="Reload to retry."
+      >
         <button type="button" onClick={() => setShouldThrow(true)}>
           Trigger error
         </button>

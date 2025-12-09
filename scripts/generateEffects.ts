@@ -4,7 +4,10 @@ import type { EffectInfo } from '../src/data/commonParams';
 import { skeletonEffects } from '../src/data/effects';
 
 const manualTextPath = new URL('../docs/manual.extracted.txt', import.meta.url);
-const cheatSheetPath = new URL('../docs/cheatsheet.extracted.txt', import.meta.url);
+const cheatSheetPath = new URL(
+  '../docs/cheatsheet.extracted.txt',
+  import.meta.url
+);
 const outputPath = new URL('../src/data/effects.full.json', import.meta.url);
 
 const secretRouting = {
@@ -18,7 +21,10 @@ const loadText = async (filePath: URL) => {
   return raw.replace(/\r/g, '');
 };
 
-const buildEffects = async (): Promise<{ effects: EffectInfo[]; missing: string[] }> => {
+const buildEffects = async (): Promise<{
+  effects: EffectInfo[];
+  missing: string[];
+}> => {
   const manualText = await loadText(manualTextPath);
   const cheatSheetText = await loadText(cheatSheetPath);
   const combinedUpper = `${manualText}\n${cheatSheetText}`.toUpperCase();
@@ -32,7 +38,9 @@ const buildEffects = async (): Promise<{ effects: EffectInfo[]; missing: string[
   const effects = skeletonEffects.map((base) => {
     const anchorFound = combinedUpper.includes(base.model.toUpperCase());
     if (!anchorFound) {
-      missingModels.push(`${base.model} (${base.id}) not found in extracted text`);
+      missingModels.push(
+        `${base.model} (${base.id}) not found in extracted text`
+      );
     }
 
     const tweakBehavior = getCommonKnobBehavior(base.tweak.label);
@@ -51,7 +59,8 @@ const buildEffects = async (): Promise<{ effects: EffectInfo[]; missing: string[
             behaviorCW: tweezBehavior?.behaviorCW ?? notSpecified
           };
 
-    const rangeNote = base.mode === 'Secret Reverb' ? secretRouting.range : base.rangeNote;
+    const rangeNote =
+      base.mode === 'Secret Reverb' ? secretRouting.range : base.rangeNote;
     const notes =
       base.mode === 'Secret Reverb'
         ? [
@@ -82,10 +91,18 @@ const buildEffects = async (): Promise<{ effects: EffectInfo[]; missing: string[
 (async () => {
   try {
     const { effects, missing } = await buildEffects();
-    await fs.writeFile(outputPath, `${JSON.stringify(effects, null, 2)}\n`, 'utf8');
+    await fs.writeFile(
+      outputPath,
+      `${JSON.stringify(effects, null, 2)}\n`,
+      'utf8'
+    );
 
-    const missingDescription = effects.filter((effect) => effect.description === notSpecified).length;
-    const missingInspiration = effects.filter((effect) => effect.inspiration === notSpecified).length;
+    const missingDescription = effects.filter(
+      (effect) => effect.description === notSpecified
+    ).length;
+    const missingInspiration = effects.filter(
+      (effect) => effect.inspiration === notSpecified
+    ).length;
 
     console.log('Generation succeeded:', true);
     console.log(`Models missing description: ${missingDescription}`);

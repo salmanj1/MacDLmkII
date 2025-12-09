@@ -5,11 +5,16 @@ import type { EffectInfo } from '../../../data/commonParams';
 import { skeletonEffects } from '../../../data/effects';
 import { buildQaStats } from '../../../utils/effectQa';
 
-const sampleEffects: EffectInfo[] = skeletonEffects.slice(0, 8).map((effect, idx) => ({
-  ...effect,
-  inspiration: effect.inspiration === 'Not specified in manual' ? 'Classic rack unit' : effect.inspiration,
-  model: `${effect.model} ${idx + 1}`
-}));
+const sampleEffects: EffectInfo[] = skeletonEffects
+  .slice(0, 8)
+  .map((effect, idx) => ({
+    ...effect,
+    inspiration:
+      effect.inspiration === 'Not specified in manual'
+        ? 'Classic rack unit'
+        : effect.inspiration,
+    model: `${effect.model} ${idx + 1}`
+  }));
 
 const meta: Meta<typeof LibraryPanel> = {
   title: 'Organisms/LibraryPanel',

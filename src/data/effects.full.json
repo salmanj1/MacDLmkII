@@ -123,9 +123,7 @@
       "behaviorCW": "More wobble and darker, aged tape tone"
     },
     "rangeNote": "Headroom roughly -15.2dB to +8.8dB; wow/flutter increases as tone darkens toward max.",
-    "notes": [
-      "Classic EP-3 style preamp feel with tape wobble."
-    ]
+    "notes": ["Classic EP-3 style preamp feel with tape wobble."]
   },
   {
     "id": "mkii_lcdigital",
@@ -738,9 +736,7 @@
       "behaviorCW": "Higher Delay/Reverb Routing (ALT+TWEEZ)"
     },
     "rangeNote": "Condition sets stability; TWEEZ sets routing.",
-    "notes": [
-      "Condition: 0–33% Stable, 34–66% Critical, 67–100% Hazard"
-    ]
+    "notes": ["Condition: 0–33% Stable, 34–66% Critical, 67–100% Hazard"]
   },
   {
     "id": "reverb_octoverb",
@@ -1037,8 +1033,6 @@
       "behaviorCW": "Delay before reverb"
     },
     "rangeNote": "Use to kill reverb; routing still available for delay-only use.",
-    "notes": [
-      "Select to run delay with no added reverb."
-    ]
+    "notes": ["Select to run delay with no added reverb."]
   }
 ]

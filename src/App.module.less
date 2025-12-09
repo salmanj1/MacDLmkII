@@ -6,8 +6,8 @@
   overflow: hidden;
   background: @bgDark;
   color: @textSecondary;
-  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
-    env(safe-area-inset-left);
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
 .background {
@@ -53,7 +53,12 @@
   right: 0;
   top: 2rem;
   height: 1px;
-  background: linear-gradient(90deg, transparent, fade(@glow, 35%), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    fade(@glow, 35%),
+    transparent
+  );
 }
 
 .main {

@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { detentsByMode, mergeEffects, modeDetentCounts, skeletonEffects } from './effects';
+import {
+  detentsByMode,
+  mergeEffects,
+  modeDetentCounts,
+  skeletonEffects
+} from './effects';
 import fullEffects from './effects.full.json';
 import { modes } from './commonParams';
 

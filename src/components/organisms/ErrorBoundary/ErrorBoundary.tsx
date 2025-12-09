@@ -35,10 +35,18 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     if (this.state.hasError) {
       return (
         <div className={styles.fallback} role="alert">
-          <div className={styles.title}>{this.props.fallbackTitle ?? 'Something went wrong.'}</div>
-          <div>{this.props.fallbackMessage ?? 'Please reload to continue.'}</div>
+          <div className={styles.title}>
+            {this.props.fallbackTitle ?? 'Something went wrong.'}
+          </div>
+          <div>
+            {this.props.fallbackMessage ?? 'Please reload to continue.'}
+          </div>
           <div className={styles.actions}>
-            <button type="button" className={styles.button} onClick={this.handleReset}>
+            <button
+              type="button"
+              className={styles.button}
+              onClick={this.handleReset}
+            >
               Reload
             </button>
           </div>
