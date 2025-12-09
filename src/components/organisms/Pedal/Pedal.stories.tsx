@@ -75,6 +75,17 @@ export const WithoutCurrentEffect: Story = {
     mode: modes[0],
     detent: 0,
     onModeChange: () => {},
-    onDetentChange: () => {}
+    onDetentChange: () => {},
+    currentEffect: undefined
+  }
+};
+
+export const EmptyState: Story = {
+  args: {
+    mode: modes[0],
+    detent: 0,
+    onModeChange: () => {},
+    onDetentChange: () => {},
+    currentEffect: undefined
   }
 };
