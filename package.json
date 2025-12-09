@@ -12,7 +12,7 @@
     "tauri": "tauri",
     "data:extract": "tsx scripts/extractPdfText.ts",
     "data:build": "pnpm data:extract && tsx scripts/generateEffects.ts",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "storybook dev -p 6006 --no-open",
     "storybook:build": "storybook build"
   },
   "dependencies": {

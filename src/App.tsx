@@ -8,12 +8,14 @@ import useKeyboardShortcuts from './hooks/useKeyboardShortcuts';
 import { buildQaStats } from './utils/effectQa';
 import styles from './App.module.less';
 import ErrorBoundary from './components/organisms/ErrorBoundary/ErrorBoundary';
+import SearchBox from './components/molecules/SearchBox/SearchBox';
 
 // Top-level page wiring: orchestrates data hooks, keyboard shortcuts, and composes the atomic
 // UI blocks (faceplate, detail pane, library panel) so layout remains predictable.
 const App = () => {
   const [searchInput, setSearchInput] = useState<HTMLInputElement | null>(null);
   const [showQa, setShowQa] = useState(false);
+  const [libraryOpen, setLibraryOpen] = useState(false);
 
   const {
     mode,
@@ -66,7 +68,21 @@ const App = () => {
 
           {loadingError && <p className={styles.error}>{loadingError}</p>}
 
-          <section className={styles.contentGrid}>
+          <section className={styles.utilityBar}>
+            <SearchBox
+              value={searchTerm}
+              onChange={setSearchTerm}
+              onFocusedShortcut={setSearchInput}
+            />
+            <div className={styles.instructions}>
+              <span>Drag/scroll knob for detents</span>
+              <span>Arrow keys move detents</span>
+              <span>Numbers 1/2/3 swap modes</span>
+              <span>Click cards to jump</span>
+            </div>
+          </section>
+
+          <section className={styles.faceplateWrap}>
             <Faceplate
               mode={mode}
               detent={currentDetent}
@@ -74,21 +90,47 @@ const App = () => {
               onModeChange={setMode}
               onDetentChange={handleDetentChange}
             />
+          </section>
 
-            <div className={styles.rightStack}>
-              <EffectInfo effect={currentEffect} loading={isLoading} />
-              <LibraryPanel
-                filteredEffects={filteredEffects}
-                mode={mode}
-                currentDetent={currentDetent}
-                searchTerm={searchTerm}
-                onSearchChange={setSearchTerm}
-                onSearchInputRef={setSearchInput}
-                onSelectEffect={jumpToEffect}
-                qaStats={qaStats}
-                showQa={showQa}
-                loading={isLoading}
-              />
+          <section className={styles.infoWrap}>
+            <EffectInfo effect={currentEffect} loading={isLoading} />
+          </section>
+
+          <section className={styles.librarySection}>
+            <div className={styles.libraryHeader}>
+              <div>
+                <p className={styles.libraryTitle}>Library</p>
+                <p className={styles.librarySubtitle}>
+                  {isLoading
+                    ? 'Loading library…'
+                    : `${filteredEffects.length} models match your filter`}
+                </p>
+              </div>
+              <button
+                type="button"
+                className={styles.libraryToggle}
+                aria-expanded={libraryOpen}
+                onClick={() => setLibraryOpen((prev) => !prev)}
+              >
+                {libraryOpen ? 'Hide library' : 'Show library'}
+              </button>
+            </div>
+
+            <div
+              className={`${styles.libraryBody} ${libraryOpen ? styles.libraryBodyOpen : ''}`}
+              aria-hidden={!libraryOpen}
+            >
+              {libraryOpen && (
+                <LibraryPanel
+                  filteredEffects={filteredEffects}
+                  mode={mode}
+                  currentDetent={currentDetent}
+                  onSelectEffect={jumpToEffect}
+                  qaStats={qaStats}
+                  showQa={showQa}
+                  loading={isLoading}
+                />
+              )}
             </div>
           </section>
         </main>

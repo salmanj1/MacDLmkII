@@ -1,6 +1,5 @@
 import type { EffectInfo, Mode } from '../../../data/commonParams';
 import type { QaStats } from '../../../utils/effectQa';
-import SearchBox from '../../molecules/SearchBox/SearchBox';
 import Skeleton from '../../atoms/Skeleton/Skeleton';
 import styles from './LibraryPanel.module.less';
 
@@ -8,9 +7,6 @@ type LibraryPanelProps = {
   filteredEffects: EffectInfo[];
   mode: Mode;
   currentDetent: number;
-  searchTerm: string;
-  onSearchChange: (value: string) => void;
-  onSearchInputRef: (ref: HTMLInputElement | null) => void;
   onSelectEffect: (effect: EffectInfo) => void;
   qaStats: QaStats;
   showQa: boolean;
@@ -18,16 +14,13 @@ type LibraryPanelProps = {
 };
 
 /**
- * Houses the right-column controls: search, QA stats, and the grid of effect cards.
- * Kept separate from the faceplate so the atomic layers stay clear.
+ * Lists the available effects plus optional QA stats.
+ * Separated from the faceplate so the atomic layers stay clear.
  */
 const LibraryPanel = ({
   filteredEffects,
   mode,
   currentDetent,
-  searchTerm,
-  onSearchChange,
-  onSearchInputRef,
   onSelectEffect,
   qaStats,
   showQa,
@@ -35,28 +28,6 @@ const LibraryPanel = ({
 }: LibraryPanelProps) => {
   return (
     <div className={styles.panel}>
-      <div className={styles.headerRow}>
-        <span className={styles.headerTitle}>Library &amp; Search</span>
-        <span className={styles.countPill}>
-          {loading ? 'Loading…' : `${filteredEffects.length} selectable`}
-        </span>
-      </div>
-
-      <div className={styles.searchWrap}>
-        <SearchBox
-          value={searchTerm}
-          onChange={onSearchChange}
-          onFocusedShortcut={onSearchInputRef}
-        />
-      </div>
-
-      <div className={styles.shortcuts}>
-        <span>Drag/scroll knob for detents</span>
-        <span>Arrow keys move detents</span>
-        <span>Numbers 1/2/3 swap modes</span>
-        <span>Click cards to jump</span>
-      </div>
-
       {showQa && (
         <div className={styles.qaCard}>
           <div className={styles.qaHeader}>

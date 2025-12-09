@@ -4,46 +4,14 @@
   border-radius: 1.7rem;
   border: 1px solid fade(#fff, 5%);
   background: @panel;
-  padding: 1.4rem;
+  padding: 1.1rem 1.2rem 1.4rem;
   box-shadow: @shadowPanel;
   backdrop-filter: blur(12px);
   color: @textSecondary;
 }
 
-.headerRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  font-size: 0.95rem;
-  color: @textSecondary;
-}
-
-.headerTitle {
-  font-weight: 700;
-  color: @textPrimary;
-}
-
-.countPill {
-  border-radius: 9999px;
-  background: fade(@textPrimary, 6%);
-  padding: 0.45rem 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: 0.75rem;
-}
-
-.shortcuts {
-  margin-top: 0.75rem;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 0.4rem;
-  font-size: 0.85rem;
-  color: @textMuted;
-}
-
 .qaCard {
-  margin-top: 1rem;
+  margin-top: 0.25rem;
   border-radius: 1rem;
   border: 1px solid fade(@glow, 30%);
   background: fade(@glow, 6%);
@@ -82,7 +50,7 @@
 }
 
 .listGrid {
-  margin-top: 1rem;
+  margin-top: 1.15rem;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 0.65rem;
@@ -153,8 +121,4 @@
   padding: 0.25rem 0.6rem;
   font-size: 0.75rem;
   font-weight: 700;
-}
-
-.searchWrap {
-  margin-top: 1rem;
 }
