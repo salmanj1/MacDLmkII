@@ -1,36 +1,25 @@
 import Pill from '../../atoms/Pill/Pill';
 import styles from './HeroHeader.module.less';
 
-type HeroHeaderProps = {
-  showQa: boolean;
-  onToggleQa: () => void;
-};
-
 /**
- * Top-of-page messaging plus QA toggle control. Keeps copy and metadata grouped so
- * the rest of the layout can focus purely on the pedal visualization.
+ * Top-of-page messaging that sets the vibe before the faceplate takes over.
  */
-const HeroHeader = ({ showQa, onToggleQa }: HeroHeaderProps) => {
+const HeroHeader = () => {
   return (
     <header className={styles.header}>
       <div className={styles.copy}>
         <div className={styles.pillRow}>
-          <Pill tone="glow">DL4 MkII Brain</Pill>
-          <Pill tone="inverse">Pedal faceplate view</Pill>
+          <Pill tone="glow">DL4 MKII BRAIN</Pill>
+          <Pill tone="inverse">PEDAL FACEPLATE VIEW</Pill>
         </div>
         <h1 className={styles.title}>
           Twist the selector, stomp the row — just like the green box.
         </h1>
         <p className={styles.lede}>
-          This layout mimics the DL4 MkII faceplate: left cluster for the model
-          selector knob, center light strip for feedback, and a four-switch rail
-          at the bottom. Use search and QA on the right without losing the pedal
-          vibe.
+          The faceplate leads the page so the pedal stays front-and-center. Below
+          it you get the details, and the library tucks away until you need it.
         </p>
       </div>
-      <button type="button" onClick={onToggleQa} className={styles.qaButton}>
-        {showQa ? 'Hide data QA' : 'Show data QA'}
-      </button>
     </header>
   );
 };

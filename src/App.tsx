@@ -61,10 +61,7 @@ const App = () => {
         </div>
 
         <main className={styles.main}>
-          <HeroHeader
-            showQa={showQa}
-            onToggleQa={() => setShowQa((prev) => !prev)}
-          />
+          <HeroHeader />
 
           {loadingError && <p className={styles.error}>{loadingError}</p>}
 
@@ -106,14 +103,24 @@ const App = () => {
                     : `${filteredEffects.length} models match your filter`}
                 </p>
               </div>
-              <button
-                type="button"
-                className={styles.libraryToggle}
-                aria-expanded={libraryOpen}
-                onClick={() => setLibraryOpen((prev) => !prev)}
-              >
-                {libraryOpen ? 'Hide library' : 'Show library'}
-              </button>
+              <div className={styles.libraryActions}>
+                <button
+                  type="button"
+                  className={`${styles.libraryToggle} ${styles.qaToggle}`}
+                  aria-pressed={showQa}
+                  onClick={() => setShowQa((prev) => !prev)}
+                >
+                  {showQa ? 'Hide Data QA' : 'Show Data QA'}
+                </button>
+                <button
+                  type="button"
+                  className={styles.libraryToggle}
+                  aria-expanded={libraryOpen}
+                  onClick={() => setLibraryOpen((prev) => !prev)}
+                >
+                  {libraryOpen ? 'Hide library' : 'Show library'}
+                </button>
+              </div>
             </div>
 
             <div
