@@ -656,19 +656,19 @@
     "detent": 15,
     "selectorIndex": 15,
     "model": "LOOPER",
-    "inspiration": "Control - MIDI CC Messages CC Value Function 9 0-63: Off 64-127: On Classic Looper Mode On/Off 60 0-63: Overdub 64-127: Record Record/Overdub 61 0-63: Stop; 64-127: Play Play/Stop 62 64-127 Play Once 63 0-63: Undo; 64-127: Retdo Undo/Redo the most recent overdub recording 65 0-63: Forward 64-127: Reverse Forward/Reverse 66 0-63: Full; 64-127: Half Full Speed/Half Speed TIP: You can also utilize MIDI CCs to control the Classic Looper’s built-in Echo parameters while in Classic Looper mode—see the table within \"Controlling Parameters\" on page 51 .",
-    "description": "=== PAGE 54 ===\n\n54 Additional Resources Product Specifications DL4 MkII Specifications Delays 30 Reverbs 15 Looper Yes, with both a 4-Switch and 1-Switch Looper user interface Mono/Stereo Mono or stereo input and output USB USB-C port - for potential future firmware updates and USB MIDI control via computer SD Card 1 x microSD card slot - for expanded Looper memory Audio Inputs 2 x 1/4\" unbalanced Left (mono) and Right, Instrument level, Impedance = 1 MΩ, Max input level = +11.25 dBu (8Vpp) 1 x XLR Mic In, with preamp Audio Outputs 2 x 1/4\" unbalanced Left (mono) and Right, Instrument level, Impedance = 100 Ohms MIDI MIDI 5-pin IN and OUT/THRU USB MIDI In and OUT/THRU - for use via computer applications Power Requirements 9VDC, 500mA, center pin negative, 2.1 mm. It is recommended to use the included power adapter Dimensions (H x W x D) 2 x 9.25 x 4.5 inches / 5.1 x 23.5 x 11.4 cm Weight 2.03 lbs. / .92 kg All specifications subject to change. Online Resources Looking for more info? We’ve got plenty of online resources, just a click away: • See our DL4 MkII tutorial videos at line6.com/meet-dl4mkii . • Download additional Help documentation covering DL4 MkII and all other Line 6 gear at Line 6 Product Manuals • Check out the Line 6 Support page for access to helpful tips, videos, discussion forums, or to contact Line 6 Technical Support • Can’t get enough Line 6 Gear & accessories? Head on over to the Line 6 Store\n\n=== PAGE 55 ===\n\n®",
+    "inspiration": "Classic Looper transport with MIDI CC control.",
+    "description": "Four-switch Classic Looper that can be fully controlled via MIDI CCs.",
     "tweak": {
-      "label": "N/A",
-      "behaviorCCW": "Not applicable",
-      "behaviorCW": "Not applicable"
+      "label": "Transport via MIDI",
+      "behaviorCCW": "Use CCs 60–66 to control transport (overdub/record/play/undo/speed)",
+      "behaviorCW": "Use CCs 60–66 to control transport (overdub/record/play/undo/speed)"
     },
     "tweez": {
-      "label": "N/A",
-      "behaviorCCW": "Not applicable",
-      "behaviorCW": "Not applicable"
+      "label": "Looper Mode",
+      "behaviorCCW": "CC 9: 0–63 disables Classic Looper mode",
+      "behaviorCW": "CC 9: 64–127 enables Classic Looper mode"
     },
-    "rangeNote": "See manual for parameter ranges.",
+    "rangeNote": "MIDI CCs: 9 toggle Looper mode; 60 overdub/record; 61 stop/play; 62 play once; 63 undo/redo; 65 forward/reverse; 66 full/half speed. Echo params also controllable via CCs (see manual).",
     "notes": []
   },
   {
