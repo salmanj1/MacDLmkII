@@ -46,16 +46,80 @@ export const InteractivePedal: Story = {
     );
 
     return (
-      <Pedal
-        mode={mode}
-        detent={detent}
-        currentEffect={currentEffect}
-        onModeChange={(next) => {
-          setMode(next);
-          setDetent(0);
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '2fr 1fr',
+          gap: '1.25rem',
+          alignItems: 'start'
         }}
-        onDetentChange={setDetent}
-      />
+      >
+        <Pedal
+          mode={mode}
+          detent={detent}
+          currentEffect={currentEffect}
+          onModeChange={(next) => {
+            setMode(next);
+            setDetent(0);
+          }}
+          onDetentChange={setDetent}
+        />
+
+        <div
+          style={{
+            padding: '1rem',
+            borderRadius: '0.75rem',
+            background: 'rgba(15, 23, 42, 0.85)',
+            border: '1px solid rgba(148, 163, 184, 0.35)',
+            color: '#e2e8f0',
+            boxShadow: '0 12px 32px rgba(0,0,0,0.35)',
+            position: 'sticky',
+            top: '1.5rem'
+          }}
+        >
+          <div style={{ fontWeight: 800, fontSize: '1.05rem' }}>
+            {currentEffect?.model ?? 'Select a model'}
+          </div>
+          <div style={{ color: '#cbd5e1', marginTop: '0.25rem' }}>
+            {currentEffect?.description ?? 'Use the selector to browse detents.'}
+          </div>
+          <div
+            style={{
+              marginTop: '0.75rem',
+              display: 'grid',
+              gap: '0.35rem',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(10rem, 1fr))'
+            }}
+          >
+            <div>
+              <div style={{ color: '#94a3b8', fontSize: '0.8rem' }}>Mode</div>
+              <div style={{ fontWeight: 700 }}>{mode}</div>
+            </div>
+            <div>
+              <div style={{ color: '#94a3b8', fontSize: '0.8rem' }}>Detent</div>
+              <div style={{ fontWeight: 700 }}>
+                {detent + 1} / {effectsByMode[mode].length}
+              </div>
+            </div>
+            {currentEffect?.inspiration ? (
+              <div>
+                <div style={{ color: '#94a3b8', fontSize: '0.8rem' }}>Inspiration</div>
+                <div style={{ fontWeight: 700 }}>{currentEffect.inspiration}</div>
+              </div>
+            ) : null}
+          </div>
+          {currentEffect ? (
+            <div style={{ marginTop: '0.75rem', display: 'grid', gap: '0.35rem' }}>
+              <div style={{ color: '#94a3b8', fontSize: '0.8rem' }}>Controls</div>
+              <div style={{ fontWeight: 700 }}>Tweak: {currentEffect.tweak.label}</div>
+              <div style={{ fontWeight: 700 }}>Tweez: {currentEffect.tweez.label}</div>
+              {currentEffect.rangeNote ? (
+                <div style={{ color: '#cbd5e1' }}>{currentEffect.rangeNote}</div>
+              ) : null}
+            </div>
+          ) : null}
+        </div>
+      </div>
     );
   }
 };

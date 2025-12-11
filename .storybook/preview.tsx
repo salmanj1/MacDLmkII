@@ -32,6 +32,12 @@ const preview: Preview = {
         color: /(background|color)$/i,
         date: /Date$/
       }
+    },
+    docs: {
+      description: {
+        component:
+          'Stories render with real DL4 MkII metadata from effects.full.json when available and fall back to skeleton data. Use the mode toggle to see hardware-accurate colors (MkII white, Legacy green, Secret Reverb orange).'
+      }
     }
   },
   decorators: [DataNotice]
