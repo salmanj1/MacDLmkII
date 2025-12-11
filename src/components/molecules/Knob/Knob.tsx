@@ -21,9 +21,27 @@ const Knob = ({ mode, detent, onDetentChange }: KnobProps) => {
   const [isDragging, setIsDragging] = useState(false);
 
   const detents = detentsByMode[mode];
+  // Keep the hardware-referenced detent (Looper / Reverb Off) sitting at 6 o'clock.
+  const anchorIndex = detents.findIndex((entry) =>
+    /looper|reverb off/i.test(entry.label)
+  );
+  const step = 360 / detents.length;
+  const baseAngle = anchorIndex >= 0 ? 180 - step * anchorIndex : -90;
+  const accent =
+    mode === 'Legacy Delay'
+      ? '#52ff6c'
+      : mode === 'Secret Reverb'
+        ? '#ffb347'
+        : '#f1f5f9';
+  const accentRgb =
+    mode === 'Legacy Delay'
+      ? '82, 255, 108'
+      : mode === 'Secret Reverb'
+        ? '255, 179, 71'
+        : '241, 245, 249';
   const angleForIndex = (index: number) => {
-    if (detents.length <= 1) return -135;
-    return index * (270 / (detents.length - 1)) - 135;
+    if (detents.length <= 1) return -90;
+    return baseAngle + step * index;
   };
 
   const indicatorAngle = angleForIndex(detent);
@@ -130,7 +148,7 @@ const Knob = ({ mode, detent, onDetentChange }: KnobProps) => {
           key={entry.label}
           className={styles.labelAnchor}
           style={{
-            transform: `translate(-50%, -50%) rotate(${angle}deg) translateY(-6.2rem) rotate(${-angle}deg)`
+            transform: `translate(-50%, -50%) rotate(${angle}deg) translateY(-6.6rem) rotate(${-angle}deg)`
           }}
         >
           <span
@@ -149,7 +167,17 @@ const Knob = ({ mode, detent, onDetentChange }: KnobProps) => {
   const detentMeta = detents[detent];
 
   return (
-    <div className={styles.wrapper}>
+    <div
+      className={styles.wrapper}
+      style={
+        {
+          '--knob-accent': accent,
+          '--knob-accent-rgb': accentRgb,
+          '--knob-label-color': accent,
+          '--knob-label-color-active': accent
+        } as React.CSSProperties
+      }
+    >
       <div className={styles.dialFrame}>
         <div className={styles.labelsLayer}>{renderLabels()}</div>
 

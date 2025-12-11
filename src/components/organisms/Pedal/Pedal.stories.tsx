@@ -3,35 +3,32 @@ import { useMemo, useState } from 'react';
 import Pedal from './Pedal';
 import type { EffectInfo, Mode } from '../../../data/commonParams';
 import { modes } from '../../../data/commonParams';
+import fullEffects from '../../../data/effects.full.json';
+import { mergeEffects } from '../../../data/effects';
 
-const baseEffect: EffectInfo = {
-  id: 'pedal-demo',
-  mode: 'MkII Delay',
-  detent: 0,
-  selectorIndex: 0,
-  model: 'Vintage Digital',
-  inspiration: '90s rack units',
-  description: 'Bright, precise repeats with gentle high-end roll-off.',
-  tweak: {
-    label: 'Mod Rate',
-    behaviorCCW: 'Slows modulation',
-    behaviorCW: 'Speeds modulation'
-  },
-  tweez: {
-    label: 'Mod Depth',
-    behaviorCCW: 'Light wobble',
-    behaviorCW: 'Deep wobble'
-  },
-  rangeNote: 'Bit Depth 6–24 bit; Sample Rate 8–48 kHz; modulation depth via Tweez.',
-  tweakRange: 'Bit Depth 6–24 bit; Sample Rate 8–48 kHz.',
-  tweezRange: 'Modulation depth via Tweez.',
-  notes: ['Tap tempo friendly', 'Keeps articulation intact']
-};
+const merged = mergeEffects(fullEffects);
+const effectsByMode = modes.reduce<Record<Mode, EffectInfo[]>>(
+  (acc, mode) => ({
+    ...acc,
+    [mode]: merged.filter((effect) => effect.mode === mode)
+  }),
+  {
+    'MkII Delay': [],
+    'Legacy Delay': [],
+    'Secret Reverb': []
+  }
+);
+
+const getEffect = (mode: Mode, detent: number) =>
+  effectsByMode[mode].find((effect) => effect.detent === detent);
 
 const meta: Meta<typeof Pedal> = {
   title: 'Organisms/Pedal',
   component: Pedal,
-  tags: ['autodocs']
+  tags: ['autodocs'],
+  parameters: {
+    controls: { hideNoControlsWarning: true }
+  }
 };
 
 export default meta;
@@ -41,19 +38,12 @@ type Story = StoryObj<typeof Pedal>;
 export const InteractivePedal: Story = {
   render: () => {
     const [mode, setMode] = useState<Mode>(modes[0]);
-    const [detent, setDetent] = useState(1);
+    const [detent, setDetent] = useState(0);
 
-    const currentEffect = useMemo<EffectInfo>(() => {
-      const label = `Model ${detent + 1}`;
-      return {
-        ...baseEffect,
-        mode,
-        detent,
-        selectorIndex: detent,
-        model: `${baseEffect.model} ${detent + 1}`,
-        inspiration: `${baseEffect.inspiration} (${label})`
-      };
-    }, [detent, mode]);
+    const currentEffect = useMemo<EffectInfo | undefined>(
+      () => getEffect(mode, detent),
+      [mode, detent]
+    );
 
     return (
       <Pedal
