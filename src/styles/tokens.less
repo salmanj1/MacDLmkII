@@ -1,15 +1,30 @@
 // Centralized design tokens so every atomic layer pulls from the same palette.
-@glow: #b7ff38;
-@glowSoft: rgba(190, 242, 100, 0.18);
-@panel: rgba(15, 23, 42, 0.7);
-@panelSoft: rgba(15, 23, 42, 0.55);
-@panelGlass: rgba(15, 23, 42, 0.6);
-@bgDark: #050805;
-@textPrimary: #f8fafc;
-@textSecondary: #cbd5e1;
-@textMuted: #94a3b8;
+// The palette mirrors the DL4 MkII hardware: deep green base, warm yellow/orange accents,
+// and crisp off-white text.
+// Base hardware palette mirrored from DL4 MkII screenprint.
+@glow: #41a25f; // DL4 green
+@glowSoft: rgba(65, 162, 95, 0.2);
+@glowDeep: #1e5633;
+@accentWarm: #f6b027; // DL4 yellow/orange
+@accentWarmSoft: rgba(246, 176, 39, 0.2);
+@accentAmber: #f28f1b;
+@accentShadow: rgba(19, 10, 0, 0.5);
+
+@panel: rgba(5, 22, 12, 0.9);
+@panelSoft: rgba(6, 24, 14, 0.68);
+@panelGlass: rgba(6, 22, 12, 0.78);
+@bgDark: #010b06;
+@bgDeep: #06160d;
+@bgRibbon: linear-gradient(180deg, #1c4c2b, #0c2a18 68%, #07150d 100%);
+@badgeGradient: linear-gradient(180deg, fade(@accentWarm, 95%), fade(@accentAmber, 85%));
+
+@textPrimary: #f5fbef;
+@textSecondary: #d3e4cf;
+@textMuted: #9fb9a3;
+
 @borderSoft: rgba(255, 255, 255, 0.12);
 @borderSofter: rgba(255, 255, 255, 0.08);
 @borderDark: rgba(0, 0, 0, 0.5);
-@shadowGlow: 0 0 18px rgba(190, 242, 100, 0.3);
-@shadowPanel: 0 28px 48px rgba(0, 0, 0, 0.4);
+
+@shadowGlow: 0 0 18px rgba(65, 162, 95, 0.32);
+@shadowPanel: 0 28px 48px rgba(0, 0, 0, 0.42);

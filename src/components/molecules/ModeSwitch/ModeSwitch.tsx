@@ -1,24 +1,25 @@
 import type { Mode } from '../../../data/commonParams';
-import { modes } from '../../../data/commonParams';
 import styles from './ModeSwitch.module.less';
 
 type ModeSwitchProps = {
   value: Mode;
   onChange: (mode: Mode) => void;
+  options?: Mode[];
 };
 
 /**
  * Radio-style control for swapping between modeling modes. Presented as a pill row
  * so the selector mirrors the hardware toggle while staying keyboard accessible.
  */
-const ModeSwitch = ({ value, onChange }: ModeSwitchProps) => {
+const ModeSwitch = ({ value, onChange, options }: ModeSwitchProps) => {
+  const choices = options && options.length ? options : (['MkII Delay', 'Legacy Delay', 'Secret Reverb'] as Mode[]);
   return (
     <div
       className={styles.switchGroup}
       role="radiogroup"
       aria-label="Mode selector"
     >
-      {modes.map((mode) => {
+      {choices.map((mode) => {
         const isActive = value === mode;
         return (
           <button

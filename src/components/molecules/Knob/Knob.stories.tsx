@@ -41,11 +41,24 @@ export const DetentSelector: Story = {
     );
 
     const [mode, setMode] = useState<Mode>(modes[0]);
-    const [detent, setDetent] = useState(0);
+    const [detentByMode, setDetentByMode] = useState<Record<Mode, number>>({
+      'MkII Delay': 0,
+      'Legacy Delay': 0,
+      'Secret Reverb': 0
+    });
+
+    const detent = detentByMode[mode];
 
     const currentEffect = effectsByMode[mode].find(
       (effect) => effect.detent === detent
     );
+
+    const handleDetentChange = (next: number) => {
+      setDetentByMode((prev) => ({
+        ...prev,
+        [mode]: next
+      }));
+    };
 
     return (
       <div
@@ -58,11 +71,13 @@ export const DetentSelector: Story = {
           textAlign: 'center'
         }}
       >
-        <ModeSwitch value={mode} onChange={(next) => {
-          setMode(next);
-          setDetent(0);
-        }} />
-        <Knob mode={mode} detent={detent} onDetentChange={setDetent} />
+        <ModeSwitch
+          value={mode}
+          onChange={(next) => {
+            setMode(next);
+          }}
+        />
+        <Knob mode={mode} detent={detent} onDetentChange={handleDetentChange} />
         <div
           style={{
             width: '100%',

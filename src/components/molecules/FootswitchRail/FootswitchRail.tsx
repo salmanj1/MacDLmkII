@@ -1,7 +1,18 @@
 import styles from './FootswitchRail.module.less';
 
+type FootswitchStatus = 'off' | 'on' | 'dim' | 'armed';
+
+type FootswitchConfig = {
+  id: string;
+  label: string;
+  hint: string;
+  status?: FootswitchStatus;
+  onPress?: (id: string) => void;
+};
+
 type FootswitchRailProps = {
-  switches: { label: string; hint: string }[];
+  switches: FootswitchConfig[];
+  positions?: { left: string; top: string }[];
 };
 
 /**
@@ -9,25 +20,30 @@ type FootswitchRailProps = {
  * The data driven approach keeps the component small and reusable while leaving room
  * for future interactive behavior if needed.
  */
-const FootswitchRail = ({ switches }: FootswitchRailProps) => {
+const FootswitchRail = ({ switches, positions }: FootswitchRailProps) => {
   return (
     <div className={styles.rail}>
-      <div className={styles.railHeader}>
-        <span>Footswitch Rail</span>
-        <span className={styles.railBadge}>Visual only</span>
-      </div>
-      <div className={styles.grid}>
-        {switches.map((sw) => (
-          <div key={sw.label} className={styles.cell}>
-            <button
-              type="button"
-              className={styles.footswitch}
-              aria-label={`${sw.label} footswitch`}
-            />
-            <span className={styles.label}>{sw.label}</span>
-            <span className={styles.hint}>{sw.hint}</span>
-          </div>
-        ))}
+      <div className={`${styles.grid} ${positions ? styles.gridAbsolute : ''}`}>
+        {switches.map((sw, idx) => {
+          const status = sw.status ?? 'off';
+          const pos = positions?.[idx];
+          return (
+            <div
+              key={sw.label}
+              className={`${styles.cell} ${pos ? styles.cellAbsolute : ''}`}
+              style={pos ? { left: pos.left, top: pos.top } : undefined}
+            >
+              <button
+                type="button"
+                className={`${styles.footswitch} ${styles[`status_${status}`] ?? ''}`}
+                aria-label={`${sw.label} footswitch`}
+                onClick={() => sw.onPress?.(sw.id)}
+              />
+              <span className={styles.label}>{sw.label}</span>
+              {sw.hint && <span className={styles.hint}>{sw.hint}</span>}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

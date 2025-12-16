@@ -6,9 +6,9 @@
     "selectorIndex": 0,
     "model": "VINTAGE DIGITAL",
     "inspiration": "Line 6 original early-digital rack flavor.",
-    "description": "Lo-fi early-80s digital voice with adjustable bit depth and sample rate; add modulation for gritty, chorused repeats.",
+    "description": "Lo-fi early-80s digital delay with adjustable bit depth and sample rate; add modulation for gritty, chorused repeats.",
     "tweak": {
-      "label": "Bit Depth & Sample Rate",
+      "label": "Bit Depth and Sample Rate",
       "behaviorCCW": "Lower Bit Depth & Sample Rate",
       "behaviorCW": "Higher Bit Depth & Sample Rate"
     },
@@ -17,7 +17,7 @@
       "behaviorCCW": "Lower Mod Depth",
       "behaviorCW": "Higher Mod Depth"
     },
-    "rangeNote": "Bit Depth 6–24 bit; Sample Rate 8–48 kHz; modulation depth via TWEEZ.",
+    "rangeNote": "Bit depth and sample rate; modulation depth on Tweez.",
     "notes": []
   },
   {
@@ -27,18 +27,18 @@
     "selectorIndex": 1,
     "model": "CRISSCROSS",
     "inspiration": "Line 6 original dual digital crossfeed.",
-    "description": "Two gritty digital lines panned left/right with independent time for the B line; Crossfeed blends the lines for swirling center wash.",
+    "description": "Two gritty digital lines with independent time and crossfeed for swirling center image.",
     "tweak": {
       "label": "Delay Time B",
-      "behaviorCCW": "Shorter Delay B time / tighter echoes",
-      "behaviorCW": "Longer Delay B time / spaced echoes"
+      "behaviorCCW": "Lower Delay Time B",
+      "behaviorCW": "Higher Delay Time B"
     },
     "tweez": {
-      "label": "Crossfeed Amount",
-      "behaviorCCW": "No crossfeed (discrete L/R)",
-      "behaviorCW": "Heavy crossfeed and smeared center image"
+      "label": "Cross Amount",
+      "behaviorCCW": "Lower Cross Amount",
+      "behaviorCW": "Higher Cross Amount"
     },
-    "rangeNote": "Set Delay A time with TIME or note divisions; TWEAK sets Delay B time.",
+    "rangeNote": "Sets delay time B and crossfeed amount.",
     "notes": []
   },
   {
@@ -48,18 +48,18 @@
     "selectorIndex": 2,
     "model": "EUCLIDEAN",
     "inspiration": "Line 6 original Euclidean rhythm delay.",
-    "description": "Eight-step Euclidean sequence that evenly places repeats; rotate shifts the pattern forward while repeats set total cycles.",
+    "description": "Euclidean step-fill rhythmic delay; rotate steps for pattern shifts.",
     "tweak": {
       "label": "Step Fill",
-      "behaviorCCW": "Fewer fills across 8 steps",
-      "behaviorCW": "More fills until every step fires"
+      "behaviorCCW": "Lower Step Fill",
+      "behaviorCW": "Higher Step Fill"
     },
     "tweez": {
       "label": "Rotate",
-      "behaviorCCW": "Pattern starts at original position",
-      "behaviorCW": "Pattern rotated forward through the steps"
+      "behaviorCCW": "Lower Rotate",
+      "behaviorCW": "Higher Rotate"
     },
-    "rangeNote": "Step Fill 1-8; Rotate offsets the filled steps within the 8-step grid.",
+    "rangeNote": "Adjusts step fill and rotation.",
     "notes": []
   },
   {
@@ -69,249 +69,249 @@
     "selectorIndex": 3,
     "model": "DUAL DELAY",
     "inspiration": "Line 6 original dual discrete stereo delay.",
-    "description": "Two fully independent L/R delays—TIME sets left, TWEAK sets right; TWEEZ sets right feedback for true dual paths.",
+    "description": "Independent left/right delays; right time and feedback set on Tweak/Tweez.",
     "tweak": {
-      "label": "Delay Time B",
-      "behaviorCCW": "Shorter right delay time",
-      "behaviorCW": "Longer right delay time"
+      "label": "Right Delay Time",
+      "behaviorCCW": "Lower Right Delay Time",
+      "behaviorCW": "Higher Right Delay Time"
     },
     "tweez": {
-      "label": "Feedback B",
-      "behaviorCCW": "Fewer right repeats",
-      "behaviorCW": "More right repeats"
+      "label": "Right Feedback",
+      "behaviorCCW": "Lower Right Feedback",
+      "behaviorCW": "Higher Right Feedback"
     },
-    "rangeNote": "Left time via TIME/SUBDIV (with note divisions). Right time can also use note divisions; right repeats via TWEEZ.",
-    "notes": []
-  },
-  {
-    "id": "mkii_harmony",
-    "mode": "MkII Delay",
-    "detent": 4,
-    "selectorIndex": 4,
-    "model": "HARMONY",
-    "inspiration": "Line 6 original triad harmony delay.",
-    "description": "Intelligent triad repeats that follow your key; pick a key then choose one of eight pitch modes for arpeggiated cascades.",
-    "tweak": {
-      "label": "Key",
-      "behaviorCCW": "Keys A through G# (chromatic) low to high",
-      "behaviorCW": "Keys A through G# (chromatic) low to high"
-    },
-    "tweez": {
-      "label": "Harmony Interval",
-      "behaviorCCW": "Lower-numbered pitch mode (1)",
-      "behaviorCW": "Higher-numbered pitch mode (8)"
-    },
-    "rangeNote": "Key: A–G#. Pitch Modes: 1) 1,3,5 maj 2) 1,3,5 min 3) 1,2,3 maj 4) 1,2,3 min 5) 1,-8,+8 6) 1,5,8 maj 7) 1,-3,+3 maj 8) 1,-3,+3 min.",
-    "notes": []
-  },
-  {
-    "id": "mkii_transistor_tape",
-    "mode": "MkII Delay",
-    "detent": 5,
-    "selectorIndex": 5,
-    "model": "TRANSISTOR TAPE",
-    "inspiration": "Based on the Maestro EP-3 solid-state Echoplex.",
-    "description": "Solid-state Echoplex flavor with tape saturation; lower headroom adds grit, while wow & flutter plus darker tone live on TWEEZ.",
-    "tweak": {
-      "label": "Headroom",
-      "behaviorCCW": "Lower headroom / more saturation and compression",
-      "behaviorCW": "Higher headroom / cleaner repeats"
-    },
-    "tweez": {
-      "label": "Wow & Flutter / Tone",
-      "behaviorCCW": "Tighter repeats with more top end",
-      "behaviorCW": "More wobble and darker, aged tape tone"
-    },
-    "rangeNote": "Headroom roughly -15.2dB to +8.8dB; wow/flutter increases as tone darkens toward max.",
-    "notes": ["Classic EP-3 style preamp feel with tape wobble."]
-  },
-  {
-    "id": "mkii_lcdigital",
-    "mode": "MkII Delay",
-    "detent": 6,
-    "selectorIndex": 6,
-    "model": "LC DIGITAL",
-    "inspiration": "Line 6 original “low color” hi-fi digital.",
-    "description": "Pristine, low-color digital delay with optional chorus; great for crystal-clear repeats that can be gently animated.",
-    "tweak": {
-      "label": "Mod Rate",
-      "behaviorCCW": "Slower modulation rate",
-      "behaviorCW": "Faster modulation rate"
-    },
-    "tweez": {
-      "label": "Mod Depth",
-      "behaviorCCW": "Shallow modulation depth",
-      "behaviorCW": "Deeper modulation swirl"
-    },
-    "rangeNote": "Clean digital voice with modulation available via TWEAK/TWEEZ.",
-    "notes": []
-  },
-  {
-    "id": "mkii_glitch",
-    "mode": "MkII Delay",
-    "detent": 7,
-    "selectorIndex": 7,
-    "model": "GLITCH",
-    "inspiration": "A Line 6 original.",
-    "description": "Slices incoming audio and sequences the pieces with octaves, reverse, and randomization for instrument-like chaos.",
-    "tweak": {
-      "label": "Glitch Amount",
-      "behaviorCCW": "No/rare octave jumps",
-      "behaviorCW": "Heavy low/high octave injection"
-    },
-    "tweez": {
-      "label": "Time Randomness",
-      "behaviorCCW": "Minimal slice feedback/drift/shuffle",
-      "behaviorCW": "Max slice feedback, frequent drift and shuffle"
-    },
-    "rangeNote": "REPEATS sets overall repeats; TWEEZ simultaneously increases slice feedback, sequence drift, and shuffle probability.",
-    "notes": []
-  },
-  {
-    "id": "mkii_sweep_echo",
-    "mode": "MkII Delay",
-    "detent": 8,
-    "selectorIndex": 8,
-    "model": "SWEEP ECHO",
-    "inspiration": "Line 6 original swept-filter delay.",
-    "description": "Delay line that runs through a moving filter; sweep position and resonance determine how pronounced the sweep gets.",
-    "tweak": {
-      "label": "Filter Position",
-      "behaviorCCW": "Lower filter position (darker sweep)",
-      "behaviorCW": "Higher filter position (brighter sweep)"
-    },
-    "tweez": {
-      "label": "Filter Resonance",
-      "behaviorCCW": "Lower resonance / softer sweep",
-      "behaviorCW": "Higher resonance / sharper peaks"
-    },
-    "rangeNote": "Pairs well with moderate REPEATS for synthy movement.",
+    "rangeNote": "Left on TIME; right time and feedback here.",
     "notes": []
   },
   {
     "id": "mkii_pitch_echo",
     "mode": "MkII Delay",
-    "detent": 9,
-    "selectorIndex": 9,
+    "detent": 4,
+    "selectorIndex": 4,
     "model": "PITCH ECHO",
     "inspiration": "Line 6 original pitch-shifting delay.",
-    "description": "Each repeat is pitch-shifted by interval and cents for cascading rises or falls; Mix lets you balance pitch vs. straight delay.",
+    "description": "Delay with pitch-shifted repeats; interval (-13 to +13 semitones) and fine cents.",
     "tweak": {
-      "label": "Pitch",
-      "behaviorCCW": "Lower/semitone-down intervals",
-      "behaviorCW": "Higher/semitone-up intervals"
+      "label": "Pitch Interval (-13 to +13 semitones)",
+      "behaviorCCW": "Lower Pitch Interval",
+      "behaviorCW": "Higher Pitch Interval"
     },
     "tweez": {
-      "label": "Mix (Pitch/Delay)",
-      "behaviorCCW": "More dry delay vs. pitched voice",
-      "behaviorCW": "Mostly pitched repeats"
+      "label": "Pitch Cents (-50 to +50 cents)",
+      "behaviorCCW": "Lower Pitch Cents",
+      "behaviorCW": "Higher Pitch Cents"
     },
     "rangeNote": "Interval -13 to +13 semitones; cents -50 to +50.",
     "notes": []
   },
   {
-    "id": "mkii_reverse",
+    "id": "mkii_adt",
     "mode": "MkII Delay",
-    "detent": 10,
-    "selectorIndex": 10,
-    "model": "REVERSE",
-    "inspiration": "Line 6 original reverse delay.",
-    "description": "Plays your phrases back backward; set MIX wet for pure reverse or blend for ghosted trails with modulation.",
+    "detent": 5,
+    "selectorIndex": 5,
+    "model": "ADT",
+    "inspiration": "Line 6 Automatic Double-Tracking.",
+    "description": "Automatic double-tracking with two virtual tape decks; MIX blends decks; TIME adds 0\u2013200 ms to Deck 2; REPEATS = wow & flutter; TWEAK = saturation & distortion; TWEEZ = modulation depth.",
     "tweak": {
-      "label": "Reverse Level",
-      "behaviorCCW": "Slower modulation speed (≈0.05 Hz)",
-      "behaviorCW": "Faster modulation speed (≈9.40 Hz)"
+      "label": "Distortion",
+      "behaviorCCW": "Lower Distortion",
+      "behaviorCW": "Higher Distortion"
     },
     "tweez": {
-      "label": "Forward Level",
-      "behaviorCCW": "Shallow modulation depth (0%)",
-      "behaviorCW": "Deep modulation depth (100%)"
+      "label": "Deck 2 Mod Depth",
+      "behaviorCCW": "Lower Deck 2 Mod Depth",
+      "behaviorCW": "Higher Deck 2 Mod Depth"
     },
-    "rangeNote": "Delay time via TIME/SUBDIV; modulation speed ~0.05–9.4 Hz, depth 0–100%.",
+    "rangeNote": "Tape saturation/distortion and modulation depth.",
     "notes": []
   },
   {
-    "id": "mkii_drum",
+    "id": "mkii_ducked",
     "mode": "MkII Delay",
-    "detent": 11,
-    "selectorIndex": 11,
-    "model": "DRUM",
-    "inspiration": "Inspired by multi-head magnetic drum echoes (Echorec style).",
-    "description": "Magnetic drum echo with selectable virtual heads and natural drift; dial in head selection and amount of mechanical wander.",
+    "detent": 6,
+    "selectorIndex": 6,
+    "model": "DUCKED",
+    "inspiration": "Line 6 ducking delay.",
+    "description": "TC 2290-style dynamic delay; TWEAK sets threshold; TWEEZ sets attack/release speed for ducking; repeats mute while playing and rise when you pause.",
     "tweak": {
-      "label": "Head Select",
-      "behaviorCCW": "Lower head index / shorter path",
-      "behaviorCW": "Higher head index / longer path"
+      "label": "Threshold",
+      "behaviorCCW": "Lower Threshold",
+      "behaviorCW": "Higher Threshold"
     },
     "tweez": {
-      "label": "Head Drift",
-      "behaviorCCW": "Stable heads with little drift",
-      "behaviorCW": "More head drift and wobble"
+      "label": "Ducking Amount",
+      "behaviorCCW": "Lower Attack/Release Speed",
+      "behaviorCW": "Higher Attack/Release Speed"
     },
-    "rangeNote": "Head Select picks virtual playback head; drift introduces off-speed character.",
+    "rangeNote": "Threshold and ducking attack/release speed.",
     "notes": []
   },
   {
-    "id": "mkii_adriatic_delay",
+    "id": "mkii_harmony",
     "mode": "MkII Delay",
-    "detent": 12,
-    "selectorIndex": 12,
-    "model": "ADRIATIC DELAY",
-    "inspiration": "Based on a Ben Adrian–modded Boss DM-2 analog delay.",
-    "description": "Warm bucket-brigade delay stretched to 1.8s with added modulation; sits easily under the dry signal.",
+    "detent": 7,
+    "selectorIndex": 7,
+    "model": "HARMONY",
+    "inspiration": "Line 6 original triad harmony delay.",
+    "description": "Harmony delay with key-select triad patterns; eight pitch modes for cascading harmonies.",
     "tweak": {
-      "label": "Mod Rate",
-      "behaviorCCW": "Slower modulation",
-      "behaviorCW": "Faster modulation"
+      "label": "Key (A\u2014G#)",
+      "behaviorCCW": "Lower Key",
+      "behaviorCW": "Higher Key"
+    },
+    "tweez": {
+      "label": "Pitch Modes",
+      "behaviorCCW": "Lower Pitch Modes",
+      "behaviorCW": "Higher Pitch Modes"
+    },
+    "rangeNote": "Key A\u2013G#; 8 pitch modes.",
+    "notes": []
+  },
+  {
+    "id": "mkii_heliosphere",
+    "mode": "MkII Delay",
+    "detent": 8,
+    "selectorIndex": 8,
+    "model": "HELIOSPHERE",
+    "inspiration": "Line 6 spacey delay+reverb.",
+    "description": "Delay fused with reverb; Tweak sets verb mix/decay, Tweez sets modulation depth.",
+    "tweak": {
+      "label": "Reverb Mix and Decay",
+      "behaviorCCW": "Lower Reverb Mix & Decay",
+      "behaviorCW": "Higher Reverb Mix & Decay"
     },
     "tweez": {
       "label": "Mod Depth",
-      "behaviorCCW": "Subtle movement",
-      "behaviorCW": "Deep warble"
+      "behaviorCCW": "Lower Mod Depth",
+      "behaviorCW": "Higher Mod Depth"
     },
-    "rangeNote": "Extended BBD-style delay time with optional modulation.",
+    "rangeNote": "Delay + reverb; tweak mix/decay, tweez modulation.",
     "notes": []
   },
   {
-    "id": "mkii_dynamic",
+    "id": "mkii_transistor",
     "mode": "MkII Delay",
-    "detent": 13,
-    "selectorIndex": 13,
-    "model": "DYNAMIC",
-    "inspiration": "Based on the TC Electronic 2290 Dynamic Digital Delay.",
-    "description": "Ducking delay that tucks repeats under your playing and lifts them in the gaps; Threshold sets trigger point, Release controls recovery.",
+    "detent": 9,
+    "selectorIndex": 9,
+    "model": "TRANSISTOR",
+    "inspiration": "Line 6 transistor tape.",
+    "description": "Tape-inspired transistor echo; adjust headroom plus wow & flutter.",
     "tweak": {
-      "label": "Threshold",
-      "behaviorCCW": "Lower threshold (engages ducking sooner)",
-      "behaviorCW": "Higher threshold (lets more through)"
+      "label": "Headroom",
+      "behaviorCCW": "Lower Headroom",
+      "behaviorCW": "Higher Headroom"
     },
     "tweez": {
-      "label": "Release",
-      "behaviorCCW": "Faster release back to full level",
-      "behaviorCW": "Slower release / longer ducking"
+      "label": "Wow & Flutter",
+      "behaviorCCW": "Lower Wow & Flutter",
+      "behaviorCW": "Higher Wow & Flutter"
     },
-    "rangeNote": "Threshold roughly -20 to -60 dB; Release sets how quickly repeats recover after playing stops.",
+    "rangeNote": "Tape headroom and wow/flutter.",
     "notes": []
   },
   {
     "id": "mkii_cosmos",
     "mode": "MkII Delay",
-    "detent": 14,
-    "selectorIndex": 14,
+    "detent": 10,
+    "selectorIndex": 10,
     "model": "COSMOS",
     "inspiration": "Based on the Roland Space Echo RE-201.",
-    "description": "Multi-head tape echo with selectable head combos plus wow/flutter and darker feedback tone toward max.",
+    "description": "Use the TWEEZ knob to select machine record heads 1\u20133 for tapped delay patterns; TWEEZ also adds wow & flutter and darkens feedback tone as you turn right.",
     "tweak": {
       "label": "Heads Select",
-      "behaviorCCW": "Head 1/short taps",
-      "behaviorCW": "1+2+3 active / densest pattern"
+      "behaviorCCW": "Lower Heads Select",
+      "behaviorCW": "Higher Heads Select"
     },
     "tweez": {
-      "label": "Wow & Flutter / Tone",
-      "behaviorCCW": "Clearer repeats with less wobble",
-      "behaviorCW": "More wobble and darker tone"
+      "label": "Wow & Flutter (increases to right) / Feedback Tone (decreases to right)",
+      "behaviorCCW": "Clear repeats; heads minimal, less wow & flutter",
+      "behaviorCW": "More heads engaged; increased wow & flutter and darker feedback tone"
     },
-    "rangeNote": "Heads options: 1,2,3,1+3,2+3,1+2+3. Turning TWEEZ right increases wow/flutter and darkens feedback tone.",
+    "rangeNote": "Select heads; wow/flutter increases; tone decreases to right.",
+    "notes": []
+  },
+  {
+    "id": "mkii_multi_pass",
+    "mode": "MkII Delay",
+    "detent": 11,
+    "selectorIndex": 11,
+    "model": "MULTI PASS",
+    "inspiration": "Line 6 multi-pass rhythmic delay.",
+    "description": "Pattern-based rhythmic delay; tap pattern and choose delay mode.",
+    "tweak": {
+      "label": "Tap Pattern",
+      "behaviorCCW": "Lower Tap Pattern",
+      "behaviorCW": "Higher Tap Pattern"
+    },
+    "tweez": {
+      "label": "Delay Mode",
+      "behaviorCCW": "Lower Delay Mode",
+      "behaviorCW": "Higher Delay Mode"
+    },
+    "rangeNote": "Pattern and mode selection.",
+    "notes": []
+  },
+  {
+    "id": "mkii_adriatic",
+    "mode": "MkII Delay",
+    "detent": 12,
+    "selectorIndex": 12,
+    "model": "ADRIATIC",
+    "inspiration": "Line 6 analog-inspired delay.",
+    "description": "Warm analog-style delay with modulation rate and depth.",
+    "tweak": {
+      "label": "Mod Rate",
+      "behaviorCCW": "Lower Mod Rate",
+      "behaviorCW": "Higher Mod Rate"
+    },
+    "tweez": {
+      "label": "Mod Depth",
+      "behaviorCCW": "Lower Mod Depth",
+      "behaviorCW": "Higher Mod Depth"
+    },
+    "rangeNote": "Modulation rate and depth.",
+    "notes": []
+  },
+  {
+    "id": "mkii_elephant_man",
+    "mode": "MkII Delay",
+    "detent": 13,
+    "selectorIndex": 13,
+    "model": "ELEPHANT MAN",
+    "inspiration": "Line 6 long modulated delay.",
+    "description": "Extended-time modulated delay with chorus/vibrato mode.",
+    "tweak": {
+      "label": "Mod Depth",
+      "behaviorCCW": "Lower Mod Depth",
+      "behaviorCW": "Higher Mod Depth"
+    },
+    "tweez": {
+      "label": "Mode (Chorus/Vibrato)",
+      "behaviorCCW": "Lower Mode",
+      "behaviorCW": "Higher Mode"
+    },
+    "rangeNote": "Mod depth and chorus/vibrato mode.",
+    "notes": []
+  },
+  {
+    "id": "mkii_glitch",
+    "mode": "MkII Delay",
+    "detent": 14,
+    "selectorIndex": 14,
+    "model": "GLITCH",
+    "inspiration": "A Line 6 original.",
+    "description": "Glitchy delay with pitch slices, feedback, drift, and shuffle for stutter textures.",
+    "tweak": {
+      "label": "Pitch Slice/Drift/Shuffle",
+      "behaviorCCW": "Lower Pitch Slice / Feedback / Drift",
+      "behaviorCW": "Higher Pitch Slice / Feedback / Drift"
+    },
+    "tweez": {
+      "label": "Pitch Slice/Drift/Shuffle",
+      "behaviorCCW": "Lower Pitch Slice / Feedback / Drift",
+      "behaviorCW": "Higher Pitch Slice / Feedback / Drift"
+    },
+    "rangeNote": "Pitch slice feedback, drift, shuffle.",
     "notes": []
   },
   {
@@ -321,18 +321,18 @@
     "selectorIndex": 15,
     "model": "LOOPER",
     "inspiration": "Classic Looper with onboard echo.",
-    "description": "Four-switch Classic Looper; optional echo section with modulation and level controls when desired.",
+    "description": "Looper with echo modulation and echo volume on Tweak/Tweez.",
     "tweak": {
       "label": "Echo Mod",
-      "behaviorCCW": "No echo modulation",
-      "behaviorCW": "Deeper echo modulation"
+      "behaviorCCW": "Lower Echo Mod",
+      "behaviorCW": "Higher Echo Mod"
     },
     "tweez": {
       "label": "Echo Volume",
-      "behaviorCCW": "Echo off/low",
-      "behaviorCW": "Echo at 50/50 with repeats"
+      "behaviorCCW": "Lower Echo Volume",
+      "behaviorCW": "Higher Echo Volume"
     },
-    "rangeNote": "Echo modulation depth via TWEAK; echo level via TWEEZ; TIME/REPEATS still govern looper echo time/feedback.",
+    "rangeNote": "Looper echo modulation and volume.",
     "notes": []
   },
   {
@@ -342,39 +342,39 @@
     "selectorIndex": 0,
     "model": "DIGITAL",
     "inspiration": "Original DL4 Digital Delay.",
-    "description": "Clean, full-bandwidth digital repeats that stay out of the way—perfect when you want the pristine DL4 sound.",
+    "description": "Clean digital delay with bass/treble EQ like the classic DL4.",
     "tweak": {
       "label": "Bass",
-      "behaviorCCW": "Reduce low end (Bass down)",
-      "behaviorCW": "Boost low end (Bass up)"
+      "behaviorCCW": "Lower Bass",
+      "behaviorCW": "Higher Bass"
     },
     "tweez": {
       "label": "Treble",
-      "behaviorCCW": "Soften highs (Treble down)",
-      "behaviorCW": "Brighten highs (Treble up)"
+      "behaviorCCW": "Lower Treble",
+      "behaviorCW": "Higher Treble"
     },
-    "rangeNote": "EQ the repeats with Bass/Treble; time set by TIME/SUBDIV.",
+    "rangeNote": "EQ on digital delay.",
     "notes": []
   },
   {
-    "id": "legacy_modulation",
+    "id": "legacy_digital_mod",
     "mode": "Legacy Delay",
     "detent": 1,
     "selectorIndex": 1,
-    "model": "MODULATION",
-    "inspiration": "Original DL4 Digital w/ Mod.",
-    "description": "DL4 digital delay with a built-in chorus/vibrato section to add motion to otherwise pristine repeats.",
+    "model": "DIGITAL W/ MOD",
+    "inspiration": "Classic DL4 digital w/ mod.",
+    "description": "Digital delay plus adjustable modulation rate and depth.",
     "tweak": {
       "label": "Mod Rate",
-      "behaviorCCW": "Slower modulation rate",
-      "behaviorCW": "Faster modulation rate"
+      "behaviorCCW": "Lower Mod Rate",
+      "behaviorCW": "Higher Mod Rate"
     },
     "tweez": {
       "label": "Mod Depth",
-      "behaviorCCW": "Less modulation depth",
-      "behaviorCW": "More modulation depth"
+      "behaviorCCW": "Lower Mod Depth",
+      "behaviorCW": "Higher Mod Depth"
     },
-    "rangeNote": "Use for subtle chorus or seasick wobble on digital repeats.",
+    "rangeNote": "Modulation rate and depth.",
     "notes": []
   },
   {
@@ -384,270 +384,270 @@
     "selectorIndex": 2,
     "model": "ECHO PLATTER",
     "inspiration": "Inspired by the Binson EchoRec multi-head drum.",
-    "description": "Psychedelic drum-style echo with wow/flutter and drive to mimic the Binson platter tone.",
+    "description": "Binson-style echo platter with wow/flutter and drive.",
     "tweak": {
       "label": "Wow & Flutter",
-      "behaviorCCW": "Less wow/flutter",
-      "behaviorCW": "More wow/flutter"
+      "behaviorCCW": "Lower Wow & Flutter",
+      "behaviorCW": "Higher Wow & Flutter"
     },
     "tweez": {
       "label": "Drive",
-      "behaviorCCW": "Cleaner preamp",
-      "behaviorCW": "More drive/grit"
+      "behaviorCCW": "Lower Drive",
+      "behaviorCW": "Higher Drive"
     },
-    "rangeNote": "Multi-head flavor with tone shaped by wobble and drive.",
+    "rangeNote": "Tape wow/flutter and drive.",
     "notes": []
   },
   {
-    "id": "legacy_sweep_echo",
+    "id": "legacy_stereo",
     "mode": "Legacy Delay",
     "detent": 3,
     "selectorIndex": 3,
-    "model": "SWEEP ECHO",
-    "inspiration": "Original DL4 Sweep Echo.",
-    "description": "Delay into a resonant filter sweep for synthy motion; set position and resonance to taste.",
+    "model": "STEREO",
+    "inspiration": "Line 6 stereo delay.",
+    "description": "Stereo dual delay; right time as a percentage of left and right repeats.",
     "tweak": {
-      "label": "Filter Position",
-      "behaviorCCW": "Lower sweep position",
-      "behaviorCW": "Higher sweep position"
+      "label": "Right Delay Time (% of Left)",
+      "behaviorCCW": "Lower Right Delay Time (%)",
+      "behaviorCW": "Higher Right Delay Time (%)"
     },
     "tweez": {
-      "label": "Filter Resonance",
-      "behaviorCCW": "Gentle resonance",
-      "behaviorCW": "Pronounced resonance"
+      "label": "Right Repeats",
+      "behaviorCCW": "Lower Right Repeats",
+      "behaviorCW": "Higher Right Repeats"
     },
-    "rangeNote": "Combine with Tap divisions for rhythmic filter sweeps.",
-    "notes": []
-  },
-  {
-    "id": "legacy_lo_res",
-    "mode": "Legacy Delay",
-    "detent": 4,
-    "selectorIndex": 4,
-    "model": "LO RES",
-    "inspiration": "Line 6 original low-resolution digital.",
-    "description": "Early-digital inspired delay where you can drop bit depth and filter the repeats for gritty textures.",
-    "tweak": {
-      "label": "Bit Depth",
-      "behaviorCCW": "Lower low-pass cutoff (~0.3 kHz)",
-      "behaviorCW": "Higher low-pass cutoff (~12 kHz)"
-    },
-    "tweez": {
-      "label": "Sample Rate",
-      "behaviorCCW": "6-bit lo-fi resolution",
-      "behaviorCW": "24-bit hi-fi resolution"
-    },
-    "rangeNote": "Low-pass filter approx 0.3–12 kHz; resolution from 6-bit to 24-bit.",
-    "notes": []
-  },
-  {
-    "id": "legacy_tube_echo",
-    "mode": "Legacy Delay",
-    "detent": 5,
-    "selectorIndex": 5,
-    "model": "TUBE ECHO",
-    "inspiration": "Inspired by Maestro EP-1 tube Echoplex.",
-    "description": "Tube-style tape echo with controllable wobble and preamp drive for vintage grit.",
-    "tweak": {
-      "label": "Wow & Flutter",
-      "behaviorCCW": "Less wow/flutter",
-      "behaviorCW": "More wow/flutter"
-    },
-    "tweez": {
-      "label": "Drive",
-      "behaviorCCW": "Cleaner preamp",
-      "behaviorCW": "Hotter, driven repeats"
-    },
-    "rangeNote": "Classic EP-1 feel; mix REPEATS for runaway feedback.",
-    "notes": []
-  },
-  {
-    "id": "legacy_multi_head",
-    "mode": "Legacy Delay",
-    "detent": 6,
-    "selectorIndex": 6,
-    "model": "MULTI-HEAD",
-    "inspiration": "Inspired by Roland RE-100 style multi-head tape.",
-    "description": "Selectable playback head pairs to build rhythmic multi-tap tape echoes with natural drift.",
-    "tweak": {
-      "label": "Head Select",
-      "behaviorCCW": "Heads 1/2 toward off/short patterns",
-      "behaviorCW": "Heads 1/2 toward both on"
-    },
-    "tweez": {
-      "label": "Head Drift",
-      "behaviorCCW": "Heads 3/4 toward off/short patterns",
-      "behaviorCW": "Heads 3/4 toward both on"
-    },
-    "rangeNote": "Choose head combinations for tap patterns; wobble inherent.",
+    "rangeNote": "Right time as % of left; right repeats.",
     "notes": []
   },
   {
     "id": "legacy_ping_pong",
     "mode": "Legacy Delay",
-    "detent": 7,
-    "selectorIndex": 7,
+    "detent": 4,
+    "selectorIndex": 4,
     "model": "PING PONG",
     "inspiration": "Original DL4 Stereo Ping Pong.",
-    "description": "Classic ping-pong delay with controllable spread and depth between left/right channels.",
+    "description": "Alternating L/R delay with time offset and stereo spread.",
     "tweak": {
-      "label": "Spread",
-      "behaviorCCW": "Narrow stereo field",
-      "behaviorCW": "Wide stereo bounce"
+      "label": "Time Offset",
+      "behaviorCCW": "Lower Time Offset",
+      "behaviorCW": "Higher Time Offset"
     },
     "tweez": {
-      "label": "Depth",
-      "behaviorCCW": "Less movement",
-      "behaviorCW": "More movement"
+      "label": "Stereo Spread",
+      "behaviorCCW": "Lower Stereo Spread",
+      "behaviorCW": "Higher Stereo Spread"
     },
-    "rangeNote": "Offset set via TIME; spread widens the L/R swing.",
-    "notes": []
-  },
-  {
-    "id": "legacy_dynamic",
-    "mode": "Legacy Delay",
-    "detent": 8,
-    "selectorIndex": 8,
-    "model": "DYNAMIC",
-    "inspiration": "Based on the TC Electronic 2290 Dynamic Digital Delay.",
-    "description": "Original DL4-style ducking delay: repeats stay out of the way while you play and rise when you pause.",
-    "tweak": {
-      "label": "Threshold",
-      "behaviorCCW": "Lower threshold (-60 dB)",
-      "behaviorCW": "Higher threshold (-20 dB)"
-    },
-    "tweez": {
-      "label": "Release",
-      "behaviorCCW": "Less ducking (0 dB attenuation)",
-      "behaviorCW": "Max ducking (-138 dB)"
-    },
-    "rangeNote": "Threshold approx -60 to -20 dB; ducking amount 0 to -138 dB.",
+    "rangeNote": "Offset and stereo spread.",
     "notes": []
   },
   {
     "id": "legacy_reverse",
     "mode": "Legacy Delay",
-    "detent": 9,
-    "selectorIndex": 9,
+    "detent": 5,
+    "selectorIndex": 5,
     "model": "REVERSE",
     "inspiration": "Note A -1 Play Note A# -1 Toggles on each press between Half Speed and Full Speed Note B -1 Stop",
-    "description": "Note A -1 Play Note A# -1 Toggles on each press between Half Speed and Full Speed Note B -1 Stop",
-    "tweak": {
-      "label": "Reverse Level",
-      "behaviorCCW": "Lower Reverse Level",
-      "behaviorCW": "Higher Reverse Level"
-    },
-    "tweez": {
-      "label": "Forward Level",
-      "behaviorCCW": "Lower Forward Level",
-      "behaviorCW": "Higher Forward Level"
-    },
-    "rangeNote": "See manual for parameter ranges.",
-    "notes": []
-  },
-  {
-    "id": "legacy_autovolume_echo",
-    "mode": "Legacy Delay",
-    "detent": 10,
-    "selectorIndex": 10,
-    "model": "AUTO-VOLUME ECHO",
-    "inspiration": "Original DL4 Auto-Volume Echo.",
-    "description": "Volume-swell generator feeding a lush delay—great for pads and bowed textures.",
-    "tweak": {
-      "label": "Attack",
-      "behaviorCCW": "Faster swell onset",
-      "behaviorCW": "Slower swell onset"
-    },
-    "tweez": {
-      "label": "Release",
-      "behaviorCCW": "Shorter release",
-      "behaviorCW": "Longer release"
-    },
-    "rangeNote": "Built-in swell into delay for ambient beds.",
-    "notes": []
-  },
-  {
-    "id": "legacy_analog",
-    "mode": "Legacy Delay",
-    "detent": 11,
-    "selectorIndex": 11,
-    "model": "ANALOG",
-    "inspiration": "Inspired by warm analog/BBD echoes.",
-    "description": "Gently saturated analog-voiced delay with drive and tone controls to sit the repeats under your dry signal.",
-    "tweak": {
-      "label": "Drive",
-      "behaviorCCW": "Cleaner repeats",
-      "behaviorCW": "More drive/saturation"
-    },
-    "tweez": {
-      "label": "Tone",
-      "behaviorCCW": "Darker repeats",
-      "behaviorCW": "Brighter repeats"
-    },
-    "rangeNote": "Use Drive/Tone to set how present the repeats feel.",
-    "notes": []
-  },
-  {
-    "id": "legacy_analog_w_mod",
-    "mode": "Legacy Delay",
-    "detent": 12,
-    "selectorIndex": 12,
-    "model": "ANALOG W/ MOD",
-    "inspiration": "Inspired by Deluxe Memory Man–style modulated analog.",
-    "description": "Analog delay with chorus/vibrato baked in; retains BBD warmth while adding movement.",
+    "description": "Reverse delay with modulation rate and depth.",
     "tweak": {
       "label": "Mod Rate",
-      "behaviorCCW": "Slower modulation",
-      "behaviorCW": "Faster modulation"
+      "behaviorCCW": "Lower Mod Rate",
+      "behaviorCW": "Higher Mod Rate"
     },
     "tweez": {
       "label": "Mod Depth",
-      "behaviorCCW": "Subtle modulation depth",
-      "behaviorCW": "Deep chorus/vibrato"
+      "behaviorCCW": "Lower Mod Depth",
+      "behaviorCW": "Higher Mod Depth"
     },
-    "rangeNote": "Dial modulation for gentle shimmer or seasick wobble.",
+    "rangeNote": "Reverse delay modulation rate/depth.",
+    "notes": []
+  },
+  {
+    "id": "legacy_dynamic",
+    "mode": "Legacy Delay",
+    "detent": 6,
+    "selectorIndex": 6,
+    "model": "DYNAMIC",
+    "inspiration": "Based on the TC Electronic 2290 Dynamic Digital Delay.",
+    "description": "Dynamic ducking delay; threshold and ducking amount tame repeats while you play.",
+    "tweak": {
+      "label": "Threshold",
+      "behaviorCCW": "Lower Threshold",
+      "behaviorCW": "Higher Threshold"
+    },
+    "tweez": {
+      "label": "Ducking",
+      "behaviorCCW": "Lower Ducking Amount",
+      "behaviorCW": "Higher Ducking Amount"
+    },
+    "rangeNote": "Threshold and ducking amount.",
+    "notes": []
+  },
+  {
+    "id": "legacy_auto_vol",
+    "mode": "Legacy Delay",
+    "detent": 7,
+    "selectorIndex": 7,
+    "model": "AUTO-VOL",
+    "inspiration": "Line 6 auto-volume echo.",
+    "description": "Auto-volume swell into tape-like echo; swell time and mod depth on Tweez/Tweak.",
+    "tweak": {
+      "label": "Mod Depth",
+      "behaviorCCW": "Lower Mod Depth",
+      "behaviorCW": "Higher Mod Depth"
+    },
+    "tweez": {
+      "label": "Swell Time",
+      "behaviorCCW": "Lower Swell Time",
+      "behaviorCW": "Higher Swell Time"
+    },
+    "rangeNote": "Modulation depth and swell time.",
+    "notes": []
+  },
+  {
+    "id": "legacy_tube_echo",
+    "mode": "Legacy Delay",
+    "detent": 8,
+    "selectorIndex": 8,
+    "model": "TUBE ECHO",
+    "inspiration": "Inspired by Maestro EP-1 tube Echoplex.",
+    "description": "Echoplex-inspired echo with wow/flutter and drive.",
+    "tweak": {
+      "label": "Wow & Flutter",
+      "behaviorCCW": "Lower Wow and Flutter",
+      "behaviorCW": "Higher Wow and Flutter"
+    },
+    "tweez": {
+      "label": "Drive",
+      "behaviorCCW": "Lower Drive",
+      "behaviorCW": "Higher Drive"
+    },
+    "rangeNote": "Wow/flutter and drive.",
     "notes": []
   },
   {
     "id": "legacy_tape_echo",
     "mode": "Legacy Delay",
-    "detent": 13,
-    "selectorIndex": 13,
+    "detent": 9,
+    "selectorIndex": 9,
     "model": "TAPE ECHO",
     "inspiration": "Inspired by classic tape echo (EP-style).",
-    "description": "Tape-style delay with wobble and drive to emulate aging tape machines.",
+    "description": "Tape echo with bass/treble EQ shaping.",
     "tweak": {
-      "label": "Wow & Flutter",
-      "behaviorCCW": "Tighter tape with less wobble",
-      "behaviorCW": "Looser tape with more wobble"
+      "label": "Bass",
+      "behaviorCCW": "Lower Bass",
+      "behaviorCW": "Higher Bass"
     },
     "tweez": {
-      "label": "Drive",
-      "behaviorCCW": "Cleaner preamp",
-      "behaviorCW": "More drive and saturation"
+      "label": "Treble",
+      "behaviorCCW": "Lower Treble",
+      "behaviorCW": "Higher Treble"
     },
-    "rangeNote": "Great for vintage slap or runaway feedback squeal.",
+    "rangeNote": "Tape EQ bass/treble.",
     "notes": []
   },
   {
-    "id": "legacy_swell",
+    "id": "legacy_multi_head",
+    "mode": "Legacy Delay",
+    "detent": 10,
+    "selectorIndex": 10,
+    "model": "MULTI-HEAD",
+    "inspiration": "Inspired by Roland RE-100 style multi-head tape.",
+    "description": "Legacy multi-head echo; select 1/2 and 3/4 head combinations.",
+    "tweak": {
+      "label": "Heads 1/2",
+      "behaviorCCW": "Lower Heads 1/2",
+      "behaviorCW": "Higher Heads 1/2"
+    },
+    "tweez": {
+      "label": "Heads 3/4",
+      "behaviorCCW": "Lower Heads 3/4",
+      "behaviorCW": "Higher Heads 3/4"
+    },
+    "rangeNote": "Select playback heads.",
+    "notes": []
+  },
+  {
+    "id": "legacy_sweep",
+    "mode": "Legacy Delay",
+    "detent": 11,
+    "selectorIndex": 11,
+    "model": "SWEEP",
+    "inspiration": "Line 6 sweep echo.",
+    "description": "Sweep echo with adjustable sweep rate and depth.",
+    "tweak": {
+      "label": "Sweep Rate",
+      "behaviorCCW": "Lower Sweep Rate",
+      "behaviorCW": "Higher Sweep Rate"
+    },
+    "tweez": {
+      "label": "Sweep Depth",
+      "behaviorCCW": "Lower Sweep Depth",
+      "behaviorCW": "Higher Sweep Depth"
+    },
+    "rangeNote": "Sweep rate and depth.",
+    "notes": []
+  },
+  {
+    "id": "legacy_analog",
+    "mode": "Legacy Delay",
+    "detent": 12,
+    "selectorIndex": 12,
+    "model": "ANALOG",
+    "inspiration": "Inspired by warm analog/BBD echoes.",
+    "description": "Analog-style delay with bass/treble EQ.",
+    "tweak": {
+      "label": "Bass",
+      "behaviorCCW": "Lower Bass",
+      "behaviorCW": "Higher Bass"
+    },
+    "tweez": {
+      "label": "Treble",
+      "behaviorCCW": "Lower Treble",
+      "behaviorCW": "Higher Treble"
+    },
+    "rangeNote": "Analog EQ bass/treble.",
+    "notes": []
+  },
+  {
+    "id": "legacy_analog_mod",
+    "mode": "Legacy Delay",
+    "detent": 13,
+    "selectorIndex": 13,
+    "model": "ANALOG MOD",
+    "inspiration": "Line 6 analog mod delay.",
+    "description": "Analog delay with modulation rate and depth.",
+    "tweak": {
+      "label": "Mod Rate",
+      "behaviorCCW": "Lower Mod Rate",
+      "behaviorCW": "Higher Mod Rate"
+    },
+    "tweez": {
+      "label": "Mod Depth",
+      "behaviorCCW": "Lower Mod Depth",
+      "behaviorCW": "Higher Mod Depth"
+    },
+    "rangeNote": "Modulation rate/depth.",
+    "notes": []
+  },
+  {
+    "id": "legacy_lo_res_delay",
     "mode": "Legacy Delay",
     "detent": 14,
     "selectorIndex": 14,
-    "model": "SWELL",
-    "inspiration": "Original DL4 Swell.",
-    "description": "Auto-swell into delay for violin-like textures; Attack/Release shape the envelope.",
+    "model": "LO RES DELAY",
+    "inspiration": "Line 6 low-res delay.",
+    "description": "Low-resolution delay with tone and resolution controls.",
     "tweak": {
-      "label": "Attack",
-      "behaviorCCW": "Faster attack",
-      "behaviorCW": "Slower attack"
+      "label": "Tone",
+      "behaviorCCW": "Lower Tone",
+      "behaviorCW": "Higher Tone"
     },
     "tweez": {
-      "label": "Release",
-      "behaviorCCW": "Shorter release",
-      "behaviorCW": "Longer release"
+      "label": "Resolution",
+      "behaviorCCW": "Lower Resolution",
+      "behaviorCW": "Higher Resolution"
     },
-    "rangeNote": "Use MIX and REPEATS for pad-like washes.",
+    "rangeNote": "Tone and resolution.",
     "notes": []
   },
   {
@@ -657,18 +657,18 @@
     "selectorIndex": 15,
     "model": "LOOPER",
     "inspiration": "Classic Looper transport with MIDI CC control.",
-    "description": "Four-switch Classic Looper that can be fully controlled via MIDI CCs.",
+    "description": "Looper with echo modulation and echo volume on Tweak/Tweez.",
     "tweak": {
-      "label": "Transport via MIDI",
-      "behaviorCCW": "Use CCs 60–66 to control transport (overdub/record/play/undo/speed)",
-      "behaviorCW": "Use CCs 60–66 to control transport (overdub/record/play/undo/speed)"
+      "label": "Echo Mod",
+      "behaviorCCW": "Lower Echo Mod",
+      "behaviorCW": "Higher Echo Mod"
     },
     "tweez": {
-      "label": "Looper Mode",
-      "behaviorCCW": "CC 9: 0–63 disables Classic Looper mode",
-      "behaviorCW": "CC 9: 64–127 enables Classic Looper mode"
+      "label": "Echo Volume",
+      "behaviorCCW": "Lower Echo Volume",
+      "behaviorCW": "Higher Echo Volume"
     },
-    "rangeNote": "MIDI CCs: 9 toggle Looper mode; 60 overdub/record; 61 stop/play; 62 play once; 63 undo/redo; 65 forward/reverse; 66 full/half speed. Echo params also controllable via CCs (see manual).",
+    "rangeNote": "Looper echo modulation and volume.",
     "notes": []
   },
   {
@@ -678,18 +678,18 @@
     "selectorIndex": 0,
     "model": "ROOM",
     "inspiration": "Line 6 original small room.",
-    "description": "Tight room ambience to add liveliness without a long tail.",
+    "description": "Room reverb with predelay; Tweez routes Reverb/Delay order (Reverb\u2192Delay, parallel, Delay\u2192Reverb).",
     "tweak": {
       "label": "Predelay",
-      "behaviorCCW": "Shorter predelay",
-      "behaviorCW": "Longer predelay"
+      "behaviorCCW": "Lower Predelay",
+      "behaviorCW": "Higher Predelay"
     },
     "tweez": {
-      "label": "Delay/Reverb Routing (ALT+TWEEZ)",
-      "behaviorCCW": "Lower Delay/Reverb Routing (ALT+TWEEZ)",
-      "behaviorCW": "Higher Delay/Reverb Routing (ALT+TWEEZ)"
+      "label": "Routing (Reverb/Delay)",
+      "behaviorCCW": "Lower Routing Mix",
+      "behaviorCW": "Higher Routing Mix"
     },
-    "rangeNote": "Predelay 0–200ms; TWEEZ sets delay/reverb routing.",
+    "rangeNote": "Reverb predelay; Tweez routes Reverb/Delay order.",
     "notes": [
       "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
     ]
@@ -701,18 +701,18 @@
     "selectorIndex": 1,
     "model": "SEARCHLIGHTS",
     "inspiration": "Line 6 original cloud-like wash.",
-    "description": "Huge, modulated space that blooms into a cinematic wash—perfect for soaring chords.",
+    "description": "Bright evolving reverb with mod mix/intensity; routing on Tweez.",
     "tweak": {
       "label": "Mod Mix & Intensity",
-      "behaviorCCW": "Less modulation mix/intensity",
-      "behaviorCW": "Dense modulation wash"
+      "behaviorCCW": "Lower Mod Mix & Intensity",
+      "behaviorCW": "Higher Mod Mix & Intensity"
     },
     "tweez": {
-      "label": "Delay/Reverb Routing (ALT+TWEEZ)",
-      "behaviorCCW": "Lower Delay/Reverb Routing (ALT+TWEEZ)",
-      "behaviorCW": "Higher Delay/Reverb Routing (ALT+TWEEZ)"
+      "label": "Routing (Reverb/Delay)",
+      "behaviorCCW": "Lower Routing Mix",
+      "behaviorCW": "Higher Routing Mix"
     },
-    "rangeNote": "Mod Mix/Intensity 0–100%; TWEEZ sets routing.",
+    "rangeNote": "Mod mix/intensity; routing via Tweez.",
     "notes": [
       "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
     ]
@@ -724,85 +724,146 @@
     "selectorIndex": 2,
     "model": "PARTICLE",
     "inspiration": "Line 6 Particle Verb.",
-    "description": "Lush reverb layered with pitch-shifted particles; three Conditions move from stable to chaotic.",
+    "description": "Granular-style verb with condition control; routing on Tweez.",
     "tweak": {
-      "label": "Particle Mix",
-      "behaviorCCW": "Stable condition",
-      "behaviorCW": "Hazard/most unstable condition"
+      "label": "Condition",
+      "behaviorCCW": "Lower Condition",
+      "behaviorCW": "Higher Condition"
     },
     "tweez": {
-      "label": "Delay/Reverb Routing (ALT+TWEEZ)",
-      "behaviorCCW": "Lower Delay/Reverb Routing (ALT+TWEEZ)",
-      "behaviorCW": "Higher Delay/Reverb Routing (ALT+TWEEZ)"
+      "label": "Routing (Reverb/Delay)",
+      "behaviorCCW": "Lower Routing Mix",
+      "behaviorCW": "Higher Routing Mix"
     },
-    "rangeNote": "Condition sets stability; TWEEZ sets routing.",
-    "notes": ["Condition: 0–33% Stable, 34–66% Critical, 67–100% Hazard"]
+    "rangeNote": "Particle condition; routing via Tweez.",
+    "notes": [
+      "Condition: 0\u201333% Stable, 34\u201366% Critical, 67\u2013100% Hazard"
+    ]
   },
   {
-    "id": "reverb_octoverb",
+    "id": "reverb_double_tank",
     "mode": "Secret Reverb",
     "detent": 3,
     "selectorIndex": 3,
-    "model": "OCTO",
-    "inspiration": "Line 6 Octo shimmer.",
-    "description": "Cathedral-sized shimmer with octave-up choir-like bloom.",
+    "model": "DOUBLE TANK",
+    "inspiration": "Line 6 double tank reverb.",
+    "description": "Dual tank reverb with modulation depth; routing on Tweez.",
     "tweak": {
-      "label": "Octave Mix",
-      "behaviorCCW": "Less octave mix",
-      "behaviorCW": "More octave mix/intensity"
+      "label": "Mod Depth",
+      "behaviorCCW": "Lower Mod Depth",
+      "behaviorCW": "Higher Mod Depth"
     },
     "tweez": {
-      "label": "Delay/Reverb Routing (ALT+TWEEZ)",
-      "behaviorCCW": "Lower Delay/Reverb Routing (ALT+TWEEZ)",
-      "behaviorCW": "Higher Delay/Reverb Routing (ALT+TWEEZ)"
+      "label": "Routing (Reverb/Delay)",
+      "behaviorCCW": "Lower Routing Mix",
+      "behaviorCW": "Higher Routing Mix"
     },
-    "rangeNote": "Intensity/mix on TWEAK; TWEEZ sets routing.",
-    "notes": [
-      "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
-    ]
+    "rangeNote": "Mod depth; routing via Tweez.",
+    "notes": []
+  },
+  {
+    "id": "reverb_octo",
+    "mode": "Secret Reverb",
+    "detent": 4,
+    "selectorIndex": 4,
+    "model": "OCTO",
+    "inspiration": "Line 6 octo verb.",
+    "description": "Octave shimmer-like verb; intensity plus routing on Tweez.",
+    "tweak": {
+      "label": "Intensity",
+      "behaviorCCW": "Lower Intensity",
+      "behaviorCW": "Higher Intensity"
+    },
+    "tweez": {
+      "label": "Routing (Reverb/Delay)",
+      "behaviorCCW": "Lower Routing Mix",
+      "behaviorCW": "Higher Routing Mix"
+    },
+    "rangeNote": "Octo intensity; routing via Tweez.",
+    "notes": []
+  },
+  {
+    "id": "reverb_tile",
+    "mode": "Secret Reverb",
+    "detent": 5,
+    "selectorIndex": 5,
+    "model": "TILE",
+    "inspiration": "Line 6 tile reverb.",
+    "description": "Reflective tile room; predelay plus routing on Tweez.",
+    "tweak": {
+      "label": "Predelay",
+      "behaviorCCW": "Lower Predelay",
+      "behaviorCW": "Higher Predelay"
+    },
+    "tweez": {
+      "label": "Routing (Reverb/Delay)",
+      "behaviorCCW": "Lower Routing Mix",
+      "behaviorCW": "Higher Routing Mix"
+    },
+    "rangeNote": "Tile predelay; routing via Tweez.",
+    "notes": []
+  },
+  {
+    "id": "reverb_ducking",
+    "mode": "Secret Reverb",
+    "detent": 6,
+    "selectorIndex": 6,
+    "model": "DUCKING",
+    "inspiration": "Line 6 ducking reverb.",
+    "description": "Auto-ducking reverb; predelay plus routing on Tweez.",
+    "tweak": {
+      "label": "Predelay",
+      "behaviorCCW": "Lower Predelay",
+      "behaviorCW": "Higher Predelay"
+    },
+    "tweez": {
+      "label": "Routing (Reverb/Delay)",
+      "behaviorCCW": "Lower Routing Mix",
+      "behaviorCW": "Higher Routing Mix"
+    },
+    "rangeNote": "Ducking predelay; routing via Tweez.",
+    "notes": []
+  },
+  {
+    "id": "reverb_plateaux",
+    "mode": "Secret Reverb",
+    "detent": 7,
+    "selectorIndex": 7,
+    "model": "PLATEAUX",
+    "inspiration": "Line 6 plateaux reverb.",
+    "description": "Plate reverb with dual pitch-shift modes; routing on Tweez.",
+    "tweak": {
+      "label": "Pitch Mode",
+      "behaviorCCW": "Lower Pitch Mode",
+      "behaviorCW": "Higher Pitch Mode"
+    },
+    "tweez": {
+      "label": "Routing (Reverb/Delay)",
+      "behaviorCCW": "Lower Routing Mix",
+      "behaviorCW": "Higher Routing Mix"
+    },
+    "rangeNote": "Pitch modes: 1=-24/-12, 2=-24/+24, 3=-12/+12, 4=+12/+24, 5=-12/-5, 6=-12/+7, 7=-5/+7, 8=+7/+12.",
+    "notes": []
   },
   {
     "id": "reverb_cave",
     "mode": "Secret Reverb",
-    "detent": 4,
-    "selectorIndex": 4,
+    "detent": 8,
+    "selectorIndex": 8,
     "model": "CAVE",
     "inspiration": "Line 6 cavern reverb.",
-    "description": "Massive subterranean space with long natural reflections.",
+    "description": "Deep cave reverb; predelay plus routing on Tweez.",
     "tweak": {
       "label": "Predelay",
-      "behaviorCCW": "Shorter predelay",
-      "behaviorCW": "Longer predelay"
+      "behaviorCCW": "Lower Predelay",
+      "behaviorCW": "Higher Predelay"
     },
     "tweez": {
-      "label": "Delay/Reverb Routing (ALT+TWEEZ)",
-      "behaviorCCW": "Lower Delay/Reverb Routing (ALT+TWEEZ)",
-      "behaviorCW": "Higher Delay/Reverb Routing (ALT+TWEEZ)"
+      "label": "Routing (Reverb/Delay)",
+      "behaviorCCW": "Lower Routing Mix",
+      "behaviorCW": "Higher Routing Mix"
     },
-    "rangeNote": "Predelay 0–200ms; TWEEZ sets routing.",
-    "notes": [
-      "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
-    ]
-  },
-  {
-    "id": "reverb_ducks",
-    "mode": "Secret Reverb",
-    "detent": 5,
-    "selectorIndex": 5,
-    "model": "DUCKS",
-    "inspiration": "Line 6 ducking reverb.",
-    "description": "Reverb that ducks under your playing and swells back on gaps; Threshold and Release set the ride.",
-    "tweak": {
-      "label": "Threshold",
-      "behaviorCCW": "Lower predelay/threshold (more ducking)",
-      "behaviorCW": "Higher predelay/threshold"
-    },
-    "tweez": {
-      "label": "Release",
-      "behaviorCCW": "Faster recovery",
-      "behaviorCW": "Slower recovery"
-    },
-    "rangeNote": "Predelay 0–200ms; TWEEZ sets routing.",
+    "rangeNote": "Cave predelay; routing via Tweez.",
     "notes": [
       "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
     ]
@@ -810,22 +871,22 @@
   {
     "id": "reverb_plate",
     "mode": "Secret Reverb",
-    "detent": 6,
-    "selectorIndex": 6,
+    "detent": 9,
+    "selectorIndex": 9,
     "model": "PLATE",
     "inspiration": "Line 6 plate.",
-    "description": "Smooth, full plate-style reverb that flatters most sources.",
+    "description": "Classic plate verb; predelay plus routing on Tweez.",
     "tweak": {
       "label": "Predelay",
-      "behaviorCCW": "Shorter predelay",
-      "behaviorCW": "Longer predelay"
+      "behaviorCCW": "Lower Predelay",
+      "behaviorCW": "Higher Predelay"
     },
     "tweez": {
-      "label": "Delay/Reverb Routing (ALT+TWEEZ)",
-      "behaviorCCW": "Lower Delay/Reverb Routing (ALT+TWEEZ)",
-      "behaviorCW": "Higher Delay/Reverb Routing (ALT+TWEEZ)"
+      "label": "Routing (Reverb/Delay)",
+      "behaviorCCW": "Lower Routing Mix",
+      "behaviorCW": "Higher Routing Mix"
     },
-    "rangeNote": "Predelay 0–200ms; TWEEZ sets routing.",
+    "rangeNote": "Plate predelay; routing via Tweez.",
     "notes": [
       "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
     ]
@@ -833,91 +894,87 @@
   {
     "id": "reverb_ganymede",
     "mode": "Secret Reverb",
-    "detent": 7,
-    "selectorIndex": 7,
-    "model": "GANYMEDE",
-    "inspiration": "Line 6 modulated plate (Plateaux without pitch).",
-    "description": "Deep, modulated plate reverb for lush ambience without shimmer.",
-    "tweak": {
-      "label": "Mod Depth",
-      "behaviorCCW": "Subtle modulation",
-      "behaviorCW": "Wide, animated modulation"
-    },
-    "tweez": {
-      "label": "Delay/Reverb Routing (ALT+TWEEZ)",
-      "behaviorCCW": "Lower Delay/Reverb Routing (ALT+TWEEZ)",
-      "behaviorCW": "Higher Delay/Reverb Routing (ALT+TWEEZ)"
-    },
-    "rangeNote": "Mod depth 0–100%; TWEEZ sets routing.",
-    "notes": [
-      "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
-    ]
-  },
-  {
-    "id": "reverb_dynamics",
-    "mode": "Secret Reverb",
-    "detent": 8,
-    "selectorIndex": 8,
-    "model": "DYNAMICS",
-    "inspiration": "Line 6 dynamics reverb.",
-    "description": "Dynamic reverb that responds to playing with threshold and release for bloom or control.",
-    "tweak": {
-      "label": "Threshold",
-      "behaviorCCW": "Lower threshold (engages sooner)",
-      "behaviorCW": "Higher threshold (stays out of the way)"
-    },
-    "tweez": {
-      "label": "Release",
-      "behaviorCCW": "Faster release",
-      "behaviorCW": "Slower release"
-    },
-    "rangeNote": "Use for controlled tails that follow your touch; TWEEZ sets routing.",
-    "notes": [
-      "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
-    ]
-  },
-  {
-    "id": "reverb_dual",
-    "mode": "Secret Reverb",
-    "detent": 9,
-    "selectorIndex": 9,
-    "model": "DUAL",
-    "inspiration": "Line 6 dual reverb.",
-    "description": "Two reflective tanks blended for a wide stereo wash; predelay shapes initial gap.",
-    "tweak": {
-      "label": "Predelay",
-      "behaviorCCW": "Shorter predelay",
-      "behaviorCW": "Longer predelay"
-    },
-    "tweez": {
-      "label": "Delay/Reverb Routing (ALT+TWEEZ)",
-      "behaviorCCW": "Lower Delay/Reverb Routing (ALT+TWEEZ)",
-      "behaviorCW": "Higher Delay/Reverb Routing (ALT+TWEEZ)"
-    },
-    "rangeNote": "Predelay 0–200ms; TWEEZ sets routing.",
-    "notes": [
-      "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
-    ]
-  },
-  {
-    "id": "reverb_shimmer",
-    "mode": "Secret Reverb",
     "detent": 10,
     "selectorIndex": 10,
-    "model": "SHIMMER",
-    "inspiration": "Line 6 shimmer reverb.",
-    "description": "Ethereal reverb with pitch-shifted sheen riding above the tail.",
+    "model": "GANYMEDE",
+    "inspiration": "Line 6 modulated plate (Plateaux without pitch).",
+    "description": "Modulated ambient verb; mod depth plus routing on Tweez.",
     "tweak": {
-      "label": "Shimmer Mix",
-      "behaviorCCW": "Less shimmer content",
-      "behaviorCW": "More shimmer mix"
+      "label": "Mod Depth",
+      "behaviorCCW": "Lower Mod Depth",
+      "behaviorCW": "Higher Mod Depth"
     },
     "tweez": {
-      "label": "Delay/Reverb Routing (ALT+TWEEZ)",
-      "behaviorCCW": "Lower Delay/Reverb Routing (ALT+TWEEZ)",
-      "behaviorCW": "Higher Delay/Reverb Routing (ALT+TWEEZ)"
+      "label": "Routing (Reverb/Delay)",
+      "behaviorCCW": "Lower Routing Mix",
+      "behaviorCW": "Higher Routing Mix"
     },
-    "rangeNote": "Shimmer mix via TWEAK; TWEEZ sets routing.",
+    "rangeNote": "Mod depth; routing via Tweez.",
+    "notes": [
+      "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
+    ]
+  },
+  {
+    "id": "reverb_chamber",
+    "mode": "Secret Reverb",
+    "detent": 11,
+    "selectorIndex": 11,
+    "model": "CHAMBER",
+    "inspiration": "Line 6 chamber reverb.",
+    "description": "Smooth chamber verb; predelay plus routing on Tweez.",
+    "tweak": {
+      "label": "Predelay",
+      "behaviorCCW": "Lower Predelay",
+      "behaviorCW": "Higher Predelay"
+    },
+    "tweez": {
+      "label": "Routing (Reverb/Delay)",
+      "behaviorCCW": "Lower Routing Mix",
+      "behaviorCW": "Higher Routing Mix"
+    },
+    "rangeNote": "Chamber predelay; routing via Tweez.",
+    "notes": []
+  },
+  {
+    "id": "reverb_hot_springs",
+    "mode": "Secret Reverb",
+    "detent": 12,
+    "selectorIndex": 12,
+    "model": "HOT SPRINGS",
+    "inspiration": "Line 6 hot springs reverb.",
+    "description": "Spring-style verb; spring count plus routing on Tweez.",
+    "tweak": {
+      "label": "Spring Count",
+      "behaviorCCW": "Lower Spring Count",
+      "behaviorCW": "Higher Spring Count"
+    },
+    "tweez": {
+      "label": "Routing (Reverb/Delay)",
+      "behaviorCCW": "Lower Routing Mix",
+      "behaviorCW": "Higher Routing Mix"
+    },
+    "rangeNote": "Spring count; routing via Tweez.",
+    "notes": []
+  },
+  {
+    "id": "reverb_hall",
+    "mode": "Secret Reverb",
+    "detent": 13,
+    "selectorIndex": 13,
+    "model": "HALL",
+    "inspiration": "Line 6 concert hall.",
+    "description": "Large hall verb; predelay plus routing on Tweez.",
+    "tweak": {
+      "label": "Predelay",
+      "behaviorCCW": "Lower Predelay",
+      "behaviorCW": "Higher Predelay"
+    },
+    "tweez": {
+      "label": "Routing (Reverb/Delay)",
+      "behaviorCCW": "Lower Routing Mix",
+      "behaviorCW": "Higher Routing Mix"
+    },
+    "rangeNote": "Hall predelay; routing via Tweez.",
     "notes": [
       "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
     ]
@@ -925,91 +982,22 @@
   {
     "id": "reverb_glitz",
     "mode": "Secret Reverb",
-    "detent": 11,
-    "selectorIndex": 11,
-    "model": "GLITZ",
-    "inspiration": "Line 6 modulated/blooming hall.",
-    "description": "Blooming, modulated reverb inspired by Helix Glitz—lush tails that expand over time.",
-    "tweak": {
-      "label": "Mod Mix",
-      "behaviorCCW": "Subtle modulation",
-      "behaviorCW": "Heavy modulation swirl"
-    },
-    "tweez": {
-      "label": "Delay/Reverb Routing (ALT+TWEEZ)",
-      "behaviorCCW": "Lower Delay/Reverb Routing (ALT+TWEEZ)",
-      "behaviorCW": "Higher Delay/Reverb Routing (ALT+TWEEZ)"
-    },
-    "rangeNote": "Mod depth 0–100%; TWEEZ sets routing.",
-    "notes": [
-      "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
-    ]
-  },
-  {
-    "id": "reverb_hall",
-    "mode": "Secret Reverb",
-    "detent": 12,
-    "selectorIndex": 12,
-    "model": "HALL",
-    "inspiration": "Line 6 concert hall.",
-    "description": "Grand hall ambience with long, smooth decay.",
-    "tweak": {
-      "label": "Predelay",
-      "behaviorCCW": "Shorter predelay",
-      "behaviorCW": "Longer predelay"
-    },
-    "tweez": {
-      "label": "Delay/Reverb Routing (ALT+TWEEZ)",
-      "behaviorCCW": "Lower Delay/Reverb Routing (ALT+TWEEZ)",
-      "behaviorCW": "Higher Delay/Reverb Routing (ALT+TWEEZ)"
-    },
-    "rangeNote": "Predelay 0–200ms; TWEEZ sets routing.",
-    "notes": [
-      "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
-    ]
-  },
-  {
-    "id": "reverb_kaleidoscope",
-    "mode": "Secret Reverb",
-    "detent": 13,
-    "selectorIndex": 13,
-    "model": "KALEIDOSCOPE",
-    "inspiration": "Line 6 textural reverb.",
-    "description": "Swirling, textural reverb that layers feedback-like textures with the Texture control.",
-    "tweak": {
-      "label": "Texture",
-      "behaviorCCW": "Smoother texture",
-      "behaviorCW": "More animated/grainy texture"
-    },
-    "tweez": {
-      "label": "Delay/Reverb Routing (ALT+TWEEZ)",
-      "behaviorCCW": "Lower Delay/Reverb Routing (ALT+TWEEZ)",
-      "behaviorCW": "Higher Delay/Reverb Routing (ALT+TWEEZ)"
-    },
-    "rangeNote": "Texture blends tonal complexity; TWEEZ sets routing.",
-    "notes": [
-      "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
-    ]
-  },
-  {
-    "id": "reverb_life",
-    "mode": "Secret Reverb",
     "detent": 14,
     "selectorIndex": 14,
-    "model": "LIFE",
-    "inspiration": "Line 6 Life reverb texture.",
-    "description": "Organic, evolving reverb that adds movement via the Texture control—great for pads.",
+    "model": "GLITZ",
+    "inspiration": "Line 6 modulated/blooming hall.",
+    "description": "Modulated hall/shimmer-ish verb; mod depth plus routing on Tweez.",
     "tweak": {
-      "label": "Texture",
-      "behaviorCCW": "Simpler texture",
-      "behaviorCW": "Richer, evolving texture"
+      "label": "Mod Depth",
+      "behaviorCCW": "Lower Mod Depth",
+      "behaviorCW": "Higher Mod Depth"
     },
     "tweez": {
-      "label": "Delay/Reverb Routing (ALT+TWEEZ)",
-      "behaviorCCW": "Lower Delay/Reverb Routing (ALT+TWEEZ)",
-      "behaviorCW": "Higher Delay/Reverb Routing (ALT+TWEEZ)"
+      "label": "Routing (Reverb/Delay)",
+      "behaviorCCW": "Lower Routing Mix",
+      "behaviorCW": "Higher Routing Mix"
     },
-    "rangeNote": "Texture adjusts tonal movement; TWEEZ sets routing.",
+    "rangeNote": "Mod depth; routing via Tweez.",
     "notes": [
       "In reverb mode, MIX controls reverb mix and REPEATS controls decay."
     ]
@@ -1021,18 +1009,20 @@
     "selectorIndex": 15,
     "model": "REVERB OFF",
     "inspiration": "Reverb bypass.",
-    "description": "Disables the secret reverb block entirely.",
+    "description": "Bypass reverb; Tweez still controls delay/reverb routing order.",
     "tweak": {
       "label": "N/A",
-      "behaviorCCW": "Not applicable",
-      "behaviorCW": "Not applicable"
+      "behaviorCCW": "",
+      "behaviorCW": ""
     },
     "tweez": {
-      "label": "Delay/Reverb Routing (ALT+TWEEZ)",
-      "behaviorCCW": "Reverb before delay (parallel at 50%)",
-      "behaviorCW": "Delay before reverb"
+      "label": "Routing (Reverb/Delay)",
+      "behaviorCCW": "Reverb then Delay",
+      "behaviorCW": "Delay then Reverb"
     },
-    "rangeNote": "Use to kill reverb; routing still available for delay-only use.",
-    "notes": ["Select to run delay with no added reverb."]
+    "rangeNote": "Bypass reverb; Tweez still controls routing.",
+    "notes": [
+      "Select to run delay with no added reverb."
+    ]
   }
 ]

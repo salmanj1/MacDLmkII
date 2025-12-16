@@ -1,48 +1,58 @@
 import { useEffect } from 'react';
-import { modes, type Mode } from '../data/commonParams';
-
 type KeyboardShortcutConfig = {
-  mode: Mode;
-  currentDetent: number;
-  onModeChange: (mode: Mode) => void;
-  onDetentChange: (next: number) => void;
-  searchInput?: HTMLInputElement | null;
+  onModeChange: (mode: 'MkII Delay' | 'Legacy Delay') => void;
+  onDelayStep: (delta: number) => void;
+  onReverbStep: (delta: number) => void;
 };
 
 const useKeyboardShortcuts = ({
-  mode: _mode,
-  currentDetent,
   onModeChange,
-  onDetentChange,
-  searchInput
+  onDelayStep,
+  onReverbStep
 }: KeyboardShortcutConfig) => {
   useEffect(() => {
     const handleKey = (event: KeyboardEvent) => {
-      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'f') {
-        event.preventDefault();
-        searchInput?.focus();
+      const target = event.target as HTMLElement | null;
+      const tag = target?.tagName?.toLowerCase();
+      if (tag === 'input' || tag === 'textarea') return;
+
+      if (event.key === '1') {
+        onModeChange('MkII Delay');
         return;
       }
 
-      if (['1', '2', '3'].includes(event.key)) {
-        const nextMode = modes[Number(event.key) - 1];
-        if (nextMode) onModeChange(nextMode);
+      if (event.key === '2') {
+        onModeChange('Legacy Delay');
         return;
       }
 
-      if (
-        ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)
-      ) {
+      if (event.key.toLowerCase() === 'q') {
         event.preventDefault();
-        const delta =
-          event.key === 'ArrowLeft' || event.key === 'ArrowDown' ? -1 : 1;
-        onDetentChange(currentDetent + delta);
+        onDelayStep(-1);
+        return;
+      }
+
+      if (event.key.toLowerCase() === 'e') {
+        event.preventDefault();
+        onDelayStep(1);
+        return;
+      }
+
+      if (event.key.toLowerCase() === 'a') {
+        event.preventDefault();
+        onReverbStep(-1);
+        return;
+      }
+
+      if (event.key.toLowerCase() === 'd') {
+        event.preventDefault();
+        onReverbStep(1);
       }
     };
 
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, [currentDetent, onDetentChange, onModeChange, searchInput]);
+  }, [onDelayStep, onModeChange, onReverbStep]);
 };
 
 export default useKeyboardShortcuts;
