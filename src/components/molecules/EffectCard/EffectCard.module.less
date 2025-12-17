@@ -10,8 +10,15 @@
   transition:
     border-color 140ms ease,
     background 140ms ease,
-    box-shadow 140ms ease;
+    box-shadow 140ms ease,
+    outline 120ms ease;
   color: @textSecondary;
+  outline: none;
+}
+
+.effectCard:focus-visible {
+  outline: 2px solid rgba(251, 191, 36, 0.7);
+  outline-offset: 2px;
 }
 
 .effectCard:hover {

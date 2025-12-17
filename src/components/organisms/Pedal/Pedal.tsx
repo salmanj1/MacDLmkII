@@ -110,6 +110,12 @@ const Pedal = ({
               aria-pressed={altActive}
               aria-label="Toggle legacy delay models"
               onClick={handleAltToggle}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleAltToggle();
+                }
+              }}
             />
           </div>
 

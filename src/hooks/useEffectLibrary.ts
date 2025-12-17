@@ -31,9 +31,19 @@ const useEffectLibrary = () => {
     useState<Record<Mode, number>>(initialDetentState);
   const [selectorPosition, setSelectorPosition] = useState(0);
   const [effects, setEffects] = useState<EffectInfo[]>(skeletonEffects);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTermState] = useState(() => {
+    if (typeof window === 'undefined') return '';
+    return localStorage.getItem('macdlmkii-search') || '';
+  });
   const [loadingError, setLoadingError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const setSearchTerm = useCallback((term: string) => {
+    setSearchTermState(term);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('macdlmkii-search', term);
+    }
+  }, []);
 
   useEffect(() => {
     let cancelled = false;

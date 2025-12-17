@@ -76,6 +76,7 @@ const LinearKnob = ({ label, value, onChange }: LinearKnobProps) => {
       aria-valuemax={127}
       aria-valuenow={value}
       aria-label={label}
+      title={`${label}: ${value}/127`}
     >
       <div className={styles.cap} ref={frameRef}>
         <div className={styles.capGraphic}>
@@ -83,6 +84,7 @@ const LinearKnob = ({ label, value, onChange }: LinearKnobProps) => {
           <div className={styles.capSheen} />
           <div className={styles.capIndicator} />
         </div>
+        <div className={styles.valueDisplay}>{value}</div>
       </div>
       <input
         type="range"

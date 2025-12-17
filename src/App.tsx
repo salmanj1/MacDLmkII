@@ -1,10 +1,11 @@
-import { useMemo, useState, useCallback, useEffect } from 'react';
+import { useMemo, useState, useCallback, useEffect, useRef } from 'react';
 import Pedal from './components/organisms/Pedal/Pedal';
 import useEffectLibrary from './hooks/useEffectLibrary';
 import useKeyboardShortcuts from './hooks/useKeyboardShortcuts';
 import styles from './App.module.less';
 import useMidiBridge from './hooks/useMidiBridge';
 import ErrorBoundary from './components/organisms/ErrorBoundary/ErrorBoundary';
+import KeyboardHelp from './components/molecules/KeyboardHelp/KeyboardHelp';
 import { delayControls, midiCC, reverbControls, tapSubdivisions } from './data/midi';
 import type { Mode } from './data/commonParams';
 import useTapBlink from './hooks/useTapBlink';
@@ -100,13 +101,27 @@ const App = () => {
     sendProgramChange
   } = midi;
 
+  // Restore last selected MIDI port on mount
+  useEffect(() => {
+    if (typeof window === 'undefined' || !midiReady || ports.length === 0) return;
+    const savedPort = localStorage.getItem('macdlmkii-midi-port');
+    if (savedPort !== null) {
+      const portIndex = ports.findIndex((p) => p === savedPort);
+      if (portIndex >= 0 && selectedPort !== portIndex) {
+        selectPort(portIndex);
+      }
+    }
+  }, [midiReady, ports, selectPort, selectedPort]);
+
   const midiStatus = useMemo(() => {
     if (!midiReady) return 'MIDI unavailable';
     if (selectedPort === null) return 'No port selected';
     return `Connected: ${ports[selectedPort] ?? 'Port'}`;
   }, [midiReady, ports, selectedPort]);
 
-  const [toast, setToast] = useState<{ message: string; kind: 'error' | 'ok' } | null>(null);
+  const [toast, setToast] = useState<{ id: number; message: string; kind: 'error' | 'ok' } | null>(null);
+  const [showHelp, setShowHelp] = useState(false);
+  const toastIdRef = useRef(0);
 
   const tapBlink = useTapBlink({ enabled: tapModeActive, bpm: tapBpm });
   useEffect(() => {
@@ -150,10 +165,24 @@ const App = () => {
     [reverbDetent, reverbEffects]
   );
 
+  const showToast = useCallback((message: string, kind: 'error' | 'ok' = 'ok') => {
+    const id = ++toastIdRef.current;
+    setToast({ id, message, kind });
+    const duration = kind === 'error' ? 5000 : 3000;
+    setTimeout(() => {
+      setToast((current) => (current?.id === id ? null : current));
+    }, duration);
+  }, []);
+
+  const dismissToast = useCallback(() => {
+    setToast(null);
+  }, []);
+
   useKeyboardShortcuts({
     onModeChange: setMode,
     onDelayStep: stepDelayDetent,
-    onReverbStep: stepReverbDetent
+    onReverbStep: stepReverbDetent,
+    onHelpToggle: () => setShowHelp((prev) => !prev)
   });
 
   const sendAllControls = useCallback(async () => {
@@ -472,10 +501,20 @@ const App = () => {
               toast.kind === 'error' ? styles.toastError : styles.toastOk
             }`}
           >
-            {toast.message}
+            <span>{toast.message}</span>
+            <button
+              type="button"
+              onClick={dismissToast}
+              className={styles.toastDismiss}
+              aria-label="Dismiss notification"
+            >
+              ✕
+            </button>
           </div>
         </div>
       )}
+
+      <KeyboardHelp isOpen={showHelp} onClose={() => setShowHelp(false)} />
 
         <main className={styles.main}>
           {loadingError && <p className={styles.error}>{loadingError}</p>}
@@ -513,14 +552,18 @@ const App = () => {
             if (!Number.isNaN(idx)) {
               await selectPort(idx);
               await syncToHardware();
-              setToast({ message: `Connected to ${ports[idx] ?? 'port'}`, kind: 'ok' });
-              setTimeout(() => setToast(null), 2200);
+              // Persist port selection
+              if (typeof window !== 'undefined' && ports[idx]) {
+                localStorage.setItem('macdlmkii-midi-port', ports[idx]);
+              }
+              showToast(`Connected to ${ports[idx] ?? 'port'}`, 'ok');
             }
           }}
           disabled={!midiReady}
+          title={!midiReady ? 'MIDI unavailable. Check browser permissions or try Chrome/Edge.' : ''}
         >
           <option value="" disabled>
-            {midiReady ? 'Select output' : 'MIDI unavailable'}
+            {midiReady ? 'Select output' : 'MIDI unavailable - check permissions'}
           </option>
           {ports.map((name, idx) => (
             <option key={name} value={idx}>

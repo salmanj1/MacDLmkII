@@ -75,6 +75,26 @@
   transition: transform 120ms ease;
 }
 
+.valueDisplay {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: fade(@textPrimary, 85%);
+  text-shadow: 0 1px 3px fade(#000, 60%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 120ms ease;
+  z-index: 10;
+}
+
+.knob:hover .valueDisplay,
+.knob:active .valueDisplay {
+  opacity: 1;
+}
+
 .range {
   position: absolute;
   inset: -12%;

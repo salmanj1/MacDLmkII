@@ -38,6 +38,12 @@ const FootswitchRail = ({ switches, positions }: FootswitchRailProps) => {
                 className={`${styles.footswitch} ${styles[`status_${status}`] ?? ''}`}
                 aria-label={`${sw.label} footswitch`}
                 onClick={() => sw.onPress?.(sw.id)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    sw.onPress?.(sw.id);
+                  }
+                }}
               />
               <span className={styles.label}>{sw.label}</span>
               {sw.hint && <span className={styles.hint}>{sw.hint}</span>}

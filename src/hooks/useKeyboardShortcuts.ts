@@ -3,12 +3,14 @@ type KeyboardShortcutConfig = {
   onModeChange: (mode: 'MkII Delay' | 'Legacy Delay') => void;
   onDelayStep: (delta: number) => void;
   onReverbStep: (delta: number) => void;
+  onHelpToggle?: () => void;
 };
 
 const useKeyboardShortcuts = ({
   onModeChange,
   onDelayStep,
-  onReverbStep
+  onReverbStep,
+  onHelpToggle
 }: KeyboardShortcutConfig) => {
   useEffect(() => {
     const handleKey = (event: KeyboardEvent) => {
@@ -48,11 +50,16 @@ const useKeyboardShortcuts = ({
         event.preventDefault();
         onReverbStep(1);
       }
+
+      if (event.key === '?' && onHelpToggle) {
+        event.preventDefault();
+        onHelpToggle();
+      }
     };
 
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, [onDelayStep, onModeChange, onReverbStep]);
+  }, [onDelayStep, onModeChange, onReverbStep, onHelpToggle]);
 };
 
 export default useKeyboardShortcuts;

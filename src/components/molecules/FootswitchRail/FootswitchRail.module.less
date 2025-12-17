@@ -47,10 +47,18 @@
     inset 0 1px 0 fade(#fff, 8%);
   transition:
     transform 90ms ease,
-    box-shadow 90ms ease;
+    box-shadow 90ms ease,
+    outline 120ms ease;
   --led-image: url('/assets/dl4ii/original/DL4 MkII Led White.png');
   --led-opacity: 0.45;
   --led-filter: drop-shadow(0 0 10px fade(#fff, 30%));
+  cursor: pointer;
+  outline: none;
+}
+
+.footswitch:focus-visible {
+  outline: 2px solid rgba(251, 191, 36, 0.8);
+  outline-offset: 3px;
 }
 
 .footswitch::after {
