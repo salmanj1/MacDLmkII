@@ -2,7 +2,7 @@
 
 .shell {
   position: relative;
-  width: min(980px, 100%);
+  width: min(900px, 100%);
   aspect-ratio: 1260 / 805;
   margin: 0 auto;
   filter: drop-shadow(0 32px 58px fade(#000, 55%));
@@ -42,7 +42,8 @@
   left: 0;
   top: 0;
   transform: translate(-50%, -50%);
-  width: clamp(32px, 3vw, 46px);
+  width: clamp(28px, 2.8vw, 36px);
+  height: clamp(28px, 2.8vw, 36px);
   aspect-ratio: 1 / 1;
   background: center / contain no-repeat url('/assets/dl4ii/DL4 MkII Alt White.png');
   border: none;
@@ -169,29 +170,6 @@
   z-index: 1;
 }
 
-.debugHandles {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 5;
-}
-
-.debugHandle {
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  border-radius: 9999px;
-  background: #f59e0b;
-  border: 2px solid #0f172a;
-  box-shadow: 0 0 8px fade(#000, 45%);
-  transform: translate(-50%, -50%);
-  pointer-events: auto;
-  cursor: grab;
-}
-
-.debugHandle:active {
-  cursor: grabbing;
-}
 
 @media (max-width: 960px) {
   .shell {
