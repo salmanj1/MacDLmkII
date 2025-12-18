@@ -3,23 +3,23 @@
 // stay aligned with the printed hardware.
 export const faceplateSize = { width: 3600, height: 2300 };
 
-export const selectorPosition = { x: 781.3, y: 887.1 };
-export const altButtonPosition = { x: 1239.8, y: 974.6 };
-export const reverbSelectorPosition = { x: 891.5, y: 1391.0 };
+export const selectorPosition = { x: 781.3, y: 950.0 };
+export const altButtonPosition = { x: 1245.0, y: 1040.0 };
+export const reverbSelectorPosition = { x: 891.5, y: 1455.0 };
 
 export const delayKnobPositions = [
-  { x: 1526.3, y: 887.1 }, // Time / Subdiv
-  { x: 1929.3, y: 888.1 }, // Repeats
-  { x: 2328.3, y: 887.0 }, // Tweak
-  { x: 2728.3, y: 886.0 }, // Tweez
-  { x: 3129.2, y: 889.0 } // Mix
+  { x: 1526.3, y: 960.0 }, // Time / Subdiv
+  { x: 1929.3, y: 961.0 }, // Repeats
+  { x: 2328.3, y: 960.0 }, // Tweak
+  { x: 2728.3, y: 959.0 }, // Tweez
+  { x: 3129.2, y: 962.0 } // Mix
 ];
 
 export const reverbKnobPositions = [
-  { x: 1723.2, y: 1318.0 }, // Reverb Decay
-  { x: 2124.2, y: 1322.0 }, // Tweak
-  { x: 2525.2, y: 1320.0 }, // Routing
-  { x: 2925.2, y: 1324.0 } // Reverb Mix
+  { x: 1723.2, y: 1378.0 }, // Reverb Decay
+  { x: 2124.2, y: 1382.0 }, // Tweak
+  { x: 2525.2, y: 1380.0 }, // Routing
+  { x: 2925.2, y: 1384.0 } // Reverb Mix
 ];
 
 export const detentWindowRect = {
