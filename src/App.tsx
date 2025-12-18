@@ -51,6 +51,7 @@ type PresetLibraryEntry = {
   const [tapSubdivisionIndex, setTapSubdivisionIndex] = useState(
     tapSubdivisions.findIndex((entry) => entry.value === 64) || 0
   );
+  const [showLayoutDebug, setShowLayoutDebug] = useState(false);
   const [tapModeActive, setTapModeActive] = useState(false);
   const [tapBpm, setTapBpm] = useState(120);
   const [tapTimestamps, setTapTimestamps] = useState<number[]>([]);
@@ -821,10 +822,19 @@ type PresetLibraryEntry = {
               reverb: reverbControlValues
             }}
             controlLabels={controlLabels}
+            debugLayout={showLayoutDebug}
           />
         </section>
 
         <section className={styles.infoColumn}>
+          <button
+            type="button"
+            onClick={() => setShowLayoutDebug((prev) => !prev)}
+            className={styles.debugToggle}
+          >
+            {showLayoutDebug ? 'Hide layout debug' : 'Show layout debug'}
+          </button>
+
           <LibraryPanel
             filteredEffects={filteredEffects}
             mode={mode}

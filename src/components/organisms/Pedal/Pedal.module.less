@@ -169,6 +169,30 @@
   z-index: 1;
 }
 
+.debugHandles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.debugHandle {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background: #f59e0b;
+  border: 2px solid #0f172a;
+  box-shadow: 0 0 8px fade(#000, 45%);
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  cursor: grab;
+}
+
+.debugHandle:active {
+  cursor: grabbing;
+}
+
 @media (max-width: 960px) {
   .shell {
     width: 100%;
