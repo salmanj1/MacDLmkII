@@ -3,10 +3,14 @@ import { invoke } from '@tauri-apps/api/core';
 import type { Mode } from '../data/commonParams';
 import { buildModelSelectMessages, type MidiMessage } from '../data/midiMessages';
 
+// Tauri 2 exposes `__TAURI_INTERNALS__`; Tauri 1 used `__TAURI_IPC__`.
+// Check both so dev/runtime detection works across versions.
 const isTauriRuntime =
   typeof window !== 'undefined' &&
-  typeof (window as unknown as { __TAURI_IPC__?: unknown }).__TAURI_IPC__ !==
-    'undefined';
+  Boolean(
+    (window as unknown as { __TAURI_INTERNALS__?: unknown }).__TAURI_INTERNALS__ ??
+      (window as unknown as { __TAURI_IPC__?: unknown }).__TAURI_IPC__
+  );
 
 type MidiBridge = {
   ports: string[];
