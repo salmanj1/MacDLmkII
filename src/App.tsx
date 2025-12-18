@@ -1,5 +1,7 @@
 import { useMemo, useState, useCallback, useEffect, useRef } from 'react';
 import Pedal from './components/organisms/Pedal/Pedal';
+import LibraryPanel from './components/organisms/LibraryPanel/LibraryPanel';
+import ManualPane from './components/organisms/ManualPane/ManualPane';
 import useEffectLibrary from './hooks/useEffectLibrary';
 import useKeyboardShortcuts from './hooks/useKeyboardShortcuts';
 import styles from './App.module.less';
@@ -9,9 +11,13 @@ import KeyboardHelp from './components/molecules/KeyboardHelp/KeyboardHelp';
 import { delayControls, midiCC, reverbControls, tapSubdivisions } from './data/midi';
 import type { Mode } from './data/commonParams';
 import useTapBlink from './hooks/useTapBlink';
+import { buildTapMessages } from './data/midiMessages';
+import { buildQaStats } from './utils/effectQa';
 
-// Top-level page wiring: orchestrates data hooks, keyboard shortcuts, and composes the atomic
-// UI blocks (pedal and library panel) so layout remains predictable.
+// Top-level page wiring: orchestrates data hooks, keyboard shortcuts, and composes the pedal UI
+// so layout remains predictable.
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const App = () => {
   type FootStatus = 'off' | 'on' | 'dim' | 'armed';
   type PresetSnapshot = {
@@ -70,10 +76,15 @@ const App = () => {
     mode,
     setMode,
     effects,
+    filteredEffects,
     currentEffect,
     currentDetent,
     setDetentForMode,
-    loadingError
+    jumpToEffect,
+    searchTerm,
+    setSearchTerm,
+    loadingError,
+    isLoading
   } = useEffectLibrary();
   const reverbEffects = useMemo(
     () => effects.filter((entry) => entry.mode === 'Secret Reverb'),
@@ -83,6 +94,7 @@ const App = () => {
     () => reverbEffects.find((entry) => entry.detent === reverbDetent),
     [reverbDetent, reverbEffects]
   );
+  const qaStats = useMemo(() => buildQaStats(effects), [effects]);
 
   const midi = useMidiBridge();
   const {
@@ -90,6 +102,7 @@ const App = () => {
     selectedPort,
     channel,
     error: midiError,
+    lastCommand: midiLastCommand,
     ready: midiReady,
     clock,
     refreshOutputs,
@@ -100,6 +113,17 @@ const App = () => {
     sendCC,
     sendProgramChange
   } = midi;
+
+  const midiErrorLabel = useMemo(() => {
+    if (!midiLastCommand) return null;
+    if (midiLastCommand.type === 'pc') return 'PRESET SELECT COMMAND';
+    const entry = Object.entries(midiCC).find(
+      ([, value]) => value === midiLastCommand.control
+    );
+    if (!entry) return 'UNKNOWN COMMAND';
+    const readable = entry[0].replace(/([a-z])([A-Z])/g, '$1 $2');
+    return `${readable.toUpperCase()} COMMAND`;
+  }, [midiLastCommand]);
 
   // Restore last selected MIDI port on mount
   useEffect(() => {
@@ -122,6 +146,8 @@ const App = () => {
   const [toast, setToast] = useState<{ id: number; message: string; kind: 'error' | 'ok' } | null>(null);
   const [showHelp, setShowHelp] = useState(false);
   const toastIdRef = useRef(0);
+  const searchInputRef = useRef<HTMLInputElement | null>(null);
+  const blinkLockRef = useRef(false);
 
   const tapBlink = useTapBlink({ enabled: tapModeActive, bpm: tapBpm });
   useEffect(() => {
@@ -185,20 +211,45 @@ const App = () => {
     onHelpToggle: () => setShowHelp((prev) => !prev)
   });
 
+  useEffect(() => {
+    const handleSearchShortcut = (event: KeyboardEvent) => {
+      if (!searchInputRef.current) return;
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'f') {
+        event.preventDefault();
+        searchInputRef.current.focus();
+      }
+    };
+    window.addEventListener('keydown', handleSearchShortcut);
+    return () => window.removeEventListener('keydown', handleSearchShortcut);
+  }, []);
+
   const sendAllControls = useCallback(async () => {
     if (!midiReady || selectedPort === null) return;
     const delayValues = delayControlValues[mode] || {};
     const reverbValues = reverbControlValues;
 
     await Promise.all([
-      ...delayControls.map((ctrl) =>
-        sendCC(ctrl.cc, delayValues[ctrl.id] ?? 64)
-      ),
+      ...delayControls.map((ctrl) => {
+        if (ctrl.id === 'time' && tapModeActive) {
+          const tapValue = tapSubdivisions[tapSubdivisionIndex]?.value ?? 64;
+          return sendCC(midiCC.delayNotes, tapValue);
+        }
+        return sendCC(ctrl.cc, Math.round(delayValues[ctrl.id] ?? 64));
+      }),
       ...reverbControls.map((ctrl) =>
-        sendCC(ctrl.cc, reverbValues[ctrl.id] ?? 64)
+        sendCC(ctrl.cc, Math.round(reverbValues[ctrl.id] ?? 64))
       )
     ]);
-  }, [delayControlValues, mode, reverbControlValues, midiReady, selectedPort, sendCC]);
+  }, [
+    delayControlValues,
+    mode,
+    reverbControlValues,
+    midiReady,
+    selectedPort,
+    sendCC,
+    tapModeActive,
+    tapSubdivisionIndex
+  ]);
 
   const loadPresetFromStorage = useCallback(
     async (index: number) => {
@@ -218,6 +269,14 @@ const App = () => {
         setTapBpm(snapshot.tapBpm);
         setTapModeActive(true);
         setActivePresetIndex(index);
+        const activeId = index % 3;
+        setFootswitchStatus({
+          A: activeId === 0 ? 'on' : 'off',
+          B: activeId === 1 ? 'on' : 'off',
+          C: activeId === 2 ? 'on' : 'off',
+          Tap: 'off',
+          Set: 'off'
+        });
         // Ensure hardware catches up with the restored state.
         setTimeout(() => {
           sendModelSelect(snapshot.mode, snapshot.detent);
@@ -241,10 +300,11 @@ const App = () => {
   );
 
   const setActivePreset = useCallback(async (index: number) => {
-    if (!midiReady || selectedPort === null) return;
     const program = Math.max(0, Math.min(127, index));
-    await sendProgramChange(program);
-    await sendCC(midiCC.presetBypass, 64);
+    if (midiReady && selectedPort !== null) {
+      await sendProgramChange(program);
+      await sendCC(midiCC.presetBypass, 64);
+    }
 
     const loaded = await loadPresetFromStorage(index);
     if (loaded) return;
@@ -266,15 +326,16 @@ const App = () => {
 
     await sendAllControls();
 
+    const activeId = (program % 3);
     setFootswitchStatus({
-      A: index === 0 ? 'on' : 'off',
-      B: index === 1 ? 'on' : 'off',
-      C: index === 2 ? 'on' : 'off',
+      A: activeId === 0 ? 'on' : 'off',
+      B: activeId === 1 ? 'on' : 'off',
+      C: activeId === 2 ? 'on' : 'off',
       Tap: 'off',
       Set: 'off'
     });
     setActivePresetIndex(index);
-  }, [midiReady, selectedPort, sendCC, sendProgramChange, mode, sendAllControls]);
+  }, [loadPresetFromStorage, midiReady, mode, sendAllControls, selectedPort, sendCC, sendProgramChange]);
 
   const toggleBypass = useCallback(async (nextStatus: 'on' | 'dim') => {
     if (!midiReady || selectedPort === null) return;
@@ -282,9 +343,59 @@ const App = () => {
     await sendCC(midiCC.presetBypass, value);
   }, [midiReady, selectedPort, sendCC]);
 
+  const blinkFootswitch = useCallback(async (id: 'A' | 'B' | 'C') => {
+    if (blinkLockRef.current) return;
+    blinkLockRef.current = true;
+    const cycles = 4;
+    const intervalMs = 500;
+    try {
+      for (let i = 0; i < cycles; i += 1) {
+        setFootswitchStatus((prev) => ({ ...prev, [id]: 'off' }));
+        await sleep(intervalMs);
+        setFootswitchStatus((prev) => ({ ...prev, [id]: 'on' }));
+        await sleep(intervalMs);
+      }
+    } finally {
+      blinkLockRef.current = false;
+    }
+  }, []);
+
+  const saveActivePreset = useCallback(() => {
+    if (activePreset === null) return false;
+    const snapshot: PresetSnapshot = {
+      mode,
+      detent: currentDetent,
+      reverbDetent,
+      delayControlValues,
+      reverbControlValues,
+      tapSubdivisionIndex,
+      tapBpm
+    };
+    try {
+      const raw = JSON.stringify(snapshot);
+      localStorage.setItem(`macdlmkii-preset-${activePreset}`, raw);
+      showToast(`Preset ${activePreset + 1} saved`, 'ok');
+      return true;
+    } catch (error) {
+      showToast('Failed to save preset', 'error');
+      return false;
+    }
+  }, [
+    activePreset,
+    currentDetent,
+    delayControlValues,
+    mode,
+    reverbDetent,
+    reverbControlValues,
+    showToast,
+    tapBpm,
+    tapSubdivisionIndex
+  ]);
+
   const handleFootswitch = useCallback(
     async (id: string) => {
-      if (!midiReady || selectedPort === null) return;
+      if (blinkLockRef.current) return;
+      if (id !== 'Set' && (!midiReady || selectedPort === null)) return;
       if (['A', 'B', 'C'].includes(id)) {
         const current = footswitchStatus[id as 'A' | 'B' | 'C'];
         if (current === 'on') {
@@ -306,6 +417,13 @@ const App = () => {
         const nextIdx = (tapSubdivisionIndex + 1) % tapSubdivisions.length;
         setTapSubdivisionIndex(nextIdx);
         setTapModeActive(true);
+        setDelayControlValues((prev) => ({
+          ...prev,
+          [mode]: {
+            ...prev[mode],
+            time: tapSubdivisions[nextIdx]?.value ?? 64
+          }
+        }));
 
         const now = Date.now();
         setTapTimestamps((prev) => {
@@ -333,44 +451,20 @@ const App = () => {
       }
 
       if (id === 'Set') {
-        if (activePreset === null) return;
-        const snapshot: PresetSnapshot = {
-          mode,
-          detent: currentDetent,
-          reverbDetent,
-          delayControlValues,
-          reverbControlValues,
-          tapSubdivisionIndex,
-          tapBpm
-        };
-        try {
-          const raw = JSON.stringify(snapshot);
-          localStorage.setItem(`macdlmkii-preset-${activePreset}`, raw);
-          setFootswitchStatus((prev) => ({ ...prev, Set: 'armed' }));
-          setToast({ message: `Preset ${activePreset + 1} saved`, kind: 'ok' });
-          setTimeout(() => {
-            setFootswitchStatus((prev) => ({ ...prev, Set: 'off' }));
-            setToast(null);
-          }, 2000);
-        } catch (error) {
-          setToast({ message: 'Failed to save preset', kind: 'error' });
-        }
+        saveActivePreset();
         return;
       }
     },
     [
-      activePreset,
-      currentDetent,
-      delayControlValues,
       footswitchStatus,
       midiReady,
-      mode,
-      reverbDetent,
-      reverbControlValues,
       selectedPort,
       sendCC,
+      sendMessages,
       setActivePreset,
-      setToast,
+      setDelayControlValues,
+      mode,
+      saveActivePreset,
       tapBlink,
       tapBpm,
       tapSubdivisionIndex,
@@ -378,21 +472,78 @@ const App = () => {
     ]
   );
 
+  const handleFootswitchHold = useCallback(
+    async (id: string) => {
+      if (blinkLockRef.current) return;
+      if (!['A', 'B', 'C'].includes(id)) return;
+      const status = footswitchStatus[id as 'A' | 'B' | 'C'];
+      if (status !== 'on') return;
+      const saved = saveActivePreset();
+      if (saved) {
+        await blinkFootswitch(id as 'A' | 'B' | 'C');
+      }
+    },
+    [blinkFootswitch, footswitchStatus, saveActivePreset]
+  );
+
+  const stepPreset = useCallback(
+    async (delta: number) => {
+      const current = activePreset === null ? -1 : activePreset;
+      const next = Math.max(0, Math.min(127, current + delta));
+      await setActivePreset(next);
+    },
+    [activePreset, setActivePreset]
+  );
+
+  const stepChannel = useCallback(
+    (delta: number) => {
+      setChannel(channel + delta);
+    },
+    [channel, setChannel]
+  );
+
   const handleControlChange = useCallback(
     async (id: string, value: number, domain: 'delay' | 'reverb') => {
       if (!midiReady || selectedPort === null) return;
       if (domain === 'delay') {
+        const rounded = Math.round(value);
+        if (id === 'time' && tapModeActive) {
+          const idx = tapSubdivisions.findIndex((entry) => entry.value === rounded);
+          if (idx >= 0) {
+            setTapSubdivisionIndex(idx);
+            setDelayControlValues((prev) => ({
+              ...prev,
+              [mode]: {
+                ...prev[mode],
+                [id]: rounded
+              }
+            }));
+            await sendCC(midiCC.delayNotes, rounded);
+            return;
+          }
+          setTapModeActive(false);
+          setDelayControlValues((prev) => ({
+            ...prev,
+            [mode]: {
+              ...prev[mode],
+              [id]: rounded
+            }
+          }));
+          await sendCC(midiCC.delayTime, rounded);
+          return;
+        }
         setDelayControlValues((prev) => ({
           ...prev,
           [mode]: {
             ...prev[mode],
-            [id]: value
+            [id]: rounded
           }
         }));
       } else {
+        const rounded = Math.round(value);
         setReverbControlValues((prev) => ({
           ...prev,
-          [id]: value
+          [id]: rounded
         }));
       }
       const map =
@@ -412,10 +563,17 @@ const App = () => {
             };
       const cc = map[id as keyof typeof map];
       if (cc !== undefined) {
-        await sendCC(cc, value);
+        await sendCC(cc, Math.round(value));
       }
     },
-    [midiReady, mode, selectedPort, sendCC]
+    [
+      midiReady,
+      mode,
+      selectedPort,
+      sendCC,
+      tapModeActive,
+      tapSubdivisionIndex
+    ]
   );
 
   const syncToHardware = useCallback(async () => {
@@ -440,6 +598,10 @@ const App = () => {
       const raw = localStorage.getItem('macdlmkii-ui');
       if (!raw) return;
       const parsed = JSON.parse(raw);
+      if (parsed.mode) setMode(parsed.mode);
+      if (typeof parsed.currentDetent === 'number') {
+        setDetentForMode(parsed.mode ?? mode, parsed.currentDetent);
+      }
       if (parsed.delayControlValues) setDelayControlValues(parsed.delayControlValues);
       if (parsed.reverbControlValues) setReverbControlValues(parsed.reverbControlValues);
       if (typeof parsed.tapSubdivisionIndex === 'number')
@@ -460,10 +622,12 @@ const App = () => {
       tapSubdivisionIndex,
       tapBpm,
       reverbDetent,
-      activePreset
+      activePreset,
+      mode,
+      currentDetent
     };
     localStorage.setItem('macdlmkii-ui', JSON.stringify(snapshot));
-  }, [activePreset, delayControlValues, reverbControlValues, tapSubdivisionIndex, tapBpm, reverbDetent]);
+  }, [activePreset, currentDetent, delayControlValues, mode, reverbControlValues, tapSubdivisionIndex, tapBpm, reverbDetent]);
 
   useEffect(() => {
     if (midiError) {
@@ -525,12 +689,11 @@ const App = () => {
             mode={mode}
             detent={currentDetent}
             reverbDetent={reverbDetent}
-            currentEffect={currentEffect}
-            currentReverbEffect={currentReverbEffect}
             onModeChange={setMode}
             onDetentChange={handleDetentChange}
             onReverbDetentChange={setReverbDetent}
             onFootswitchPress={handleFootswitch}
+            onFootswitchHold={handleFootswitchHold}
             footswitchStatus={footswitchStatus}
             onControlChange={handleControlChange}
             controlValues={{
@@ -539,6 +702,42 @@ const App = () => {
             }}
             controlLabels={controlLabels}
           />
+        </section>
+
+        <section className={styles.infoColumn}>
+          <LibraryPanel
+            filteredEffects={filteredEffects}
+            mode={mode}
+            currentDetent={currentDetent}
+            searchTerm={searchTerm}
+            onSearchChange={setSearchTerm}
+            onSearchInputRef={(ref) => {
+              searchInputRef.current = ref;
+            }}
+            onSelectEffect={jumpToEffect}
+            qaStats={qaStats}
+            showQa={!!loadingError}
+            loading={isLoading}
+          />
+
+          <ManualPane delayEffect={currentEffect} reverbEffect={currentReverbEffect} />
+
+          <div className={styles.infoBadge}>
+            <a
+              className={styles.infoButton}
+              href="https://github.com/DavidMolTor/DL4II_Control"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Project information"
+            >
+              i
+            </a>
+            <div className={styles.infoCard}>
+              <div>Developed by David Molina Toro</div>
+              <div>GNU General Public License</div>
+              <div>This software uses Leslie Sanford&apos;s MIDI Toolkit</div>
+            </div>
+          </div>
         </section>
       </div>
 
@@ -571,16 +770,73 @@ const App = () => {
             </option>
           ))}
         </select>
-        <input
-          type="number"
-          className={styles.midiChannel}
-          min={1}
-          max={16}
-          value={channel}
-          onChange={(event) => setChannel(Number(event.target.value))}
-          disabled={!midiReady}
-          aria-label="MIDI channel"
-        />
+        <div className={styles.midiStepper}>
+          <input
+            type="number"
+            className={styles.midiChannel}
+            min={1}
+            max={16}
+            value={channel}
+            onChange={(event) => setChannel(Number(event.target.value))}
+            disabled={!midiReady}
+            aria-label="MIDI channel"
+          />
+          <div className={styles.stepButtons}>
+            <button
+              type="button"
+              className={styles.stepButton}
+              onClick={() => stepChannel(1)}
+              disabled={!midiReady}
+              aria-label="Increase MIDI channel"
+            >
+              ▲
+            </button>
+            <button
+              type="button"
+              className={styles.stepButton}
+              onClick={() => stepChannel(-1)}
+              disabled={!midiReady}
+              aria-label="Decrease MIDI channel"
+            >
+              ▼
+            </button>
+          </div>
+        </div>
+        <div className={styles.midiStepper}>
+          <input
+            type="number"
+            className={styles.midiPreset}
+            min={1}
+            max={128}
+            value={activePreset === null ? '' : activePreset + 1}
+            onChange={(event) => {
+              if (event.target.value === '') return;
+              const next = Number(event.target.value);
+              if (!Number.isFinite(next)) return;
+              const clamped = Math.max(1, Math.min(128, Math.floor(next)));
+              setActivePreset(clamped - 1);
+            }}
+            aria-label="Preset number"
+          />
+          <div className={styles.stepButtons}>
+            <button
+              type="button"
+              className={styles.stepButton}
+              onClick={() => stepPreset(1)}
+              aria-label="Increase preset"
+            >
+              ▲
+            </button>
+            <button
+              type="button"
+              className={styles.stepButton}
+              onClick={() => stepPreset(-1)}
+              aria-label="Decrease preset"
+            >
+              ▼
+            </button>
+          </div>
+        </div>
         <button
           type="button"
           className={styles.midiRefresh}
@@ -598,7 +854,11 @@ const App = () => {
         >
           {clock.followEnabled ? 'Clock: On' : 'Clock: Off'}
         </button>
-        {midiError && <span className={styles.midiError}>{midiError}</span>}
+        {midiError && (
+          <span className={styles.midiError}>
+            {midiErrorLabel ?? midiError}
+          </span>
+        )}
       </div>
     </main>
   </div>

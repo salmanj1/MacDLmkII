@@ -16,42 +16,55 @@ const useKeyboardShortcuts = ({
     const handleKey = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement | null;
       const tag = target?.tagName?.toLowerCase();
-      if (tag === 'input' || tag === 'textarea') return;
+      if (
+        tag === 'input' ||
+        tag === 'textarea' ||
+        target?.isContentEditable ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.altKey ||
+        event.repeat
+      ) {
+        return;
+      }
 
-      if (event.key === '1') {
+      const key = event.key.toLowerCase();
+
+      if (key === '1') {
         onModeChange('MkII Delay');
         return;
       }
 
-      if (event.key === '2') {
+      if (key === '2') {
         onModeChange('Legacy Delay');
         return;
       }
 
-      if (event.key.toLowerCase() === 'q') {
+      if (key === 'q') {
         event.preventDefault();
         onDelayStep(-1);
         return;
       }
 
-      if (event.key.toLowerCase() === 'e') {
+      if (key === 'e') {
         event.preventDefault();
         onDelayStep(1);
         return;
       }
 
-      if (event.key.toLowerCase() === 'a') {
+      if (key === 'a') {
         event.preventDefault();
         onReverbStep(-1);
         return;
       }
 
-      if (event.key.toLowerCase() === 'd') {
+      if (key === 'd') {
         event.preventDefault();
         onReverbStep(1);
+        return;
       }
 
-      if (event.key === '?' && onHelpToggle) {
+      if (key === '?' && onHelpToggle) {
         event.preventDefault();
         onHelpToggle();
       }

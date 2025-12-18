@@ -28,7 +28,7 @@ A Tauri 2 + React + TypeScript + Vite + Tailwind desktop shell for exploring MkI
 
 - Atomic layout: `components/atoms|molecules|organisms` compose the page; keep new UI in this stack.
 - Styling: LESS modules per component, shared palette in `src/styles/tokens.less` (typed via `src/less.d.ts`).
-- State: hooks in `src/hooks` (e.g., `useEffectLibrary`, `useKeyboardShortcuts`) drive selector state, search, and shortcuts (arrow keys for detents, 1/2/3 for modes, Cmd/Ctrl+F focuses search).
+- State: hooks in `src/hooks` (e.g., `useEffectLibrary`, `useKeyboardShortcuts`) drive selector state and shortcuts (1/2 for modes, Q/E for delay detents, A/D for reverb detents, `?` for help).
 - Data: delay/reverb metadata comes from `src/data/effects.full.json` when present; otherwise `effects.skeleton.json` seeds the UI.
 - Storybook: stories sit next to components for isolated dev; run with `pnpm storybook` (see command above) to preview atoms/molecules/organisms.
 - Resilience: `ErrorBoundary` wraps the UI, and components expose `loading` with `Skeleton` atoms for friendly placeholders.

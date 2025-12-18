@@ -1,10 +1,15 @@
 import Knob from '../../molecules/Knob/Knob';
-import DetentWindow from '../../molecules/DetentWindow/DetentWindow';
 import FootswitchRail from '../../molecules/FootswitchRail/FootswitchRail';
 import LinearKnob from '../../molecules/LinearKnob/LinearKnob';
-import type { EffectInfo, Mode } from '../../../data/commonParams';
+import type { Mode } from '../../../data/commonParams';
 import { delayControls, reverbControls } from '../../../data/midi';
-import { delayKnobPositions, faceplateSize, footswitchPositions, reverbKnobPositions } from './layout';
+import {
+  delayKnobPositions,
+  faceplateSize,
+  footswitchPositions,
+  reverbKnobPositions,
+  virtualSetPosition
+} from './layout';
 import styles from './Pedal.module.less';
 
 const toPercent = (pos: { x: number; y: number }) => ({
@@ -16,12 +21,11 @@ type PedalProps = {
   mode: Mode;
   detent: number;
   reverbDetent: number;
-  currentEffect?: EffectInfo;
-  currentReverbEffect?: EffectInfo;
   onModeChange: (mode: Mode) => void;
   onDetentChange: (detent: number) => void;
   onReverbDetentChange: (detent: number) => void;
   onFootswitchPress?: (id: string) => void;
+  onFootswitchHold?: (id: string) => void;
   footswitchStatus?: Record<'A' | 'B' | 'C' | 'Tap' | 'Set', 'off' | 'on' | 'dim' | 'armed'>;
   onControlChange?: (id: string, value: number, domain: 'delay' | 'reverb') => void;
   controlValues?: {
@@ -45,12 +49,11 @@ const Pedal = ({
   mode,
   detent,
   reverbDetent,
-  currentEffect,
-  currentReverbEffect,
   onModeChange,
   onDetentChange,
   onReverbDetentChange,
   onFootswitchPress,
+  onFootswitchHold,
   footswitchStatus,
   onControlChange,
   controlValues,
@@ -88,10 +91,19 @@ const Pedal = ({
       label: 'Tap',
       hint: footswitchHints?.Tap,
       status: footswitchStatus?.Tap
+    },
+    {
+      id: 'Set',
+      label: 'Set',
+      hint: footswitchHints?.Set,
+      status: footswitchStatus?.Set
     }
   ];
 
-  const footswitchPositionPercentages = footswitchPositions.map((pos) => toPercent(pos));
+  const footswitchPositionPercentages = [
+    ...footswitchPositions.map((pos) => toPercent(pos)),
+    toPercent(virtualSetPosition)
+  ];
 
   return (
     <section className={styles.shell} aria-label="DL4 MkII pedal">
@@ -172,25 +184,12 @@ const Pedal = ({
           ))}
         </div>
 
-        <div className={styles.detentSlot}>
-          <div className={styles.detentPanel}>
-            <div className={styles.detentContent}>
-              <DetentWindow effect={currentReverbEffect} />
-            </div>
-            <button
-              type="button"
-              className={styles.detentSet}
-              aria-label="Save preset"
-              onClick={() => onFootswitchPress?.('Set')}
-            />
-          </div>
-        </div>
-
         <div className={styles.footswitchSlot}>
           <FootswitchRail
             switches={footswitches.map((entry) => ({
               ...entry,
-              onPress: onFootswitchPress
+              onPress: onFootswitchPress,
+              onHold: onFootswitchHold
             }))}
             positions={footswitchPositionPercentages}
           />

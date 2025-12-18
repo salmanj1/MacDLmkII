@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import styles from './FootswitchRail.module.less';
 
 type FootswitchStatus = 'off' | 'on' | 'dim' | 'armed';
@@ -8,6 +9,7 @@ type FootswitchConfig = {
   hint: string;
   status?: FootswitchStatus;
   onPress?: (id: string) => void;
+  onHold?: (id: string) => void;
 };
 
 type FootswitchRailProps = {
@@ -21,6 +23,10 @@ type FootswitchRailProps = {
  * for future interactive behavior if needed.
  */
 const FootswitchRail = ({ switches, positions }: FootswitchRailProps) => {
+  const holdTimersRef = useRef<Record<string, ReturnType<typeof setTimeout> | null>>({});
+  const holdTriggeredRef = useRef<Record<string, boolean>>({});
+  const HOLD_DELAY_MS = 2000;
+
   return (
     <div className={styles.rail}>
       <div className={`${styles.grid} ${positions ? styles.gridAbsolute : ''}`}>
@@ -37,7 +43,41 @@ const FootswitchRail = ({ switches, positions }: FootswitchRailProps) => {
                 type="button"
                 className={`${styles.footswitch} ${styles[`status_${status}`] ?? ''}`}
                 aria-label={`${sw.label} footswitch`}
-                onClick={() => sw.onPress?.(sw.id)}
+                onPointerDown={(event) => {
+                  if (event.currentTarget.hasPointerCapture(event.pointerId) === false) {
+                    event.currentTarget.setPointerCapture(event.pointerId);
+                  }
+                  if (!sw.onHold || status !== 'on') return;
+                  const existing = holdTimersRef.current[sw.id];
+                  if (existing) clearTimeout(existing);
+                  holdTimersRef.current[sw.id] = setTimeout(() => {
+                    holdTriggeredRef.current[sw.id] = true;
+                    sw.onHold?.(sw.id);
+                  }, HOLD_DELAY_MS);
+                }}
+                onPointerUp={(event) => {
+                  if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+                    event.currentTarget.releasePointerCapture(event.pointerId);
+                  }
+                  const timer = holdTimersRef.current[sw.id];
+                  if (timer) clearTimeout(timer);
+                  holdTimersRef.current[sw.id] = null;
+                }}
+                onPointerCancel={(event) => {
+                  if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+                    event.currentTarget.releasePointerCapture(event.pointerId);
+                  }
+                  const timer = holdTimersRef.current[sw.id];
+                  if (timer) clearTimeout(timer);
+                  holdTimersRef.current[sw.id] = null;
+                }}
+                onClick={() => {
+                  if (holdTriggeredRef.current[sw.id]) {
+                    holdTriggeredRef.current[sw.id] = false;
+                    return;
+                  }
+                  sw.onPress?.(sw.id);
+                }}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();

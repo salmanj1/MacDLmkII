@@ -2939,15 +2939,9 @@ checksum = "7a2d987857b319362043e95f5353c0535c1f58eec5336fdfcf626430af7def58"
 
 [[package]]
 name = "reqwest"
-<<<<<<< HEAD
-version = "0.12.24"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9d0946410b9f7b082a427e4ef5c8ff541a88b357bc6c637c40db3a68ac70a36f"
-=======
 version = "0.12.25"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b6eff9328d40131d43bd911d42d79eb6a47312002a4daefc9e37f17e74a7701a"
->>>>>>> b8186acf19542a892ce69c8b8c94b6d46f284aae
 dependencies = [
  "base64 0.22.1",
  "bytes",
@@ -3304,15 +3298,9 @@ dependencies = [
 
 [[package]]
 name = "simd-adler32"
-<<<<<<< HEAD
-version = "0.3.7"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d66dc143e6b11c1eddc06d5c423cfc97062865baf299914ab64caa38182078fe"
-=======
 version = "0.3.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e320a6c5ad31d271ad523dcf3ad13e2767ad8b1cb8f047f75a8aeaf8da139da2"
->>>>>>> b8186acf19542a892ce69c8b8c94b6d46f284aae
 
 [[package]]
 name = "siphasher"

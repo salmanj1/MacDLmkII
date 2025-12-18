@@ -81,20 +81,12 @@ const KeyboardHelp = ({ isOpen, onClose }: KeyboardHelpProps) => {
                 <dt><kbd>D</kbd></dt>
                 <dd>Next reverb effect</dd>
               </div>
-              <div className={styles.shortcut}>
-                <dt><kbd>Arrow Keys</kbd></dt>
-                <dd>Navigate selector knob (when focused)</dd>
-              </div>
             </dl>
           </section>
 
           <section className={styles.section}>
-            <h3>Search & Help</h3>
+            <h3>Help</h3>
             <dl className={styles.shortcutList}>
-              <div className={styles.shortcut}>
-                <dt><kbd>Cmd/Ctrl</kbd> + <kbd>F</kbd></dt>
-                <dd>Focus search box</dd>
-              </div>
               <div className={styles.shortcut}>
                 <dt><kbd>?</kbd></dt>
                 <dd>Show/hide this help panel</dd>
@@ -102,20 +94,6 @@ const KeyboardHelp = ({ isOpen, onClose }: KeyboardHelpProps) => {
               <div className={styles.shortcut}>
                 <dt><kbd>Esc</kbd></dt>
                 <dd>Close help panel</dd>
-              </div>
-            </dl>
-          </section>
-
-          <section className={styles.section}>
-            <h3>General</h3>
-            <dl className={styles.shortcutList}>
-              <div className={styles.shortcut}>
-                <dt><kbd>Tab</kbd></dt>
-                <dd>Navigate between controls</dd>
-              </div>
-              <div className={styles.shortcut}>
-                <dt><kbd>Enter</kbd> / <kbd>Space</kbd></dt>
-                <dd>Activate focused button</dd>
               </div>
             </dl>
           </section>
