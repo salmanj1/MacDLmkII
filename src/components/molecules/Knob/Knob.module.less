@@ -92,6 +92,10 @@
   transform-origin: center;
 }
 
+.tickLayer {
+  display: none;
+}
+
 .knob {
   position: absolute;
   left: 50%;
@@ -132,11 +136,8 @@
   position: absolute;
   inset: -0.2rem;
   border-radius: 9999px;
-  border: 0.2rem solid var(--knob-accent, @glow);
-  box-shadow:
-    0 0 14px rgba(var(--knob-accent-rgb, 82, 255, 108), 0.65),
-    0 0 26px rgba(var(--knob-accent-rgb, 82, 255, 108), 0.32),
-    inset 0 0 12px rgba(var(--knob-accent-rgb, 82, 255, 108), 0.22);
+  border: none;
+  box-shadow: none;
   pointer-events: none;
 }
 
@@ -158,7 +159,7 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) rotate(calc(var(--knob-angle, 0deg) * -1));
   font-weight: 800;
   font-size: 0.9rem;
   text-align: center;
