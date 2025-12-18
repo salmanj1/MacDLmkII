@@ -303,22 +303,6 @@ type PresetLibraryEntry = {
     [autoNameFromSnapshot, buildPresetSnapshot, showToast, summaryFromSnapshot]
   );
 
-  const handleLibraryLoad = useCallback(
-    async (id: string) => {
-      const entry = presetLibrary.find((item) => item.id === id);
-      if (!entry) return;
-      setLibraryLoadingId(id);
-      await applyPresetSnapshot(entry.snapshot, null);
-      setLibraryLoadingId(null);
-      showToast(`Loaded "${entry.name}" from library`, 'ok');
-    },
-    [applyPresetSnapshot, presetLibrary, showToast]
-  );
-
-  const handleLibraryDelete = useCallback((id: string) => {
-    setPresetLibrary((prev) => prev.filter((entry) => entry.id !== id));
-  }, []);
-
   const applyPresetSnapshot = useCallback(
     async (snapshot: PresetSnapshot, presetIndex: number | null = null) => {
       setMode(snapshot.mode);
@@ -352,6 +336,22 @@ type PresetLibraryEntry = {
       setDetentForMode
     ]
   );
+
+  const handleLibraryLoad = useCallback(
+    async (id: string) => {
+      const entry = presetLibrary.find((item) => item.id === id);
+      if (!entry) return;
+      setLibraryLoadingId(id);
+      await applyPresetSnapshot(entry.snapshot, null);
+      setLibraryLoadingId(null);
+      showToast(`Loaded "${entry.name}" from library`, 'ok');
+    },
+    [applyPresetSnapshot, presetLibrary, showToast]
+  );
+
+  const handleLibraryDelete = useCallback((id: string) => {
+    setPresetLibrary((prev) => prev.filter((entry) => entry.id !== id));
+  }, []);
 
   useKeyboardShortcuts({
     onModeChange: setMode,
