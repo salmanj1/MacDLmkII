@@ -287,9 +287,13 @@ type PresetLibraryEntry = {
     const reverbValues = reverbControlValues;
 
     await Promise.all([
-      ...delayControls.map((ctrl) =>
-        sendCC(ctrl.cc, Math.round(delayValues[ctrl.id] ?? 64))
-      ),
+      ...delayControls.map((ctrl) => {
+        if (ctrl.id === 'time' && tapModeActive) {
+          const tapValue = tapSubdivisions[tapSubdivisionIndex]?.value ?? 64;
+          return sendCC(midiCC.delayNotes, tapValue);
+        }
+        return sendCC(ctrl.cc, Math.round(delayValues[ctrl.id] ?? 64));
+      }),
       ...reverbControls.map((ctrl) =>
         sendCC(ctrl.cc, Math.round(reverbValues[ctrl.id] ?? 64))
       )
@@ -395,34 +399,6 @@ type PresetLibraryEntry = {
     window.addEventListener('keydown', handleSearchShortcut);
     return () => window.removeEventListener('keydown', handleSearchShortcut);
   }, []);
-
-  const sendAllControls = useCallback(async () => {
-    if (!midiReady || selectedPort === null) return;
-    const delayValues = delayControlValues[mode] || {};
-    const reverbValues = reverbControlValues;
-
-    await Promise.all([
-      ...delayControls.map((ctrl) => {
-        if (ctrl.id === 'time' && tapModeActive) {
-          const tapValue = tapSubdivisions[tapSubdivisionIndex]?.value ?? 64;
-          return sendCC(midiCC.delayNotes, tapValue);
-        }
-        return sendCC(ctrl.cc, Math.round(delayValues[ctrl.id] ?? 64));
-      }),
-      ...reverbControls.map((ctrl) =>
-        sendCC(ctrl.cc, Math.round(reverbValues[ctrl.id] ?? 64))
-      )
-    ]);
-  }, [
-    delayControlValues,
-    mode,
-    reverbControlValues,
-    midiReady,
-    selectedPort,
-    sendCC,
-    tapModeActive,
-    tapSubdivisionIndex
-  ]);
 
   const loadPresetFromStorage = useCallback(
     async (index: number) => {
