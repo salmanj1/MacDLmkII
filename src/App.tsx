@@ -113,6 +113,7 @@ const App = () => {
     sendCC,
     sendProgramChange
   } = midi;
+  const [clockSendBpm, setClockSendBpm] = useState(120);
 
   const midiErrorLabel = useMemo(() => {
     if (!midiLastCommand) return null;
@@ -854,6 +855,35 @@ const App = () => {
         >
           {clock.followEnabled ? 'Clock: On' : 'Clock: Off'}
         </button>
+        <div className={styles.midiStepper}>
+          <input
+            type="number"
+            className={styles.midiPreset}
+            min={30}
+            max={300}
+            value={clockSendBpm}
+            onChange={(event) => {
+              const next = Number(event.target.value);
+              if (!Number.isFinite(next)) return;
+              const clamped = Math.max(30, Math.min(300, Math.floor(next)));
+              setClockSendBpm(clamped);
+            }}
+            aria-label="Clock send BPM"
+          />
+          <button
+            type="button"
+            className={styles.midiRefresh}
+            onClick={() =>
+              clock.sendEnabled
+                ? clock.stopSend()
+                : clock.startSend(clockSendBpm)
+            }
+            disabled={!midiReady || selectedPort === null}
+            aria-pressed={clock.sendEnabled}
+          >
+            {clock.sendEnabled ? 'Send Clock: On' : 'Send Clock'}
+          </button>
+        </div>
         {midiError && (
           <span className={styles.midiError}>
             {midiErrorLabel ?? midiError}

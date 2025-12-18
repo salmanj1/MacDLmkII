@@ -1,14 +1,20 @@
 use midir::{MidiInput, MidiInputConnection, MidiOutput, MidiOutputConnection};
-use std::sync::{Arc, Mutex};
-use std::time::Instant;
+use std::sync::{
+  atomic::{AtomicBool, Ordering},
+  Arc, Mutex,
+};
+use std::thread::JoinHandle;
+use std::time::{Duration, Instant};
 
 /// Minimal MIDI manager for CoreMIDI (macOS) that keeps a single output connection alive.
 /// Errors are flattened to strings to keep the bridge simple for the frontend.
 pub struct MidiState {
-  connection: Option<MidiOutputConnection>,
+  connection: Arc<Mutex<Option<MidiOutputConnection>>>,
   selected_port: Option<usize>,
   clock_input: Option<MidiInputConnection<()>>,
   clock_state: Arc<Mutex<ClockState>>,
+  clock_send_running: Arc<AtomicBool>,
+  clock_send_handle: Option<JoinHandle<()>>,
 }
 
 #[derive(Default)]
@@ -22,10 +28,12 @@ struct ClockState {
 impl Default for MidiState {
   fn default() -> Self {
     Self {
-      connection: None,
+      connection: Arc::new(Mutex::new(None)),
       selected_port: None,
       clock_input: None,
       clock_state: Arc::new(Mutex::new(ClockState::default())),
+      clock_send_running: Arc::new(AtomicBool::new(false)),
+      clock_send_handle: None,
     }
   }
 }
@@ -47,7 +55,10 @@ impl MidiState {
 
   pub fn select_output(&mut self, index: usize) -> Result<(), String> {
     // Drop any existing connection before opening a new one.
-    self.connection = None;
+    self.stop_clock_send();
+    if let Ok(mut conn) = self.connection.lock() {
+      *conn = None;
+    }
     self.selected_port = None;
     self.clock_input = None;
 
@@ -60,7 +71,9 @@ impl MidiState {
     let conn = midi_out
       .connect(port, "MacDL MkII out")
       .map_err(|e| e.to_string())?;
-    self.connection = Some(conn);
+    if let Ok(mut guard) = self.connection.lock() {
+      *guard = Some(conn);
+    }
     self.selected_port = Some(index);
     Ok(())
   }
@@ -71,26 +84,74 @@ impl MidiState {
       control.min(127),
       value.min(127),
     ];
-    self
-      .connection
-      .as_mut()
-      .ok_or_else(|| "No MIDI output selected".to_string())?
-      .send(&msg)
-      .map_err(|e| e.to_string())
+    self.send_bytes(&msg)
   }
 
   pub fn send_pc(&mut self, channel: u8, program: u8) -> Result<(), String> {
     let msg = [0xC0 | ((channel.saturating_sub(1)) & 0x0F), program.min(127)];
-    self
-      .connection
-      .as_mut()
-      .ok_or_else(|| "No MIDI output selected".to_string())?
-      .send(&msg)
-      .map_err(|e| e.to_string())
+    self.send_bytes(&msg)
   }
 
   pub fn selected_port(&self) -> Option<usize> {
     self.selected_port
+  }
+
+  pub fn start_clock_send(&mut self, bpm: f64) -> Result<(), String> {
+    if bpm <= 0.0 {
+      return Err("BPM must be greater than zero".to_string());
+    }
+    let sleep = Duration::from_secs_f64(60.0 / (bpm * 24.0));
+    {
+      let conn = self.connection.lock().map_err(|_| "MIDI state poisoned")?;
+      if conn.is_none() {
+        return Err("No MIDI output selected".to_string());
+      }
+    }
+
+    self.stop_clock_send();
+    self.clock_send_running.store(true, Ordering::Relaxed);
+
+    let running = Arc::clone(&self.clock_send_running);
+    let connection = Arc::clone(&self.connection);
+    self.clock_send_handle = Some(std::thread::spawn(move || {
+      while running.load(Ordering::Relaxed) {
+        let send_result = {
+          connection
+            .lock()
+            .ok()
+            .and_then(|mut guard| guard.as_mut().map(|c| c.send(&[0xF8])))
+        };
+
+        if let Some(Err(err)) = send_result {
+          eprintln!("[MIDI] clock send failed: {err}");
+          // Back off briefly to avoid tight error loops.
+          std::thread::sleep(Duration::from_millis(50));
+        } else {
+          std::thread::sleep(sleep);
+        }
+      }
+    }));
+
+    // Send a Start message once when enabling, so devices lock tempo immediately.
+    self.send_bytes(&[0xFA])?;
+    Ok(())
+  }
+
+  pub fn stop_clock_send(&mut self) {
+    self.clock_send_running.store(false, Ordering::Relaxed);
+    if let Some(handle) = self.clock_send_handle.take() {
+      let _ = handle.join();
+    }
+    let _ = self.send_bytes(&[0xFC]); // stop message is best-effort
+  }
+
+  fn send_bytes(&mut self, msg: &[u8]) -> Result<(), String> {
+    let mut guard = self.connection.lock().map_err(|_| "MIDI state poisoned")?;
+    guard
+      .as_mut()
+      .ok_or_else(|| "No MIDI output selected".to_string())?
+      .send(msg)
+      .map_err(|e| e.to_string())
   }
 
   pub fn enable_clock_follow(&mut self, index: usize) -> Result<(), String> {

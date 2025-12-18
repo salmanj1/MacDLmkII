@@ -47,6 +47,22 @@ fn midi_clock_status(state: tauri::State<'_, SharedMidi>) -> Result<(bool, Optio
 }
 
 #[tauri::command]
+fn start_midi_clock_send(
+  state: tauri::State<'_, SharedMidi>,
+  bpm: f64,
+) -> Result<(), String> {
+  let mut mgr = state.lock().map_err(|_| "MIDI state poisoned".to_string())?;
+  mgr.start_clock_send(bpm)
+}
+
+#[tauri::command]
+fn stop_midi_clock_send(state: tauri::State<'_, SharedMidi>) -> Result<(), String> {
+  let mut mgr = state.lock().map_err(|_| "MIDI state poisoned".to_string())?;
+  mgr.stop_clock_send();
+  Ok(())
+}
+
+#[tauri::command]
 fn send_midi_cc(
   state: tauri::State<'_, SharedMidi>,
   channel: u8,
@@ -77,7 +93,9 @@ fn main() {
       send_midi_pc,
       enable_midi_clock_follow,
       disable_midi_clock_follow,
-      midi_clock_status
+      midi_clock_status,
+      start_midi_clock_send,
+      stop_midi_clock_send
     ])
     .plugin(tauri_plugin_opener::init())
     .run(tauri::generate_context!())

@@ -25,6 +25,9 @@ type MidiBridge = {
     followEnabled: boolean;
     enableFollow: () => Promise<void>;
     disableFollow: () => Promise<void>;
+    sendEnabled: boolean;
+    startSend: (bpm: number) => Promise<void>;
+    stopSend: () => Promise<void>;
   };
   refreshOutputs: () => Promise<void>;
   selectPort: (index: number) => Promise<void>;
@@ -75,6 +78,7 @@ const useMidiBridge = (): MidiBridge => {
   const [clockRunning, setClockRunning] = useState(false);
   const [clockBpm, setClockBpm] = useState<number | null>(null);
   const [clockFollowEnabled, setClockFollowEnabled] = useState(false);
+  const [clockSendEnabled, setClockSendEnabled] = useState(false);
   const queueRef = useRef<QueueEntry[]>([]);
   const processingRef = useRef(false);
 
@@ -107,6 +111,7 @@ const useMidiBridge = (): MidiBridge => {
         setError(null);
         setLastCommand(null);
         setClockFollowEnabled(false);
+        setClockSendEnabled(false);
         setClockRunning(false);
         setClockBpm(null);
       } catch (err) {
@@ -222,12 +227,42 @@ const useMidiBridge = (): MidiBridge => {
       setClockFollowEnabled(false);
       setClockRunning(false);
       setClockBpm(null);
+      setClockSendEnabled(false);
       setError(null);
       setLastCommand(null);
     } catch (err) {
       console.error('[MIDI] disable clock follow failed', err);
       setError(toErrorMessage(err, 'Failed to disable MIDI clock follow'));
       setLastCommand(null);
+    }
+  }, [ready]);
+
+  const startClockSend = useCallback(
+    async (bpm: number) => {
+      if (!ready || selectedPort === null) return;
+      const clamped = Math.max(20, Math.min(300, bpm || 120));
+      try {
+        await invoke('start_midi_clock_send', { bpm: clamped });
+        setClockSendEnabled(true);
+        setError(null);
+      } catch (err) {
+        console.error('[MIDI] start clock send failed', err);
+        setError(toErrorMessage(err, 'Failed to send MIDI clock'));
+        setClockSendEnabled(false);
+      }
+    },
+    [ready, selectedPort]
+  );
+
+  const stopClockSend = useCallback(async () => {
+    if (!ready) return;
+    try {
+      await invoke('stop_midi_clock_send');
+      setClockSendEnabled(false);
+      setError(null);
+    } catch (err) {
+      console.error('[MIDI] stop clock send failed', err);
+      setError(toErrorMessage(err, 'Failed to stop MIDI clock'));
     }
   }, [ready]);
 
@@ -318,7 +353,10 @@ const useMidiBridge = (): MidiBridge => {
       bpm: clockBpm,
       followEnabled: clockFollowEnabled,
       enableFollow: enableClockFollow,
-      disableFollow: disableClockFollow
+      disableFollow: disableClockFollow,
+      sendEnabled: clockSendEnabled,
+      startSend: startClockSend,
+      stopSend: stopClockSend
     },
     refreshOutputs,
     selectPort,
