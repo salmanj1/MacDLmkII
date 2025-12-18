@@ -2,12 +2,16 @@
 
 .panel {
   border-radius: 1.7rem;
-  border: 1px solid fade(#fff, 5%);
-  background: @panel;
-  padding: 1.25rem 1.35rem 1.5rem;
+  border: 1px solid fade(@borderSoft, 65%);
+  background:
+    radial-gradient(circle at 12% 10%, fade(@glow, 10%), transparent 42%),
+    radial-gradient(circle at 92% 8%, fade(@accentWarm, 8%), transparent 32%),
+    linear-gradient(180deg, fade(@panel, 52%), fade(@panel, 78%));
+  padding: 1rem 1.1rem 1.2rem;
   box-shadow: @shadowPanel;
   backdrop-filter: blur(12px);
   color: @textSecondary;
+  min-height: 0;
 }
 
 .searchWrap {
@@ -17,10 +21,11 @@
 .qaCard {
   margin-top: 0.25rem;
   border-radius: 1rem;
-  border: 1px solid fade(@glow, 30%);
-  background: fade(@glow, 6%);
+  border: 1px solid fade(@glow, 32%);
+  background: linear-gradient(180deg, fade(@glow, 18%), fade(@panel, 78%));
   padding: 1rem;
   color: @textSecondary;
+  box-shadow: inset 0 1px 0 fade(#fff, 6%);
 }
 
 .qaHeader {
@@ -54,14 +59,46 @@
 }
 
 .listGrid {
-  margin-top: 1.25rem;
+  margin-top: 1rem;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 0.65rem;
+  gap: 0.5rem;
 }
 
 .emptyState {
   margin-top: 0.75rem;
   color: @textMuted;
   font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+}
+
+.emptyState p {
+  margin: 0;
+}
+
+.clearSearchButton {
+  padding: 0.5rem 1rem;
+  border-radius: 0.55rem;
+  border: 1px solid fade(@borderSoft, 70%);
+  background: fade(@panel, 72%);
+  color: @textPrimary;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 fade(#fff, 5%);
+  transition: border-color 120ms ease, outline 120ms ease, background 120ms ease;
+  outline: none;
+}
+
+.clearSearchButton:hover {
+  background: fade(@panel, 85%);
+  border-color: fade(@glow, 40%);
+}
+
+.clearSearchButton:focus-visible {
+  outline: 2px solid rgba(251, 191, 36, 0.7);
+  outline-offset: 1px;
+  border-color: rgba(251, 191, 36, 0.4);
 }

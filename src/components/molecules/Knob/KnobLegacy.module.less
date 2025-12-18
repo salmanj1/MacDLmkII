@@ -1,0 +1,204 @@
+@import '../../../styles/tokens.less';
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  user-select: none;
+  --knob-accent: @glow;
+  --knob-accent-rgb: 183, 255, 56;
+  --knob-label-color: fade(#f8fafc, 88%);
+  --knob-label-color-active: #f8fafc;
+}
+
+.dialFrame {
+  position: relative;
+  width: clamp(12rem, 32vw, 14.5rem);
+  height: clamp(12rem, 32vw, 14.5rem);
+}
+
+.labelsLayer {
+  pointer-events: auto;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.labelAnchor {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translate(-50%, -50%);
+}
+
+.labelText {
+  font-size: 0.58rem;
+  line-height: 1.25;
+  text-align: center;
+  color: var(--knob-label-color, @textMuted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  max-width: 5.8rem;
+  overflow: hidden;
+  word-break: break-word;
+  white-space: normal;
+  text-shadow: 0 1px 4px fade(#000, 75%);
+}
+
+.labelTextActive {
+  font-weight: 700;
+  color: var(--knob-label-color-active, @textPrimary);
+  text-shadow:
+    0 1px 6px fade(#000, 80%),
+    0 0 14px rgba(var(--knob-accent-rgb, 183, 255, 56), 0.85);
+}
+
+.dial {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: clamp(8.2rem, 23vw, 9.8rem);
+  height: clamp(8.2rem, 23vw, 9.8rem);
+  transform: translate(-50%, -50%);
+  border-radius: 9999px;
+  touch-action: none;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.dialDragging {
+  transform: translate(-50%, -50%) scale(1.05);
+  box-shadow: 0 0 30px fade(#63ffdb, 45%);
+}
+
+.dialBase,
+.dialRing,
+.dialSurface,
+.dialMetal,
+.dialSheen {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+}
+
+.dialHalo {
+  position: absolute;
+  inset: -6px;
+  border-radius: 9999px;
+  border: 2px solid var(--knob-accent, @glow);
+  box-shadow:
+    0 0 10px rgba(var(--knob-accent-rgb, 183, 255, 56), 0.9),
+    0 0 30px rgba(var(--knob-accent-rgb, 183, 255, 56), 0.5);
+  pointer-events: none;
+}
+.dialBase {
+  background: radial-gradient(circle at 50% 46%, #0f0f0f, #040404 80%);
+  box-shadow:
+    0 14px 28px fade(#000, 70%),
+    inset 0 1px 12px fade(#fff, 8%);
+}
+
+.dialRing {
+  inset: 5px;
+  border: 1px solid fade(#fff, 30%);
+  background: linear-gradient(180deg, #0c0c0c, #060606 65%, #030303);
+  box-shadow:
+    inset 0 8px 12px fade(#fff, 10%),
+    inset 0 -10px 14px fade(#000, 70%);
+}
+
+.dialSurface {
+  inset: 12px;
+  border: none;
+  background:
+    radial-gradient(circle at 44% 46%, fade(#ffffff, 12%), fade(#0c0c0c, 0%)),
+    linear-gradient(180deg, #161616 12%, #0a0a0a 72%, #030303);
+  box-shadow:
+    inset 6px 12px 18px fade(#fff, 6%),
+    inset -10px -14px 20px fade(#000, 78%);
+}
+
+.dialSheen {
+  position: absolute;
+  inset: 16px;
+  border-radius: 9999px;
+  background:
+    radial-gradient(circle at 50% 50%, fade(#ffffff, 14%), fade(#000, 0%)),
+    linear-gradient(90deg, fade(#ffffff, 12%), fade(#000, 0%), fade(#ffffff, 12%));
+  opacity: 0.06;
+}
+
+.tick {
+  position: absolute;
+  height: 0.16rem;
+  width: 0.16rem;
+  border-radius: 9999px;
+  transform-origin: bottom;
+  background: fade(#cbd5e1, 42%);
+  box-shadow: 0 0 8px fade(#fff, 45%);
+}
+
+.tickActive {
+  background: fade(#cbd5e1, 52%);
+  box-shadow: 0 0 8px fade(#fff, 50%);
+}
+
+.indicatorLayer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.indicatorStack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.08rem;
+  transform: translateY(-2rem);
+}
+
+.indicatorBody {
+  display: none;
+}
+
+.indicatorStem {
+  height: 3.2rem;
+  width: 0.2rem;
+  border-radius: 9999px;
+  background: #f7fafc;
+  box-shadow:
+    0 0 10px fade(#fff, 85%),
+    0 0 18px rgba(var(--knob-accent-rgb, 183, 255, 56), 0.3);
+}
+
+.topMarker {
+  position: absolute;
+  top: 7%;
+  left: 50%;
+  width: 0.26rem;
+  height: 0.26rem;
+  transform: translateX(-50%);
+  border-radius: 9999px;
+  background: fade(#e2e8f0, 90%);
+  box-shadow: 0 0 12px fade(#fff, 60%);
+}
+
+.detentCopy {
+  text-align: center;
+  font-size: 0.95rem;
+  color: @textSecondary;
+}
+
+.detentTitle {
+  font-weight: 700;
+  color: lighten(@textSecondary, 4%);
+}

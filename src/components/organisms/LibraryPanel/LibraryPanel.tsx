@@ -99,7 +99,20 @@ const LibraryPanel = ({
 
       {!loading && filteredEffects.length === 0 && (
         <div className={styles.emptyState} role="status">
-          No matches yet — try adjusting the search or mode.
+          {searchTerm ? (
+            <>
+              <p>No effects match "{searchTerm}"</p>
+              <button
+                type="button"
+                onClick={() => onSearchChange('')}
+                className={styles.clearSearchButton}
+              >
+                Clear search
+              </button>
+            </>
+          ) : (
+            <p>No effects available for this mode.</p>
+          )}
         </div>
       )}
     </div>

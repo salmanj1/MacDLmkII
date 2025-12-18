@@ -38,12 +38,25 @@ type Story = StoryObj<typeof Pedal>;
 export const InteractivePedal: Story = {
   render: () => {
     const [mode, setMode] = useState<Mode>(modes[0]);
-    const [detent, setDetent] = useState(0);
+    const [detentByMode, setDetentByMode] = useState<Record<Mode, number>>({
+      'MkII Delay': 0,
+      'Legacy Delay': 0,
+      'Secret Reverb': 0
+    });
+
+    const detent = detentByMode[mode];
 
     const currentEffect = useMemo<EffectInfo | undefined>(
       () => getEffect(mode, detent),
       [mode, detent]
     );
+
+    const handleDetentChange = (next: number) => {
+      setDetentByMode((prev) => ({
+        ...prev,
+        [mode]: next
+      }));
+    };
 
     return (
       <div
@@ -60,9 +73,8 @@ export const InteractivePedal: Story = {
           currentEffect={currentEffect}
           onModeChange={(next) => {
             setMode(next);
-            setDetent(0);
           }}
-          onDetentChange={setDetent}
+          onDetentChange={handleDetentChange}
         />
 
         <div

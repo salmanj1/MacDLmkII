@@ -2,137 +2,175 @@
 
 .shell {
   position: relative;
-  overflow: hidden;
-  border-radius: 2.75rem;
-  border: 1px solid @borderDark;
-  padding: 1.25rem;
-  background:
-    radial-gradient(circle at 16% 16%, fade(#fff, 14%), transparent 34%),
-    radial-gradient(circle at 82% 10%, fade(#fff, 8%), transparent 26%),
-    linear-gradient(145deg, #2a8c3f, #0f4d25 38%, #0b2e17);
-  box-shadow:
-    0 40px 80px fade(#000, 50%),
-    inset 0 1px 0 fade(#fff, 6%),
-    inset 0 -1px 0 fade(#000, 50%);
+  width: min(980px, 100%);
+  aspect-ratio: 1260 / 805;
+  margin: 0 auto;
+  filter: drop-shadow(0 32px 58px fade(#000, 55%));
+  font-family: 'Bahnschrift SemiBold Condensed', 'Space Grotesk', system-ui, sans-serif;
 }
 
-.shellBackdrop {
+.faceplate {
+  position: absolute;
+  top: 0;
+  left: 2%;
+  right: 0;
+  bottom: 0;
+  background: center / contain no-repeat url('/assets/dl4ii/original/DL4MkII Labeled.png');
+  border-radius: 1.2rem;
   pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.overlay {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 2%;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
 }
 
-.shellBorder {
+.detentSlot {
   position: absolute;
-  inset: 1.1rem;
-  border-radius: 2.25rem;
-  border: 1px solid fade(#fff, 10%);
-  background: linear-gradient(
-    90deg,
-    fade(#fff, 6%),
-    transparent 30%,
-    transparent 70%,
-    fade(#fff, 6%)
-  );
-}
-
-.shellShadow {
-  position: absolute;
-  left: 1.5rem;
-  right: 1.5rem;
-  bottom: 5rem;
-  height: 3.5rem;
-  border-radius: 999px;
-  background: radial-gradient(circle, fade(#000, 24%), fade(#000, 0));
-  filter: blur(14px);
-}
-
-.shellPeg {
-  position: absolute;
-  top: 1.2rem;
-  height: 0.5rem;
-  width: 0.5rem;
-  border-radius: 9999px;
-  background: fade(#000, 60%);
-  border: 1px solid fade(#fff, 20%);
-}
-
-.pegLeft {
-  left: 1.5rem;
-}
-
-.pegRight {
-  right: 1.5rem;
-}
-
-.content {
-  position: relative;
+  pointer-events: none;
   display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
 }
 
-.panelGrid {
-  display: grid;
-  gap: 1.25rem;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+.altButton {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  width: clamp(32px, 3vw, 46px);
+  aspect-ratio: 1 / 1;
+  background: center / contain no-repeat url('/assets/dl4ii/DL4 MkII Alt White.png');
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  pointer-events: auto;
+  z-index: 4;
+  transition: filter 120ms ease, outline 120ms ease;
+  outline: none;
 }
 
-.modelCard {
-  border-radius: 1.7rem;
-  border: 1px solid @borderDark;
-  background: fade(#000, 18%);
-  padding: 0.85rem 1rem;
-  box-shadow: inset 0 1px 0 fade(#000, 50%);
-  backdrop-filter: blur(8px);
+.altButton:focus-visible {
+  outline: 2px solid rgba(251, 191, 36, 0.8);
+  outline-offset: 2px;
+  border-radius: 50%;
 }
 
-.modelHeader {
+.altButton:hover {
+  filter: drop-shadow(0 4px 8px fade(#000, 35%));
+}
+
+.altButtonActive {
+  background-image: url('/assets/dl4ii/DL4 MkII Alt Green.png');
+}
+
+.selectorSlot,
+.reverbSelectorSlot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: clamp(120px, 11vw, 140px);
+  aspect-ratio: 1 / 1;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  z-index: 3;
 }
 
-.modelLabel {
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: lighten(@glow, 10%);
+.reverbSelectorSlot {
+  width: clamp(110px, 11vw, 135px);
 }
 
-.liveBadge {
-  border-radius: 9999px;
-  background: fade(@glow, 28%);
-  color: @textPrimary;
-  padding: 0.25rem 0.8rem;
-  letter-spacing: 0.14em;
-  font-size: 0.72rem;
-  border: 1px solid fade(@glow, 60%);
+.delayControls,
+.reverbControls {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
 }
 
-.selectorStack {
-  margin-top: 0.75rem;
-  display: grid;
-  gap: 0.6rem;
+// Slots sized to sit over the silkscreen; knob art is already scaled in the child.
+.controlSlot {
+  position: absolute;
+  pointer-events: auto;
+  width: 8.2%;
+  height: 8.2%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
 }
 
-.detentStack {
+.detentSlot {
+  position: absolute;
+  left: calc(100% + 0.8rem);
+  top: 8%;
   display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
+  align-items: flex-start;
+  pointer-events: auto;
 }
 
-.footswitchRow {
-  margin-top: 0.5rem;
-  padding: 0.35rem 0.25rem 0;
+.detentPanel {
+  position: relative;
+  width: clamp(220px, 21vw, 240px);
+  aspect-ratio: 350 / 805;
+  background: center / contain no-repeat url('/assets/dl4ii/DL4MkII Addon.png');
+  border-radius: 1rem;
+  box-shadow: 0 14px 30px fade(#000, 40%);
+  overflow: hidden;
 }
 
-@media (min-width: 1024px) {
-  .panelGrid {
-    grid-template-columns: minmax(360px, 440px) 1fr;
-  }
+.detentContent {
+  position: absolute;
+  top: 32%;
+  left: 12%;
+  right: 12%;
+  bottom: 32%;
+  display: flex;
+  align-items: stretch;
+}
 
-  .footswitchRow {
-    margin-top: 0.35rem;
+.detentContent > :global(*) {
+  width: 100%;
+}
+
+.detentSet {
+  position: absolute;
+  left: 50%;
+  bottom: 11%;
+  transform: translateX(-50%);
+  width: clamp(46px, 5vw, 56px);
+  aspect-ratio: 1 / 1;
+  border: none;
+  border-radius: 9999px;
+  background: center / contain no-repeat url('/assets/dl4ii/original/DL4 MkII Foot None.png');
+  box-shadow:
+    0 10px 20px fade(#000, 45%),
+    inset 0 1px 0 fade(#fff, 10%);
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.detentSet:hover {
+  transform: translateX(-50%) translateY(-1px);
+  box-shadow:
+    0 12px 24px fade(#000, 50%),
+    inset 0 1px 0 fade(#fff, 12%);
+}
+
+.footswitchSlot {
+  position: absolute;
+  inset: 0;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+@media (max-width: 960px) {
+  .shell {
+    width: 100%;
   }
 }

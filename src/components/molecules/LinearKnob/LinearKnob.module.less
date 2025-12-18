@@ -1,0 +1,192 @@
+@import '../../../styles/tokens.less';
+
+.knob {
+  position: relative;
+  width: clamp(60px, 7vw, 76px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  color: @textSecondary;
+  font-family: 'Bahnschrift SemiBold Condensed', 'Agency FB', 'Space Grotesk',
+    system-ui, sans-serif;
+}
+
+.cap {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 9999px;
+  position: relative;
+  box-shadow:
+    0 10px 20px fade(#000, 45%),
+    0 0 0 1px fade(@panel, 68%),
+    0 0 18px fade(@glow, 18%),
+    inset 0 1px 0 fade(#fff, 8%);
+  transition:
+    box-shadow 140ms ease,
+    filter 140ms ease,
+    transform 140ms ease;
+}
+
+.capFace {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: center / contain no-repeat url('/assets/dl4ii/original/DL4 MkII Knob.png');
+}
+
+.capSheen {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(120% 80% at 30% 20%, fade(#fff, 14%), fade(#fff, 0%)),
+    radial-gradient(80% 70% at 70% 80%, fade(#000, 25%), fade(#000, 0%));
+  pointer-events: none;
+}
+
+.capIndicator {
+  position: absolute;
+  inset: 16%;
+  border-radius: 9999px;
+  border: none;
+  box-shadow: none;
+}
+
+.capIndicator::after {
+  content: '';
+  position: absolute;
+  top: -12%;
+  left: 50%;
+  width: 5%;
+  height: 22%;
+  background: @textPrimary;
+  border-radius: 9999px;
+  box-shadow:
+    0 0 4px fade(@textPrimary, 50%),
+    0 2px 6px fade(#000, 45%);
+  transform: translate(-50%, 0);
+}
+
+.capGraphic {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  transform: rotate(var(--knob-angle, 0deg));
+  transition: transform 120ms ease;
+}
+
+.editOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 50%, fade(#000, 60%), fade(#000, 40%));
+  z-index: 5;
+}
+
+.editInput {
+  width: 66px;
+  padding: 0.32rem 0.4rem;
+  border-radius: 0.4rem;
+  border: 1px solid fade(@panel, 70%);
+  background: fade(@bgDeep, 92%);
+  color: @textPrimary;
+  font-weight: 700;
+  text-align: center;
+  box-shadow:
+    0 10px 20px fade(#000, 45%),
+    0 0 0 1px fade(#000, 35%),
+    inset 0 1px 0 fade(#fff, 8%);
+}
+
+.valueDisplay {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: fade(@textPrimary, 85%);
+  text-shadow: 0 1px 3px fade(#000, 60%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 120ms ease;
+  z-index: 10;
+}
+
+.knob:hover .valueDisplay,
+.knob:active .valueDisplay {
+  opacity: 1;
+}
+
+.range {
+  position: absolute;
+  inset: -12%;
+  width: 124%;
+  height: 124%;
+  z-index: 2;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  outline: none;
+  cursor: pointer;
+  opacity: 0;
+  touch-action: none;
+}
+
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 9999px;
+  background: linear-gradient(180deg, fade(@accentWarm, 80%), fade(@accentAmber, 70%));
+  box-shadow:
+    0 0 12px fade(@accentWarm, 30%),
+    inset 0 1px 0 fade(#fff, 18%);
+  border: 1px solid fade(@accentShadow, 55%);
+}
+
+.range::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 9999px;
+  background: linear-gradient(180deg, fade(@accentWarm, 80%), fade(@accentAmber, 70%));
+  box-shadow:
+    0 0 12px fade(@accentWarm, 30%),
+    inset 0 1px 0 fade(#fff, 18%);
+  border: 1px solid fade(@accentShadow, 55%);
+}
+
+.label {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-shadow:
+    0 1px 4px fade(#000, 70%),
+    0 0 12px fade(@glow, 12%);
+  color: @textPrimary;
+  z-index: 1;
+}
+
+.knob:hover .cap {
+  box-shadow:
+    0 12px 20px fade(#000, 52%),
+    0 0 0 1px fade(@panel, 70%),
+    0 0 16px fade(@glow, 32%);
+  transform: translateY(-1px);
+}
+
+.range:focus-visible + .label,
+.knob:focus-within .cap {
+  box-shadow:
+    0 0 0 1px fade(@panel, 70%),
+    0 0 0 3px fade(@glow, 50%),
+    0 10px 18px fade(#000, 50%);
+  filter: drop-shadow(0 0 10px fade(@glow, 35%));
+}
+
+.knob {
+  touch-action: none;
+}

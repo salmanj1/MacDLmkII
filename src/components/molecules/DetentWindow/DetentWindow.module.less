@@ -7,6 +7,11 @@
   padding: 1.1rem 1.25rem 1.25rem;
   color: @textSecondary;
   box-shadow: inset 0 1px 0 fade(@textPrimary, 8%);
+  min-height: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
 }
 
 .header {
@@ -15,9 +20,15 @@
   justify-content: space-between;
   gap: 0.75rem;
   font-size: 0.7rem;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: lighten(@glow, 8%);
+}
+
+.titleBlock {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .modelBadge {
@@ -31,70 +42,65 @@
   color: @textPrimary;
 }
 
+.modeBadge {
+  border-radius: 9999px;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid fade(@textPrimary, 25%);
+  background: fade(@textPrimary, 6%);
+  color: @textPrimary;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+}
+
+.typeBadge {
+  border-radius: 9999px;
+  padding: 0.3rem 0.65rem;
+  border: 1px solid fade(@glow, 35%);
+  background: fade(@glow, 10%);
+  color: lighten(@glow, 10%);
+  letter-spacing: 0.08em;
+  font-size: 0.7rem;
+}
+
+.detent {
+  border-radius: 9999px;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid fade(@borderSoft, 60%);
+  background: fade(@panel, 55%);
+  color: @textPrimary;
+  letter-spacing: 0.08em;
+  font-size: 0.7rem;
+}
+
+.detentMap {
+  position: relative;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background: fade(@panel, 50%);
+  border: 1px solid fade(@borderSoft, 60%);
+}
+
+.detentDot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.28rem;
+  height: 0.28rem;
+  border-radius: 9999px;
+  background: fade(@textPrimary, 30%);
+  transform-origin: center;
+}
+
+.detentDotActive {
+  background: lighten(@glow, 10%);
+  box-shadow: 0 0 8px fade(@glow, 50%);
+}
+
 .emptyCopy {
   margin: 0.5rem 0 0;
   color: @textMuted;
   font-size: 0.95rem;
-}
-
-.grid {
-  margin-top: 0.65rem;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.8rem;
-}
-
-.cell {
-  border-radius: 1rem;
-  border: 1px solid @borderSoft;
-  background: @panelGlass;
-  padding: 0.7rem 0.9rem;
-}
-
-.label {
-  font-size: 0.68rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: @textMuted;
-  margin-bottom: 0.3rem;
-}
-
-.value {
-  color: @textSecondary;
-  font-size: 0.95rem;
-}
-
-.metaRow {
-  margin-top: 0.8rem;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.modelTitle {
-  font-size: 0.72rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: @textMuted;
-}
-
-.modelLine {
-  margin-top: 0.35rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  align-items: center;
-}
-
-.pill {
-  border-radius: 9999px;
-  padding: 0.3rem 0.7rem;
-  border: 1px solid @borderSoft;
-  background: fade(@textPrimary, 6%);
-  color: @textPrimary;
-  font-weight: 600;
 }
 
 .inspiration {
@@ -107,6 +113,45 @@
   color: @textPrimary;
 }
 
+.body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow: hidden;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.sectionLabel {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: @textMuted;
+}
+
+.sectionContent {
+  color: @textSecondary;
+  line-height: 1.5;
+}
+
+.sectionContentScroll {
+  max-height: 7rem;
+  overflow: auto;
+  color: @textSecondary;
+  line-height: 1.5;
+  padding-right: 0.25rem;
+}
+
+.grow {
+  flex: 1;
+}
+
 .rangeRow {
   margin-top: 0.5rem;
   display: flex;
@@ -115,47 +160,102 @@
   color: @textSecondary;
 }
 
-.rangeLabel {
-  font-size: 0.72rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: @textMuted;
-}
-
-.rangeValue {
-  color: @textPrimary;
-  font-weight: 600;
-}
-
-.description {
-  margin-top: 0.8rem;
-  line-height: 1.6;
-  color: @textSecondary;
-}
-
-.controlsGrid {
-  margin-top: 1rem;
+.controlsRow {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 0.75rem;
 }
 
-.notesSection {
-  margin-top: 0.9rem;
+.controlCard {
+  border-radius: 0.9rem;
+  border: 1px solid @borderSoft;
+  background: fade(@panel, 70%);
+  padding: 0.8rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  min-height: 0;
 }
 
-.notesTitle {
-  font-size: 0.75rem;
+.controlHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.4rem;
+}
+
+.controlTitle {
+  font-size: 0.72rem;
+  text-transform: uppercase;
   letter-spacing: 0.14em;
+  color: @textMuted;
+}
+
+.controlLabel {
+  border-radius: 9999px;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid fade(@textPrimary, 25%);
+  color: @textPrimary;
+  background: fade(@panel, 60%);
+  font-size: 0.75rem;
+}
+
+.behaviorRow {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  gap: 0.35rem;
+  align-items: start;
+}
+
+.behaviorLabel {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: @textMuted;
 }
 
-.notesList {
-  margin-top: 0.45rem;
+.behaviorValue {
+  color: @textPrimary;
+  line-height: 1.4;
+}
+
+.rangeBar {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.rangeEnd {
+  font-size: 0.7rem;
+  color: @textMuted;
+  letter-spacing: 0.08em;
+}
+
+.rangeTrack {
+  position: relative;
+  height: 0.35rem;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, fade(@textPrimary, 20%), fade(@textPrimary, 60%));
+  overflow: hidden;
+}
+
+.rangeThumb {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 9999px;
+  background: lighten(@glow, 10%);
+  box-shadow: 0 0 8px fade(@glow, 50%);
+}
+
+.notesSection {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
+  flex-direction: column;
+  gap: 0.35rem;
 }
 
 .notePill {
@@ -165,4 +265,27 @@
   padding: 0.45rem 0.75rem;
   color: @textPrimary;
   font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+.routingChips {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.routingChip {
+  border-radius: 9999px;
+  border: 1px solid fade(@borderSoft, 60%);
+  padding: 0.4rem 0.7rem;
+  background: fade(@panel, 70%);
+  color: @textPrimary;
+  font-size: 0.85rem;
+}
+
+.routingChipActive {
+  border-color: fade(@glow, 60%);
+  box-shadow: 0 0 10px fade(@glow, 18%);
+  color: lighten(@glow, 8%);
 }

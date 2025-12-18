@@ -26,13 +26,24 @@ const findCurrentEffect = (effects: EffectInfo[], mode: Mode, detent: number) =>
   effects.find((effect) => effect.mode === mode && effect.detent === detent);
 
 const useEffectLibrary = () => {
-  const [mode, setMode] = useState<Mode>('MkII Delay');
+  const [mode, setModeState] = useState<Mode>('MkII Delay');
   const [detentByMode, setDetentByMode] =
     useState<Record<Mode, number>>(initialDetentState);
+  const [selectorPosition, setSelectorPosition] = useState(0);
   const [effects, setEffects] = useState<EffectInfo[]>(skeletonEffects);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTermState] = useState(() => {
+    if (typeof window === 'undefined') return '';
+    return localStorage.getItem('macdlmkii-search') || '';
+  });
   const [loadingError, setLoadingError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const setSearchTerm = useCallback((term: string) => {
+    setSearchTermState(term);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('macdlmkii-search', term);
+    }
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -87,14 +98,30 @@ const useEffectLibrary = () => {
       ...prev,
       [targetMode]: clampDetent(targetMode, next)
     }));
+    setSelectorPosition(clampDetent(targetMode, next));
   }, []);
+
+  const setMode = useCallback(
+    (nextMode: Mode) => {
+      setDetentByMode((prev) => {
+        const nextDetent = clampDetent(nextMode, selectorPosition);
+        if (prev[nextMode] === nextDetent) return prev;
+        return {
+          ...prev,
+          [nextMode]: nextDetent
+        };
+      });
+      setModeState(nextMode);
+    },
+    [selectorPosition]
+  );
 
   const jumpToEffect = useCallback(
     (effect: EffectInfo) => {
       setMode(effect.mode);
       setDetentForMode(effect.mode, effect.detent);
     },
-    [setDetentForMode]
+    [setDetentForMode, setMode]
   );
 
   return {

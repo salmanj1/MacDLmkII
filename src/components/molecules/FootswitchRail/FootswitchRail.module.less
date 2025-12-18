@@ -1,93 +1,143 @@
 @import '../../../styles/tokens.less';
 
 .rail {
-  border-radius: 1.5rem;
-  border: 1px solid @borderDark;
-  background: linear-gradient(180deg, fade(#000, 35%), fade(#000, 55%));
-  padding: 1rem;
-  box-shadow:
-    inset 0 1px 0 fade(#fff, 6%),
-    inset 0 -1px 0 @borderDark;
-}
-
-.railHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 0.68rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: @textSecondary;
-}
-
-.railBadge {
-  border-radius: 9999px;
-  background: @glowSoft;
-  color: lighten(@glow, 10%);
-  padding: 0.25rem 0.6rem;
-  border: 1px solid fade(@glow, 40%);
-  font-size: 0.65rem;
-  text-transform: uppercase;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  pointer-events: auto;
 }
 
 .grid {
-  margin-top: 1rem;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 0.9rem;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  pointer-events: auto;
+}
+
+.gridAbsolute {
+  display: block;
+  position: relative;
 }
 
 .cell {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.35rem;
-  color: @textSecondary;
+  gap: 0.18rem;
+  color: @textPrimary;
+}
+
+.cellAbsolute {
+  position: absolute;
+  transform: translate(-50%, -50%);
 }
 
 .footswitch {
+  pointer-events: auto;
   position: relative;
-  height: 3rem;
-  width: 3rem;
+  width: clamp(68px, 7vw, 96px);
+  aspect-ratio: 1 / 1;
   border-radius: 9999px;
-  border: 1px solid rgba(0, 0, 0, 0.55);
-  background: linear-gradient(180deg, #e2e8f0, #475569 65%, #1e293b);
+  border: none;
+  background: center / contain no-repeat url('/assets/dl4ii/original/DL4 MkII Foot None.png');
   box-shadow:
-    inset 0 8px 12px fade(#fff, 45%),
-    0 10px 18px fade(#000, 55%);
+    0 10px 20px fade(#000, 45%),
+    0 0 0 1px fade(#000, 28%),
+    inset 0 1px 0 fade(#fff, 8%);
   transition:
     transform 90ms ease,
-    box-shadow 90ms ease;
+    box-shadow 90ms ease,
+    outline 120ms ease;
+  --led-image: url('/assets/dl4ii/original/DL4 MkII Led White.png');
+  --led-opacity: 0.45;
+  --led-filter: drop-shadow(0 0 10px fade(#fff, 30%));
+  cursor: pointer;
+  outline: none;
+}
+
+.footswitch:focus-visible {
+  outline: 2px solid rgba(251, 191, 36, 0.8);
+  outline-offset: 3px;
 }
 
 .footswitch::after {
   content: '';
   position: absolute;
-  inset: 0.35rem;
-  border-radius: 9999px;
-  background: linear-gradient(180deg, fade(#fff, 65%), fade(#fff, 0%));
-  opacity: 0.45;
+  left: 50%;
+  bottom: 18%;
+  width: 28%;
+  aspect-ratio: 1 / 1;
+  transform: translateX(-50%);
+  background: center / contain no-repeat var(--led-image);
+  opacity: var(--led-opacity);
+  filter: var(--led-filter);
+}
+
+.status_armed {
+  background-image: url('/assets/dl4ii/original/DL4 MkII Foot Red.png');
+  animation: blink 0.4s ease-in-out infinite;
+  --led-filter: drop-shadow(0 0 14px fade(#ff4444, 70%)) hue-rotate(-70deg) saturate(6)
+    brightness(1.15);
+  --led-opacity: 0.9;
+}
+
+.status_armed:active {
+  animation: none;
+}
+
+@keyframes blink {
+  0% {
+    filter: drop-shadow(0 0 8px fade(#ff4444, 55%));
+    transform: translateY(0);
+  }
+  50% {
+    filter: drop-shadow(0 0 12px fade(#ff4444, 75%));
+    transform: translateY(-1px);
+  }
+  100% {
+    filter: drop-shadow(0 0 8px fade(#ff4444, 55%));
+    transform: translateY(0);
+  }
 }
 
 .footswitch:active {
   transform: translateY(1px);
-  box-shadow:
-    inset 0 8px 12px fade(#fff, 25%),
-    0 8px 14px fade(#000, 40%);
+  box-shadow: 0 8px 14px fade(#000, 40%);
+}
+
+.status_on {
+  background-image: url('/assets/dl4ii/original/DL4 MkII Foot Green.png');
+  --led-image: url('/assets/dl4ii/original/DL4 MkII Led Green.png');
+  --led-opacity: 0.95;
+  --led-filter: drop-shadow(0 0 16px fade(@glow, 70%));
+}
+
+.status_dim {
+  background-image: url('/assets/dl4ii/original/DL4 MkII Foot Dim.png');
+  --led-opacity: 0.55;
+  --led-filter: drop-shadow(0 0 10px fade(#e5e7eb, 22%));
 }
 
 .label {
   border-radius: 9999px;
-  background: fade(#000, 45%);
-  padding: 0.25rem 0.6rem;
-  border: 1px solid @borderSoft;
-  font-size: 0.7rem;
+  background: fade(@bgDeep, 90%);
+  padding: 0.14rem 0.46rem;
+  border: 1px solid fade(#fff, 12%);
+  font-size: 0.64rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: @textSecondary;
+  color: #f5fbef;
+  box-shadow: inset 0 1px 0 fade(#fff, 6%), 0 6px 14px fade(#000, 30%);
+  pointer-events: none;
 }
 
 .hint {
-  font-size: 0.7rem;
-  color: fade(@textSecondary, 75%);
+  font-size: 0.62rem;
+  color: fade(@textMuted, 80%);
+  display: block;
+  pointer-events: none;
 }

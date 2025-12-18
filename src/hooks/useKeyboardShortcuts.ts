@@ -1,48 +1,78 @@
 import { useEffect } from 'react';
-import { modes, type Mode } from '../data/commonParams';
-
 type KeyboardShortcutConfig = {
-  mode: Mode;
-  currentDetent: number;
-  onModeChange: (mode: Mode) => void;
-  onDetentChange: (next: number) => void;
-  searchInput?: HTMLInputElement | null;
+  onModeChange: (mode: 'MkII Delay' | 'Legacy Delay') => void;
+  onDelayStep: (delta: number) => void;
+  onReverbStep: (delta: number) => void;
+  onHelpToggle?: () => void;
 };
 
 const useKeyboardShortcuts = ({
-  mode: _mode,
-  currentDetent,
   onModeChange,
-  onDetentChange,
-  searchInput
+  onDelayStep,
+  onReverbStep,
+  onHelpToggle
 }: KeyboardShortcutConfig) => {
   useEffect(() => {
     const handleKey = (event: KeyboardEvent) => {
-      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'f') {
-        event.preventDefault();
-        searchInput?.focus();
-        return;
-      }
-
-      if (['1', '2', '3'].includes(event.key)) {
-        const nextMode = modes[Number(event.key) - 1];
-        if (nextMode) onModeChange(nextMode);
-        return;
-      }
-
+      const target = event.target as HTMLElement | null;
+      const tag = target?.tagName?.toLowerCase();
       if (
-        ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)
+        tag === 'input' ||
+        tag === 'textarea' ||
+        target?.isContentEditable ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.altKey ||
+        event.repeat
       ) {
+        return;
+      }
+
+      const key = event.key.toLowerCase();
+
+      if (key === '1') {
+        onModeChange('MkII Delay');
+        return;
+      }
+
+      if (key === '2') {
+        onModeChange('Legacy Delay');
+        return;
+      }
+
+      if (key === 'q') {
         event.preventDefault();
-        const delta =
-          event.key === 'ArrowLeft' || event.key === 'ArrowDown' ? -1 : 1;
-        onDetentChange(currentDetent + delta);
+        onDelayStep(-1);
+        return;
+      }
+
+      if (key === 'e') {
+        event.preventDefault();
+        onDelayStep(1);
+        return;
+      }
+
+      if (key === 'a') {
+        event.preventDefault();
+        onReverbStep(-1);
+        return;
+      }
+
+      if (key === 'd') {
+        event.preventDefault();
+        onReverbStep(1);
+        return;
+      }
+
+      if (key === '?' && onHelpToggle) {
+        event.preventDefault();
+        onHelpToggle();
       }
     };
 
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, [currentDetent, onDetentChange, onModeChange, searchInput]);
+  }, [onDelayStep, onModeChange, onReverbStep, onHelpToggle]);
 };
 
 export default useKeyboardShortcuts;

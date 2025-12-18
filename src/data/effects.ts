@@ -6,6 +6,7 @@ import type {
 } from './commonParams';
 import { modes, notSpecified } from './commonParams';
 import skeletonJson from './effects.skeleton.json';
+import selectorOrder from './selectorOrder';
 
 type SkeletonModel = {
   id: string;
@@ -105,14 +106,32 @@ const normalizeKnob = (
   behaviorCW: sanitizeString(override?.behaviorCW)
 });
 
+const orderModelsForMode = (
+  modeLabel: Mode,
+  models: SkeletonModel[]
+): SkeletonModel[] => {
+  const order = selectorOrder[modeLabel];
+  const byId = new Map(models.map((model) => [model.id, model]));
+
+  if (order?.length) {
+    return order
+      .map((id, idx) => {
+        const model = byId.get(id);
+        if (!model) return null;
+        return { ...model, selectorIndex: idx };
+      })
+      .filter(Boolean) as SkeletonModel[];
+  }
+
+  return [...models].sort((a, b) => (a.selectorIndex ?? 0) - (b.selectorIndex ?? 0));
+};
+
 const buildBaseEffects = (skeleton: SkeletonSchema): EffectInfo[] => {
   const effects: EffectInfo[] = [];
 
   Object.entries(skeleton.modes).forEach(([modeKey, modeData]) => {
     const modeLabel = modeKeyToLabel[modeKey as SkeletonModeKey];
-    const sortedModels = [...modeData.models].sort(
-      (a, b) => (a.selectorIndex ?? 0) - (b.selectorIndex ?? 0)
-    );
+    const sortedModels = orderModelsForMode(modeLabel, modeData.models);
 
     sortedModels.forEach((model) => {
       effects.push({
@@ -159,9 +178,7 @@ const buildDetents = (skeleton: SkeletonSchema): Record<Mode, DetentMeta[]> => {
 
   Object.entries(skeleton.modes).forEach(([modeKey, modeData]) => {
     const modeLabel = modeKeyToLabel[modeKey as SkeletonModeKey];
-    const sorted = [...modeData.models].sort(
-      (a, b) => a.selectorIndex - b.selectorIndex
-    );
+    const sorted = orderModelsForMode(modeLabel, modeData.models);
     detents[modeLabel] = sorted.map((model) => ({
       label: model.displayName,
       description: `${sanitizeString(model.tweakLabel, 'N/A')} • ${sanitizeString(
@@ -201,21 +218,29 @@ export const mergeEffects = (fullEffects: unknown): EffectInfo[] => {
 
     if (!override) return base;
 
-    const rangeNote = sanitizeString(override.rangeNote, base.rangeNote);
+    const {
+      tweak: overrideTweak,
+      tweez: overrideTweez,
+      detent: _detent,
+      selectorIndex: _selectorIndex,
+      ...overrideRest
+    } = override;
+
+    const rangeNote = sanitizeString(overrideRest.rangeNote, base.rangeNote);
     const { tweakRange, tweezRange } = splitRangeNote(rangeNote);
 
     return {
       ...base,
-      ...override,
-      inspiration: sanitizeString(override.inspiration, base.inspiration),
-      description: sanitizeString(override.description, base.description),
-      tweak: normalizeKnob(base.tweak, override.tweak),
-      tweez: normalizeKnob(base.tweez, override.tweez),
+      ...overrideRest,
+      inspiration: sanitizeString(overrideRest.inspiration, base.inspiration),
+      description: sanitizeString(overrideRest.description, base.description),
+      tweak: normalizeKnob(base.tweak, overrideTweak),
+      tweez: normalizeKnob(base.tweez, overrideTweez),
       rangeNote,
       tweakRange,
       tweezRange,
       notes:
-        dedupeNotes(override.notes, [
+        dedupeNotes(overrideRest.notes, [
           base.tweak.behaviorCCW,
           base.tweak.behaviorCW,
           base.tweez.behaviorCCW,
