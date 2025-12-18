@@ -505,9 +505,9 @@ const App = () => {
 
   const handleControlChange = useCallback(
     async (id: string, value: number, domain: 'delay' | 'reverb') => {
-      if (!midiReady || selectedPort === null) return;
+      const rounded = Math.round(value);
+      const canSend = midiReady && selectedPort !== null;
       if (domain === 'delay') {
-        const rounded = Math.round(value);
         if (id === 'time' && tapModeActive) {
           const idx = tapSubdivisions.findIndex((entry) => entry.value === rounded);
           if (idx >= 0) {
@@ -519,7 +519,7 @@ const App = () => {
                 [id]: rounded
               }
             }));
-            await sendCC(midiCC.delayNotes, rounded);
+            if (canSend) await sendCC(midiCC.delayNotes, rounded);
             return;
           }
           setTapModeActive(false);
@@ -530,7 +530,7 @@ const App = () => {
               [id]: rounded
             }
           }));
-          await sendCC(midiCC.delayTime, rounded);
+          if (canSend) await sendCC(midiCC.delayTime, rounded);
           return;
         }
         setDelayControlValues((prev) => ({
@@ -541,7 +541,6 @@ const App = () => {
           }
         }));
       } else {
-        const rounded = Math.round(value);
         setReverbControlValues((prev) => ({
           ...prev,
           [id]: rounded
@@ -563,8 +562,8 @@ const App = () => {
               mix: midiCC.reverbMix
             };
       const cc = map[id as keyof typeof map];
-      if (cc !== undefined) {
-        await sendCC(cc, Math.round(value));
+      if (cc !== undefined && canSend) {
+        await sendCC(cc, rounded);
       }
     },
     [
