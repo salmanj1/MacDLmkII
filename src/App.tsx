@@ -5,6 +5,7 @@ import ManualPane from './components/organisms/ManualPane/ManualPane';
 import useEffectLibrary from './hooks/useEffectLibrary';
 import useKeyboardShortcuts from './hooks/useKeyboardShortcuts';
 import styles from './App.module.less';
+import PresetLibraryPanel from './components/organisms/PresetLibraryPanel/PresetLibraryPanel';
 import useMidiBridge from './hooks/useMidiBridge';
 import ErrorBoundary from './components/organisms/ErrorBoundary/ErrorBoundary';
 import KeyboardHelp from './components/molecules/KeyboardHelp/KeyboardHelp';
@@ -29,6 +30,12 @@ const App = () => {
     tapSubdivisionIndex: number;
     tapBpm: number;
   };
+  type PresetLibraryEntry = {
+    id: string;
+    name: string;
+    createdAt: number;
+    snapshot: PresetSnapshot;
+  };
 
   const [footswitchStatus, setFootswitchStatus] = useState<
     Record<'A' | 'B' | 'C' | 'Tap' | 'Set', FootStatus>
@@ -47,6 +54,8 @@ const App = () => {
   const [tapTimestamps, setTapTimestamps] = useState<number[]>([]);
   const [activePreset, setActivePresetIndex] = useState<number | null>(null);
   const [reverbDetent, setReverbDetent] = useState(0);
+  const [presetLibrary, setPresetLibrary] = useState<PresetLibraryEntry[]>([]);
+  const [libraryLoadingId, setLibraryLoadingId] = useState<string | null>(null);
   const [delayControlValues, setDelayControlValues] = useState<
     Record<Mode, Record<(typeof delayControls)[number]['id'], number>>
   >({
@@ -158,6 +167,43 @@ const App = () => {
     }));
   }, [tapBlink.blinkOn, tapModeActive]);
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      const raw = localStorage.getItem('macdlmkii-preset-library');
+      if (!raw) return;
+      const parsed: PresetLibraryEntry[] = JSON.parse(raw);
+      if (Array.isArray(parsed)) setPresetLibrary(parsed);
+    } catch (error) {
+      console.warn('Failed to load preset library', error);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    localStorage.setItem('macdlmkii-preset-library', JSON.stringify(presetLibrary));
+  }, [presetLibrary]);
+
+  const buildPresetSnapshot = useCallback((): PresetSnapshot => {
+    return {
+      mode,
+      detent: currentDetent,
+      reverbDetent,
+      delayControlValues,
+      reverbControlValues,
+      tapSubdivisionIndex,
+      tapBpm
+    };
+  }, [
+    currentDetent,
+    delayControlValues,
+    mode,
+    reverbControlValues,
+    reverbDetent,
+    tapBpm,
+    tapSubdivisionIndex
+  ]);
+
   const handleDetentChange = useCallback(
     (next: number) => setDetentForMode(mode, next),
     [mode, setDetentForMode]
@@ -204,6 +250,75 @@ const App = () => {
   const dismissToast = useCallback(() => {
     setToast(null);
   }, []);
+
+  const handleLibrarySave = useCallback(
+    (name: string) => {
+      const snapshot = buildPresetSnapshot();
+      const id =
+        typeof crypto !== 'undefined' && 'randomUUID' in crypto
+          ? crypto.randomUUID()
+          : `lib-${Date.now()}`;
+      const entry: PresetLibraryEntry = {
+        id,
+        name: name.trim() || 'Untitled preset',
+        createdAt: Date.now(),
+        snapshot
+      };
+      setPresetLibrary((prev) => [entry, ...prev]);
+      showToast(`Saved "${entry.name}" to library`, 'ok');
+    },
+    [buildPresetSnapshot, showToast]
+  );
+
+  const handleLibraryLoad = useCallback(
+    async (id: string) => {
+      const entry = presetLibrary.find((item) => item.id === id);
+      if (!entry) return;
+      setLibraryLoadingId(id);
+      await applyPresetSnapshot(entry.snapshot, null);
+      setLibraryLoadingId(null);
+      showToast(`Loaded "${entry.name}" from library`, 'ok');
+    },
+    [applyPresetSnapshot, presetLibrary, showToast]
+  );
+
+  const handleLibraryDelete = useCallback((id: string) => {
+    setPresetLibrary((prev) => prev.filter((entry) => entry.id !== id));
+  }, []);
+
+  const applyPresetSnapshot = useCallback(
+    async (snapshot: PresetSnapshot, presetIndex: number | null = null) => {
+      setMode(snapshot.mode);
+      setDetentForMode(snapshot.mode, snapshot.detent);
+      setReverbDetent(typeof snapshot.reverbDetent === 'number' ? snapshot.reverbDetent : 0);
+      setDelayControlValues(snapshot.delayControlValues);
+      setReverbControlValues(snapshot.reverbControlValues);
+      setTapSubdivisionIndex(snapshot.tapSubdivisionIndex);
+      setTapBpm(snapshot.tapBpm);
+      setTapModeActive(true);
+      setActivePresetIndex(presetIndex);
+      const activeId = presetIndex === null ? null : presetIndex % 3;
+      setFootswitchStatus({
+        A: activeId === 0 ? 'on' : 'off',
+        B: activeId === 1 ? 'on' : 'off',
+        C: activeId === 2 ? 'on' : 'off',
+        Tap: 'off',
+        Set: 'off'
+      });
+      if (midiReady && selectedPort !== null) {
+        await sendModelSelect(snapshot.mode, snapshot.detent);
+        await sendModelSelect('Secret Reverb', snapshot.reverbDetent);
+        await sendAllControls();
+      }
+    },
+    [
+      midiReady,
+      selectedPort,
+      sendAllControls,
+      sendModelSelect,
+      setDetentForMode
+    ]
+  );
 
   useKeyboardShortcuts({
     onModeChange: setMode,
@@ -259,31 +374,7 @@ const App = () => {
       if (!raw) return false;
       try {
         const snapshot: PresetSnapshot = JSON.parse(raw);
-        setMode(snapshot.mode);
-        setDetentForMode(snapshot.mode, snapshot.detent);
-        setReverbDetent(
-          typeof snapshot.reverbDetent === 'number' ? snapshot.reverbDetent : 0
-        );
-        setDelayControlValues(snapshot.delayControlValues);
-        setReverbControlValues(snapshot.reverbControlValues);
-        setTapSubdivisionIndex(snapshot.tapSubdivisionIndex);
-        setTapBpm(snapshot.tapBpm);
-        setTapModeActive(true);
-        setActivePresetIndex(index);
-        const activeId = index % 3;
-        setFootswitchStatus({
-          A: activeId === 0 ? 'on' : 'off',
-          B: activeId === 1 ? 'on' : 'off',
-          C: activeId === 2 ? 'on' : 'off',
-          Tap: 'off',
-          Set: 'off'
-        });
-        // Ensure hardware catches up with the restored state.
-        setTimeout(() => {
-          sendModelSelect(snapshot.mode, snapshot.detent);
-          sendModelSelect('Secret Reverb', snapshot.reverbDetent);
-          sendAllControls();
-        }, 0);
+        await applyPresetSnapshot(snapshot, index);
         return true;
       } catch (error) {
         console.warn('Failed to load preset snapshot', error);
@@ -292,11 +383,7 @@ const App = () => {
     },
     [
       sendModelSelect,
-      setReverbDetent,
-      sendAllControls,
-      setDetentForMode,
-      setMode,
-      setTapBpm
+      applyPresetSnapshot
     ]
   );
 
@@ -721,6 +808,18 @@ const App = () => {
           />
 
           <ManualPane delayEffect={currentEffect} reverbEffect={currentReverbEffect} />
+
+          <PresetLibraryPanel
+            entries={presetLibrary.map(({ id, name, createdAt }) => ({
+              id,
+              name,
+              createdAt
+            }))}
+            loadingId={libraryLoadingId}
+            onSave={handleLibrarySave}
+            onLoad={handleLibraryLoad}
+            onDelete={handleLibraryDelete}
+          />
 
           <div className={styles.infoBadge}>
             <a

@@ -1,0 +1,111 @@
+@import '../../../styles/tokens.less';
+
+.panel {
+  background: fade(@bgDeep, 86%);
+  border: 1px solid fade(#e2e8f0, 12%);
+  border-radius: 0.9rem;
+  padding: 0.9rem 1rem;
+  box-shadow: 0 10px 30px fade(#000, 35%);
+  color: @textPrimary;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.header {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.title {
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.subtitle {
+  color: @textMuted;
+  font-size: 0.86rem;
+}
+
+.saveRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.55rem 0.65rem;
+  border-radius: 0.6rem;
+  border: 1px solid fade(#e2e8f0, 18%);
+  background: fade(@bg, 85%);
+  color: @textPrimary;
+}
+
+.saveButton {
+  border: 1px solid fade(@glow, 40%);
+  background: linear-gradient(180deg, fade(@glow, 35%), fade(@panel, 85%));
+  color: #0b1513;
+  font-weight: 800;
+  padding: 0.55rem 0.8rem;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  box-shadow: 0 8px 18px fade(#000, 32%);
+}
+
+.list {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.empty {
+  color: @textMuted;
+  font-size: 0.9rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.65rem;
+  background: fade(#0b1724, 65%);
+  border: 1px solid fade(#e2e8f0, 10%);
+}
+
+.meta {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.name {
+  font-weight: 700;
+}
+
+.date {
+  color: @textMuted;
+  font-size: 0.8rem;
+}
+
+.actions {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.loadButton {
+  border: 1px solid fade(@glow, 35%);
+  background: fade(@bg, 85%);
+  color: @textPrimary;
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.55rem;
+  cursor: pointer;
+}
+
+.deleteButton {
+  border: 1px solid fade(#ef4444, 30%);
+  background: fade(#0f172a, 80%);
+  color: #ef4444;
+  padding: 0.35rem 0.55rem;
+  border-radius: 0.55rem;
+  cursor: pointer;
+}
