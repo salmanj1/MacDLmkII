@@ -1,0 +1,10 @@
+{
+  "identifier": "default",
+  "description": "Default capabilities for all app windows during development.",
+  "windows": ["*"],
+  "permissions": [
+    "core:default",
+    "core:webview:allow-internal-toggle-devtools",
+    "opener:default"
+  ]
+}
