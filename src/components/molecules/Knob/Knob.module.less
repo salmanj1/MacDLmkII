@@ -98,7 +98,7 @@
   top: 50%;
   width: clamp(7.2rem, 18vw, 8rem);
   aspect-ratio: 1 / 1;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) rotate(var(--knob-angle, 0deg));
   border-radius: 9999px;
   background: center / contain no-repeat url('/assets/dl4ii/original/DL4 MkII Knob.png');
   box-shadow:
@@ -120,7 +120,7 @@
 }
 
 .knobDragging {
-  transform: translate(-50%, -50%) scale(1.04);
+  transform: translate(-50%, -50%) rotate(var(--knob-angle, 0deg)) scale(1.04);
   box-shadow:
     0 22px 36px fade(#000, 75%),
     0 0 26px rgba(var(--knob-accent-rgb, 82, 255, 108), 0.4),
@@ -176,6 +176,7 @@
   top: 50%;
   width: 100%;
   height: 100%;
+  transform: translate(-50%, -50%);
   transform-origin: center;
   display: flex;
   align-items: flex-start;

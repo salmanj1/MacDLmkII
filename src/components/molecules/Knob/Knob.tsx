@@ -92,7 +92,9 @@ const Knob = ({ mode, detent, onDetentChange }: KnobProps) => {
     return ((next % len) + len) % len;
   };
 
-  const indicatorAngle = angleForIndex(detent);
+  const knobStyle: React.CSSProperties = {
+    '--knob-angle': `${angleForIndex(detent)}deg`
+  } as React.CSSProperties;
 
   useEffect(() => {
     const positionForAngle = (clientX: number, clientY: number) => {
@@ -275,16 +277,14 @@ const Knob = ({ mode, detent, onDetentChange }: KnobProps) => {
           onWheel={handleWheel}
           onMouseDown={handleMouseDown}
           className={`${styles.knob} ${isDragging ? styles.knobDragging : ''}`}
+          style={knobStyle}
         >
           <div className={styles.knobRing} />
           <div className={styles.knobFace}>
             <div className={styles.knobTexture} />
             <div className={styles.knobSheen} />
           </div>
-          <div
-            className={styles.indicator}
-            style={{ transform: `translate(-50%, -50%) rotate(${indicatorAngle}deg)` }}
-          >
+          <div className={styles.indicator}>
             <div className={styles.indicatorMark} />
           </div>
         </div>
