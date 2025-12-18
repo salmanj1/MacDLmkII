@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import styles from './LinearKnob.module.less';
 
@@ -16,18 +16,31 @@ const LinearKnob = ({ label, value, onChange }: LinearKnobProps) => {
   const clamp = useCallback((next: number) => Math.max(0, Math.min(127, next)), []);
   const dragStart = useRef<{ y: number; value: number } | null>(null);
   const frameRef = useRef<HTMLDivElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const [editing, setEditing] = useState(false);
   const angle = (value / 127) * 280 - 140; // map CC range to a readable sweep
   const knobStyle: CSSProperties = { '--knob-angle': `${angle}deg` } as CSSProperties;
+
+  useEffect(() => {
+    if (!editing) return;
+    const timer = window.setTimeout(() => {
+      inputRef.current?.focus();
+      inputRef.current?.select();
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, [editing]);
 
   const commit = (next: number) => onChange(clamp(next));
 
   const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
+    if (editing) return;
     event.preventDefault();
     const delta = event.deltaY > 0 ? -2 : 2;
     commit(value + delta);
   };
 
   const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (editing || event.detail > 1) return;
     event.preventDefault();
     dragStart.current = { y: event.clientY, value };
     window.addEventListener('pointermove', handlePointerMove);
@@ -65,12 +78,24 @@ const LinearKnob = ({ label, value, onChange }: LinearKnobProps) => {
     window.removeEventListener('pointercancel', handlePointerUp);
   };
 
+  const commitInput = () => {
+    const raw = Number(inputRef.current?.value);
+    if (!Number.isNaN(raw)) {
+      commit(raw);
+    }
+    setEditing(false);
+  };
+
   return (
     <div
       className={styles.knob}
       style={knobStyle}
       onWheel={handleWheel}
       onPointerDown={handlePointerDown}
+      onDoubleClick={(event) => {
+        event.stopPropagation();
+        setEditing(true);
+      }}
       role="slider"
       aria-valuemin={0}
       aria-valuemax={127}
@@ -85,6 +110,29 @@ const LinearKnob = ({ label, value, onChange }: LinearKnobProps) => {
           <div className={styles.capIndicator} />
         </div>
         <div className={styles.valueDisplay}>{value}</div>
+        {editing && (
+          <div className={styles.editOverlay}>
+            <input
+              ref={inputRef}
+              type="number"
+              min={0}
+              max={127}
+              defaultValue={value}
+              className={styles.editInput}
+              onBlur={commitInput}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  event.preventDefault();
+                  commitInput();
+                }
+                if (event.key === 'Escape') {
+                  event.preventDefault();
+                  setEditing(false);
+                }
+              }}
+            />
+          </div>
+        )}
       </div>
       <input
         type="range"

@@ -75,6 +75,31 @@
   transition: transform 120ms ease;
 }
 
+.editOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 50%, fade(#000, 60%), fade(#000, 40%));
+  z-index: 5;
+}
+
+.editInput {
+  width: 66px;
+  padding: 0.32rem 0.4rem;
+  border-radius: 0.4rem;
+  border: 1px solid fade(@panel, 70%);
+  background: fade(@bgDeep, 92%);
+  color: @textPrimary;
+  font-weight: 700;
+  text-align: center;
+  box-shadow:
+    0 10px 20px fade(#000, 45%),
+    0 0 0 1px fade(#000, 35%),
+    inset 0 1px 0 fade(#fff, 8%);
+}
+
 .valueDisplay {
   position: absolute;
   left: 50%;
