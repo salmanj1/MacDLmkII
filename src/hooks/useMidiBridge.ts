@@ -52,6 +52,18 @@ type QueueEntry =
       reject: (error: Error) => void;
     };
 
+const toErrorMessage = (err: unknown, fallback: string) => {
+  if (err instanceof Error && err.message) return err.message;
+  if (typeof err === 'string' && err.length > 0) return err;
+  try {
+    const stringified = JSON.stringify(err);
+    if (stringified && stringified !== '{}') return stringified;
+  } catch {
+    // ignore
+  }
+  return fallback;
+};
+
 const useMidiBridge = (): MidiBridge => {
   const [ports, setPorts] = useState<string[]>([]);
   const [selectedPort, setSelectedPort] = useState<number | null>(null);
@@ -79,9 +91,8 @@ const useMidiBridge = (): MidiBridge => {
       setError(null);
       setLastCommand(null);
     } catch (err) {
-      setError((err as Error).message ?? 'Failed to list MIDI outputs');
-      setSelectedPort(null);
-      setLastCommand(null);
+      console.error('[MIDI] list outputs failed', err);
+      setError(toErrorMessage(err, 'Failed to list MIDI outputs'));
     }
   }, [ready]);
 
@@ -99,9 +110,8 @@ const useMidiBridge = (): MidiBridge => {
         setClockRunning(false);
         setClockBpm(null);
       } catch (err) {
-        setError((err as Error).message ?? 'Failed to select MIDI output');
-        setSelectedPort(null);
-        setLastCommand(null);
+        console.error('[MIDI] select port failed', err);
+        setError(toErrorMessage(err, 'Failed to select MIDI output'));
         await refreshOutputs();
       }
     },
@@ -137,8 +147,7 @@ const useMidiBridge = (): MidiBridge => {
           }
           next.resolve();
         } catch (err) {
-          const message =
-            (err as Error).message ?? 'Failed to send MIDI message';
+          const message = toErrorMessage(err, 'Failed to send MIDI message');
           setError(message);
           if (next.type === 'cc') {
             setLastCommand({ type: 'cc', control: next.control });
@@ -200,7 +209,8 @@ const useMidiBridge = (): MidiBridge => {
       setError(null);
       setLastCommand(null);
     } catch (err) {
-      setError((err as Error).message ?? 'Failed to enable MIDI clock follow');
+      console.error('[MIDI] enable clock follow failed', err);
+      setError(toErrorMessage(err, 'Failed to enable MIDI clock follow'));
       setLastCommand(null);
     }
   }, [fetchClockStatus, ready, selectedPort]);
@@ -215,7 +225,8 @@ const useMidiBridge = (): MidiBridge => {
       setError(null);
       setLastCommand(null);
     } catch (err) {
-      setError((err as Error).message ?? 'Failed to disable MIDI clock follow');
+      console.error('[MIDI] disable clock follow failed', err);
+      setError(toErrorMessage(err, 'Failed to disable MIDI clock follow'));
       setLastCommand(null);
     }
   }, [ready]);
