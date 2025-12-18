@@ -154,6 +154,24 @@
   pointer-events: none;
 }
 
+.currentLabel {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 800;
+  font-size: 0.9rem;
+  text-align: center;
+  color: fade(@textPrimary, 92%);
+  text-shadow:
+    0 2px 8px fade(#000, 80%),
+    0 0 10px fade(@glow, 20%);
+  pointer-events: none;
+  padding: 0 0.4rem;
+  max-width: 70%;
+  line-height: 1.2;
+}
+
 .knobTexture {
   position: absolute;
   inset: 16%;

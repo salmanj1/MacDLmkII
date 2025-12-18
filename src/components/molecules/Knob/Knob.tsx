@@ -284,6 +284,9 @@ const Knob = ({ mode, detent, onDetentChange }: KnobProps) => {
             <div className={styles.knobTexture} />
             <div className={styles.knobSheen} />
           </div>
+          <div className={styles.currentLabel} aria-hidden>
+            {detents[detent]?.label ?? ''}
+          </div>
           <div className={styles.indicator}>
             <div className={styles.indicatorMark} />
           </div>
