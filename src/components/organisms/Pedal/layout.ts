@@ -5,6 +5,7 @@ export const faceplateSize = { width: 3600, height: 2300 };
 
 export const selectorPosition = { x: 781.3, y: 887.1 };
 export const altButtonPosition = { x: 1239.8, y: 974.6 };
+export const reverbSelectorPosition = { x: 891.5, y: 1391.0 };
 
 export const delayKnobPositions = [
   { x: 1526.3, y: 887.1 }, // Time / Subdiv

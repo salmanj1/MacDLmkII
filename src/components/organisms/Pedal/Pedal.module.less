@@ -31,50 +31,25 @@
   z-index: 1;
 }
 
-.leftColumn {
-  position: absolute;
-  left: -12%;
-  top: 5%;
-  width: clamp(120px, 12vw, 145px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.2rem;
-  pointer-events: auto;
-  z-index: 3;
-  padding: 0.6rem 0.4rem;
-  background: none;
-  border-radius: 12px;
-}
-
 .detentSlot {
   position: absolute;
   pointer-events: none;
   display: flex;
 }
 
-.reverbSelectorSlot {
-  position: relative;
-  width: clamp(110px, 11vw, 135px);
-  aspect-ratio: 1 / 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: auto;
-}
-
 .altButton {
   position: absolute;
-  top: 12%;
-  right: 12%;
-  width: 26%;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  width: clamp(32px, 3vw, 46px);
   aspect-ratio: 1 / 1;
-  transform: none;
   background: center / contain no-repeat url('/assets/dl4ii/DL4 MkII Alt White.png');
   border: none;
   padding: 0;
   cursor: pointer;
   pointer-events: auto;
+  z-index: 4;
   transition: transform 120ms ease, filter 120ms ease, outline 120ms ease;
   outline: none;
 }
@@ -94,15 +69,23 @@
   background-image: url('/assets/dl4ii/DL4 MkII Alt Green.png');
 }
 
-.selectorSlot {
-  position: relative;
+.selectorSlot,
+.reverbSelectorSlot {
+  position: absolute;
+  left: 0;
+  top: 0;
   width: clamp(120px, 11vw, 140px);
   aspect-ratio: 1 / 1;
-  transform: none;
+  transform: translate(-50%, -50%);
   pointer-events: auto;
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 3;
+}
+
+.reverbSelectorSlot {
+  width: clamp(110px, 11vw, 135px);
 }
 
 .delayControls,

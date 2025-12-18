@@ -4,10 +4,13 @@ import LinearKnob from '../../molecules/LinearKnob/LinearKnob';
 import type { Mode } from '../../../data/commonParams';
 import { delayControls, reverbControls } from '../../../data/midi';
 import {
+  altButtonPosition,
   delayKnobPositions,
   faceplateSize,
   footswitchPositions,
+  reverbSelectorPosition,
   reverbKnobPositions,
+  selectorPosition,
   virtualSetPosition
 } from './layout';
 import styles from './Pedal.module.less';
@@ -105,39 +108,49 @@ const Pedal = ({
     toPercent(virtualSetPosition)
   ];
 
+  const selectorPositionPercent = toPercent(selectorPosition);
+  const altButtonPositionPercent = toPercent(altButtonPosition);
+  const reverbSelectorPercent = toPercent(reverbSelectorPosition);
+
   return (
     <section className={styles.shell} aria-label="DL4 MkII pedal">
       <div className={styles.faceplate} aria-hidden />
       <div className={styles.overlay}>
-        <div className={styles.leftColumn}>
-          <div className={styles.selectorSlot}>
-            <Knob
-              mode={mode}
-              detent={detent}
-              onDetentChange={onDetentChange}
-            />
-            <button
-              type="button"
-              className={`${styles.altButton} ${altActive ? styles.altButtonActive : ''}`}
-              aria-pressed={altActive}
-              aria-label="Toggle legacy delay models"
-              onClick={handleAltToggle}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  handleAltToggle();
-                }
-              }}
-            />
-          </div>
+        <div
+          className={styles.selectorSlot}
+          style={selectorPositionPercent}
+        >
+          <Knob
+            mode={mode}
+            detent={detent}
+            onDetentChange={onDetentChange}
+          />
+        </div>
 
-          <div className={styles.reverbSelectorSlot}>
-            <Knob
-              mode={'Secret Reverb'}
-              detent={reverbDetent}
-              onDetentChange={onReverbDetentChange}
-            />
-          </div>
+        <button
+          type="button"
+          className={`${styles.altButton} ${altActive ? styles.altButtonActive : ''}`}
+          aria-pressed={altActive}
+          aria-label="Toggle legacy delay models"
+          style={altButtonPositionPercent}
+          onClick={handleAltToggle}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              handleAltToggle();
+            }
+          }}
+        />
+
+        <div
+          className={styles.reverbSelectorSlot}
+          style={reverbSelectorPercent}
+        >
+          <Knob
+            mode={'Secret Reverb'}
+            detent={reverbDetent}
+            onDetentChange={onReverbDetentChange}
+          />
         </div>
 
         <div className={styles.delayControls}>
