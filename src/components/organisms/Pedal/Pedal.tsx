@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Knob from '../../molecules/Knob/Knob';
 import FootswitchRail from '../../molecules/FootswitchRail/FootswitchRail';
 import LinearKnob from '../../molecules/LinearKnob/LinearKnob';
@@ -14,7 +15,6 @@ import {
   virtualSetPosition
 } from './layout';
 import styles from './Pedal.module.less';
-import { useEffect, useMemo, useRef, useState } from 'react';
 
 const toPercent = (pos: { x: number; y: number }) => ({
   left: `${(pos.x / faceplateSize.width) * 100}%`,
