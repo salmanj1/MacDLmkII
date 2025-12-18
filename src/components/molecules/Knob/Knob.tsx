@@ -241,8 +241,6 @@ const Knob = ({ mode, detent, onDetentChange, showLabels = true }: KnobProps) =>
     });
   };
 
-  const detentMeta = detents[detent];
-
   return (
     <div
       className={styles.wrapper}
@@ -294,10 +292,6 @@ const Knob = ({ mode, detent, onDetentChange, showLabels = true }: KnobProps) =>
             <div className={styles.indicatorMark} />
           </div>
         </div>
-      </div>
-      <div className={styles.detentCopy}>
-        <div className={styles.detentTitle}>{detentMeta.label}</div>
-        <div>{detentMeta.description}</div>
       </div>
     </div>
   );
