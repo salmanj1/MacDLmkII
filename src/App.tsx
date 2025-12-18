@@ -21,21 +21,23 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const App = () => {
   type FootStatus = 'off' | 'on' | 'dim' | 'armed';
-  type PresetSnapshot = {
-    mode: Mode;
-    detent: number;
-    reverbDetent: number;
-    delayControlValues: Record<Mode, Record<(typeof delayControls)[number]['id'], number>>;
-    reverbControlValues: Record<(typeof reverbControls)[number]['id'], number>;
-    tapSubdivisionIndex: number;
-    tapBpm: number;
-  };
-  type PresetLibraryEntry = {
-    id: string;
-    name: string;
-    createdAt: number;
-    snapshot: PresetSnapshot;
-  };
+type PresetSnapshot = {
+  mode: Mode;
+  detent: number;
+  reverbDetent: number;
+  delayControlValues: Record<Mode, Record<(typeof delayControls)[number]['id'], number>>;
+  reverbControlValues: Record<(typeof reverbControls)[number]['id'], number>;
+  tapSubdivisionIndex: number;
+  tapBpm: number;
+};
+type PresetLibraryEntry = {
+  id: string;
+  name: string;
+  createdAt: number;
+  summary: string;
+  description?: string;
+  snapshot: PresetSnapshot;
+};
 
   const [footswitchStatus, setFootswitchStatus] = useState<
     Record<'A' | 'B' | 'C' | 'Tap' | 'Set', FootStatus>
@@ -252,22 +254,25 @@ const App = () => {
   }, []);
 
   const handleLibrarySave = useCallback(
-    (name: string) => {
+    (name: string, description?: string) => {
       const snapshot = buildPresetSnapshot();
+      const autoName = autoNameFromSnapshot(snapshot);
       const id =
         typeof crypto !== 'undefined' && 'randomUUID' in crypto
           ? crypto.randomUUID()
           : `lib-${Date.now()}`;
       const entry: PresetLibraryEntry = {
         id,
-        name: name.trim() || 'Untitled preset',
+        name: name.trim() || autoName,
         createdAt: Date.now(),
+        summary: summaryFromSnapshot(snapshot),
+        description: description?.trim() || undefined,
         snapshot
       };
       setPresetLibrary((prev) => [entry, ...prev]);
       showToast(`Saved "${entry.name}" to library`, 'ok');
     },
-    [buildPresetSnapshot, showToast]
+    [autoNameFromSnapshot, buildPresetSnapshot, showToast, summaryFromSnapshot]
   );
 
   const handleLibraryLoad = useCallback(
@@ -733,6 +738,34 @@ const App = () => {
     return { tweak, tweez, reverbTweak, routing };
   }, [currentEffect, currentReverbEffect]);
 
+  const autoNameFromSnapshot = useCallback(
+    (snapshot: PresetSnapshot) => {
+      const delayModel =
+        effects.find((entry) => entry.mode === snapshot.mode && entry.detent === snapshot.detent)
+          ?.model ?? snapshot.mode;
+      const reverbModel =
+        effects.find((entry) => entry.mode === 'Secret Reverb' && entry.detent === snapshot.reverbDetent)
+          ?.model ?? null;
+      const parts = [delayModel];
+      if (reverbModel) parts.push(reverbModel);
+      return parts.filter(Boolean).join(' + ') || 'Untitled preset';
+    },
+    [effects]
+  );
+
+  const summaryFromSnapshot = useCallback(
+    (snapshot: PresetSnapshot) => {
+      const delayModel =
+        effects.find((entry) => entry.mode === snapshot.mode && entry.detent === snapshot.detent)
+          ?.model ?? snapshot.mode;
+      const reverbModel =
+        effects.find((entry) => entry.mode === 'Secret Reverb' && entry.detent === snapshot.reverbDetent)
+          ?.model ?? 'No reverb';
+      return `${delayModel} | Reverb: ${reverbModel}`;
+    },
+    [effects]
+  );
+
   return (
     <ErrorBoundary
       fallbackTitle="UI hiccup"
@@ -810,10 +843,12 @@ const App = () => {
           <ManualPane delayEffect={currentEffect} reverbEffect={currentReverbEffect} />
 
           <PresetLibraryPanel
-            entries={presetLibrary.map(({ id, name, createdAt }) => ({
+            entries={presetLibrary.map(({ id, name, createdAt, summary, description }) => ({
               id,
               name,
-              createdAt
+              createdAt,
+              summary,
+              description
             }))}
             loadingId={libraryLoadingId}
             onSave={handleLibrarySave}

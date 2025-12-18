@@ -28,8 +28,8 @@
 
 .saveRow {
   display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 0.5rem;
+  grid-template-columns: 1fr;
+  gap: 0.4rem;
 }
 
 .input {
@@ -39,6 +39,16 @@
   border: 1px solid fade(#e2e8f0, 18%);
   background: fade(@bg, 85%);
   color: @textPrimary;
+}
+
+.textarea {
+  width: 100%;
+  padding: 0.5rem 0.65rem;
+  border-radius: 0.6rem;
+  border: 1px solid fade(#e2e8f0, 18%);
+  background: fade(@bg, 85%);
+  color: @textPrimary;
+  resize: vertical;
 }
 
 .saveButton {
@@ -84,6 +94,19 @@
 .date {
   color: @textMuted;
   font-size: 0.8rem;
+}
+
+.summary {
+  color: fade(@textPrimary, 78%);
+  font-size: 0.85rem;
+  line-height: 1.25;
+}
+
+.description {
+  color: @textPrimary;
+  font-size: 0.9rem;
+  line-height: 1.35;
+  white-space: pre-wrap;
 }
 
 .actions {

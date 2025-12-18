@@ -5,12 +5,14 @@ type PresetLibraryEntry = {
   id: string;
   name: string;
   createdAt: number;
+  summary: string;
+  description?: string;
 };
 
 type PresetLibraryPanelProps = {
   entries: PresetLibraryEntry[];
   loadingId: string | null;
-  onSave: (name: string) => void;
+  onSave: (name: string, description: string) => void;
   onLoad: (id: string) => void;
   onDelete: (id: string) => void;
 };
@@ -23,6 +25,7 @@ const PresetLibraryPanel = ({
   onDelete
 }: PresetLibraryPanelProps) => {
   const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
 
   return (
     <section className={styles.panel} aria-label="Preset library">
@@ -38,12 +41,20 @@ const PresetLibraryPanel = ({
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
+          <textarea
+            className={styles.textarea}
+            placeholder="Optional description or notes"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={2}
+          />
           <button
             type="button"
             className={styles.saveButton}
             onClick={() => {
-              onSave(name);
+              onSave(name, description);
               setName('');
+              setDescription('');
             }}
           >
             Save
@@ -63,6 +74,10 @@ const PresetLibraryPanel = ({
                   day: 'numeric'
                 })}
               </div>
+              <div className={styles.summary}>{entry.summary}</div>
+              {entry.description ? (
+                <div className={styles.description}>{entry.description}</div>
+              ) : null}
             </div>
             <div className={styles.actions}>
               <button
