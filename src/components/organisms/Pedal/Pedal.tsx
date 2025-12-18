@@ -124,6 +124,7 @@ const Pedal = ({
             mode={mode}
             detent={detent}
             onDetentChange={onDetentChange}
+            showLabels={false}
           />
         </div>
 
@@ -150,6 +151,7 @@ const Pedal = ({
             mode={'Secret Reverb'}
             detent={reverbDetent}
             onDetentChange={onReverbDetentChange}
+            showLabels={false}
           />
         </div>
 

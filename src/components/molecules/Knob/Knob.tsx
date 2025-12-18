@@ -9,13 +9,14 @@ type KnobProps = {
   mode: Mode;
   detent: number;
   onDetentChange: (detent: number) => void;
+  showLabels?: boolean;
 };
 
 /**
  * Interactive detent knob that mirrors the hardware feel via drag, wheel, and keyboard input.
  * Uses CSS-driven layers for the visual stack so the heavy styling stays out of JSX.
  */
-const Knob = ({ mode, detent, onDetentChange }: KnobProps) => {
+const Knob = ({ mode, detent, onDetentChange, showLabels = true }: KnobProps) => {
   const frameRef = useRef<HTMLDivElement | null>(null);
   const wheelAccumulator = useRef(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -253,8 +254,8 @@ const Knob = ({ mode, detent, onDetentChange }: KnobProps) => {
       }
     >
       <div className={styles.surface} ref={frameRef}>
-        <div className={styles.labelLayer}>{renderLabels()}</div>
-        <div className={styles.tickLayer}>{renderTicks()}</div>
+        {showLabels && <div className={styles.labelLayer}>{renderLabels()}</div>}
+        {showLabels && <div className={styles.tickLayer}>{renderTicks()}</div>}
 
         <div
           role="slider"
@@ -263,6 +264,8 @@ const Knob = ({ mode, detent, onDetentChange }: KnobProps) => {
           aria-valuemax={sliderMax}
           aria-valuenow={detent}
           tabIndex={0}
+          data-ui="knob-selector"
+          data-mode={mode}
           onTouchStart={handleTouchStart}
           onKeyDown={(event) => {
             if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') {
