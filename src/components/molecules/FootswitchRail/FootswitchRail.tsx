@@ -15,6 +15,7 @@ type FootswitchConfig = {
 type FootswitchRailProps = {
   switches: FootswitchConfig[];
   positions?: { left: string; top: string }[];
+  'data-ui'?: string;
 };
 
 /**
@@ -22,13 +23,13 @@ type FootswitchRailProps = {
  * The data driven approach keeps the component small and reusable while leaving room
  * for future interactive behavior if needed.
  */
-const FootswitchRail = ({ switches, positions }: FootswitchRailProps) => {
+const FootswitchRail = ({ switches, positions, 'data-ui': dataUi }: FootswitchRailProps) => {
   const holdTimersRef = useRef<Record<string, ReturnType<typeof setTimeout> | null>>({});
   const holdTriggeredRef = useRef<Record<string, boolean>>({});
   const HOLD_DELAY_MS = 2000;
 
   return (
-    <div className={styles.rail}>
+    <div className={styles.rail} data-ui={dataUi}>
       <div className={`${styles.grid} ${positions ? styles.gridAbsolute : ''}`}>
         {switches.map((sw, idx) => {
           const status = sw.status ?? 'off';
@@ -37,11 +38,15 @@ const FootswitchRail = ({ switches, positions }: FootswitchRailProps) => {
             <div
               key={sw.label}
               className={`${styles.cell} ${pos ? styles.cellAbsolute : ''}`}
+              data-ui="footswitch-cell"
+              data-id={sw.id}
               style={pos ? { left: pos.left, top: pos.top } : undefined}
             >
               <button
                 type="button"
                 className={`${styles.footswitch} ${styles[`status_${status}`] ?? ''}`}
+                data-ui="footswitch"
+                data-id={sw.id}
                 aria-label={`${sw.label} footswitch`}
                 onPointerDown={(event) => {
                   if (event.currentTarget.hasPointerCapture(event.pointerId) === false) {

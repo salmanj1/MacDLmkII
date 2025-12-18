@@ -119,6 +119,7 @@ const Pedal = ({
         <div
           className={styles.selectorSlot}
           style={selectorPositionPercent}
+          data-ui="selector-knob-delay"
         >
           <Knob
             mode={mode}
@@ -133,6 +134,7 @@ const Pedal = ({
           className={`${styles.altButton} ${altActive ? styles.altButtonActive : ''}`}
           aria-pressed={altActive}
           aria-label="Toggle legacy delay models"
+          data-ui="alt-button"
           style={altButtonPositionPercent}
           onClick={handleAltToggle}
           onKeyDown={(e) => {
@@ -146,6 +148,7 @@ const Pedal = ({
         <div
           className={styles.reverbSelectorSlot}
           style={reverbSelectorPercent}
+          data-ui="selector-knob-reverb"
         >
           <Knob
             mode={'Secret Reverb'}
@@ -161,6 +164,7 @@ const Pedal = ({
               key={control.id}
               className={styles.controlSlot}
               style={toPercent(delayKnobPositions[idx])}
+              data-ui={`delay-control-${control.id}`}
             >
               <LinearKnob
                 label={
@@ -183,6 +187,7 @@ const Pedal = ({
               key={control.id}
               className={styles.controlSlot}
               style={toPercent(reverbKnobPositions[idx])}
+              data-ui={`reverb-control-${control.id}`}
             >
               <LinearKnob
                 label={
@@ -207,6 +212,7 @@ const Pedal = ({
               onHold: onFootswitchHold
             }))}
             positions={footswitchPositionPercentages}
+            data-ui="footswitch-rail"
           />
         </div>
       </div>
