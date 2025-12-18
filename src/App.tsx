@@ -253,6 +253,34 @@ type PresetLibraryEntry = {
     setToast(null);
   }, []);
 
+  const autoNameFromSnapshot = useCallback(
+    (snapshot: PresetSnapshot) => {
+      const delayModel =
+        effects.find((entry) => entry.mode === snapshot.mode && entry.detent === snapshot.detent)
+          ?.model ?? snapshot.mode;
+      const reverbModel =
+        effects.find((entry) => entry.mode === 'Secret Reverb' && entry.detent === snapshot.reverbDetent)
+          ?.model ?? null;
+      const parts = [delayModel];
+      if (reverbModel) parts.push(reverbModel);
+      return parts.filter(Boolean).join(' + ') || 'Untitled preset';
+    },
+    [effects]
+  );
+
+  const summaryFromSnapshot = useCallback(
+    (snapshot: PresetSnapshot) => {
+      const delayModel =
+        effects.find((entry) => entry.mode === snapshot.mode && entry.detent === snapshot.detent)
+          ?.model ?? snapshot.mode;
+      const reverbModel =
+        effects.find((entry) => entry.mode === 'Secret Reverb' && entry.detent === snapshot.reverbDetent)
+          ?.model ?? 'No reverb';
+      return `${delayModel} | Reverb: ${reverbModel}`;
+    },
+    [effects]
+  );
+
   const handleLibrarySave = useCallback(
     (name: string, description?: string) => {
       const snapshot = buildPresetSnapshot();
@@ -737,34 +765,6 @@ type PresetLibraryEntry = {
     const routing = currentReverbEffect?.tweez.label || 'Routing';
     return { tweak, tweez, reverbTweak, routing };
   }, [currentEffect, currentReverbEffect]);
-
-  const autoNameFromSnapshot = useCallback(
-    (snapshot: PresetSnapshot) => {
-      const delayModel =
-        effects.find((entry) => entry.mode === snapshot.mode && entry.detent === snapshot.detent)
-          ?.model ?? snapshot.mode;
-      const reverbModel =
-        effects.find((entry) => entry.mode === 'Secret Reverb' && entry.detent === snapshot.reverbDetent)
-          ?.model ?? null;
-      const parts = [delayModel];
-      if (reverbModel) parts.push(reverbModel);
-      return parts.filter(Boolean).join(' + ') || 'Untitled preset';
-    },
-    [effects]
-  );
-
-  const summaryFromSnapshot = useCallback(
-    (snapshot: PresetSnapshot) => {
-      const delayModel =
-        effects.find((entry) => entry.mode === snapshot.mode && entry.detent === snapshot.detent)
-          ?.model ?? snapshot.mode;
-      const reverbModel =
-        effects.find((entry) => entry.mode === 'Secret Reverb' && entry.detent === snapshot.reverbDetent)
-          ?.model ?? 'No reverb';
-      return `${delayModel} | Reverb: ${reverbModel}`;
-    },
-    [effects]
-  );
 
   return (
     <ErrorBoundary
