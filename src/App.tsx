@@ -281,27 +281,29 @@ type PresetLibraryEntry = {
     [effects]
   );
 
-  const handleLibrarySave = useCallback(
-    (name: string, description?: string) => {
-      const snapshot = buildPresetSnapshot();
-      const autoName = autoNameFromSnapshot(snapshot);
-      const id =
-        typeof crypto !== 'undefined' && 'randomUUID' in crypto
-          ? crypto.randomUUID()
-          : `lib-${Date.now()}`;
-      const entry: PresetLibraryEntry = {
-        id,
-        name: name.trim() || autoName,
-        createdAt: Date.now(),
-        summary: summaryFromSnapshot(snapshot),
-        description: description?.trim() || undefined,
-        snapshot
-      };
-      setPresetLibrary((prev) => [entry, ...prev]);
-      showToast(`Saved "${entry.name}" to library`, 'ok');
-    },
-    [autoNameFromSnapshot, buildPresetSnapshot, showToast, summaryFromSnapshot]
-  );
+  const sendAllControls = useCallback(async () => {
+    if (!midiReady || selectedPort === null) return;
+    const delayValues = delayControlValues[mode] || {};
+    const reverbValues = reverbControlValues;
+
+    await Promise.all([
+      ...delayControls.map((ctrl) =>
+        sendCC(ctrl.cc, Math.round(delayValues[ctrl.id] ?? 64))
+      ),
+      ...reverbControls.map((ctrl) =>
+        sendCC(ctrl.cc, Math.round(reverbValues[ctrl.id] ?? 64))
+      )
+    ]);
+  }, [
+    delayControlValues,
+    mode,
+    reverbControlValues,
+    midiReady,
+    selectedPort,
+    sendCC,
+    tapModeActive,
+    tapSubdivisionIndex
+  ]);
 
   const applyPresetSnapshot = useCallback(
     async (snapshot: PresetSnapshot, presetIndex: number | null = null) => {
@@ -335,6 +337,28 @@ type PresetLibraryEntry = {
       sendModelSelect,
       setDetentForMode
     ]
+  );
+
+  const handleLibrarySave = useCallback(
+    (name: string, description?: string) => {
+      const snapshot = buildPresetSnapshot();
+      const autoName = autoNameFromSnapshot(snapshot);
+      const id =
+        typeof crypto !== 'undefined' && 'randomUUID' in crypto
+          ? crypto.randomUUID()
+          : `lib-${Date.now()}`;
+      const entry: PresetLibraryEntry = {
+        id,
+        name: name.trim() || autoName,
+        createdAt: Date.now(),
+        summary: summaryFromSnapshot(snapshot),
+        description: description?.trim() || undefined,
+        snapshot
+      };
+      setPresetLibrary((prev) => [entry, ...prev]);
+      showToast(`Saved "${entry.name}" to library`, 'ok');
+    },
+    [autoNameFromSnapshot, buildPresetSnapshot, showToast, summaryFromSnapshot]
   );
 
   const handleLibraryLoad = useCallback(
