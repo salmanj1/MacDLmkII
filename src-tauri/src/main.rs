@@ -2,7 +2,7 @@
 
 use std::sync::Mutex;
 use std::fs;
-use tauri::api::dialog::blocking::FileDialogBuilder;
+use std::path::PathBuf;
 
 mod midi;
 
@@ -87,18 +87,15 @@ fn send_midi_pc(
 
 #[tauri::command]
 fn export_preset_bank(data: String) -> Result<(), String> {
-  let save_path = FileDialogBuilder::new()
-    .set_title("Export preset bank")
-    .set_file_name("preset-bank.json")
-    .add_filter("JSON", &["json"])
-    .save_file();
+  // Write to Downloads (preferred), fallback to home, then current dir.
+  let target_dir: PathBuf = dirs::download_dir()
+    .or_else(dirs::home_dir)
+    .unwrap_or_else(|| std::env::current_dir().unwrap_or_else(|_| PathBuf::from(".")));
 
-  if let Some(path) = save_path {
-    fs::write(path, data).map_err(|e| e.to_string())
-  } else {
-    // User cancelled; not an error.
-    Ok(())
-  }
+  let mut path = target_dir;
+  path.push("preset-bank.json");
+
+  fs::write(&path, data).map_err(|e| e.to_string())
 }
 
 fn main() {
