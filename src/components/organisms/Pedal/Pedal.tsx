@@ -2,8 +2,10 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import Knob from '../../molecules/Knob/Knob';
 import FootswitchRail from '../../molecules/FootswitchRail/FootswitchRail';
 import LinearKnob from '../../molecules/LinearKnob/LinearKnob';
+import RoutingSelector from '../../molecules/RoutingSelector/RoutingSelector';
 import type { Mode } from '../../../data/commonParams';
 import { delayControls, reverbControls } from '../../../data/midi';
+import { defaultRoutingValue } from '../../../data/routing';
 import {
   altButtonPosition,
   delayKnobPositions,
@@ -203,18 +205,24 @@ const Pedal = ({
               style={toPercent(reverbKnobPositions[idx])}
               data-ui={`reverb-control-${control.id}`}
             >
-              <LinearKnob
-                label={
-                  control.id === 'tweak' && controlLabels?.reverbTweak
-                    ? controlLabels.reverbTweak
-                    : control.id === 'routing' && controlLabels?.routing
-                      ? controlLabels.routing
+              {control.id === 'routing' ? (
+                <RoutingSelector
+                  label={controlLabels?.routing ?? control.label}
+                  value={controlValues?.reverb?.[control.id] ?? defaultRoutingValue}
+                  onChange={(value) => onControlChange?.(control.id, value, 'reverb')}
+                />
+              ) : (
+                <LinearKnob
+                  label={
+                    control.id === 'tweak' && controlLabels?.reverbTweak
+                      ? controlLabels.reverbTweak
                       : control.label
-                }
-                value={controlValues?.reverb?.[control.id] ?? 0}
-                onChange={(value) => onControlChange?.(control.id, value, 'reverb')}
-                showLabel={control.id === 'tweak' || control.id === 'routing'}
-              />
+                  }
+                  value={controlValues?.reverb?.[control.id] ?? 0}
+                  onChange={(value) => onControlChange?.(control.id, value, 'reverb')}
+                  showLabel={control.id === 'tweak'}
+                />
+              )}
             </div>
           ))}
         </div>
