@@ -1,0 +1,306 @@
+@import '../../../styles/tokens.less';
+
+.wrap {
+  border: 1px solid fade(@borderSoft, 65%);
+  background: radial-gradient(circle at 16% 20%, fade(@glow, 12%), transparent 42%),
+    radial-gradient(circle at 86% 24%, fade(@accentWarm, 12%), transparent 36%),
+    linear-gradient(180deg, fade(@panel, 90%), fade(@bgDeep, 92%));
+  border-radius: 0.9rem;
+  padding: 0.85rem 1rem 0.95rem;
+  box-shadow:
+    0 20px 36px fade(#000, 38%),
+    inset 0 1px 0 fade(#fff, 4%);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.overline {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.7rem;
+  color: fade(@textMuted, 70%);
+  margin: 0;
+}
+
+.tempoRow {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  margin-top: 0.15rem;
+}
+
+.tempoValue {
+  font-size: 2.25rem;
+  color: @textPrimary;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-shadow: 0 6px 18px fade(@glow, 18%);
+}
+
+.tempoUnit {
+  font-size: 0.9rem;
+  color: lighten(@textMuted, 12%);
+  letter-spacing: 0.08em;
+}
+
+.tempoSource {
+  font-size: 0.9rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.45rem;
+  background: fade(@panel, 78%);
+  border: 1px solid fade(@borderSoft, 70%);
+  color: lighten(@textPrimary, 6%);
+  box-shadow: inset 0 1px 0 fade(#fff, 6%);
+}
+
+.label {
+  font-size: 0.75rem;
+  color: lighten(@textMuted, 16%);
+  letter-spacing: 0.06em;
+}
+
+.bpmInputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  align-items: flex-end;
+}
+
+.bpmControls {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.bpmInput {
+  width: 96px;
+  background: fade(@panel, 70%);
+  border: 1px solid fade(@borderSoft, 70%);
+  color: @textPrimary;
+  border-radius: 0.65rem;
+  padding: 0.42rem 0.55rem;
+  font-size: 1rem;
+  box-shadow:
+    inset 0 1px 0 fade(#fff, 5%),
+    0 12px 18px fade(#000, 30%);
+  outline: none;
+  transition: border-color 120ms ease, outline 120ms ease;
+}
+
+.bpmInput:focus-visible {
+  outline: 2px solid fade(@accentWarm, 50%);
+  border-color: fade(@accentWarm, 45%);
+}
+
+.pushButton {
+  padding: 0.45rem 0.7rem;
+  border-radius: 0.65rem;
+  border: 1px solid fade(@glow, 45%);
+  background: linear-gradient(180deg, fade(@glowDeep, 82%), fade(@glow, 26%));
+  color: @textPrimary;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  box-shadow:
+    0 10px 20px fade(@glow, 18%),
+    inset 0 1px 0 fade(#fff, 8%);
+  transition: transform 120ms ease, box-shadow 160ms ease;
+}
+
+.pushButton:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 14px 26px fade(@glow, 26%),
+    inset 0 1px 0 fade(#fff, 10%);
+}
+
+.pushButtonActive {
+  border-color: fade(@accentWarm, 65%);
+  background: linear-gradient(180deg, fade(@accentWarm, 75%), fade(@accentAmber, 32%));
+  box-shadow:
+    0 12px 26px fade(@accentWarm, 20%),
+    inset 0 1px 0 fade(#fff, 9%);
+}
+
+.grid {
+  display: grid;
+  gap: 0.6rem;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  margin-top: 0.75rem;
+}
+
+.tile {
+  position: relative;
+  border-radius: 0.75rem;
+  padding: 0.7rem 0.75rem 0.65rem;
+  border: 1px solid fade(@borderSoft, 60%);
+  background: fade(@panel, 86%);
+  color: @textPrimary;
+  cursor: pointer;
+  text-align: left;
+  box-shadow:
+    0 12px 22px fade(#000, 32%),
+    inset 0 1px 0 fade(#fff, 4%);
+  transition: border-color 140ms ease, transform 120ms ease, box-shadow 140ms ease;
+}
+
+.tile:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 14px 26px fade(#000, 40%),
+    inset 0 1px 0 fade(#fff, 6%);
+}
+
+.tile.active {
+  border-color: fade(@accentWarm, 65%);
+  box-shadow:
+    0 12px 28px fade(@accentWarm, 18%),
+    inset 0 1px 0 fade(#fff, 8%);
+}
+
+.tileTop {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.noteSymbol {
+  font-size: 1.3rem;
+  color: @textPrimary;
+}
+
+.label {
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: @textPrimary;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin-top: 0.35rem;
+  color: lighten(@textMuted, 12%);
+  font-size: 0.9rem;
+}
+
+.midiValue {
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.delayMs {
+  color: @textPrimary;
+  font-weight: 700;
+}
+
+.pulseBar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.25rem;
+  margin-top: 0.55rem;
+}
+
+.pulse {
+  display: block;
+  height: 6px;
+  border-radius: 999px;
+  background: fade(@textPrimary, 26%);
+  animation-name: blink;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+
+.straight {
+  border-color: fade(@glow, 35%);
+}
+
+.dotted {
+  border-color: fade(@accentWarm, 45%);
+  background: linear-gradient(180deg, fade(@panel, 90%), fade(@accentWarmSoft, 24%));
+}
+
+.triplet {
+  border-color: fade(#48cdd9, 45%);
+  background: linear-gradient(180deg, fade(@panel, 90%), fade(#48cdd9, 16%));
+}
+
+.metronome {
+  margin-top: 0.8rem;
+  padding: 0.65rem 0.75rem 0.55rem;
+  border-radius: 0.7rem;
+  border: 1px dashed fade(@borderSoft, 60%);
+  background: fade(@panel, 72%);
+}
+
+.metronomeLabel {
+  margin: 0 0 0.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  color: lighten(@textMuted, 14%);
+}
+
+.metronomeTrack {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 0.35rem;
+}
+
+.metronomeDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: fade(@textPrimary, 25%);
+  box-shadow: inset 0 1px 0 fade(#fff, 8%);
+  animation-name: bounce;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-out;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0.4;
+    transform: scaleX(1);
+  }
+  12% {
+    opacity: 1;
+    transform: scaleX(1.1);
+  }
+  100% {
+    opacity: 0.35;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+    background: fade(@textPrimary, 28%);
+  }
+  5% {
+    transform: translateY(-4px);
+    background: fade(@accentWarm, 80%);
+    box-shadow:
+      0 6px 12px fade(@accentWarm, 30%),
+      inset 0 1px 0 fade(#fff, 10%);
+  }
+  100% {
+    transform: translateY(0);
+    background: fade(@textPrimary, 28%);
+    box-shadow: inset 0 1px 0 fade(#fff, 8%);
+  }
+}
+
+@media (max-width: 720px) {
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}

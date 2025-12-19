@@ -1,6 +1,7 @@
 // Central MIDI map: CCs, program indices, and knob→CC wiring used across the UI.
 // Adjust here if the pedal’s MIDI spec changes; UI knobs and preset payloads will follow.
 import type { Mode } from './commonParams';
+import { subdivisions } from './subdivisions';
 
 export const midiCC = {
   delaySelected: 1,
@@ -60,14 +61,7 @@ export const reverbControls = [
   { id: 'mix', cc: midiCC.reverbMix, label: 'Mix' }
 ] as const;
 
-export const tapSubdivisions = [
-  { label: '1/8T', value: 12 },
-  { label: '1/8', value: 25 },
-  { label: '1/8.', value: 38 },
-  { label: '1/4T', value: 50 },
-  { label: '1/4', value: 64 },
-  { label: '1/4.', value: 75 },
-  { label: '1/2T', value: 89 },
-  { label: '1/2', value: 102 },
-  { label: '1/2.', value: 116 }
-] as const;
+export const tapSubdivisions = subdivisions.map((entry) => ({
+  label: entry.label,
+  value: entry.midiValue
+})) as const;
