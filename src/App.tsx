@@ -21,14 +21,12 @@ import { useIncomingMidi } from './hooks/useIncomingMidi';
 import ParameterDisplay from './components/molecules/ParameterDisplay/ParameterDisplay';
 import PresetBankPanel from './components/organisms/PresetBankPanel/PresetBankPanel';
 import { presetBankActions } from './state/usePresetBank';
-import { subdivisions, type SubdivisionId } from './data/subdivisions';
+import { defaultSubdivision, normalizeSubdivisionValue, subdivisions, type SubdivisionId } from './data/subdivisions';
+import { defaultRoutingValue, normalizeRoutingValue } from './data/routing';
 
 // Top-level page wiring: orchestrates data hooks, keyboard shortcuts, and composes the pedal UI
 // so layout remains predictable.
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-const App = () => {
-  type FootStatus = 'off' | 'on' | 'dim' | 'armed';
+type FootStatus = 'off' | 'on' | 'dim' | 'armed';
 type PresetSnapshot = {
   mode: Mode;
   detent: number;
@@ -38,6 +36,54 @@ type PresetSnapshot = {
   tapSubdivisionIndex: number;
   tapBpm: number;
 };
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+const defaultTapSubdivisionIndex = (() => {
+  const idx = tapSubdivisions.findIndex((entry) => entry.label === defaultSubdivision.label);
+  return idx >= 0 ? idx : 0;
+})();
+const defaultTapSubdivisionValue =
+  tapSubdivisions[defaultTapSubdivisionIndex]?.value ??
+  (tapSubdivisions.length > 0 ? tapSubdivisions[0].value : defaultSubdivision.value);
+const defaultReverbValueFor = (id: (typeof reverbControls)[number]['id']) => {
+  if (id === 'routing') return defaultRoutingValue;
+  if (id === 'mix') return 0;
+  return 64;
+};
+const normalizePresetSnapshot = (snapshot: PresetSnapshot): PresetSnapshot => {
+  const routing = normalizeRoutingValue(snapshot.reverbControlValues?.routing);
+  const savedSubdivisionValue = tapSubdivisions[snapshot.tapSubdivisionIndex]?.value;
+  const inferredSubdivisionValue =
+    typeof snapshot.delayControlValues?.[snapshot.mode]?.time === 'number'
+      ? snapshot.delayControlValues[snapshot.mode].time
+      : undefined;
+  const normalizedSubdivisionValue = normalizeSubdivisionValue(
+    savedSubdivisionValue ?? inferredSubdivisionValue
+  );
+  const normalizedTapIndex = tapSubdivisions.findIndex(
+    (entry) => entry.value === normalizedSubdivisionValue
+  );
+  const normalizedReverbValues = reverbControls.reduce(
+    (acc, ctrl) => ({
+      ...acc,
+      [ctrl.id]:
+        ctrl.id === 'routing'
+          ? routing
+          : typeof snapshot.reverbControlValues?.[ctrl.id] === 'number'
+            ? snapshot.reverbControlValues[ctrl.id]
+            : defaultReverbValueFor(ctrl.id)
+    }),
+    {} as Record<(typeof reverbControls)[number]['id'], number>
+  );
+
+  return {
+    ...snapshot,
+    tapSubdivisionIndex:
+      normalizedTapIndex >= 0 ? normalizedTapIndex : defaultTapSubdivisionIndex,
+    reverbControlValues: normalizedReverbValues
+  };
+};
+
+const App = () => {
   const snapshotsEqual = (a: PresetSnapshot | null, b: PresetSnapshot | null) => {
     if (!a || !b) return false;
     return JSON.stringify(a) === JSON.stringify(b);
@@ -66,9 +112,7 @@ type PresetSnapshot = {
     C: 'off',
     Tap: 'off'
   });
-  const [tapSubdivisionIndex, setTapSubdivisionIndex] = useState(
-    tapSubdivisions.findIndex((entry) => entry.value === 64) || 0
-  );
+  const [tapSubdivisionIndex, setTapSubdivisionIndex] = useState(defaultTapSubdivisionIndex);
   const [tapModeActive, setTapModeActive] = useState(false);
   const [tapBpm, setTapBpm] = useState(120);
   const [tapTimestamps, setTapTimestamps] = useState<number[]>([]);
@@ -157,7 +201,7 @@ type PresetSnapshot = {
     Record<(typeof reverbControls)[number]['id'], number>
   >(
     reverbControls.reduce(
-      (acc, ctrl) => ({ ...acc, [ctrl.id]: 64 }),
+      (acc, ctrl) => ({ ...acc, [ctrl.id]: defaultReverbValueFor(ctrl.id) }),
       {} as Record<(typeof reverbControls)[number]['id'], number>
     )
   );
@@ -359,7 +403,7 @@ type PresetSnapshot = {
     return reverbControls.reduce(
       (acc, ctrl) => ({
         ...acc,
-        [ctrl.id]: ctrl.id === 'mix' ? 0 : 64
+        [ctrl.id]: defaultReverbValueFor(ctrl.id)
       }),
       {} as Record<(typeof reverbControls)[number]['id'], number>
     );
@@ -368,7 +412,7 @@ type PresetSnapshot = {
   const seedFactoryPresets = useCallback(() => {
     if (typeof window === 'undefined') return;
 
-    const tapIndex = tapSubdivisions.findIndex((entry) => entry.value === 64) || 0;
+    const tapIndex = defaultTapSubdivisionIndex;
     const delayDefaults = buildDelayDefaults();
     const reverbDefaults = buildReverbDefaults();
 
@@ -394,7 +438,11 @@ type PresetSnapshot = {
     if (typeof window === 'undefined') return;
     const stored = localStorage.getItem('dl4mkii-preset-bank');
     if (stored) return;
-    const tapIndex = tapSubdivisions.findIndex((entry) => entry.value === 64) || 0;
+    const tapIndex = defaultTapSubdivisionIndex;
+    const defaultSubdivision = {
+      label: tapSubdivisions[tapIndex]?.label ?? '1/4',
+      value: tapSubdivisions[tapIndex]?.value ?? defaultTapSubdivisionValue
+    };
     const delayDefaults = buildDelayDefaults();
     const reverbDefaults = buildReverbDefaults();
     const base = Array.from({ length: 128 }, (_, idx) => ({
@@ -411,7 +459,7 @@ type PresetSnapshot = {
           tweez: 64,
           mix: 64,
           tempoBpm: 120,
-          subdivision: { label: tapSubdivisions[tapIndex]?.label ?? '1/4', value: tapSubdivisions[tapIndex]?.value ?? 64 }
+          subdivision: defaultSubdivision
         },
         reverb: undefined,
         routing: undefined
@@ -449,21 +497,21 @@ type PresetSnapshot = {
               type: 'MkII Delay',
               time: 64,
               repeats: 64,
-              tweak: 64,
-              tweez: 64,
-              mix: 64,
-              tempoBpm: 120,
-              subdivision: { label: tapSubdivisions[tapIndex]?.label ?? '1/4', value: tapSubdivisions[tapIndex]?.value ?? 64 }
-            },
-            reverb: {
-              type: 'Secret Reverb',
-              decay: 64,
-              tweak: 64,
-              tweez: 64,
-              mix: 64,
-              routing: 64
-            },
-            routing: 64
+          tweak: 64,
+          tweez: 64,
+          mix: 64,
+          tempoBpm: 120,
+          subdivision: defaultSubdivision
+        },
+        reverb: {
+          type: 'Secret Reverb',
+          decay: 64,
+          tweak: 64,
+          tweez: 64,
+          mix: 64,
+          routing: defaultRoutingValue
+        },
+            routing: defaultRoutingValue
           },
           snapshot
         };
@@ -621,7 +669,7 @@ type PresetSnapshot = {
 
       const delaySends = delayControls.map((ctrl) => {
         if (ctrl.id === 'time' && tapModeActive) {
-          const tapValue = tapSubdivisions[tapSubdivisionIndex]?.value ?? 64;
+          const tapValue = tapSubdivisions[tapSubdivisionIndex]?.value ?? defaultTapSubdivisionValue;
           return sendCCLogged(midiCC.delayNotes, tapValue, source);
         }
         const val = Math.round(delayValues[ctrl.id] ?? 64);
@@ -629,7 +677,11 @@ type PresetSnapshot = {
       });
 
       const reverbSends = reverbControls.map((ctrl) =>
-        sendCCLogged(ctrl.cc, Math.round(reverbValues[ctrl.id] ?? 64), source)
+        sendCCLogged(
+          ctrl.cc,
+          Math.round(reverbValues[ctrl.id] ?? defaultReverbValueFor(ctrl.id)),
+          source
+        )
       );
 
       await Promise.all([...delaySends, ...reverbSends]);
@@ -749,7 +801,7 @@ type PresetSnapshot = {
       const raw = localStorage.getItem(`macdlmkii-preset-${index}`);
       if (!raw) return false;
       try {
-        const snapshot: PresetSnapshot = JSON.parse(raw);
+        const snapshot: PresetSnapshot = normalizePresetSnapshot(JSON.parse(raw));
         const program = options?.programOverride ?? index;
         suppressSendsUntilRef.current = Date.now() + 1000;
         await applyPresetSnapshot(snapshot, index, program, {
@@ -788,7 +840,7 @@ type PresetSnapshot = {
       }));
       setReverbControlValues(
         reverbControls.reduce(
-          (acc, ctrl) => ({ ...acc, [ctrl.id]: 64 }),
+          (acc, ctrl) => ({ ...acc, [ctrl.id]: defaultReverbValueFor(ctrl.id) }),
           {} as Record<(typeof reverbControls)[number]['id'], number>
         )
       );
@@ -837,10 +889,14 @@ type PresetSnapshot = {
           reverbType: currentReverbEffect?.model,
           reverbDecay: currentReverbEffect ? reverbControlValues.decay ?? 64 : undefined,
           reverbTweak: currentReverbEffect ? reverbControlValues.tweak ?? 64 : undefined,
-          reverbTweez: currentReverbEffect ? reverbControlValues.routing ?? 64 : undefined,
+          reverbTweez: currentReverbEffect
+            ? reverbControlValues.routing ?? defaultReverbValueFor('routing')
+            : undefined,
           reverbMix: currentReverbEffect ? reverbControlValues.mix ?? 64 : undefined,
-          reverbRouting: currentReverbEffect ? reverbControlValues.routing ?? 64 : undefined,
-          routing: reverbControlValues.routing ?? 64
+          reverbRouting: currentReverbEffect
+            ? reverbControlValues.routing ?? defaultReverbValueFor('routing')
+            : undefined,
+          routing: reverbControlValues.routing ?? defaultReverbValueFor('routing')
         },
         snapshot,
         isEmpty: false,
@@ -904,7 +960,7 @@ type PresetSnapshot = {
           Math.round(
             typeof (reverbVals as Record<string, number | undefined>)[key] === 'number'
               ? (reverbVals as Record<string, number | undefined>)[key]!
-              : 64
+              : defaultReverbValueFor(key as (typeof reverbControls)[number]['id'])
           );
         const subdivision = tapSubdivisions[tapSubdivisionIndex] ?? null;
 
@@ -976,13 +1032,16 @@ type PresetSnapshot = {
 
       if (id === 'Tap') {
         const nextIdx = (tapSubdivisionIndex + 1) % tapSubdivisions.length;
+        const nextSubdivision =
+          tapSubdivisions[nextIdx] ?? tapSubdivisions[defaultTapSubdivisionIndex];
+        const tapValue = nextSubdivision?.value ?? defaultTapSubdivisionValue;
         setTapSubdivisionIndex(nextIdx);
         setTapModeActive(true);
         setDelayControlValues((prev) => ({
           ...prev,
           [mode]: {
             ...prev[mode],
-            time: tapSubdivisions[nextIdx]?.value ?? 64
+            time: tapValue
           }
         }));
 
@@ -1003,10 +1062,8 @@ type PresetSnapshot = {
           return next;
         });
 
-        await sendCCLogged(midiCC.delayNotes, tapSubdivisions[nextIdx].value, 'tap');
-        await sendMessages(
-          buildTapMessages(tapSubdivisions[nextIdx].value)
-        );
+        await sendCCLogged(midiCC.delayNotes, tapValue, 'tap');
+        await sendMessages(buildTapMessages(tapValue));
         tapBlink.trigger(tapBpm);
         return;
       }
@@ -1059,21 +1116,24 @@ type PresetSnapshot = {
 
   const handleControlChange = useCallback(
     async (id: string, value: number, domain: 'delay' | 'reverb') => {
-      const rounded = Math.round(value);
+      const clampMidi = (val: number) => Math.max(0, Math.min(127, Math.round(val)));
+      const rounded = clampMidi(value);
+      const nextValue =
+        domain === 'reverb' && id === 'routing' ? normalizeRoutingValue(value) : rounded;
       const canSend = midiReady && selectedPort !== null;
       if (domain === 'delay') {
         if (id === 'time' && tapModeActive) {
-          const idx = tapSubdivisions.findIndex((entry) => entry.value === rounded);
+          const idx = tapSubdivisions.findIndex((entry) => entry.value === nextValue);
           if (idx >= 0) {
             setTapSubdivisionIndex(idx);
             setDelayControlValues((prev) => ({
               ...prev,
               [mode]: {
                 ...prev[mode],
-                [id]: rounded
+                [id]: nextValue
               }
             }));
-            if (canSend) await sendCCLogged(midiCC.delayNotes, rounded, 'knob-change');
+            if (canSend) await sendCCLogged(midiCC.delayNotes, nextValue, 'knob-change');
             return;
           }
           setTapModeActive(false);
@@ -1081,23 +1141,23 @@ type PresetSnapshot = {
             ...prev,
             [mode]: {
               ...prev[mode],
-              [id]: rounded
+              [id]: nextValue
             }
           }));
-          if (canSend) await sendCCLogged(midiCC.delayTime, rounded, 'knob-change');
+          if (canSend) await sendCCLogged(midiCC.delayTime, nextValue, 'knob-change');
           return;
         }
         setDelayControlValues((prev) => ({
           ...prev,
           [mode]: {
             ...prev[mode],
-            [id]: rounded
+            [id]: nextValue
           }
         }));
       } else {
         setReverbControlValues((prev) => ({
           ...prev,
-          [id]: rounded
+          [id]: nextValue
         }));
       }
       const map =
@@ -1117,7 +1177,7 @@ type PresetSnapshot = {
             };
       const cc = map[id as keyof typeof map];
       if (cc !== undefined && canSend) {
-        await sendCCLogged(cc, rounded, 'knob-change');
+        await sendCCLogged(cc, nextValue, 'knob-change');
       }
     },
     [
@@ -1162,9 +1222,28 @@ type PresetSnapshot = {
         setDetentForMode(parsed.mode ?? mode, parsed.currentDetent);
       }
       if (parsed.delayControlValues) setDelayControlValues(parsed.delayControlValues);
-      if (parsed.reverbControlValues) setReverbControlValues(parsed.reverbControlValues);
-      if (typeof parsed.tapSubdivisionIndex === 'number')
-        setTapSubdivisionIndex(parsed.tapSubdivisionIndex);
+      if (parsed.reverbControlValues) {
+        const normalized = reverbControls.reduce(
+          (acc, ctrl) => ({
+            ...acc,
+            [ctrl.id]:
+              ctrl.id === 'routing'
+                ? normalizeRoutingValue(parsed.reverbControlValues[ctrl.id])
+                : typeof parsed.reverbControlValues[ctrl.id] === 'number'
+                  ? parsed.reverbControlValues[ctrl.id]
+                  : defaultReverbValueFor(ctrl.id)
+          }),
+          {} as Record<(typeof reverbControls)[number]['id'], number>
+        );
+        setReverbControlValues(normalized);
+      }
+      if (typeof parsed.tapSubdivisionIndex === 'number') {
+        const fallbackValue =
+          tapSubdivisions[parsed.tapSubdivisionIndex]?.value ?? defaultTapSubdivisionValue;
+        const normalizedValue = normalizeSubdivisionValue(fallbackValue);
+        const idx = tapSubdivisions.findIndex((entry) => entry.value === normalizedValue);
+        setTapSubdivisionIndex(idx >= 0 ? idx : defaultTapSubdivisionIndex);
+      }
       if (typeof parsed.tapBpm === 'number') setTapBpm(parsed.tapBpm);
       if (typeof parsed.reverbDetent === 'number') setReverbDetent(parsed.reverbDetent);
       if (typeof parsed.activePreset === 'number') setActivePresetIndex(parsed.activePreset);

@@ -1,6 +1,8 @@
 // Lightweight global store for the 128-slot preset bank: names, tags, params, import/export.
 // PMs can scan this file to see what persists and how presets are updated/duplicated/reordered.
 import { useSyncExternalStore } from 'react';
+import { defaultSubdivision, findSubdivisionByValue, normalizeSubdivisionValue } from '../data/subdivisions';
+import { normalizeRoutingValue } from '../data/routing';
 
 export type Preset = {
   id: number; // 0-127
@@ -37,6 +39,25 @@ type BankState = {
 
 const STORAGE_KEY = 'dl4mkii-preset-bank';
 
+const normalizePreset = (preset: Preset): Preset => {
+  const subdivisionVal = normalizeSubdivisionValue(preset.parameters.subdivision?.value);
+  const subdivision = findSubdivisionByValue(subdivisionVal);
+  const routingSource =
+    preset.parameters.reverbRouting ?? preset.parameters.routing;
+  const normalizedRouting =
+    typeof routingSource === 'number' ? normalizeRoutingValue(routingSource) : undefined;
+
+  return {
+    ...preset,
+    parameters: {
+      ...preset.parameters,
+      subdivision: subdivision ? { label: subdivision.label, value: subdivision.value } : undefined,
+      reverbRouting: normalizedRouting ?? preset.parameters.reverbRouting,
+      routing: normalizedRouting ?? preset.parameters.routing
+    }
+  };
+};
+
 const buildInitialBank = (): Preset[] =>
   Array.from({ length: 128 }, (_, idx) => ({
     id: idx,
@@ -51,7 +72,7 @@ const buildInitialBank = (): Preset[] =>
       delayTweez: 64,
       delayMix: 64,
       tempoBpm: 120,
-      subdivision: { label: '1/4', value: 64 },
+      subdivision: { label: defaultSubdivision.label, value: defaultSubdivision.value },
       reverbType: undefined,
       reverbDecay: undefined,
       reverbTweak: undefined,
@@ -70,7 +91,7 @@ const loadFromStorage = (): Preset[] | null => {
     if (!raw) return null;
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed)) return null;
-    return parsed as Preset[];
+    return (parsed as Preset[]).map(normalizePreset);
   } catch {
     return null;
   }
@@ -102,7 +123,7 @@ const syncSnapshotsToLocalStorage = (presets: Preset[]) => {
 
 const createStore = () => {
   let state: BankState = {
-    presets: loadFromStorage() ?? buildInitialBank(),
+    presets: (loadFromStorage() ?? buildInitialBank()).map(normalizePreset),
     filter: '',
     selectedId: null
   };
@@ -168,7 +189,7 @@ const createStore = () => {
     // normalize length to 128
     const normalized = Array.from({ length: 128 }, (_, idx) => {
       const found = presets.find((p) => p.id === idx);
-      return (
+      return normalizePreset(
         found ?? {
           id: idx,
           name: `Preset ${idx + 1}`,
@@ -182,7 +203,7 @@ const createStore = () => {
             delayTweez: 64,
             delayMix: 64,
             tempoBpm: 120,
-            subdivision: { label: '1/4', value: 64 },
+            subdivision: { label: defaultSubdivision.label, value: defaultSubdivision.value },
             reverbType: undefined,
             reverbDecay: undefined,
             reverbTweak: undefined,

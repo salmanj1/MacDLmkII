@@ -7,7 +7,7 @@ export const midiCC = {
   delaySelected: 1,
   reverbSelected: 2,
   expressionPedal: 3,
-  presetBypass: 4,
+  presetBypass: 4, // 0-63: Enables preset (bypass off), 64-127: Bypasses preset
   looperMode: 9,
   delayTime: 11,
   delayNotes: 12,
@@ -17,9 +17,19 @@ export const midiCC = {
   delayMix: 16,
   reverbDecay: 17,
   reverbTweak: 18,
-  reverbRouting: 19,
+  reverbRouting: 19, // 0 = Reverb→Delay, 1 = Parallel, 2 = Delay→Reverb
   reverbMix: 20,
   tapTempo: 64
+} as const;
+
+export const looperCC = {
+  classicLooperMode: 9, // 0-63: Off, 64-127: On
+  recordOverdub: 60, // 0-63: Overdub, 64-127: Record
+  playStop: 61, // 0-63: Stop, 64-127: Play
+  playOnce: 62, // 64-127: trigger
+  undoRedo: 63, // 0-63: Undo, 64-127: Redo
+  forwardReverse: 65, // 0-63: Forward, 64-127: Reverse
+  fullHalfSpeed: 66 // 0-63: Full, 64-127: Half
 } as const;
 
 // Values mirror the DL4II_Control enums so CC payloads match the hardware.
