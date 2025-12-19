@@ -12,7 +12,11 @@ type Props = {
   onDelayChange?: (id: string, value: number) => void;
   onReverbChange?: (id: string, value: number) => void;
   delayDescription?: string | null;
+  delayInspiration?: string | null;
+  delayNotes?: string | null;
   reverbDescription?: string | null;
+  reverbInspiration?: string | null;
+  reverbNotes?: string | null;
 };
 
 const formatValue = (val: number, unit: string, formatter?: (value: number) => string) => {
@@ -32,7 +36,11 @@ const ParameterDisplay: FC<Props> = ({
   onDelayChange,
   onReverbChange,
   delayDescription,
-  reverbDescription
+  delayInspiration,
+  delayNotes,
+  reverbDescription,
+  reverbInspiration,
+  reverbNotes
 }) => {
   const delayParams = getParameterSet(mode, modelName ?? undefined);
   const reverbParams = reverbModelName
@@ -46,6 +54,10 @@ const ParameterDisplay: FC<Props> = ({
         {delayDescription && (
           <div className="text-sm text-slate-300 leading-snug">{delayDescription}</div>
         )}
+        {delayInspiration && (
+          <div className="text-xs text-slate-400 leading-snug">Based on: {delayInspiration}</div>
+        )}
+        {delayNotes && <div className="text-xs text-slate-400 leading-snug">{delayNotes}</div>}
         <div className="grid grid-cols-2 gap-3">
           {delayParams.map((param) => {
             const raw = values[param.id] ?? 0;
@@ -85,6 +97,10 @@ const ParameterDisplay: FC<Props> = ({
           {reverbDescription && (
             <div className="text-sm text-slate-300 leading-snug">{reverbDescription}</div>
           )}
+          {reverbInspiration && (
+            <div className="text-xs text-slate-400 leading-snug">Based on: {reverbInspiration}</div>
+          )}
+          {reverbNotes && <div className="text-xs text-slate-400 leading-snug">{reverbNotes}</div>}
           <div className="grid grid-cols-2 gap-3">
             {reverbParams.map((param) => {
               const raw = reverbValues[param.id] ?? 0;

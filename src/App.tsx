@@ -1,7 +1,6 @@
 import { useMemo, useState, useCallback, useEffect, useRef } from 'react';
 import Pedal from './components/organisms/Pedal/Pedal';
 import LibraryPanel from './components/organisms/LibraryPanel/LibraryPanel';
-import ManualPane from './components/organisms/ManualPane/ManualPane';
 import useEffectLibrary from './hooks/useEffectLibrary';
 import useKeyboardShortcuts from './hooks/useKeyboardShortcuts';
 import styles from './App.module.less';
@@ -1245,18 +1244,20 @@ type PresetSnapshot = {
                 loading={isLoading}
               />
 
-              <ManualPane delayEffect={currentEffect} reverbEffect={currentReverbEffect} />
-
               <div className={styles.panelCard}>
                 <h3 className={styles.panelTitle}>Parameters</h3>
-              <ParameterDisplay
-                mode={mode}
-                modelName={currentEffect?.model ?? null}
+                <ParameterDisplay
+                  mode={mode}
+                  modelName={currentEffect?.model ?? null}
                 values={delayControlValues[mode] ?? {}}
                 reverbModelName={currentReverbEffect?.model ?? null}
                 reverbValues={currentReverbEffect ? reverbControlValues : undefined}
-                delayDescription={currentEffect?.description ?? currentEffect?.inspiration ?? null}
-                reverbDescription={currentReverbEffect?.description ?? currentReverbEffect?.inspiration ?? null}
+                delayDescription={currentEffect?.description ?? null}
+                delayInspiration={currentEffect?.inspiration ?? null}
+                delayNotes={currentEffect?.tweakRange ?? null}
+                reverbDescription={currentReverbEffect?.description ?? null}
+                reverbInspiration={currentReverbEffect?.inspiration ?? null}
+                reverbNotes={currentReverbEffect?.tweakRange ?? null}
                 altActive={mode === 'Legacy Delay'}
                 onDelayChange={(id, value) => handleControlChange(id, value, 'delay')}
                 onReverbChange={(id, value) => handleControlChange(id, value, 'reverb')}
