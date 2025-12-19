@@ -70,7 +70,7 @@ const MidiDebuggerPanel: FC<Props> = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed bottom-3 left-3 right-3 z-40 flex max-h-[60vh] flex-col gap-2 rounded-lg border border-slate-700/70 bg-slate-900/95 p-3 shadow-xl backdrop-blur">
+    <div className="fixed bottom-4 right-4 z-40 flex w-[420px] max-h-[45vh] flex-col gap-2 rounded-lg border border-slate-700/70 bg-slate-900/95 p-3 shadow-xl backdrop-blur">
       <div className="flex items-center gap-2">
         <div className="text-sm font-semibold text-slate-100">MIDI Debugger</div>
         <div className="flex gap-2 text-[11px] text-slate-300">
