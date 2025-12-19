@@ -15,6 +15,11 @@ import useTapBlink from './hooks/useTapBlink';
 import { buildTapMessages } from './data/midiMessages';
 import { buildQaStats } from './utils/effectQa';
 import { loadPresetLibrary, savePresetLibrary } from './utils/presetStorage';
+import MidiHealthIndicator from './components/molecules/MidiHealthIndicator/MidiHealthIndicator';
+import { midiConnectionService } from './state/useMidiConnectionStore';
+import MidiDebuggerPanel from './components/molecules/MidiDebuggerPanel/MidiDebuggerPanel';
+import { logMidiMessage } from './state/useMidiDebugger';
+import { useIncomingMidi } from './hooks/useIncomingMidi';
 
 // Top-level page wiring: orchestrates data hooks, keyboard shortcuts, and composes the pedal UI
 // so layout remains predictable.
@@ -85,6 +90,9 @@ type MidiLogEntry =
   const [showMidiLog, setShowMidiLog] = useState(false);
   const [activeBaseline, setActiveBaseline] = useState<PresetSnapshot | null>(null);
   const [presetDirty, setPresetDirty] = useState(false);
+  const [showDebugger, setShowDebugger] = useState(process.env.NODE_ENV === 'development');
+
+  useIncomingMidi(process.env.NODE_ENV === 'development');
 
   const factorySeeds = useMemo(
     () => [
@@ -453,6 +461,16 @@ type MidiLogEntry =
     setMidiLog((prev) => {
       const next = [...prev, entry];
       return next.slice(-120);
+    });
+    const summary =
+      entry.type === 'pc'
+        ? `Program Change #${entry.program + 1}`
+        : `CC ${entry.control} -> ${entry.value}`;
+    logMidiMessage({
+      direction: 'out',
+      type: entry.type === 'pc' ? 'pc' : 'cc',
+      summary,
+      detail: entry.source
     });
   }, []);
 
@@ -1142,6 +1160,17 @@ type MidiLogEntry =
     [setDetentForMode, setMode]
   );
 
+  useEffect(() => {
+    if (midiReady && selectedPort !== null) {
+      midiConnectionService.connect();
+      return () => {
+        midiConnectionService.disconnect();
+      };
+    }
+    midiConnectionService.disconnect();
+    return undefined;
+  }, [midiReady, selectedPort]);
+
   const copyMidiLog = useCallback(async () => {
     const formatted = midiLog
       .slice(-120)
@@ -1296,6 +1325,7 @@ type MidiLogEntry =
         </div>
 
         <div className={styles.midiBar} aria-live="polite">
+          <MidiHealthIndicator showMeta />
           <span className={styles.midiStatus}>{clock.followEnabled && clock.bpm ? `Clock ${Math.round(clock.bpm)} BPM` : midiStatus}</span>
           <select
           className={styles.midiSelect}
@@ -1408,6 +1438,16 @@ type MidiLogEntry =
         >
           {clock.followEnabled ? 'Clock: On' : 'Clock: Off'}
         </button>
+        {process.env.NODE_ENV === 'development' && (
+          <button
+            type="button"
+            className={styles.midiRefresh}
+            onClick={() => setShowDebugger((prev) => !prev)}
+            aria-pressed={showDebugger}
+          >
+            Debug
+          </button>
+        )}
         <div className={styles.midiStepper}>
           <input
             type="number"
@@ -1436,6 +1476,7 @@ type MidiLogEntry =
           >
             {clock.sendEnabled ? 'Send Clock: On' : 'Send Clock'}
           </button>
+        {process.env.NODE_ENV !== 'development' && (
           <button
             type="button"
             className={styles.midiLogToggle}
@@ -1445,6 +1486,7 @@ type MidiLogEntry =
           >
             📝
           </button>
+        )}
         </div>
         {midiError && (
           <span className={styles.midiError}>
@@ -1452,7 +1494,7 @@ type MidiLogEntry =
           </span>
         )}
       </div>
-      {showMidiLog && (
+      {showMidiLog && process.env.NODE_ENV !== 'development' && (
         <div className={styles.midiLogPanel} role="log" aria-label="MIDI log">
           <div className={styles.midiLogHeader}>
             <span>MIDI Log</span>
@@ -1504,6 +1546,9 @@ type MidiLogEntry =
               })}
           </div>
         </div>
+      )}
+      {showDebugger && process.env.NODE_ENV === 'development' && (
+        <MidiDebuggerPanel onClose={() => setShowDebugger(false)} />
       )}
     </main>
   </div>
