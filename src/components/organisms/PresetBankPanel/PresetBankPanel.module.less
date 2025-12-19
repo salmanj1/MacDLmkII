@@ -1,0 +1,155 @@
+.panel {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(5, 22, 12, 0.86);
+  border-radius: 0.9rem;
+  padding: 0.75rem 0.9rem;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 0.65rem;
+  max-height: calc(100vh - 140px);
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  justify-content: space-between;
+}
+
+.title {
+  font-weight: 800;
+  color: #f5fbef;
+}
+
+.searchRow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.search {
+  padding: 0.45rem 0.6rem;
+  border-radius: 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  color: #f5fbef;
+  min-width: 220px;
+  width: 100%;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.4rem;
+  overflow-y: auto;
+  padding-right: 0.15rem;
+  padding-bottom: 0.25rem;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+.actionButton {
+  padding: 0.45rem 0.6rem;
+  border-radius: 0.55rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.04);
+  color: #f5fbef;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.card {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(10, 30, 18, 0.8);
+  border-radius: 0.7rem;
+  padding: 0.5rem 0.6rem;
+  cursor: pointer;
+  transition: border-color 120ms ease, box-shadow 120ms ease, transform 120ms ease;
+}
+
+.card:hover {
+  border-color: rgba(65, 162, 95, 0.6);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+  transform: translateY(-1px);
+}
+
+.active {
+  border-color: rgba(65, 162, 95, 0.9);
+  box-shadow: 0 12px 24px rgba(65, 162, 95, 0.18);
+}
+
+.empty {
+  opacity: 0.65;
+  border-style: dashed;
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: rgba(245, 251, 239, 0.82);
+}
+
+.slotLabel {
+  font-weight: 700;
+}
+
+.tag {
+  margin-left: auto;
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.45rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  font-size: 0.75rem;
+  color: #f5fbef;
+}
+
+.name {
+  margin-top: 0.15rem;
+  font-weight: 800;
+  color: #f5fbef;
+}
+
+.meta {
+  font-size: 0.82rem;
+  color: rgba(245, 251, 239, 0.65);
+}
+
+.description {
+  font-size: 0.85rem;
+  color: rgba(245, 251, 239, 0.78);
+  margin-top: 0.2rem;
+}
+
+.contextMenu {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  display: grid;
+  gap: 0.2rem;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.45rem;
+  padding: 0.35rem;
+  z-index: 10;
+}
+
+.contextMenu button {
+  text-align: left;
+  padding: 0.25rem 0.4rem;
+  font-size: 0.82rem;
+  color: #f5fbef;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.contextMenu button:hover {
+  color: rgba(65, 162, 95, 0.9);
+}

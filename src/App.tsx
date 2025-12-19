@@ -5,7 +5,6 @@ import ManualPane from './components/organisms/ManualPane/ManualPane';
 import useEffectLibrary from './hooks/useEffectLibrary';
 import useKeyboardShortcuts from './hooks/useKeyboardShortcuts';
 import styles from './App.module.less';
-import PresetLibraryPanel from './components/organisms/PresetLibraryPanel/PresetLibraryPanel';
 import useMidiBridge from './hooks/useMidiBridge';
 import ErrorBoundary from './components/organisms/ErrorBoundary/ErrorBoundary';
 import KeyboardHelp from './components/molecules/KeyboardHelp/KeyboardHelp';
@@ -14,13 +13,14 @@ import type { EffectInfo, Mode } from './data/commonParams';
 import useTapBlink from './hooks/useTapBlink';
 import { buildTapMessages } from './data/midiMessages';
 import { buildQaStats } from './utils/effectQa';
-import { loadPresetLibrary, savePresetLibrary } from './utils/presetStorage';
 import MidiHealthIndicator from './components/molecules/MidiHealthIndicator/MidiHealthIndicator';
 import { midiConnectionService } from './state/useMidiConnectionStore';
 import MidiDebuggerPanel from './components/molecules/MidiDebuggerPanel/MidiDebuggerPanel';
 import { logMidiMessage } from './state/useMidiDebugger';
 import { useIncomingMidi } from './hooks/useIncomingMidi';
 import ParameterDisplay from './components/molecules/ParameterDisplay/ParameterDisplay';
+import PresetBankPanel from './components/organisms/PresetBankPanel/PresetBankPanel';
+import { presetBankActions } from './state/usePresetBank';
 
 // Top-level page wiring: orchestrates data hooks, keyboard shortcuts, and composes the pedal UI
 // so layout remains predictable.
@@ -37,16 +37,6 @@ type PresetSnapshot = {
   tapSubdivisionIndex: number;
   tapBpm: number;
 };
-type PresetLibraryEntry = {
-  id: string;
-  name: string;
-  createdAt: number;
-  summary: string;
-  description?: string;
-  presetProgram?: number;
-  snapshot: PresetSnapshot;
-};
-
   const snapshotsEqual = (a: PresetSnapshot | null, b: PresetSnapshot | null) => {
     if (!a || !b) return false;
     return JSON.stringify(a) === JSON.stringify(b);
@@ -88,6 +78,9 @@ type PresetLibraryEntry = {
   const [showDebugger, setShowDebugger] = useState(process.env.NODE_ENV === 'development');
 
   useIncomingMidi(process.env.NODE_ENV === 'development');
+  useEffect(() => {
+    presetBankActions.select(activePreset);
+  }, [activePreset]);
 
   const factorySeeds = useMemo(
     () => [
@@ -142,8 +135,7 @@ type PresetLibraryEntry = {
     ],
     []
   );
-  const [presetLibrary, setPresetLibrary] = useState<PresetLibraryEntry[]>([]);
-  const [libraryLoadingId, setLibraryLoadingId] = useState<string | null>(null);
+  // Legacy library state removed
   const [delayControlValues, setDelayControlValues] = useState<
     Record<Mode, Record<(typeof delayControls)[number]['id'], number>>
   >({
@@ -318,57 +310,69 @@ type PresetLibraryEntry = {
   }, [buildDelayDefaults, buildReverbDefaults, factorySeeds]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    (async () => {
-      try {
-        const stored = await loadPresetLibrary<PresetLibraryEntry>();
-        if (Array.isArray(stored) && stored.length > 0) {
-          setPresetLibrary(stored);
-          return;
-        }
-
-        // Seed factory library entries if empty.
-        const tapIndex = tapSubdivisions.findIndex((entry) => entry.value === 64) || 0;
-        const delayDefaults = buildDelayDefaults();
-        const reverbDefaults = buildReverbDefaults();
-        const seeded: PresetLibraryEntry[] = factorySeeds.map(
-          ({ slot, name, detent, reverbDetent, description, presetProgram }) => {
-          const snapshot: PresetSnapshot = {
-            mode: 'MkII Delay',
-            detent,
-            reverbDetent,
-            delayControlValues: { ...delayDefaults },
-            reverbControlValues: { ...reverbDefaults },
-            tapSubdivisionIndex: tapIndex,
-            tapBpm: 120
-          };
-          return {
-            id: `factory-${slot}`,
-            name,
-            createdAt: Date.now(),
-            summary: summaryFromSnapshot(snapshot),
-            description,
-            presetProgram,
-            snapshot
-          };
-        }
-        );
-        setPresetLibrary(seeded);
-        await savePresetLibrary(seeded);
-      } catch (error) {
-        console.warn('Failed to load preset library', error);
-      }
-    })();
-  }, [buildDelayDefaults, buildReverbDefaults, factorySeeds, summaryFromSnapshot]);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    savePresetLibrary(presetLibrary);
-  }, [presetLibrary]);
-
-  useEffect(() => {
     seedFactoryPresets();
   }, [seedFactoryPresets]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const stored = localStorage.getItem('dl4mkii-preset-bank');
+    if (stored) return;
+    const tapIndex = tapSubdivisions.findIndex((entry) => entry.value === 64) || 0;
+    const delayDefaults = buildDelayDefaults();
+    const reverbDefaults = buildReverbDefaults();
+    const base = Array.from({ length: 128 }, (_, idx) => ({
+      id: idx,
+      name: `Preset ${idx + 1}`,
+      tags: [],
+      description: '',
+      parameters: {
+        time: 64,
+        tweak: 64,
+        tweez: 64,
+        mix: 64,
+        repeats: 64,
+        delayType: 'MkII Delay',
+        reverbType: undefined
+      },
+      lastModified: new Date().toISOString(),
+      isEmpty: true,
+      snapshot: {
+        mode: 'MkII Delay' as Mode,
+        detent: 0,
+        reverbDetent: 0,
+        delayControlValues: { ...delayDefaults },
+        reverbControlValues: { ...reverbDefaults },
+        tapSubdivisionIndex: tapIndex,
+        tapBpm: 120
+      }
+    }));
+    factorySeeds.forEach(({ slot, name, detent, reverbDetent, description }) => {
+      const snapshot: PresetSnapshot = {
+        mode: 'MkII Delay',
+        detent,
+        reverbDetent,
+        delayControlValues: { ...delayDefaults },
+        reverbControlValues: { ...reverbDefaults },
+        tapSubdivisionIndex: tapIndex,
+        tapBpm: 120
+      };
+      if (base[slot]) {
+        base[slot] = {
+          ...base[slot],
+          name,
+          description: description ?? '',
+          isEmpty: false,
+          parameters: {
+            ...base[slot].parameters,
+            delayType: 'MkII Delay',
+            reverbType: 'Secret Reverb'
+          },
+          snapshot
+        };
+      }
+    });
+    presetBankActions.replaceBank(base as any);
+  }, [buildDelayDefaults, buildReverbDefaults, factorySeeds]);
 
   const buildPresetSnapshot = useCallback((): PresetSnapshot => {
     return {
@@ -617,118 +621,7 @@ type PresetLibraryEntry = {
     ]
   );
 
-  const handleLibrarySave = useCallback(
-    (name: string, description?: string) => {
-      const snapshot = buildPresetSnapshot();
-      const autoName = autoNameFromSnapshot(snapshot);
-      const id =
-        typeof crypto !== 'undefined' && 'randomUUID' in crypto
-          ? crypto.randomUUID()
-          : `lib-${Date.now()}`;
-      const entry: PresetLibraryEntry = {
-        id,
-        name: name.trim() || autoName,
-        createdAt: Date.now(),
-        summary: summaryFromSnapshot(snapshot),
-        description: description?.trim() || undefined,
-        presetProgram: activePreset ?? 0,
-        snapshot
-      };
-      setPresetLibrary((prev) => [entry, ...prev]);
-      showToast(`Saved "${entry.name}" to library`, 'ok');
-    },
-    [autoNameFromSnapshot, buildPresetSnapshot, showToast, summaryFromSnapshot]
-  );
-
-  const handleLibraryUpdate = useCallback(
-    (id: string) => {
-      const snapshot = buildPresetSnapshot();
-      const autoName = autoNameFromSnapshot(snapshot);
-      setPresetLibrary((prev) =>
-        prev.map((entry) =>
-          entry.id === id
-            ? {
-                ...entry,
-                name: entry.name || autoName,
-                summary: summaryFromSnapshot(snapshot),
-                snapshot
-              }
-            : entry
-        )
-      );
-      showToast('Preset updated', 'ok');
-    },
-    [autoNameFromSnapshot, buildPresetSnapshot, showToast, summaryFromSnapshot]
-  );
-
-  const handleLibraryExport = useCallback(() => {
-    const blob = new Blob([JSON.stringify(presetLibrary, null, 2)], {
-      type: 'application/json'
-    });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'macdlmkii-presets.json';
-    a.click();
-    URL.revokeObjectURL(url);
-  }, [presetLibrary]);
-
-  const handleLibraryImport = useCallback(
-    (file: File) => {
-      const reader = new FileReader();
-      reader.onload = async () => {
-        try {
-          const parsed = JSON.parse(String(reader.result));
-          if (!Array.isArray(parsed)) {
-            showToast('Import failed: expected an array', 'error');
-            return;
-          }
-          const normalized = parsed.map((entry: any, idx: number) => ({
-            id: typeof entry.id === 'string' ? entry.id : `import-${Date.now()}-${idx}`,
-            name: String(entry.name ?? `Imported ${idx + 1}`),
-            createdAt: typeof entry.createdAt === 'number' ? entry.createdAt : Date.now(),
-            summary: String(entry.summary ?? ''),
-            description: typeof entry.description === 'string' ? entry.description : undefined,
-            presetProgram:
-              typeof entry.presetProgram === 'number' ? entry.presetProgram : undefined,
-            snapshot: entry.snapshot
-          })) as PresetLibraryEntry[];
-          setPresetLibrary(normalized);
-          await savePresetLibrary(normalized);
-          showToast('Imported presets', 'ok');
-        } catch (error) {
-          console.warn('Import failed', error);
-          showToast('Import failed', 'error');
-        }
-      };
-      reader.readAsText(file);
-    },
-    [showToast]
-  );
-
-  const handleLibraryLoad = useCallback(
-    async (id: string) => {
-      const entry = presetLibrary.find((item) => item.id === id);
-      if (!entry) return;
-      setLibraryLoadingId(id);
-      const program =
-        typeof entry.presetProgram === 'number'
-          ? entry.presetProgram
-          : Math.max(0, presetLibrary.findIndex((e) => e.id === id));
-      await applyPresetSnapshot(entry.snapshot, program, program, {
-        sendProgram: true,
-        sendControls: true,
-        source: 'library-load'
-      });
-      setLibraryLoadingId(null);
-      showToast(`Loaded "${entry.name}" from library`, 'ok');
-    },
-    [applyPresetSnapshot, presetLibrary, showToast]
-  );
-
-  const handleLibraryDelete = useCallback((id: string) => {
-    setPresetLibrary((prev) => prev.filter((entry) => entry.id !== id));
-  }, []);
+  // Legacy library handlers removed in favor of preset bank
 
   useKeyboardShortcuts({
     onModeChange: setMode,
@@ -815,8 +708,7 @@ type PresetLibraryEntry = {
         C: activeId === 2 ? 'on' : 'off',
         Tap: 'off'
       });
-      setActivePresetIndex(index);
-      setActiveBaseline({
+      const snapshot: PresetSnapshot = {
         mode,
         detent: currentDetent,
         reverbDetent,
@@ -824,7 +716,25 @@ type PresetLibraryEntry = {
         reverbControlValues,
         tapSubdivisionIndex,
         tapBpm
-      });
+      };
+      setActivePresetIndex(index);
+      setActiveBaseline(snapshot);
+      presetBankActions.select(index);
+      presetBankActions.updatePreset(index, (prev) => ({
+        ...prev,
+        parameters: {
+          time: delayControlValues[mode].time ?? 64,
+          tweak: delayControlValues[mode].tweak ?? 64,
+          tweez: delayControlValues[mode].tweez ?? 64,
+          mix: delayControlValues[mode].mix ?? 64,
+          repeats: delayControlValues[mode].repeats ?? 64,
+          delayType: currentEffect?.model ?? mode,
+          reverbType: currentReverbEffect?.model
+        },
+        snapshot,
+        isEmpty: false,
+        lastModified: new Date().toISOString()
+      }));
       if (activeId === 0) {
         await blinkFootswitch('A');
       }
@@ -843,7 +753,10 @@ type PresetLibraryEntry = {
       delayControlValues,
       reverbControlValues,
       tapSubdivisionIndex,
-      tapBpm
+      tapBpm,
+      presetBankActions,
+      currentEffect,
+      currentReverbEffect
     ]
   );
 
@@ -1220,18 +1133,15 @@ type PresetLibraryEntry = {
                 controlLabels={controlLabels}
               />
             </section>
-
             <aside className={styles.librarySide}>
-              <PresetLibraryPanel
-                entries={presetLibrary}
-                loadingId={libraryLoadingId}
-                onSave={handleLibrarySave}
-            onLoad={handleLibraryLoad}
-            onUpdate={handleLibraryUpdate}
-            onDelete={handleLibraryDelete}
-            onExport={handleLibraryExport}
-            onImport={handleLibraryImport}
-          />
+              <PresetBankPanel
+                onLoad={(id) => setActivePreset(id)}
+                onRename={() => {}}
+                onDuplicate={() => {}}
+                onDelete={() => {}}
+                onUpdateDescription={() => {}}
+                onUpdateTags={() => {}}
+              />
             </aside>
           </div>
 
