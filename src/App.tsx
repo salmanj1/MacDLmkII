@@ -482,8 +482,12 @@ type PresetLibraryEntry = {
         await sendModelSelect('Secret Reverb', snapshot.reverbDetent);
         await sendAllControls();
       }
+      if (presetIndex === 0) {
+        await blinkFootswitch('A');
+      }
     },
     [
+      blinkFootswitch,
       midiReady,
       selectedPort,
       sendAllControls,
@@ -613,7 +617,11 @@ type PresetLibraryEntry = {
       tapSubdivisionIndex,
       tapBpm
     });
+    if (activeId === 0) {
+      await blinkFootswitch('A');
+    }
   }, [
+    blinkFootswitch,
     loadPresetFromStorage,
     midiReady,
     mode,
