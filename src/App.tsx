@@ -1136,6 +1136,12 @@ type PresetSnapshot = {
             <aside className={styles.librarySide}>
               <PresetBankPanel
                 onLoad={(id) => setActivePreset(id)}
+                onSaveCurrent={() => {
+                  if (saveActivePreset()) {
+                    setActiveBaseline(buildPresetSnapshot());
+                  }
+                }}
+                presetDirty={presetDirty}
                 onRename={() => {}}
                 onDuplicate={() => {}}
                 onDelete={() => {}}

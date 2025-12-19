@@ -6,20 +6,24 @@ import { invoke } from '@tauri-apps/api/core';
 
 type Props = {
   onLoad?: (id: number) => void;
+  onSaveCurrent?: () => void;
   onRename?: (id: number, name: string) => void;
   onDuplicate?: (sourceId: number, targetId: number) => void;
   onDelete?: (id: number) => void;
   onUpdateDescription?: (id: number, description: string) => void;
   onUpdateTags?: (id: number, tags: string[]) => void;
+  presetDirty?: boolean;
 };
 
 const PresetBankPanel = ({
   onLoad,
+  onSaveCurrent,
   onRename,
   onDuplicate,
   onDelete,
   onUpdateDescription,
-  onUpdateTags
+  onUpdateTags,
+  presetDirty
 }: Props) => {
   const { presets, filter, selectedId } = usePresetBank();
   const [contextId, setContextId] = useState<number | null>(null);
@@ -140,6 +144,14 @@ const PresetBankPanel = ({
       <div className={styles.header}>
         <div className={styles.title}>Preset Bank</div>
       </div>
+      {onSaveCurrent && (
+        <div className={styles.saveRow}>
+          <button type="button" onClick={onSaveCurrent} className={styles.saveButton}>
+            Save current
+          </button>
+          {presetDirty && <span className={styles.dirty}>Unsaved changes</span>}
+        </div>
+      )}
       <div className={styles.searchRow}>
         <input
           className={styles.search}
