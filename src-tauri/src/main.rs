@@ -106,7 +106,7 @@ async fn export_preset_bank_dialog(
   data: String,
 ) -> Result<Option<String>, String> {
   let dialog = app_handle.dialog();
-  let (tx, rx) = mpsc::channel();
+  let (tx, rx): (mpsc::Sender<Option<PathBuf>>, mpsc::Receiver<Option<PathBuf>>) = mpsc::channel();
 
   dialog
     .file()
@@ -114,7 +114,8 @@ async fn export_preset_bank_dialog(
     .set_file_name("preset-bank.json")
     .add_filter("JSON", &["json"])
     .save_file(move |file_path| {
-      let _ = tx.send(file_path.map(|fp| fp.as_path().to_path_buf()));
+      let path_buf = file_path.and_then(|fp| fp.as_path().map(|p| p.to_path_buf()));
+      let _ = tx.send(path_buf);
     });
 
   let chosen = rx.recv().map_err(|e| e.to_string())?;
