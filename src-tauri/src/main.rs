@@ -4,6 +4,7 @@ use std::sync::Mutex;
 use std::fs;
 use std::path::PathBuf;
 use tauri_plugin_dialog::DialogExt;
+use tokio::sync::oneshot;
 
 mod midi;
 
@@ -106,18 +107,22 @@ async fn export_preset_bank_dialog(
   data: String,
 ) -> Result<Option<String>, String> {
   let dialog = app_handle.dialog();
-  let path = dialog
+  let (tx, rx) = oneshot::channel();
+
+  dialog
     .file()
     .set_title("Export preset bank")
     .set_file_name("preset-bank.json")
     .add_filter("JSON", &["json"])
-    .save_file()
-    .await
-    .map_err(|e| e.to_string())?;
+    .save_file(move |file_path| {
+      let _ = tx.send(file_path.map(|fp| fp.path().to_path_buf()));
+    });
 
-  if let Some(chosen) = path {
-    fs::write(&chosen, data).map_err(|e| e.to_string())?;
-    Ok(Some(chosen.to_string_lossy().to_string()))
+  let chosen = rx.await.map_err(|e| e.to_string())?;
+
+  if let Some(path_buf) = chosen {
+    fs::write(&path_buf, data).map_err(|e| e.to_string())?;
+    Ok(Some(path_buf.to_string_lossy().to_string()))
   } else {
     Ok(None)
   }
