@@ -492,6 +492,16 @@ type MidiLogEntry =
     [logMidi, sendModelSelect]
   );
 
+  const handleReverbDetentChange = useCallback(
+    async (next: number) => {
+      setReverbDetent(next);
+      if (!midiReady || selectedPort === null) return;
+      if (Date.now() < suppressSendsUntilRef.current) return;
+      await sendModelSelectLogged('Secret Reverb', next, 'reverb-detent');
+    },
+    [midiReady, selectedPort, sendModelSelectLogged]
+  );
+
   const sendAllControls = useCallback(
     async (source: string) => {
       if (!midiReady || selectedPort === null) return;
@@ -1061,20 +1071,9 @@ type MidiLogEntry =
     sendModelSelectLogged
   ]);
 
-  useEffect(() => {
-    if (!midiReady || selectedPort === null) return;
-    suppressSendsUntilRef.current = Date.now() + 1000;
-    const timer = setTimeout(() => {
-      syncToHardware();
-    }, 320);
-    return () => clearTimeout(timer);
-  }, [midiReady, selectedPort, syncToHardware]);
+  // Skip automatic sync on ready; manual sync happens on port change selection.
 
-  useEffect(() => {
-    if (!midiReady || selectedPort === null) return;
-    if (Date.now() < suppressSendsUntilRef.current) return;
-    sendModelSelectLogged('Secret Reverb', reverbDetent, 'reverb-detent');
-  }, [midiReady, reverbDetent, selectedPort, sendModelSelectLogged]);
+  // No auto-send on reverb detent; handled explicitly in handleReverbDetentChange.
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -1213,7 +1212,7 @@ type MidiLogEntry =
                 reverbDetent={reverbDetent}
                 onModeChange={setMode}
                 onDetentChange={handleDetentChange}
-                onReverbDetentChange={setReverbDetent}
+                onReverbDetentChange={handleReverbDetentChange}
                 onFootswitchPress={handleFootswitch}
                 onFootswitchHold={handleFootswitchHold}
                 footswitchStatus={footswitchStatus}
