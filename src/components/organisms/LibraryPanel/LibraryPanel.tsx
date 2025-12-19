@@ -34,6 +34,8 @@ const LibraryPanel = ({
   showQa,
   loading = false
 }: LibraryPanelProps) => {
+  const suggestions = searchTerm ? filteredEffects.slice(0, 8) : [];
+
   return (
     <div className={styles.panel}>
       <div className={styles.searchWrap}>
@@ -43,6 +45,48 @@ const LibraryPanel = ({
           onFocusedShortcut={onSearchInputRef}
         />
       </div>
+
+      {searchTerm ? (
+        <div className={styles.suggestionList} role="listbox" aria-label="Search suggestions">
+          {loading ? (
+            Array.from({ length: 4 }).map((_, idx) => (
+              <div key={idx} className={styles.suggestionItem} aria-busy>
+                <Skeleton width="120px" height="14px" />
+                <Skeleton width="80px" height="10px" />
+              </div>
+            ))
+          ) : suggestions.length ? (
+            suggestions.map((effect) => (
+              <button
+                key={`${effect.mode}-${effect.detent}`}
+                type="button"
+                className={styles.suggestionItem}
+                role="option"
+                onClick={() => {
+                  onSelectEffect(effect);
+                  onSearchChange('');
+                }}
+              >
+                <span className={styles.suggestionTitle}>{effect.model}</span>
+                <span className={styles.suggestionMeta}>
+                  {effect.mode} • {effect.inspiration || 'No inspiration'}
+                </span>
+              </button>
+            ))
+          ) : (
+            <div className={styles.emptyState} role="status">
+              <p>No effects match "{searchTerm}"</p>
+              <button
+                type="button"
+                onClick={() => onSearchChange('')}
+                className={styles.clearSearchButton}
+              >
+                Clear search
+              </button>
+            </div>
+          )}
+        </div>
+      ) : null}
 
       {showQa && (
         <div className={styles.qaCard}>
@@ -71,49 +115,40 @@ const LibraryPanel = ({
         </div>
       )}
 
-      <div className={styles.listGrid}>
-        {loading
-          ? Array.from({ length: 6 }).map((_, idx) => (
-              <div key={idx} className={styles.effectCard} aria-busy>
-                <Skeleton width="60px" height="10px" />
-                <div style={{ marginTop: '0.35rem' }}>
-                  <Skeleton width="140px" height="20px" />
-                </div>
-                <div style={{ marginTop: '0.35rem' }}>
-                  <Skeleton width="110px" height="12px" />
-                </div>
-              </div>
-            ))
-          : filteredEffects.map((effect) => {
-              return (
-                <EffectCard
-                  key={`${effect.mode}-${effect.detent}`}
-                  effect={effect}
-                  mode={mode}
-                  currentDetent={currentDetent}
-                  onSelect={onSelectEffect}
-                />
-              );
-            })}
-      </div>
+      {!searchTerm && (
+        <>
+          <div className={styles.listGrid}>
+            {loading
+              ? Array.from({ length: 6 }).map((_, idx) => (
+                  <div key={idx} className={styles.effectCard} aria-busy>
+                    <Skeleton width="60px" height="10px" />
+                    <div style={{ marginTop: '0.35rem' }}>
+                      <Skeleton width="140px" height="20px" />
+                    </div>
+                    <div style={{ marginTop: '0.35rem' }}>
+                      <Skeleton width="110px" height="12px" />
+                    </div>
+                  </div>
+                ))
+              : filteredEffects.map((effect) => {
+                  return (
+                    <EffectCard
+                      key={`${effect.mode}-${effect.detent}`}
+                      effect={effect}
+                      mode={mode}
+                      currentDetent={currentDetent}
+                      onSelect={onSelectEffect}
+                    />
+                  );
+                })}
+          </div>
 
-      {!loading && filteredEffects.length === 0 && (
-        <div className={styles.emptyState} role="status">
-          {searchTerm ? (
-            <>
-              <p>No effects match "{searchTerm}"</p>
-              <button
-                type="button"
-                onClick={() => onSearchChange('')}
-                className={styles.clearSearchButton}
-              >
-                Clear search
-              </button>
-            </>
-          ) : (
-            <p>No effects available for this mode.</p>
+          {!loading && filteredEffects.length === 0 && (
+            <div className={styles.emptyState} role="status">
+              <p>No effects available for this mode.</p>
+            </div>
           )}
-        </div>
+        </>
       )}
     </div>
   );

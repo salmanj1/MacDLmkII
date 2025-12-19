@@ -58,6 +58,41 @@
   color: fade(@textSecondary, 82%);
 }
 
+.suggestionList {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+
+.suggestionItem {
+  text-align: left;
+  padding: 0.65rem 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid fade(@borderSoft, 65%);
+  background: fade(@panel, 78%);
+  color: @textPrimary;
+  cursor: pointer;
+  display: grid;
+  gap: 0.25rem;
+  transition: border-color 120ms ease, background 120ms ease;
+}
+
+.suggestionItem:hover,
+.suggestionItem:focus-visible {
+  border-color: fade(@glow, 45%);
+  background: fade(@panel, 88%);
+  outline: none;
+}
+
+.suggestionTitle {
+  font-weight: 800;
+}
+
+.suggestionMeta {
+  font-size: 0.86rem;
+  color: @textMuted;
+}
+
 .listGrid {
   margin-top: 1rem;
   display: grid;
