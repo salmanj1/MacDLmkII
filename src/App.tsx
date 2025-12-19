@@ -766,6 +766,7 @@ type MidiLogEntry =
       });
       if (loaded) return;
 
+      suppressSendsUntilRef.current = Date.now() + 300;
       // Reset control values back to mid to mirror hardware defaults on preset load.
       setDelayControlValues((prev) => ({
         ...prev,
@@ -1061,7 +1062,11 @@ type MidiLogEntry =
 
   useEffect(() => {
     if (!midiReady || selectedPort === null) return;
-    syncToHardware();
+    suppressSendsUntilRef.current = Date.now() + 250;
+    const timer = setTimeout(() => {
+      syncToHardware();
+    }, 260);
+    return () => clearTimeout(timer);
   }, [midiReady, selectedPort, syncToHardware]);
 
   useEffect(() => {
@@ -1109,7 +1114,8 @@ type MidiLogEntry =
 
   useEffect(() => {
     if (midiError) {
-      setToast({ message: midiError, kind: 'error' });
+      const id = ++toastIdRef.current;
+      setToast({ id, message: midiError, kind: 'error' });
       const timer = setTimeout(() => setToast(null), 3500);
       return () => clearTimeout(timer);
     }

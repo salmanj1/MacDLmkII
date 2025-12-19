@@ -70,11 +70,12 @@ export const InteractivePedal: Story = {
         <Pedal
           mode={mode}
           detent={detent}
-          currentEffect={currentEffect}
+          reverbDetent={0}
           onModeChange={(next) => {
             setMode(next);
           }}
           onDetentChange={handleDetentChange}
+          onReverbDetentChange={() => {}}
         />
 
         <div
@@ -142,7 +143,8 @@ export const WithoutCurrentEffect: Story = {
     detent: 0,
     onModeChange: () => {},
     onDetentChange: () => {},
-    currentEffect: undefined
+    reverbDetent: 0,
+    onReverbDetentChange: () => {}
   }
 };
 
@@ -152,6 +154,7 @@ export const EmptyState: Story = {
     detent: 0,
     onModeChange: () => {},
     onDetentChange: () => {},
-    currentEffect: undefined
+    reverbDetent: 0,
+    onReverbDetentChange: () => {}
   }
 };

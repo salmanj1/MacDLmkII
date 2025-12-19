@@ -213,7 +213,7 @@ const Pedal = ({
                 }
                 value={controlValues?.reverb?.[control.id] ?? 0}
                 onChange={(value) => onControlChange?.(control.id, value, 'reverb')}
-                showLabel={control.id === 'tweak' || control.id === 'tweez'}
+                showLabel={control.id === 'tweak' || control.id === 'routing'}
               />
             </div>
           ))}
