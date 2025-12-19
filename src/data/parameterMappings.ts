@@ -113,108 +113,190 @@ export const parameterMappings: Record<Mode, Record<ModelKey, ParameterDisplay[]
   },
   'Secret Reverb': {
     default: [
-      { id: 'time', primaryLabel: 'Pre-delay', unit: 'ms', formatter: millis },
       { id: 'repeats', primaryLabel: 'Decay', unit: 'generic' },
-      { id: 'tweak', primaryLabel: 'Tone', unit: 'generic' },
-      { id: 'tweez', primaryLabel: 'Mod', unit: 'generic' },
+      { id: 'tweak', primaryLabel: 'Model Tweak', unit: 'generic' },
+      {
+        id: 'tweez',
+        primaryLabel: 'Routing',
+        secondaryLabel: 'Reverb/Delay',
+        unit: 'generic'
+      },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
     Room: [
-      { id: 'time', primaryLabel: 'Pre-delay', unit: 'ms', formatter: millis },
       { id: 'repeats', primaryLabel: 'Decay', unit: 'generic' },
-      { id: 'tweak', primaryLabel: 'Tone', unit: 'generic' },
-      { id: 'tweez', primaryLabel: 'Diffusion', unit: 'generic' },
+      { id: 'tweak', primaryLabel: 'Pre-delay', unit: 'ms', formatter: millis },
+      {
+        id: 'tweez',
+        primaryLabel: 'Routing',
+        secondaryLabel: 'Reverb/Delay',
+        unit: 'generic'
+      },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
     Plate: [
-      { id: 'time', primaryLabel: 'Pre-delay', unit: 'ms', formatter: millis },
       { id: 'repeats', primaryLabel: 'Decay', unit: 'generic' },
-      { id: 'tweak', primaryLabel: 'Tone', unit: 'generic' },
-      { id: 'tweez', primaryLabel: 'Damping', unit: 'generic' },
+      { id: 'tweak', primaryLabel: 'Pre-delay', unit: 'ms', formatter: millis },
+      {
+        id: 'tweez',
+        primaryLabel: 'Routing',
+        secondaryLabel: 'Reverb/Delay',
+        unit: 'generic'
+      },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
     'Particle Verb': [
-      { id: 'time', primaryLabel: 'Pre-delay', unit: 'ms', formatter: millis },
       { id: 'repeats', primaryLabel: 'Decay', unit: 'generic' },
-      { id: 'tweak', primaryLabel: 'Mod', unit: 'generic' },
-      { id: 'tweez', primaryLabel: 'Glitch Size', unit: 'generic' },
+      { id: 'tweak', primaryLabel: 'Condition', unit: 'generic' },
+      {
+        id: 'tweez',
+        primaryLabel: 'Routing',
+        secondaryLabel: 'Reverb/Delay',
+        unit: 'generic'
+      },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
     'Double Tank': [
-      { id: 'time', primaryLabel: 'Pre-delay', unit: 'ms', formatter: millis },
       { id: 'repeats', primaryLabel: 'Decay', unit: 'generic' },
-      { id: 'tweak', primaryLabel: 'Tone', unit: 'generic' },
-      { id: 'tweez', primaryLabel: 'Damping', unit: 'generic' },
+      { id: 'tweak', primaryLabel: 'Mod Depth', unit: 'generic' },
+      {
+        id: 'tweez',
+        primaryLabel: 'Routing',
+        secondaryLabel: 'Reverb/Delay',
+        unit: 'generic'
+      },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
     Octo: [
-      { id: 'time', primaryLabel: 'Pre-delay', unit: 'ms', formatter: millis },
       { id: 'repeats', primaryLabel: 'Decay', unit: 'generic' },
-      { id: 'tweak', primaryLabel: 'Shimmer Level', unit: 'generic' },
-      { id: 'tweez', primaryLabel: 'Shimmer Tone', unit: 'generic' },
+      { id: 'tweak', primaryLabel: 'Intensity', unit: 'generic' },
+      {
+        id: 'tweez',
+        primaryLabel: 'Routing',
+        secondaryLabel: 'Reverb/Delay',
+        unit: 'generic'
+      },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
     Tile: [
-      { id: 'time', primaryLabel: 'Pre-delay', unit: 'ms', formatter: millis },
       { id: 'repeats', primaryLabel: 'Decay', unit: 'generic' },
-      { id: 'tweak', primaryLabel: 'Tone', unit: 'generic' },
-      { id: 'tweez', primaryLabel: 'Damping', unit: 'generic' },
+      { id: 'tweak', primaryLabel: 'Pre-delay', unit: 'ms', formatter: millis },
+      {
+        id: 'tweez',
+        primaryLabel: 'Routing',
+        secondaryLabel: 'Reverb/Delay',
+        unit: 'generic'
+      },
+      { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
+    ],
+    Ducking: [
+      { id: 'repeats', primaryLabel: 'Decay', unit: 'generic' },
+      { id: 'tweak', primaryLabel: 'Pre-delay', unit: 'ms', formatter: millis },
+      {
+        id: 'tweez',
+        primaryLabel: 'Routing',
+        secondaryLabel: 'Reverb/Delay',
+        unit: 'generic'
+      },
+      { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
+    ],
+    Plateaux: [
+      { id: 'repeats', primaryLabel: 'Decay', unit: 'generic' },
+      { id: 'tweak', primaryLabel: 'Pitch Modes', unit: 'generic' },
+      {
+        id: 'tweez',
+        primaryLabel: 'Routing',
+        secondaryLabel: 'Reverb/Delay',
+        unit: 'generic'
+      },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
     'Cave': [
-      { id: 'time', primaryLabel: 'Pre-delay', unit: 'ms', formatter: millis },
       { id: 'repeats', primaryLabel: 'Decay', unit: 'generic' },
-      { id: 'tweak', primaryLabel: 'Tone', unit: 'generic' },
-      { id: 'tweez', primaryLabel: 'Mod', unit: 'generic' },
+      { id: 'tweak', primaryLabel: 'Pre-delay', unit: 'ms', formatter: millis },
+      {
+        id: 'tweez',
+        primaryLabel: 'Routing',
+        secondaryLabel: 'Reverb/Delay',
+        unit: 'generic'
+      },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
     'Searchlights': [
-      { id: 'time', primaryLabel: 'Pre-delay', unit: 'ms', formatter: millis },
       { id: 'repeats', primaryLabel: 'Decay', unit: 'generic' },
-      { id: 'tweak', primaryLabel: 'Lo Cut', unit: 'generic' },
-      { id: 'tweez', primaryLabel: 'Hi Cut', unit: 'generic' },
+      { id: 'tweak', primaryLabel: 'Mod Intensity', unit: 'generic' },
+      {
+        id: 'tweez',
+        primaryLabel: 'Routing',
+        secondaryLabel: 'Reverb/Delay',
+        unit: 'generic'
+      },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
     'Hot Springs': [
-      { id: 'time', primaryLabel: 'Pre-delay', unit: 'ms', formatter: millis },
       { id: 'repeats', primaryLabel: 'Decay', unit: 'generic' },
-      { id: 'tweak', primaryLabel: 'Tone', unit: 'generic' },
-      { id: 'tweez', primaryLabel: 'Drip/Lo Cut', unit: 'generic' },
+      { id: 'tweak', primaryLabel: 'Spring Count', unit: 'generic' },
+      {
+        id: 'tweez',
+        primaryLabel: 'Routing',
+        secondaryLabel: 'Reverb/Delay',
+        unit: 'generic'
+      },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
     'Ganymede': [
-      { id: 'time', primaryLabel: 'Pre-delay', unit: 'ms', formatter: millis },
       { id: 'repeats', primaryLabel: 'Decay', unit: 'generic' },
-      { id: 'tweak', primaryLabel: 'Lo Cut', unit: 'generic' },
-      { id: 'tweez', primaryLabel: 'Hi Cut', unit: 'generic' },
+      { id: 'tweak', primaryLabel: 'Mod Depth', unit: 'generic' },
+      {
+        id: 'tweez',
+        primaryLabel: 'Routing',
+        secondaryLabel: 'Reverb/Delay',
+        unit: 'generic'
+      },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
     'Chamber': [
-      { id: 'time', primaryLabel: 'Pre-delay', unit: 'ms', formatter: millis },
       { id: 'repeats', primaryLabel: 'Decay', unit: 'generic' },
-      { id: 'tweak', primaryLabel: 'Tone', unit: 'generic' },
-      { id: 'tweez', primaryLabel: 'Diffusion', unit: 'generic' },
+      { id: 'tweak', primaryLabel: 'Pre-delay', unit: 'ms', formatter: millis },
+      {
+        id: 'tweez',
+        primaryLabel: 'Routing',
+        secondaryLabel: 'Reverb/Delay',
+        unit: 'generic'
+      },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
     'Hall': [
-      { id: 'time', primaryLabel: 'Pre-delay', unit: 'ms', formatter: millis },
       { id: 'repeats', primaryLabel: 'Decay', unit: 'generic' },
-      { id: 'tweak', primaryLabel: 'Tone', unit: 'generic' },
-      { id: 'tweez', primaryLabel: 'Mod', unit: 'generic' },
+      { id: 'tweak', primaryLabel: 'Pre-delay', unit: 'ms', formatter: millis },
+      {
+        id: 'tweez',
+        primaryLabel: 'Routing',
+        secondaryLabel: 'Reverb/Delay',
+        unit: 'generic'
+      },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
     'Glitz': [
-      { id: 'time', primaryLabel: 'Pre-delay', unit: 'ms', formatter: millis },
       { id: 'repeats', primaryLabel: 'Decay', unit: 'generic' },
-      { id: 'tweak', primaryLabel: 'Shimmer', unit: 'generic' },
-      { id: 'tweez', primaryLabel: 'Shimmer Tone', unit: 'generic' },
+      { id: 'tweak', primaryLabel: 'Mod Depth', unit: 'generic' },
+      {
+        id: 'tweez',
+        primaryLabel: 'Routing',
+        secondaryLabel: 'Reverb/Delay',
+        unit: 'generic'
+      },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
     'Reverb Off': [
-      { id: 'time', primaryLabel: 'Pre-delay', unit: 'ms', formatter: millis },
       { id: 'repeats', primaryLabel: 'Decay', unit: 'generic' },
-      { id: 'tweak', primaryLabel: 'Tone', unit: 'generic' },
-      { id: 'tweez', primaryLabel: 'Mod', unit: 'generic' },
+      { id: 'tweak', primaryLabel: 'Bypass', unit: 'generic' },
+      {
+        id: 'tweez',
+        primaryLabel: 'Routing',
+        secondaryLabel: 'Reverb/Delay',
+        unit: 'generic'
+      },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ]
   }
