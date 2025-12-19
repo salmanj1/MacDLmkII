@@ -85,13 +85,13 @@ const buildInitialBank = (): Preset[] =>
     isEmpty: true
   }));
 
-const loadFromStorage = (): Preset[] | null => {
+const loadFromStorage = (): { presets: Preset[] } | null => {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed)) return null;
-    return (parsed as Preset[]).map(normalizePreset);
+    return { presets: (parsed as Preset[]).map(normalizePreset) };
   } catch {
     return null;
   }
@@ -122,11 +122,14 @@ const syncSnapshotsToLocalStorage = (presets: Preset[]) => {
 };
 
 const createStore = () => {
+  const loaded = loadFromStorage();
   let state: BankState = {
-    presets: (loadFromStorage() ?? buildInitialBank()).map(normalizePreset),
+    presets: (loaded?.presets ?? buildInitialBank()).map(normalizePreset),
     filter: '',
     selectedId: null
   };
+  // Persist normalized data back to storage on initialization so legacy values are corrected.
+  saveToStorage(state.presets);
 
   const subscribers = new Set<() => void>();
   const notify = () => subscribers.forEach((fn) => fn());

@@ -436,6 +436,23 @@ const App = () => {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
+    // Normalize any previously saved snapshots to the new routing/subdivision values.
+    for (let i = 0; i < 128; i += 1) {
+      const key = `macdlmkii-preset-${i}`;
+      const raw = localStorage.getItem(key);
+      if (!raw) continue;
+      try {
+        const parsed: PresetSnapshot = JSON.parse(raw);
+        const normalized = normalizePresetSnapshot(parsed);
+        localStorage.setItem(key, JSON.stringify(normalized));
+      } catch {
+        // ignore invalid snapshot entries
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
     const stored = localStorage.getItem('dl4mkii-preset-bank');
     if (stored) return;
     const tapIndex = defaultTapSubdivisionIndex;
