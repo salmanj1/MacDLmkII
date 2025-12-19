@@ -6,12 +6,33 @@ export type ParameterDisplay = {
   id: 'time' | 'repeats' | 'tweak' | 'tweez' | 'mix';
   primaryLabel: string;
   secondaryLabel?: string;
-  unit: 'ms' | '%' | 'ratio' | 'generic';
+  unit: 'ms' | '%' | 'ratio' | 'generic' | 'routing';
   formatter?: (value: number) => string;
 };
 
 const percent = (value: number) => `${Math.round((value / 127) * 100)}%`;
 const millis = (value: number) => `${Math.round((value / 127) * 2500)} ms`;
+const semitones = (value: number) => {
+  const st = Math.round((value / 127) * 26) - 13;
+  return `${st > 0 ? '+' : ''}${st} st`;
+};
+const cents = (value: number) => {
+  const c = Math.round((value / 127) * 100) - 50;
+  return `${c > 0 ? '+' : ''}${c} cents`;
+};
+const key = (value: number) => {
+  const keys = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#'];
+  return keys[Math.floor((value / 127) * 12)];
+};
+const headSelect = (value: number) => {
+  const heads = Math.floor((value / 127) * 7) + 1;
+  return `Head ${heads}`;
+};
+const routing = (value: number) => {
+  if (value < 43) return 'Rev→Dly';
+  if (value < 86) return 'Parallel';
+  return 'Dly→Rev';
+};
 
 const defaultParams: ParameterDisplay[] = [
   { id: 'time', primaryLabel: 'Time', unit: 'ms', formatter: millis },
@@ -29,43 +50,43 @@ export const parameterMappings: Record<Mode, Record<ModelKey, ParameterDisplay[]
     'Vintage Digital': [
       { id: 'time', primaryLabel: 'Time', unit: 'ms', formatter: millis },
       { id: 'repeats', primaryLabel: 'Feedback', unit: '%', formatter: percent },
-      { id: 'tweak', primaryLabel: 'Bit Depth', secondaryLabel: 'Filter', unit: 'generic' },
-      { id: 'tweez', primaryLabel: 'Sample Rate', unit: 'generic' },
+      { id: 'tweak', primaryLabel: 'Bit/Sample Quality', unit: 'generic' },
+      { id: 'tweez', primaryLabel: 'Mod Depth', unit: 'generic' },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
     Crisscross: [
       { id: 'time', primaryLabel: 'Left Time', unit: 'ms', formatter: millis },
       { id: 'repeats', primaryLabel: 'Feedback', unit: '%', formatter: percent },
-      { id: 'tweak', primaryLabel: 'Right Time', unit: 'ms', formatter: millis },
-      { id: 'tweez', primaryLabel: 'Pan Width', unit: 'generic' },
+      { id: 'tweak', primaryLabel: 'Delay Time B', unit: 'ms', formatter: millis },
+      { id: 'tweez', primaryLabel: 'Cross Amount', unit: 'generic' },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
     Euclidean: [
       { id: 'time', primaryLabel: 'Time/Subdiv', unit: 'ms', formatter: millis },
       { id: 'repeats', primaryLabel: 'Density', unit: 'generic' },
-      { id: 'tweak', primaryLabel: 'Cluster Offset', unit: 'generic' },
-      { id: 'tweez', primaryLabel: 'Swing', unit: 'generic' },
+      { id: 'tweak', primaryLabel: 'Step Fill', unit: 'generic' },
+      { id: 'tweez', primaryLabel: 'Rotate', unit: 'generic' },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
     'Dual Delay': [
       { id: 'time', primaryLabel: 'Left Time', unit: 'ms', formatter: millis },
       { id: 'repeats', primaryLabel: 'Left Feedback', unit: '%', formatter: percent },
-      { id: 'tweak', primaryLabel: 'Right Time', unit: 'ms', formatter: millis },
-      { id: 'tweez', primaryLabel: 'Right Feedback', unit: '%', formatter: percent },
+      { id: 'tweak', primaryLabel: 'R Delay Time', unit: 'ms', formatter: millis },
+      { id: 'tweez', primaryLabel: 'R Feedback', unit: '%', formatter: percent },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
     'Pitch Echo': [
       { id: 'time', primaryLabel: 'Time/Subdiv', unit: 'ms', formatter: millis },
       { id: 'repeats', primaryLabel: 'Feedback', unit: '%', formatter: percent },
-      { id: 'tweak', primaryLabel: 'Pitch A', unit: 'generic' },
-      { id: 'tweez', primaryLabel: 'Pitch B', unit: 'generic' },
+      { id: 'tweak', primaryLabel: 'Pitch Interval', unit: 'generic', formatter: semitones },
+      { id: 'tweez', primaryLabel: 'Pitch Cents', unit: 'generic', formatter: cents },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
     ADT: [
       { id: 'time', primaryLabel: 'Delay', unit: 'ms', formatter: millis },
       { id: 'repeats', primaryLabel: 'Repeats', unit: '%', formatter: percent },
-      { id: 'tweak', primaryLabel: 'Detune', unit: 'generic' },
-      { id: 'tweez', primaryLabel: 'Wow/Flutter', unit: 'generic' },
+      { id: 'tweak', primaryLabel: 'Distortion', unit: 'generic' },
+      { id: 'tweez', primaryLabel: 'Deck 2 Mod Depth', unit: 'generic' },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
     Ducked: [
@@ -78,29 +99,64 @@ export const parameterMappings: Record<Mode, Record<ModelKey, ParameterDisplay[]
     Harmony: [
       { id: 'time', primaryLabel: 'Time', unit: 'ms', formatter: millis },
       { id: 'repeats', primaryLabel: 'Feedback', unit: '%', formatter: percent },
-      { id: 'tweak', primaryLabel: 'Voice A', unit: 'generic' },
-      { id: 'tweez', primaryLabel: 'Voice B', unit: 'generic' },
+      { id: 'tweak', primaryLabel: 'Key (A-G#)', unit: 'generic', formatter: key },
+      { id: 'tweez', primaryLabel: 'Scale', unit: 'generic' },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
     Heliosphere: [
       { id: 'time', primaryLabel: 'Time', unit: 'ms', formatter: millis },
       { id: 'repeats', primaryLabel: 'Feedback', unit: '%', formatter: percent },
-      { id: 'tweak', primaryLabel: 'Mod Depth', unit: 'generic' },
-      { id: 'tweez', primaryLabel: 'Flutter', unit: 'generic' },
+      { id: 'tweak', primaryLabel: 'Reverb Mix+Decay', unit: 'generic' },
+      { id: 'tweez', primaryLabel: 'Mod Depth', unit: 'generic' },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
     Transistor: [
       { id: 'time', primaryLabel: 'Time', unit: 'ms', formatter: millis },
       { id: 'repeats', primaryLabel: 'Feedback', unit: '%', formatter: percent },
-      { id: 'tweak', primaryLabel: 'Flutter', unit: 'generic' },
-      { id: 'tweez', primaryLabel: 'Drive', unit: 'generic' },
+      { id: 'tweak', primaryLabel: 'Headroom', unit: 'generic' },
+      { id: 'tweez', primaryLabel: 'Wow/Flutter', unit: 'generic' },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
     Cosmos: [
       { id: 'time', primaryLabel: 'Time', unit: 'ms', formatter: millis },
       { id: 'repeats', primaryLabel: 'Repeats', unit: '%', formatter: percent },
+      { id: 'tweak', primaryLabel: 'Heads Select', unit: 'generic', formatter: headSelect },
+      { id: 'tweez', primaryLabel: 'Wow/Flutter', unit: 'generic' },
+      { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
+    ],
+    'Multi Pass': [
+      { id: 'time', primaryLabel: 'Time/Subdiv', unit: 'ms', formatter: millis },
+      { id: 'repeats', primaryLabel: 'Repeats', unit: '%', formatter: percent },
+      { id: 'tweak', primaryLabel: 'Tap Pattern', unit: 'generic' },
+      { id: 'tweez', primaryLabel: 'Delay Mode', unit: 'generic' },
+      { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
+    ],
+    Adriatic: [
+      { id: 'time', primaryLabel: 'Time', unit: 'ms', formatter: millis },
+      { id: 'repeats', primaryLabel: 'Repeats', unit: '%', formatter: percent },
+      { id: 'tweak', primaryLabel: 'Mod Rate', unit: 'generic' },
+      { id: 'tweez', primaryLabel: 'Mod Depth', unit: 'generic' },
+      { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
+    ],
+    'Elephant Man': [
+      { id: 'time', primaryLabel: 'Time/Subdiv', unit: 'ms', formatter: millis },
+      { id: 'repeats', primaryLabel: 'Repeats', unit: '%', formatter: percent },
       { id: 'tweak', primaryLabel: 'Mod Depth', unit: 'generic' },
-      { id: 'tweez', primaryLabel: 'Flutter', unit: 'generic' },
+      { id: 'tweez', primaryLabel: 'Chorus/Vibrato', unit: 'generic' },
+      { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
+    ],
+    Glitch: [
+      { id: 'time', primaryLabel: 'Time/Subdiv', unit: 'ms', formatter: millis },
+      { id: 'repeats', primaryLabel: 'Repeats', unit: '%', formatter: percent },
+      { id: 'tweak', primaryLabel: 'Pitch Slice/Drift/Shuffle', unit: 'generic' },
+      { id: 'tweez', primaryLabel: 'Pitch Slice/Drift/Shuffle', unit: 'generic' },
+      { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
+    ],
+    Looper: [
+      { id: 'time', primaryLabel: 'Time', unit: 'ms', formatter: millis },
+      { id: 'repeats', primaryLabel: 'Repeats', unit: '%', formatter: percent },
+      { id: 'tweak', primaryLabel: 'Echo Mod', unit: 'generic' },
+      { id: 'tweez', primaryLabel: 'Echo Volume', unit: '%', formatter: percent },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ]
   },
@@ -110,6 +166,118 @@ export const parameterMappings: Record<Mode, Record<ModelKey, ParameterDisplay[]
       { id: 'repeats', primaryLabel: 'Repeats', unit: '%', formatter: percent },
       { id: 'tweak', primaryLabel: 'Bass', secondaryLabel: 'Chorus', unit: 'generic' },
       { id: 'tweez', primaryLabel: 'Treble', secondaryLabel: 'Wow/Flutter', unit: 'generic' },
+      { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
+    ],
+    Digital: [
+      { id: 'time', primaryLabel: 'Time/Subdiv', unit: 'ms', formatter: millis },
+      { id: 'repeats', primaryLabel: 'Repeats', unit: '%', formatter: percent },
+      { id: 'tweak', primaryLabel: 'Bass', unit: 'generic' },
+      { id: 'tweez', primaryLabel: 'Treble', unit: 'generic' },
+      { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
+    ],
+    'Digital W/ Mod': [
+      { id: 'time', primaryLabel: 'Time/Subdiv', unit: 'ms', formatter: millis },
+      { id: 'repeats', primaryLabel: 'Repeats', unit: '%', formatter: percent },
+      { id: 'tweak', primaryLabel: 'Mod Rate', unit: 'generic' },
+      { id: 'tweez', primaryLabel: 'Mod Depth', unit: 'generic' },
+      { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
+    ],
+    'Echo Platter': [
+      { id: 'time', primaryLabel: 'Time/Subdiv', unit: 'ms', formatter: millis },
+      { id: 'repeats', primaryLabel: 'Repeats', unit: '%', formatter: percent },
+      { id: 'tweak', primaryLabel: 'Wow/Flutter', unit: 'generic' },
+      { id: 'tweez', primaryLabel: 'Drive', unit: 'generic' },
+      { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
+    ],
+    Stereo: [
+      { id: 'time', primaryLabel: 'Time/Subdiv', unit: 'ms', formatter: millis },
+      { id: 'repeats', primaryLabel: 'Repeats', unit: '%', formatter: percent },
+      { id: 'tweak', primaryLabel: 'R Delay Time', unit: 'ms', formatter: millis },
+      { id: 'tweez', primaryLabel: 'R Repeats', unit: '%', formatter: percent },
+      { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
+    ],
+    'Ping Pong': [
+      { id: 'time', primaryLabel: 'Time/Subdiv', unit: 'ms', formatter: millis },
+      { id: 'repeats', primaryLabel: 'Repeats', unit: '%', formatter: percent },
+      { id: 'tweak', primaryLabel: 'Time Offset', unit: 'generic' },
+      { id: 'tweez', primaryLabel: 'Stereo Spread', unit: 'generic' },
+      { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
+    ],
+    Reverse: [
+      { id: 'time', primaryLabel: 'Time/Subdiv', unit: 'ms', formatter: millis },
+      { id: 'repeats', primaryLabel: 'Repeats', unit: '%', formatter: percent },
+      { id: 'tweak', primaryLabel: 'Mod Rate', unit: 'generic' },
+      { id: 'tweez', primaryLabel: 'Mod Depth', unit: 'generic' },
+      { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
+    ],
+    Dynamic: [
+      { id: 'time', primaryLabel: 'Time/Subdiv', unit: 'ms', formatter: millis },
+      { id: 'repeats', primaryLabel: 'Repeats', unit: '%', formatter: percent },
+      { id: 'tweak', primaryLabel: 'Threshold', unit: 'generic' },
+      { id: 'tweez', primaryLabel: 'Ducking', unit: 'generic' },
+      { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
+    ],
+    'Auto-Vol': [
+      { id: 'time', primaryLabel: 'Time/Subdiv', unit: 'ms', formatter: millis },
+      { id: 'repeats', primaryLabel: 'Repeats', unit: '%', formatter: percent },
+      { id: 'tweak', primaryLabel: 'Mod Depth', unit: 'generic' },
+      { id: 'tweez', primaryLabel: 'Swell Time', unit: 'ms', formatter: millis },
+      { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
+    ],
+    'Tube Echo': [
+      { id: 'time', primaryLabel: 'Time/Subdiv', unit: 'ms', formatter: millis },
+      { id: 'repeats', primaryLabel: 'Repeats', unit: '%', formatter: percent },
+      { id: 'tweak', primaryLabel: 'Wow/Flutter', unit: 'generic' },
+      { id: 'tweez', primaryLabel: 'Drive', unit: 'generic' },
+      { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
+    ],
+    'Tape Echo': [
+      { id: 'time', primaryLabel: 'Time/Subdiv', unit: 'ms', formatter: millis },
+      { id: 'repeats', primaryLabel: 'Repeats', unit: '%', formatter: percent },
+      { id: 'tweak', primaryLabel: 'Bass', unit: 'generic' },
+      { id: 'tweez', primaryLabel: 'Treble', unit: 'generic' },
+      { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
+    ],
+    'Multi-Head': [
+      { id: 'time', primaryLabel: 'Time/Subdiv', unit: 'ms', formatter: millis },
+      { id: 'repeats', primaryLabel: 'Repeats', unit: '%', formatter: percent },
+      { id: 'tweak', primaryLabel: 'Heads 1/2', unit: 'generic' },
+      { id: 'tweez', primaryLabel: 'Heads 3/4', unit: 'generic' },
+      { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
+    ],
+    Sweep: [
+      { id: 'time', primaryLabel: 'Time/Subdiv', unit: 'ms', formatter: millis },
+      { id: 'repeats', primaryLabel: 'Repeats', unit: '%', formatter: percent },
+      { id: 'tweak', primaryLabel: 'Sweep Rate', unit: 'generic' },
+      { id: 'tweez', primaryLabel: 'Sweep Depth', unit: 'generic' },
+      { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
+    ],
+    Analog: [
+      { id: 'time', primaryLabel: 'Time/Subdiv', unit: 'ms', formatter: millis },
+      { id: 'repeats', primaryLabel: 'Repeats', unit: '%', formatter: percent },
+      { id: 'tweak', primaryLabel: 'Bass', unit: 'generic' },
+      { id: 'tweez', primaryLabel: 'Treble', unit: 'generic' },
+      { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
+    ],
+    'Analog W/ Mod': [
+      { id: 'time', primaryLabel: 'Time/Subdiv', unit: 'ms', formatter: millis },
+      { id: 'repeats', primaryLabel: 'Repeats', unit: '%', formatter: percent },
+      { id: 'tweak', primaryLabel: 'Mod Rate', unit: 'generic' },
+      { id: 'tweez', primaryLabel: 'Mod Depth', unit: 'generic' },
+      { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
+    ],
+    'Lo Res Delay': [
+      { id: 'time', primaryLabel: 'Time/Subdiv', unit: 'ms', formatter: millis },
+      { id: 'repeats', primaryLabel: 'Repeats', unit: '%', formatter: percent },
+      { id: 'tweak', primaryLabel: 'Tone', unit: 'generic' },
+      { id: 'tweez', primaryLabel: 'Resolution', unit: 'generic' },
+      { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
+    ],
+    Looper: [
+      { id: 'time', primaryLabel: 'Time/Subdiv', unit: 'ms', formatter: millis },
+      { id: 'repeats', primaryLabel: 'Repeats', unit: '%', formatter: percent },
+      { id: 'tweak', primaryLabel: 'Echo Mod', unit: 'generic' },
+      { id: 'tweez', primaryLabel: 'Echo Volume', unit: '%', formatter: percent },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ]
   },
@@ -121,7 +289,8 @@ export const parameterMappings: Record<Mode, Record<ModelKey, ParameterDisplay[]
         id: 'tweez',
         primaryLabel: 'Routing',
         secondaryLabel: 'Reverb/Delay',
-        unit: 'generic'
+        unit: 'routing',
+        formatter: routing
       },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
@@ -132,7 +301,8 @@ export const parameterMappings: Record<Mode, Record<ModelKey, ParameterDisplay[]
         id: 'tweez',
         primaryLabel: 'Routing',
         secondaryLabel: 'Reverb/Delay',
-        unit: 'generic'
+        unit: 'routing',
+        formatter: routing
       },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
@@ -143,7 +313,8 @@ export const parameterMappings: Record<Mode, Record<ModelKey, ParameterDisplay[]
         id: 'tweez',
         primaryLabel: 'Routing',
         secondaryLabel: 'Reverb/Delay',
-        unit: 'generic'
+        unit: 'routing',
+        formatter: routing
       },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
@@ -154,7 +325,8 @@ export const parameterMappings: Record<Mode, Record<ModelKey, ParameterDisplay[]
         id: 'tweez',
         primaryLabel: 'Routing',
         secondaryLabel: 'Reverb/Delay',
-        unit: 'generic'
+        unit: 'routing',
+        formatter: routing
       },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
@@ -165,7 +337,8 @@ export const parameterMappings: Record<Mode, Record<ModelKey, ParameterDisplay[]
         id: 'tweez',
         primaryLabel: 'Routing',
         secondaryLabel: 'Reverb/Delay',
-        unit: 'generic'
+        unit: 'routing',
+        formatter: routing
       },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
@@ -176,7 +349,8 @@ export const parameterMappings: Record<Mode, Record<ModelKey, ParameterDisplay[]
         id: 'tweez',
         primaryLabel: 'Routing',
         secondaryLabel: 'Reverb/Delay',
-        unit: 'generic'
+        unit: 'routing',
+        formatter: routing
       },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
@@ -187,7 +361,8 @@ export const parameterMappings: Record<Mode, Record<ModelKey, ParameterDisplay[]
         id: 'tweez',
         primaryLabel: 'Routing',
         secondaryLabel: 'Reverb/Delay',
-        unit: 'generic'
+        unit: 'routing',
+        formatter: routing
       },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
@@ -198,7 +373,8 @@ export const parameterMappings: Record<Mode, Record<ModelKey, ParameterDisplay[]
         id: 'tweez',
         primaryLabel: 'Routing',
         secondaryLabel: 'Reverb/Delay',
-        unit: 'generic'
+        unit: 'routing',
+        formatter: routing
       },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
@@ -209,7 +385,8 @@ export const parameterMappings: Record<Mode, Record<ModelKey, ParameterDisplay[]
         id: 'tweez',
         primaryLabel: 'Routing',
         secondaryLabel: 'Reverb/Delay',
-        unit: 'generic'
+        unit: 'routing',
+        formatter: routing
       },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
@@ -220,7 +397,8 @@ export const parameterMappings: Record<Mode, Record<ModelKey, ParameterDisplay[]
         id: 'tweez',
         primaryLabel: 'Routing',
         secondaryLabel: 'Reverb/Delay',
-        unit: 'generic'
+        unit: 'routing',
+        formatter: routing
       },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
@@ -231,7 +409,8 @@ export const parameterMappings: Record<Mode, Record<ModelKey, ParameterDisplay[]
         id: 'tweez',
         primaryLabel: 'Routing',
         secondaryLabel: 'Reverb/Delay',
-        unit: 'generic'
+        unit: 'routing',
+        formatter: routing
       },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
@@ -242,7 +421,8 @@ export const parameterMappings: Record<Mode, Record<ModelKey, ParameterDisplay[]
         id: 'tweez',
         primaryLabel: 'Routing',
         secondaryLabel: 'Reverb/Delay',
-        unit: 'generic'
+        unit: 'routing',
+        formatter: routing
       },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
@@ -253,7 +433,8 @@ export const parameterMappings: Record<Mode, Record<ModelKey, ParameterDisplay[]
         id: 'tweez',
         primaryLabel: 'Routing',
         secondaryLabel: 'Reverb/Delay',
-        unit: 'generic'
+        unit: 'routing',
+        formatter: routing
       },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
@@ -264,7 +445,8 @@ export const parameterMappings: Record<Mode, Record<ModelKey, ParameterDisplay[]
         id: 'tweez',
         primaryLabel: 'Routing',
         secondaryLabel: 'Reverb/Delay',
-        unit: 'generic'
+        unit: 'routing',
+        formatter: routing
       },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
@@ -275,7 +457,8 @@ export const parameterMappings: Record<Mode, Record<ModelKey, ParameterDisplay[]
         id: 'tweez',
         primaryLabel: 'Routing',
         secondaryLabel: 'Reverb/Delay',
-        unit: 'generic'
+        unit: 'routing',
+        formatter: routing
       },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
@@ -286,7 +469,8 @@ export const parameterMappings: Record<Mode, Record<ModelKey, ParameterDisplay[]
         id: 'tweez',
         primaryLabel: 'Routing',
         secondaryLabel: 'Reverb/Delay',
-        unit: 'generic'
+        unit: 'routing',
+        formatter: routing
       },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
@@ -297,7 +481,8 @@ export const parameterMappings: Record<Mode, Record<ModelKey, ParameterDisplay[]
         id: 'tweez',
         primaryLabel: 'Routing',
         secondaryLabel: 'Reverb/Delay',
-        unit: 'generic'
+        unit: 'routing',
+        formatter: routing
       },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ]
