@@ -1,5 +1,6 @@
 import { useMemo, useState, useCallback, useEffect, useRef } from 'react';
 import Pedal from './components/organisms/Pedal/Pedal';
+import TempoSubdivisionSelector from './components/organisms/TempoSubdivisionSelector/TempoSubdivisionSelector';
 import LibraryPanel from './components/organisms/LibraryPanel/LibraryPanel';
 import useEffectLibrary from './hooks/useEffectLibrary';
 import useKeyboardShortcuts from './hooks/useKeyboardShortcuts';
@@ -20,6 +21,7 @@ import { useIncomingMidi } from './hooks/useIncomingMidi';
 import ParameterDisplay from './components/molecules/ParameterDisplay/ParameterDisplay';
 import PresetBankPanel from './components/organisms/PresetBankPanel/PresetBankPanel';
 import { presetBankActions } from './state/usePresetBank';
+import { subdivisions, type SubdivisionId } from './data/subdivisions';
 
 // Top-level page wiring: orchestrates data hooks, keyboard shortcuts, and composes the pedal UI
 // so layout remains predictable.
@@ -219,8 +221,6 @@ type PresetSnapshot = {
     sendCC,
     sendProgramChange
   } = midi;
-  const [clockSendBpm, setClockSendBpm] = useState(120);
-
   const midiErrorLabel = useMemo(() => {
     if (!midiLastCommand) return null;
     if (midiLastCommand.type === 'pc') return 'PRESET SELECT COMMAND';
@@ -250,6 +250,12 @@ type PresetSnapshot = {
     return `Connected: ${ports[selectedPort] ?? 'Port'}`;
   }, [midiReady, ports, selectedPort]);
 
+  useEffect(() => {
+    if (clock.followEnabled && typeof clock.bpm === 'number') {
+      setTapBpm(Math.round(clock.bpm));
+    }
+  }, [clock.bpm, clock.followEnabled]);
+
   const [toast, setToast] = useState<{ id: number; message: string; kind: 'error' | 'ok' } | null>(null);
   const [showHelp, setShowHelp] = useState(false);
   const toastIdRef = useRef(0);
@@ -264,6 +270,78 @@ type PresetSnapshot = {
       Tap: tapModeActive && tapBlink.blinkOn ? 'armed' : 'off'
     }));
   }, [tapBlink.blinkOn, tapModeActive]);
+
+  const selectedSubdivision = useMemo(
+    () =>
+      subdivisions[tapSubdivisionIndex] ??
+      subdivisions.find((entry) => entry.id === '1/4') ??
+      subdivisions[0],
+    [tapSubdivisionIndex]
+  );
+
+  const handleSubdivisionSelect = useCallback(
+    async (subdivisionId: SubdivisionId) => {
+      const idx = subdivisions.findIndex((entry) => entry.id === subdivisionId);
+      if (idx < 0) return;
+      const midiValue = subdivisions[idx].midiValue;
+      setTapSubdivisionIndex(idx);
+      setTapModeActive(true);
+      setDelayControlValues((prev) => ({
+        ...prev,
+        [mode]: {
+          ...prev[mode],
+          time: midiValue
+        }
+      }));
+      if (midiReady && selectedPort !== null) {
+        await sendMessages(buildTapMessages(midiValue));
+      }
+    },
+    [midiReady, mode, selectedPort, sendMessages, setDelayControlValues]
+  );
+
+  const handleTempoChange = useCallback((nextBpm: number) => {
+    const clamped = Math.max(30, Math.min(300, Math.round(nextBpm || 0)));
+    setTapBpm(clamped);
+  }, []);
+
+  const handleTempoCommit = useCallback(
+    async (nextBpm: number) => {
+      const clamped = Math.max(30, Math.min(300, Math.round(nextBpm || 0)));
+      setTapBpm(clamped);
+      if (!midiReady || selectedPort === null) return;
+      if (clock.sendEnabled) {
+        await clock.startSend(clamped);
+      }
+    },
+    [clock, midiReady, selectedPort]
+  );
+
+  const toggleClockSend = useCallback(async () => {
+    if (!midiReady || selectedPort === null) return;
+    if (clock.sendEnabled) {
+      await clock.stopSend();
+      return;
+    }
+    await clock.startSend(tapBpm);
+  }, [clock, midiReady, selectedPort, tapBpm]);
+
+  const pushTempoToHardware = useCallback(
+    async (bpm: number) => {
+      if (!midiReady || selectedPort === null) return;
+      const interval = Math.max(120, Math.round(60000 / Math.max(1, bpm)));
+      const midiValue = selectedSubdivision.midiValue;
+      setTapModeActive(true);
+      await sendMessages(buildTapMessages(midiValue));
+      await sleep(interval);
+      await sendMessages([{ type: 'cc', control: midiCC.tapTempo, value: 127 }]);
+    },
+    [midiReady, selectedPort, sendMessages, selectedSubdivision]
+  );
+
+  const tempoSource = clock.followEnabled && typeof clock.bpm === 'number' ? 'clock' : 'manual';
+  const displayBpm =
+    tempoSource === 'clock' && typeof clock.bpm === 'number' ? Math.round(clock.bpm) : tapBpm;
 
   const buildDelayDefaults = useCallback(() => {
     const defaults = delayControls.reduce(
@@ -1244,6 +1322,18 @@ type PresetSnapshot = {
                 loading={isLoading}
               />
 
+              <TempoSubdivisionSelector
+                bpm={displayBpm}
+                tempoSource={tempoSource}
+                selectedSubdivisionId={selectedSubdivision.id}
+                onSubdivisionSelect={handleSubdivisionSelect}
+                onBpmChange={handleTempoChange}
+                onBpmCommit={handleTempoCommit}
+                onPushTempo={pushTempoToHardware}
+                clockSending={clock.sendEnabled}
+                onClockSendToggle={toggleClockSend}
+              />
+
               <div className={styles.panelCard}>
                 <h3 className={styles.panelTitle}>Parameters</h3>
                 <ParameterDisplay
@@ -1425,35 +1515,6 @@ type PresetSnapshot = {
             Debug
           </button>
         )}
-        <div className={styles.midiStepper}>
-          <input
-            type="number"
-            className={styles.midiPreset}
-            min={30}
-            max={300}
-            value={clockSendBpm}
-            onChange={(event) => {
-              const next = Number(event.target.value);
-              if (!Number.isFinite(next)) return;
-              const clamped = Math.max(30, Math.min(300, Math.floor(next)));
-              setClockSendBpm(clamped);
-            }}
-            aria-label="Clock send BPM"
-          />
-          <button
-            type="button"
-            className={styles.midiRefresh}
-            onClick={() =>
-              clock.sendEnabled
-                ? clock.stopSend()
-                : clock.startSend(clockSendBpm)
-            }
-            disabled={!midiReady || selectedPort === null}
-            aria-pressed={clock.sendEnabled}
-        >
-          {clock.sendEnabled ? 'Send Clock: On' : 'Send Clock'}
-        </button>
-        </div>
         {midiError && (
           <span className={styles.midiError}>
             {midiErrorLabel ?? midiError}
