@@ -547,10 +547,11 @@ type MidiLogEntry =
       snapshot: PresetSnapshot,
       presetIndex: number | null = null,
       programOverride?: number,
-      opts?: { sendProgram?: boolean; sendControls?: boolean }
+      opts?: { sendProgram?: boolean; sendControls?: boolean; source?: string }
     ) => {
       const sendProgram = opts?.sendProgram !== false;
       const sendControls = opts?.sendControls !== false;
+      const source = opts?.source ?? 'preset-apply';
       setMode(snapshot.mode);
       setDetentForMode(snapshot.mode, snapshot.detent);
       setReverbDetent(typeof snapshot.reverbDetent === 'number' ? snapshot.reverbDetent : 0);
@@ -572,13 +573,13 @@ type MidiLogEntry =
       suppressSendsUntilRef.current = Date.now() + 400;
       if (midiReady && selectedPort !== null) {
         if (sendProgram && typeof effectiveProgram === 'number') {
-          await sendProgramChangeLogged(effectiveProgram, 'preset-apply');
+          await sendProgramChangeLogged(effectiveProgram, source);
         }
         if (sendControls) {
-          await sendCCLogged(midiCC.presetBypass, 64, 'preset-apply');
-          await sendModelSelectLogged(snapshot.mode, snapshot.detent, 'preset-apply');
-          await sendModelSelectLogged('Secret Reverb', snapshot.reverbDetent, 'preset-apply');
-          await sendAllControls('preset-apply');
+          await sendCCLogged(midiCC.presetBypass, 64, source);
+          await sendModelSelectLogged(snapshot.mode, snapshot.detent, source);
+          await sendModelSelectLogged('Secret Reverb', snapshot.reverbDetent, source);
+          await sendAllControls(source);
         }
       }
       if (effectiveProgram === 0) {
@@ -697,7 +698,8 @@ type MidiLogEntry =
           : Math.max(0, presetLibrary.findIndex((e) => e.id === id));
       await applyPresetSnapshot(entry.snapshot, program, program, {
         sendProgram: true,
-        sendControls: true
+        sendControls: true,
+        source: 'library-load'
       });
       setLibraryLoadingId(null);
       showToast(`Loaded "${entry.name}" from library`, 'ok');
@@ -729,89 +731,100 @@ type MidiLogEntry =
   }, []);
 
   const loadPresetFromStorage = useCallback(
-    async (index: number) => {
+    async (
+      index: number,
+      options?: { programOverride?: number; sendProgram?: boolean; source?: string }
+    ) => {
       if (typeof window === 'undefined') return false;
       const raw = localStorage.getItem(`macdlmkii-preset-${index}`);
       if (!raw) return false;
       try {
         const snapshot: PresetSnapshot = JSON.parse(raw);
-        await applyPresetSnapshot(snapshot, index, index, { sendProgram: false, sendControls: true });
+        const program = options?.programOverride ?? index;
+        await applyPresetSnapshot(snapshot, index, program, {
+          sendProgram: options?.sendProgram !== false,
+          sendControls: true,
+          source: options?.source ?? 'preset-apply'
+        });
         return true;
       } catch (error) {
         console.warn('Failed to load preset snapshot', error);
         return false;
       }
     },
-    [
-      sendModelSelect,
-      applyPresetSnapshot
-    ]
+    [applyPresetSnapshot]
   );
 
-  const setActivePreset = useCallback(async (index: number, programOverride?: number) => {
-    // Footswitch A should map to program 0; allow optional override.
-    const program = Math.max(0, Math.min(127, programOverride ?? index));
-    if (midiReady && selectedPort !== null) {
-      await sendProgramChangeLogged(program, 'footswitch');
-      await sendCCLogged(midiCC.presetBypass, 64, 'footswitch');
-    }
+  const setActivePreset = useCallback(
+    async (index: number, programOverride?: number) => {
+      // Footswitch A should map to program 0; allow optional override.
+      const program = Math.max(0, Math.min(127, programOverride ?? index));
+      const loaded = await loadPresetFromStorage(index, {
+        programOverride: program,
+        sendProgram: true,
+        source: 'footswitch'
+      });
+      if (loaded) return;
 
-    const loaded = await loadPresetFromStorage(index);
-    if (loaded) return;
+      // Reset control values back to mid to mirror hardware defaults on preset load.
+      setDelayControlValues((prev) => ({
+        ...prev,
+        [mode]: delayControls.reduce(
+          (acc, ctrl) => ({ ...acc, [ctrl.id]: 64 }),
+          {} as Record<(typeof delayControls)[number]['id'], number>
+        )
+      }));
+      setReverbControlValues(
+        reverbControls.reduce(
+          (acc, ctrl) => ({ ...acc, [ctrl.id]: 64 }),
+          {} as Record<(typeof reverbControls)[number]['id'], number>
+        )
+      );
 
-    // Reset control values back to mid to mirror hardware defaults on preset load.
-    setDelayControlValues((prev) => ({
-      ...prev,
-      [mode]: delayControls.reduce(
-        (acc, ctrl) => ({ ...acc, [ctrl.id]: 64 }),
-        {} as Record<(typeof delayControls)[number]['id'], number>
-      )
-    }));
-    setReverbControlValues(
-      reverbControls.reduce(
-        (acc, ctrl) => ({ ...acc, [ctrl.id]: 64 }),
-        {} as Record<(typeof reverbControls)[number]['id'], number>
-      )
-    );
+      if (midiReady && selectedPort !== null) {
+        await sendProgramChangeLogged(program, 'footswitch');
+        await sendCCLogged(midiCC.presetBypass, 64, 'footswitch');
+        await sendAllControls('footswitch');
+      }
 
-    await sendAllControls('footswitch');
-
-    const activeId = (program % 3);
-    setFootswitchStatus({
-      A: activeId === 0 ? 'on' : 'off',
-      B: activeId === 1 ? 'on' : 'off',
-      C: activeId === 2 ? 'on' : 'off',
-      Tap: 'off'
-    });
-    setActivePresetIndex(index);
-    setActiveBaseline({
+      const activeId = program % 3;
+      setFootswitchStatus({
+        A: activeId === 0 ? 'on' : 'off',
+        B: activeId === 1 ? 'on' : 'off',
+        C: activeId === 2 ? 'on' : 'off',
+        Tap: 'off'
+      });
+      setActivePresetIndex(index);
+      setActiveBaseline({
+        mode,
+        detent: currentDetent,
+        reverbDetent,
+        delayControlValues,
+        reverbControlValues,
+        tapSubdivisionIndex,
+        tapBpm
+      });
+      if (activeId === 0) {
+        await blinkFootswitch('A');
+      }
+    },
+    [
+      blinkFootswitch,
+      loadPresetFromStorage,
+      midiReady,
       mode,
-      detent: currentDetent,
+      sendAllControls,
+      selectedPort,
+      sendCCLogged,
+      sendProgramChangeLogged,
+      currentDetent,
       reverbDetent,
       delayControlValues,
       reverbControlValues,
       tapSubdivisionIndex,
       tapBpm
-    });
-    if (activeId === 0) {
-      await blinkFootswitch('A');
-    }
-  }, [
-    blinkFootswitch,
-    loadPresetFromStorage,
-    midiReady,
-    mode,
-    sendAllControls,
-    selectedPort,
-    sendCCLogged,
-    sendProgramChangeLogged,
-    currentDetent,
-    reverbDetent,
-    delayControlValues,
-    reverbControlValues,
-    tapSubdivisionIndex,
-    tapBpm
-  ]);
+    ]
+  );
 
   const toggleBypass = useCallback(async (nextStatus: 'on' | 'dim') => {
     if (!midiReady || selectedPort === null) return;
