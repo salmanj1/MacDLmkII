@@ -70,7 +70,7 @@ const MidiDebuggerPanel: FC<Props> = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-40 flex w-[420px] max-h-[45vh] flex-col gap-2 rounded-lg border border-slate-700/70 bg-slate-900/95 p-3 shadow-xl backdrop-blur">
+    <div className="fixed bottom-4 right-4 z-40 flex w-[420px] max-h-[45vh] flex-col gap-2 rounded-lg border border-emerald-700/40 bg-emerald-950/90 p-3 shadow-xl backdrop-blur">
       <div className="flex items-center gap-2">
         <div className="text-sm font-semibold text-slate-100">MIDI Debugger</div>
         <div className="flex gap-2 text-[11px] text-slate-300">
@@ -80,7 +80,9 @@ const MidiDebuggerPanel: FC<Props> = ({ onClose }) => {
               type="button"
               onClick={() => toggleMidiLogFilter(key)}
               className={`rounded border px-2 py-1 ${
-                filters[key] ? 'border-slate-500 bg-slate-800 text-slate-100' : 'border-slate-700 bg-slate-900 text-slate-500'
+                filters[key]
+                  ? 'border-emerald-500/60 bg-emerald-900/70 text-emerald-100'
+                  : 'border-emerald-800/50 bg-emerald-950/60 text-emerald-300/70'
               }`}
             >
               {key.toUpperCase()}
@@ -90,14 +92,14 @@ const MidiDebuggerPanel: FC<Props> = ({ onClose }) => {
         <div className="ml-auto flex items-center gap-2">
           <button
             type="button"
-            className="rounded border border-slate-600 px-2 py-1 text-xs text-slate-100 hover:border-slate-300"
+            className="rounded border border-emerald-700 px-2 py-1 text-xs text-emerald-100 hover:border-emerald-400"
             onClick={clearMidiLog}
           >
             Clear
           </button>
           <button
             type="button"
-            className="rounded border border-slate-600 px-2 py-1 text-xs text-slate-100 hover:border-slate-300 disabled:opacity-60"
+            className="rounded border border-emerald-700 px-2 py-1 text-xs text-emerald-100 hover:border-emerald-400 disabled:opacity-60"
             onClick={exportLog}
             disabled={exporting}
           >
@@ -105,7 +107,7 @@ const MidiDebuggerPanel: FC<Props> = ({ onClose }) => {
           </button>
           <button
             type="button"
-            className="rounded border border-slate-600 px-2 py-1 text-xs text-slate-100 hover:border-slate-300"
+            className="rounded border border-emerald-700 px-2 py-1 text-xs text-emerald-100 hover:border-emerald-400"
             onClick={onClose}
           >
             ✕
@@ -113,10 +115,10 @@ const MidiDebuggerPanel: FC<Props> = ({ onClose }) => {
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto rounded-md border border-slate-800 bg-slate-950/60">
-        <div className="divide-y divide-slate-800">
+      <div className="flex-1 overflow-y-auto rounded-md border border-emerald-800/60 bg-emerald-950/70">
+        <div className="divide-y divide-emerald-800/60">
           {filtered.length === 0 && (
-            <div className="p-3 text-sm text-slate-400">No MIDI messages yet.</div>
+            <div className="p-3 text-sm text-emerald-200/80">No MIDI messages yet.</div>
           )}
           {filtered.map((entry) => (
             <div

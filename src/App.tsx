@@ -74,7 +74,7 @@ type PresetSnapshot = {
   const [reverbDetent, setReverbDetent] = useState(0);
   const [activeBaseline, setActiveBaseline] = useState<PresetSnapshot | null>(null);
   const [presetDirty, setPresetDirty] = useState(false);
-  const [showDebugger, setShowDebugger] = useState(process.env.NODE_ENV === 'development');
+  const [showDebugger, setShowDebugger] = useState(false);
 
   useIncomingMidi(process.env.NODE_ENV === 'development');
   useEffect(() => {
