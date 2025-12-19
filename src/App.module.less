@@ -521,3 +521,98 @@
   color: #fbbf24;
   font-size: 0.85rem;
 }
+
+.midiLogToggle {
+  border-radius: 0.55rem;
+  border: 1px solid fade(@borderSoft, 70%);
+  background: fade(@panel, 72%);
+  color: @textPrimary;
+  padding: 0.25rem 0.55rem;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 fade(#fff, 5%);
+  outline: none;
+}
+
+.midiLogToggle[aria-pressed='true'] {
+  border-color: fade(@glow, 50%);
+  box-shadow:
+    0 6px 16px fade(@glow, 20%),
+    inset 0 1px 0 fade(#fff, 6%);
+}
+
+.midiLogPanel {
+  position: fixed;
+  right: 0.85rem;
+  bottom: calc(3.6rem + env(safe-area-inset-bottom));
+  width: 340px;
+  max-height: 45vh;
+  background: fade(@panel, 88%);
+  border: 1px solid fade(@borderSoft, 70%);
+  border-radius: 0.7rem;
+  box-shadow:
+    0 14px 28px fade(#000, 36%),
+    inset 0 1px 0 fade(#fff, 4%);
+  overflow: hidden;
+  backdrop-filter: blur(6px);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  z-index: 20;
+}
+
+.midiLogHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.55rem 0.65rem;
+  border-bottom: 1px solid fade(@borderSoft, 60%);
+  color: @textPrimary;
+  font-weight: 700;
+}
+
+.midiLogActions {
+  display: inline-flex;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.midiLogList {
+  overflow-y: auto;
+  padding: 0.4rem 0.65rem 0.55rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.midiLogItem {
+  border: 1px solid fade(@borderSoft, 55%);
+  border-radius: 0.5rem;
+  padding: 0.45rem 0.5rem;
+  background: fade(@panel, 92%);
+  display: grid;
+  gap: 0.18rem;
+}
+
+.midiLogMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  color: @textMuted;
+  flex-wrap: wrap;
+}
+
+.midiLogType {
+  color: @textPrimary;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.midiLogValue {
+  color: @textPrimary;
+  font-size: 0.88rem;
+}
+
+.midiLogEmpty {
+  color: @textMuted;
+  font-size: 0.85rem;
+  padding: 0.3rem 0;
+}

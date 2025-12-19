@@ -9,7 +9,7 @@ import PresetLibraryPanel from './components/organisms/PresetLibraryPanel/Preset
 import useMidiBridge from './hooks/useMidiBridge';
 import ErrorBoundary from './components/organisms/ErrorBoundary/ErrorBoundary';
 import KeyboardHelp from './components/molecules/KeyboardHelp/KeyboardHelp';
-import { delayControls, midiCC, reverbControls, tapSubdivisions } from './data/midi';
+import { delayControls, midiCC, modelValueForMode, reverbControls, tapSubdivisions } from './data/midi';
 import type { EffectInfo, Mode } from './data/commonParams';
 import useTapBlink from './hooks/useTapBlink';
 import { buildTapMessages } from './data/midiMessages';
@@ -40,6 +40,10 @@ type PresetLibraryEntry = {
   presetProgram?: number;
   snapshot: PresetSnapshot;
 };
+
+type MidiLogEntry =
+  | { ts: number; source: string; type: 'pc'; program: number }
+  | { ts: number; source: string; type: 'cc'; control: number; value: number };
 
   const snapshotsEqual = (a: PresetSnapshot | null, b: PresetSnapshot | null) => {
     if (!a || !b) return false;
@@ -77,6 +81,8 @@ type PresetLibraryEntry = {
   const [tapTimestamps, setTapTimestamps] = useState<number[]>([]);
   const [activePreset, setActivePresetIndex] = useState<number | null>(null);
   const [reverbDetent, setReverbDetent] = useState(0);
+  const [midiLog, setMidiLog] = useState<MidiLogEntry[]>([]);
+  const [showMidiLog, setShowMidiLog] = useState(false);
   const [activeBaseline, setActiveBaseline] = useState<PresetSnapshot | null>(null);
   const [presetDirty, setPresetDirty] = useState(false);
 
@@ -321,7 +327,8 @@ type PresetLibraryEntry = {
         const tapIndex = tapSubdivisions.findIndex((entry) => entry.value === 64) || 0;
         const delayDefaults = buildDelayDefaults();
         const reverbDefaults = buildReverbDefaults();
-        const seeded: PresetLibraryEntry[] = factorySeeds.map(({ slot, name, detent, reverbDetent, description }) => {
+        const seeded: PresetLibraryEntry[] = factorySeeds.map(
+          ({ slot, name, detent, reverbDetent, description, presetProgram }) => {
           const snapshot: PresetSnapshot = {
             mode: 'MkII Delay',
             detent,
@@ -340,7 +347,8 @@ type PresetLibraryEntry = {
             presetProgram,
             snapshot
           };
-        });
+        }
+        );
         setPresetLibrary(seeded);
         await savePresetLibrary(seeded);
       } catch (error) {
@@ -440,33 +448,81 @@ type PresetLibraryEntry = {
     setToast(null);
   }, []);
 
-  const sendAllControls = useCallback(async () => {
-    if (!midiReady || selectedPort === null) return;
-    const delayValues = delayControlValues[mode] || {};
-    const reverbValues = reverbControlValues;
+  const logMidi = useCallback((entry: MidiLogEntry) => {
+    setMidiLog((prev) => {
+      const next = [...prev, entry];
+      return next.slice(-120);
+    });
+  }, []);
 
-    await Promise.all([
-      ...delayControls.map((ctrl) => {
+  const sendProgramChangeLogged = useCallback(
+    async (program: number, source: string) => {
+      logMidi({ ts: Date.now(), source, type: 'pc', program });
+      await sendProgramChange(program);
+    },
+    [logMidi, sendProgramChange]
+  );
+
+  const sendCCLogged = useCallback(
+    async (control: number, value: number, source: string) => {
+      logMidi({ ts: Date.now(), source, type: 'cc', control, value });
+      await sendCC(control, value);
+    },
+    [logMidi, sendCC]
+  );
+
+  const sendModelSelectLogged = useCallback(
+    async (mode: Mode, detent: number, source: string) => {
+      const value = modelValueForMode(mode, detent);
+      if (mode === 'Secret Reverb') {
+        logMidi({ ts: Date.now(), source, type: 'cc', control: midiCC.reverbSelected, value });
+      } else {
+        logMidi({
+          ts: Date.now(),
+          source,
+          type: 'cc',
+          control: midiCC.looperMode,
+          value: value === 30 ? 64 : 0
+        });
+        logMidi({ ts: Date.now(), source, type: 'cc', control: midiCC.delaySelected, value });
+      }
+      await sendModelSelect(mode, detent);
+    },
+    [logMidi, sendModelSelect]
+  );
+
+  const sendAllControls = useCallback(
+    async (source: string) => {
+      if (!midiReady || selectedPort === null) return;
+      const delayValues = delayControlValues[mode] || {};
+      const reverbValues = reverbControlValues;
+
+      const delaySends = delayControls.map((ctrl) => {
         if (ctrl.id === 'time' && tapModeActive) {
           const tapValue = tapSubdivisions[tapSubdivisionIndex]?.value ?? 64;
-          return sendCC(midiCC.delayNotes, tapValue);
+          return sendCCLogged(midiCC.delayNotes, tapValue, source);
         }
-        return sendCC(ctrl.cc, Math.round(delayValues[ctrl.id] ?? 64));
-      }),
-      ...reverbControls.map((ctrl) =>
-        sendCC(ctrl.cc, Math.round(reverbValues[ctrl.id] ?? 64))
-      )
-    ]);
-  }, [
-    delayControlValues,
-    mode,
-    reverbControlValues,
-    midiReady,
-    selectedPort,
-    sendCC,
-    tapModeActive,
-    tapSubdivisionIndex
-  ]);
+        const val = Math.round(delayValues[ctrl.id] ?? 64);
+        return sendCCLogged(ctrl.cc, val, source);
+      });
+
+      const reverbSends = reverbControls.map((ctrl) =>
+        sendCCLogged(ctrl.cc, Math.round(reverbValues[ctrl.id] ?? 64), source)
+      );
+
+      await Promise.all([...delaySends, ...reverbSends]);
+    },
+    [
+      delayControlValues,
+      mode,
+      reverbControlValues,
+      midiReady,
+      selectedPort,
+      sendCCLogged,
+      tapModeActive,
+      tapSubdivisionIndex
+    ]
+  );
 
   const blinkFootswitch = useCallback(async (id: 'A' | 'B' | 'C') => {
     if (blinkLockRef.current) return;
@@ -514,13 +570,13 @@ type PresetLibraryEntry = {
       });
       if (midiReady && selectedPort !== null) {
         if (sendProgram && typeof effectiveProgram === 'number') {
-          await sendProgramChange(effectiveProgram);
+          await sendProgramChangeLogged(effectiveProgram, 'preset-apply');
         }
         if (sendControls) {
-          await sendCC(midiCC.presetBypass, 64);
-          await sendModelSelect(snapshot.mode, snapshot.detent);
-          await sendModelSelect('Secret Reverb', snapshot.reverbDetent);
-          await sendAllControls();
+          await sendCCLogged(midiCC.presetBypass, 64, 'preset-apply');
+          await sendModelSelectLogged(snapshot.mode, snapshot.detent, 'preset-apply');
+          await sendModelSelectLogged('Secret Reverb', snapshot.reverbDetent, 'preset-apply');
+          await sendAllControls('preset-apply');
         }
       }
       if (effectiveProgram === 0) {
@@ -532,10 +588,10 @@ type PresetLibraryEntry = {
       midiReady,
       selectedPort,
       sendAllControls,
-      sendModelSelect,
-      sendProgramChange,
+      sendModelSelectLogged,
+      sendProgramChangeLogged,
       setDetentForMode,
-      sendCC
+      sendCCLogged
     ]
   );
 
@@ -694,8 +750,8 @@ type PresetLibraryEntry = {
     // Footswitch A should map to program 0; allow optional override.
     const program = Math.max(0, Math.min(127, programOverride ?? index));
     if (midiReady && selectedPort !== null) {
-      await sendProgramChange(program);
-      await sendCC(midiCC.presetBypass, 64);
+      await sendProgramChangeLogged(program, 'footswitch');
+      await sendCCLogged(midiCC.presetBypass, 64, 'footswitch');
     }
 
     const loaded = await loadPresetFromStorage(index);
@@ -716,7 +772,7 @@ type PresetLibraryEntry = {
       )
     );
 
-    await sendAllControls();
+    await sendAllControls('footswitch');
 
     const activeId = (program % 3);
     setFootswitchStatus({
@@ -745,8 +801,8 @@ type PresetLibraryEntry = {
     mode,
     sendAllControls,
     selectedPort,
-    sendCC,
-    sendProgramChange,
+    sendCCLogged,
+    sendProgramChangeLogged,
     currentDetent,
     reverbDetent,
     delayControlValues,
@@ -758,8 +814,8 @@ type PresetLibraryEntry = {
   const toggleBypass = useCallback(async (nextStatus: 'on' | 'dim') => {
     if (!midiReady || selectedPort === null) return;
     const value = nextStatus === 'dim' ? 0 : 64;
-    await sendCC(midiCC.presetBypass, value);
-  }, [midiReady, selectedPort, sendCC]);
+    await sendCCLogged(midiCC.presetBypass, value, 'bypass');
+  }, [midiReady, selectedPort, sendCCLogged]);
 
   const saveActivePreset = useCallback(() => {
     if (activePreset === null) return false;
@@ -844,7 +900,7 @@ type PresetLibraryEntry = {
           return next;
         });
 
-        await sendCC(midiCC.delayNotes, tapSubdivisions[nextIdx].value);
+        await sendCCLogged(midiCC.delayNotes, tapSubdivisions[nextIdx].value, 'tap');
         await sendMessages(
           buildTapMessages(tapSubdivisions[nextIdx].value)
         );
@@ -856,7 +912,7 @@ type PresetLibraryEntry = {
       footswitchStatus,
       midiReady,
       selectedPort,
-      sendCC,
+      sendCCLogged,
       sendMessages,
       setActivePreset,
       setDelayControlValues,
@@ -914,7 +970,7 @@ type PresetLibraryEntry = {
                 [id]: rounded
               }
             }));
-            if (canSend) await sendCC(midiCC.delayNotes, rounded);
+            if (canSend) await sendCCLogged(midiCC.delayNotes, rounded, 'knob-change');
             return;
           }
           setTapModeActive(false);
@@ -925,7 +981,7 @@ type PresetLibraryEntry = {
               [id]: rounded
             }
           }));
-          if (canSend) await sendCC(midiCC.delayTime, rounded);
+          if (canSend) await sendCCLogged(midiCC.delayTime, rounded, 'knob-change');
           return;
         }
         setDelayControlValues((prev) => ({
@@ -958,14 +1014,14 @@ type PresetLibraryEntry = {
             };
       const cc = map[id as keyof typeof map];
       if (cc !== undefined && canSend) {
-        await sendCC(cc, rounded);
+        await sendCCLogged(cc, rounded, 'knob-change');
       }
     },
     [
       midiReady,
       mode,
       selectedPort,
-      sendCC,
+      sendCCLogged,
       tapModeActive,
       tapSubdivisionIndex
     ]
@@ -973,10 +1029,19 @@ type PresetLibraryEntry = {
 
   const syncToHardware = useCallback(async () => {
     if (!currentEffect || !midiReady || selectedPort === null) return;
-    await sendModelSelect(mode, currentDetent);
-    await sendModelSelect('Secret Reverb', reverbDetent);
-    await sendAllControls();
-  }, [currentDetent, currentEffect, midiReady, mode, reverbDetent, selectedPort, sendAllControls, sendModelSelect]);
+    await sendModelSelectLogged(mode, currentDetent, 'sync');
+    await sendModelSelectLogged('Secret Reverb', reverbDetent, 'sync');
+    await sendAllControls('sync');
+  }, [
+    currentDetent,
+    currentEffect,
+    midiReady,
+    mode,
+    reverbDetent,
+    selectedPort,
+    sendAllControls,
+    sendModelSelectLogged
+  ]);
 
   useEffect(() => {
     if (!midiReady || selectedPort === null) return;
@@ -985,8 +1050,8 @@ type PresetLibraryEntry = {
 
   useEffect(() => {
     if (!midiReady || selectedPort === null) return;
-    sendModelSelect('Secret Reverb', reverbDetent);
-  }, [midiReady, reverbDetent, selectedPort, sendModelSelect]);
+    sendModelSelectLogged('Secret Reverb', reverbDetent, 'reverb-detent');
+  }, [midiReady, reverbDetent, selectedPort, sendModelSelectLogged]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -1053,6 +1118,30 @@ type PresetLibraryEntry = {
     },
     [setDetentForMode, setMode]
   );
+
+  const copyMidiLog = useCallback(async () => {
+    const formatted = midiLog
+      .slice(-120)
+      .map((entry) => {
+        const time = new Date(entry.ts).toISOString();
+        return entry.type === 'pc'
+          ? `${time} [${entry.source}] PC ${entry.program + 1}`
+          : `${time} [${entry.source}] CC ${entry.control} -> ${entry.value}`;
+      })
+      .reverse()
+      .join('\n');
+    if (!formatted) {
+      showToast('Nothing to copy yet', 'error');
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(formatted);
+      showToast('MIDI log copied', 'ok');
+    } catch (error) {
+      console.warn('Copy failed', error);
+      showToast('Copy failed', 'error');
+    }
+  }, [midiLog, showToast]);
 
   return (
     <ErrorBoundary
@@ -1324,6 +1413,15 @@ type PresetLibraryEntry = {
           >
             {clock.sendEnabled ? 'Send Clock: On' : 'Send Clock'}
           </button>
+          <button
+            type="button"
+            className={styles.midiLogToggle}
+            onClick={() => setShowMidiLog((prev) => !prev)}
+            aria-pressed={showMidiLog}
+            aria-label="Toggle MIDI log"
+          >
+            📝
+          </button>
         </div>
         {midiError && (
           <span className={styles.midiError}>
@@ -1331,6 +1429,59 @@ type PresetLibraryEntry = {
           </span>
         )}
       </div>
+      {showMidiLog && (
+        <div className={styles.midiLogPanel} role="log" aria-label="MIDI log">
+          <div className={styles.midiLogHeader}>
+            <span>MIDI Log</span>
+            <div className={styles.midiLogActions}>
+              <button
+                type="button"
+                className={styles.midiLogToggle}
+                onClick={copyMidiLog}
+                aria-label="Copy MIDI log to clipboard"
+              >
+                ⧉
+              </button>
+              <button
+                type="button"
+                className={styles.midiLogToggle}
+                onClick={() => setShowMidiLog(false)}
+                aria-label="Close MIDI log"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+          <div className={styles.midiLogList}>
+            {midiLog.length === 0 && <div className={styles.midiLogEmpty}>No MIDI sent yet.</div>}
+            {midiLog
+              .slice(-60)
+              .reverse()
+              .map((entry, idx) => {
+                const time = new Date(entry.ts).toLocaleTimeString(undefined, {
+                  hour12: false,
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  second: '2-digit'
+                });
+                return (
+                  <div key={`${entry.ts}-${idx}`} className={styles.midiLogItem}>
+                    <div className={styles.midiLogMeta}>
+                      <span>{time}</span>
+                      <span>{entry.source}</span>
+                      <span className={styles.midiLogType}>{entry.type.toUpperCase()}</span>
+                    </div>
+                    <div className={styles.midiLogValue}>
+                      {entry.type === 'pc'
+                        ? `Program ${entry.program + 1}`
+                        : `CC ${entry.control} → ${entry.value}`}
+                    </div>
+                  </div>
+                );
+              })}
+          </div>
+        </div>
+      )}
     </main>
   </div>
   </ErrorBoundary>
