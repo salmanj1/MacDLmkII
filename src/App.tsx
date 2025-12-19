@@ -261,6 +261,7 @@ type MidiLogEntry =
   const toastIdRef = useRef(0);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const blinkLockRef = useRef(false);
+  const suppressSendsUntilRef = useRef(0);
 
   const tapBlink = useTapBlink({ enabled: tapModeActive, bpm: tapBpm });
   useEffect(() => {
@@ -568,6 +569,7 @@ type MidiLogEntry =
         C: activeId === 2 ? 'on' : 'off',
         Tap: 'off'
       });
+      suppressSendsUntilRef.current = Date.now() + 400;
       if (midiReady && selectedPort !== null) {
         if (sendProgram && typeof effectiveProgram === 'number') {
           await sendProgramChangeLogged(effectiveProgram, 'preset-apply');
@@ -1029,6 +1031,7 @@ type MidiLogEntry =
 
   const syncToHardware = useCallback(async () => {
     if (!currentEffect || !midiReady || selectedPort === null) return;
+    if (Date.now() < suppressSendsUntilRef.current) return;
     await sendModelSelectLogged(mode, currentDetent, 'sync');
     await sendModelSelectLogged('Secret Reverb', reverbDetent, 'sync');
     await sendAllControls('sync');
@@ -1050,6 +1053,7 @@ type MidiLogEntry =
 
   useEffect(() => {
     if (!midiReady || selectedPort === null) return;
+    if (Date.now() < suppressSendsUntilRef.current) return;
     sendModelSelectLogged('Secret Reverb', reverbDetent, 'reverb-detent');
   }, [midiReady, reverbDetent, selectedPort, sendModelSelectLogged]);
 
