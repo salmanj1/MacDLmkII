@@ -656,8 +656,9 @@ type PresetLibraryEntry = {
     ]
   );
 
-  const setActivePreset = useCallback(async (index: number) => {
-    const program = Math.max(0, Math.min(127, index));
+  const setActivePreset = useCallback(async (index: number, programOverride?: number) => {
+    // Footswitch A should map to program 0; allow optional override.
+    const program = Math.max(0, Math.min(127, programOverride ?? index));
     if (midiReady && selectedPort !== null) {
       await sendProgramChange(program);
       await sendCC(midiCC.presetBypass, 64);
@@ -776,7 +777,7 @@ type PresetLibraryEntry = {
           return;
         }
         const idx = id === 'A' ? 0 : id === 'B' ? 1 : 2;
-        await setActivePreset(idx);
+        await setActivePreset(idx, idx);
         return;
       }
 
