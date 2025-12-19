@@ -86,7 +86,7 @@ fn send_midi_pc(
 }
 
 #[tauri::command]
-fn export_preset_bank(data: String) -> Result<(), String> {
+fn export_preset_bank(data: String) -> Result<String, String> {
   // Write to Downloads (preferred), fallback to home, then current dir.
   let target_dir: PathBuf = dirs::download_dir()
     .or_else(dirs::home_dir)
@@ -95,7 +95,8 @@ fn export_preset_bank(data: String) -> Result<(), String> {
   let mut path = target_dir;
   path.push("preset-bank.json");
 
-  fs::write(&path, data).map_err(|e| e.to_string())
+  fs::write(&path, data).map_err(|e| e.to_string())?;
+  Ok(path.to_string_lossy().to_string())
 }
 
 fn main() {

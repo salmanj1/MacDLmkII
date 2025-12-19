@@ -98,9 +98,13 @@ const PresetBankPanel = ({
   const handleExport = async () => {
     if (isTauriRuntime) {
       try {
-        await invoke('export_preset_bank', {
+        const savedTo = await invoke<string>('export_preset_bank', {
           data: JSON.stringify(presets, null, 2)
         });
+        if (savedTo) {
+          // Provide a minimal confirmation so it doesn't feel like a no-op in Tauri.
+          alert(`Exported preset-bank.json to:\n${savedTo}`);
+        }
         return;
       } catch (err) {
         console.error('Failed to export presets', err);
