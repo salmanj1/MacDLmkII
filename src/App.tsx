@@ -768,18 +768,42 @@ type PresetSnapshot = {
 
   const saveActivePreset = useCallback(() => {
     if (activePreset === null) return false;
+    const delayVals = delayControlValues[mode] ?? {};
+    const reverbVals = reverbControlValues;
     const snapshot: PresetSnapshot = {
       mode,
       detent: currentDetent,
       reverbDetent,
       delayControlValues,
-      reverbControlValues,
+      reverbControlValues: reverbVals,
       tapSubdivisionIndex,
       tapBpm
     };
     try {
       const raw = JSON.stringify(snapshot);
       localStorage.setItem(`macdlmkii-preset-${activePreset}`, raw);
+      presetBankActions.updatePreset(activePreset, (prev) => {
+        const getDelayVal = (key: string) =>
+          Math.round(typeof (delayVals as Record<string, number | undefined>)[key] === 'number'
+            ? (delayVals as Record<string, number | undefined>)[key]!
+            : 64);
+
+        return {
+        ...prev,
+        parameters: {
+          time: getDelayVal('time'),
+          tweak: getDelayVal('tweak'),
+          tweez: getDelayVal('tweez'),
+          mix: getDelayVal('mix'),
+          repeats: getDelayVal('repeats'),
+          delayType: currentEffect?.model ?? mode,
+          reverbType: currentReverbEffect?.model
+        },
+        snapshot,
+        isEmpty: false,
+        lastModified: new Date().toISOString()
+        };
+      });
       showToast(`Preset ${activePreset + 1} saved`, 'ok');
       setActiveBaseline(snapshot);
       return true;
@@ -790,6 +814,8 @@ type PresetSnapshot = {
   }, [
     activePreset,
     currentDetent,
+    currentEffect?.model,
+    currentReverbEffect?.model,
     delayControlValues,
     mode,
     reverbDetent,
