@@ -6,13 +6,25 @@ export type Preset = {
   tags: string[];
   description?: string;
   parameters: {
-    time: number;
-    tweak: number;
-    tweez: number;
-    mix: number;
-    repeats: number;
-    delayType: string;
-    reverbType?: string;
+    delay: {
+      type: string;
+      time: number;
+      repeats: number;
+      tweak: number;
+      tweez: number;
+      mix: number;
+      tempoBpm?: number | null;
+      subdivision?: { label: string; value: number };
+    };
+    reverb?: {
+      type: string;
+      decay: number;
+      tweak: number;
+      tweez: number;
+      mix: number;
+      routing?: number;
+    };
+    routing?: number;
   };
   lastModified: string; // ISO string for persistence
   isEmpty: boolean;
@@ -34,13 +46,18 @@ const buildInitialBank = (): Preset[] =>
     tags: [],
     description: '',
     parameters: {
-      time: 64,
-      tweak: 64,
-      tweez: 64,
-      mix: 64,
-      repeats: 64,
-      delayType: 'MkII',
-      reverbType: undefined
+      delay: {
+        type: 'MkII',
+        time: 64,
+        repeats: 64,
+        tweak: 64,
+        tweez: 64,
+        mix: 64,
+        tempoBpm: 120,
+        subdivision: { label: '1/4', value: 64 }
+      },
+      reverb: undefined,
+      routing: undefined
     },
     lastModified: new Date().toISOString(),
     isEmpty: true
@@ -130,7 +147,7 @@ const createStore = () => {
     setPresets(next);
   };
 
-  const replaceBank = (presets: Preset[]) => {
+const replaceBank = (presets: Preset[]) => {
     // normalize length to 128
     const normalized = Array.from({ length: 128 }, (_, idx) => {
       const found = presets.find((p) => p.id === idx);
@@ -141,13 +158,18 @@ const createStore = () => {
           tags: [],
           description: '',
           parameters: {
-            time: 64,
-            tweak: 64,
-            tweez: 64,
-            mix: 64,
-            repeats: 64,
-            delayType: 'MkII',
-            reverbType: undefined
+            delay: {
+              type: 'MkII',
+              time: 64,
+              repeats: 64,
+              tweak: 64,
+              tweez: 64,
+              mix: 64,
+              tempoBpm: 120,
+              subdivision: { label: '1/4', value: 64 }
+            },
+            reverb: undefined,
+            routing: undefined
           },
           lastModified: new Date().toISOString(),
           isEmpty: true

@@ -326,13 +326,18 @@ type PresetSnapshot = {
       tags: [],
       description: '',
       parameters: {
-        time: 64,
-        tweak: 64,
-        tweez: 64,
-        mix: 64,
-        repeats: 64,
-        delayType: 'MkII Delay',
-        reverbType: undefined
+        delay: {
+          type: 'MkII Delay',
+          time: 64,
+          repeats: 64,
+          tweak: 64,
+          tweez: 64,
+          mix: 64,
+          tempoBpm: 120,
+          subdivision: { label: tapSubdivisions[tapIndex]?.label ?? '1/4', value: tapSubdivisions[tapIndex]?.value ?? 64 }
+        },
+        reverb: undefined,
+        routing: undefined
       },
       lastModified: new Date().toISOString(),
       isEmpty: true,
@@ -363,9 +368,25 @@ type PresetSnapshot = {
           description: description ?? '',
           isEmpty: false,
           parameters: {
-            ...base[slot].parameters,
-            delayType: 'MkII Delay',
-            reverbType: 'Secret Reverb'
+            delay: {
+              type: 'MkII Delay',
+              time: 64,
+              repeats: 64,
+              tweak: 64,
+              tweez: 64,
+              mix: 64,
+              tempoBpm: 120,
+              subdivision: { label: tapSubdivisions[tapIndex]?.label ?? '1/4', value: tapSubdivisions[tapIndex]?.value ?? 64 }
+            },
+            reverb: {
+              type: 'Secret Reverb',
+              decay: 64,
+              tweak: 64,
+              tweez: 64,
+              mix: 64,
+              routing: 64
+            },
+            routing: 64
           },
           snapshot
         };
@@ -723,13 +744,32 @@ type PresetSnapshot = {
       presetBankActions.updatePreset(index, (prev) => ({
         ...prev,
         parameters: {
-          time: delayControlValues[mode].time ?? 64,
-          tweak: delayControlValues[mode].tweak ?? 64,
-          tweez: delayControlValues[mode].tweez ?? 64,
-          mix: delayControlValues[mode].mix ?? 64,
-          repeats: delayControlValues[mode].repeats ?? 64,
-          delayType: currentEffect?.model ?? mode,
-          reverbType: currentReverbEffect?.model
+          delay: {
+            type: currentEffect?.model ?? mode,
+            time: delayControlValues[mode]?.time ?? 64,
+            repeats: delayControlValues[mode]?.repeats ?? 64,
+            tweak: delayControlValues[mode]?.tweak ?? 64,
+            tweez: delayControlValues[mode]?.tweez ?? 64,
+            mix: delayControlValues[mode]?.mix ?? 64,
+            tempoBpm: tapBpm,
+            subdivision: tapSubdivisions[tapSubdivisionIndex]
+              ? {
+                  label: tapSubdivisions[tapSubdivisionIndex].label,
+                  value: tapSubdivisions[tapSubdivisionIndex].value
+                }
+              : undefined
+          },
+          reverb: currentReverbEffect
+            ? {
+                type: currentReverbEffect.model,
+                decay: reverbControlValues.decay ?? 64,
+                tweak: reverbControlValues.tweak ?? 64,
+                tweez: reverbControlValues.routing ?? 64,
+                mix: reverbControlValues.mix ?? 64,
+                routing: reverbControlValues.routing ?? 64
+              }
+            : undefined,
+          routing: reverbControlValues.routing ?? 64
         },
         snapshot,
         isEmpty: false,
@@ -784,24 +824,47 @@ type PresetSnapshot = {
       localStorage.setItem(`macdlmkii-preset-${activePreset}`, raw);
       presetBankActions.updatePreset(activePreset, (prev) => {
         const getDelayVal = (key: string) =>
-          Math.round(typeof (delayVals as Record<string, number | undefined>)[key] === 'number'
-            ? (delayVals as Record<string, number | undefined>)[key]!
-            : 64);
+          Math.round(
+            typeof (delayVals as Record<string, number | undefined>)[key] === 'number'
+              ? (delayVals as Record<string, number | undefined>)[key]!
+              : 64
+          );
+        const getReverbVal = (key: string) =>
+          Math.round(
+            typeof (reverbVals as Record<string, number | undefined>)[key] === 'number'
+              ? (reverbVals as Record<string, number | undefined>)[key]!
+              : 64
+          );
+        const subdivision = tapSubdivisions[tapSubdivisionIndex] ?? null;
 
         return {
-        ...prev,
-        parameters: {
-          time: getDelayVal('time'),
-          tweak: getDelayVal('tweak'),
-          tweez: getDelayVal('tweez'),
-          mix: getDelayVal('mix'),
-          repeats: getDelayVal('repeats'),
-          delayType: currentEffect?.model ?? mode,
-          reverbType: currentReverbEffect?.model
-        },
-        snapshot,
-        isEmpty: false,
-        lastModified: new Date().toISOString()
+          ...prev,
+          parameters: {
+            delay: {
+              type: currentEffect?.model ?? mode,
+              time: getDelayVal('time'),
+              repeats: getDelayVal('repeats'),
+              tweak: getDelayVal('tweak'),
+              tweez: getDelayVal('tweez'),
+              mix: getDelayVal('mix'),
+              tempoBpm: tapBpm,
+              subdivision: subdivision ? { label: subdivision.label, value: subdivision.value } : undefined
+            },
+            reverb: currentReverbEffect
+              ? {
+                  type: currentReverbEffect.model,
+                  decay: getReverbVal('decay'),
+                  tweak: getReverbVal('tweak'),
+                  tweez: getReverbVal('routing'),
+                  mix: getReverbVal('mix'),
+                  routing: getReverbVal('routing')
+                }
+              : undefined,
+            routing: getReverbVal('routing')
+          },
+          snapshot,
+          isEmpty: false,
+          lastModified: new Date().toISOString()
         };
       });
       showToast(`Preset ${activePreset + 1} saved`, 'ok');
