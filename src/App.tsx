@@ -486,7 +486,13 @@ type PresetLibraryEntry = {
   }, []);
 
   const applyPresetSnapshot = useCallback(
-    async (snapshot: PresetSnapshot, presetIndex: number | null = null, programOverride?: number) => {
+    async (
+      snapshot: PresetSnapshot,
+      presetIndex: number | null = null,
+      programOverride?: number,
+      opts?: { sendProgram?: boolean }
+    ) => {
+      const sendProgram = opts?.sendProgram !== false;
       setMode(snapshot.mode);
       setDetentForMode(snapshot.mode, snapshot.detent);
       setReverbDetent(typeof snapshot.reverbDetent === 'number' ? snapshot.reverbDetent : 0);
@@ -506,7 +512,7 @@ type PresetLibraryEntry = {
         Tap: 'off'
       });
       if (midiReady && selectedPort !== null) {
-        if (typeof effectiveProgram === 'number') {
+        if (sendProgram && typeof effectiveProgram === 'number') {
           await sendProgramChange(effectiveProgram);
           await sendCC(midiCC.presetBypass, 64);
         }
@@ -625,7 +631,7 @@ type PresetLibraryEntry = {
       if (!entry) return;
       setLibraryLoadingId(id);
       const program = typeof entry.presetProgram === 'number' ? entry.presetProgram : null;
-      await applyPresetSnapshot(entry.snapshot, program, program ?? undefined);
+      await applyPresetSnapshot(entry.snapshot, program, program ?? undefined, { sendProgram: true });
       setLibraryLoadingId(null);
       showToast(`Loaded "${entry.name}" from library`, 'ok');
     },
@@ -662,7 +668,7 @@ type PresetLibraryEntry = {
       if (!raw) return false;
       try {
         const snapshot: PresetSnapshot = JSON.parse(raw);
-        await applyPresetSnapshot(snapshot, index);
+        await applyPresetSnapshot(snapshot, index, index, { sendProgram: false });
         return true;
       } catch (error) {
         console.warn('Failed to load preset snapshot', error);
@@ -964,8 +970,9 @@ type PresetLibraryEntry = {
   }, [currentDetent, currentEffect, midiReady, mode, reverbDetent, selectedPort, sendAllControls, sendModelSelect]);
 
   useEffect(() => {
+    if (!midiReady || selectedPort === null) return;
     syncToHardware();
-  }, [syncToHardware]);
+  }, [midiReady, selectedPort, syncToHardware]);
 
   useEffect(() => {
     if (!midiReady || selectedPort === null) return;
