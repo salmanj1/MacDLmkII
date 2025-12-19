@@ -501,12 +501,12 @@ type PresetLibraryEntry = {
       setTapSubdivisionIndex(snapshot.tapSubdivisionIndex);
       setTapBpm(snapshot.tapBpm);
       setTapModeActive(true);
-      const effectiveProgram = programOverride ?? presetIndex;
-      setActivePresetIndex(effectiveProgram ?? null);
-      setActiveBaseline(snapshot);
-      const activeId = effectiveProgram === null || effectiveProgram === undefined ? null : effectiveProgram % 3;
-      setFootswitchStatus({
-        A: activeId === 0 ? 'on' : 'off',
+        const effectiveProgram = programOverride ?? presetIndex;
+        setActivePresetIndex(effectiveProgram ?? null);
+        setActiveBaseline(snapshot);
+        const activeId = effectiveProgram === null || effectiveProgram === undefined ? null : effectiveProgram % 3;
+        setFootswitchStatus({
+          A: activeId === 0 ? 'on' : 'off',
         B: activeId === 1 ? 'on' : 'off',
         C: activeId === 2 ? 'on' : 'off',
         Tap: 'off'
@@ -514,8 +514,8 @@ type PresetLibraryEntry = {
       if (midiReady && selectedPort !== null) {
         if (sendProgram && typeof effectiveProgram === 'number') {
           await sendProgramChange(effectiveProgram);
-          await sendCC(midiCC.presetBypass, 64);
         }
+        await sendCC(midiCC.presetBypass, 64);
         await sendModelSelect(snapshot.mode, snapshot.detent);
         await sendModelSelect('Secret Reverb', snapshot.reverbDetent);
         await sendAllControls();
