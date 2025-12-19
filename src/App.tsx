@@ -1253,6 +1253,8 @@ type PresetSnapshot = {
                   mode={mode}
                   modelName={currentEffect?.model ?? null}
                   values={delayControlValues[mode] ?? {}}
+                  reverbModelName={currentReverbEffect?.model ?? null}
+                  reverbValues={currentReverbEffect ? reverbControlValues : undefined}
                   altActive={mode === 'Legacy Delay'}
                 />
               </div>
