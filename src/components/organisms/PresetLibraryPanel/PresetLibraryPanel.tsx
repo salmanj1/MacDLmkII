@@ -14,6 +14,7 @@ type PresetLibraryPanelProps = {
   loadingId: string | null;
   onSave: (name: string, description: string) => void;
   onLoad: (id: string) => void;
+  onUpdate: (id: string) => void;
   onDelete: (id: string) => void;
 };
 
@@ -22,6 +23,7 @@ const PresetLibraryPanel = ({
   loadingId,
   onSave,
   onLoad,
+  onUpdate,
   onDelete
 }: PresetLibraryPanelProps) => {
   const [name, setName] = useState('');
@@ -87,6 +89,14 @@ const PresetLibraryPanel = ({
                 disabled={loadingId === entry.id}
               >
                 {loadingId === entry.id ? 'Loading…' : 'Load'}
+              </button>
+              <button
+                type="button"
+                className={styles.updateButton}
+                onClick={() => onUpdate(entry.id)}
+                disabled={loadingId === entry.id}
+              >
+                Update
               </button>
               <button
                 type="button"

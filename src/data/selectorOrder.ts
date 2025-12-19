@@ -12,14 +12,14 @@ export const selectorOrder: Record<Mode, string[]> = {
     'mkii_adt',
     'mkii_ducked',
     'mkii_harmony',
+    'mkii_looper',
     'mkii_heliosphere',
     'mkii_transistor',
     'mkii_cosmos',
     'mkii_multi_pass',
     'mkii_adriatic',
     'mkii_elephant_man',
-    'mkii_glitch',
-    'mkii_looper'
+    'mkii_glitch'
   ],
   'Legacy Delay': [
     'legacy_digital',
@@ -30,14 +30,14 @@ export const selectorOrder: Record<Mode, string[]> = {
     'legacy_reverse',
     'legacy_dynamic',
     'legacy_auto_vol',
+    'legacy_looper',
     'legacy_tube_echo',
     'legacy_tape_echo',
     'legacy_multi_head',
     'legacy_sweep',
     'legacy_analog',
     'legacy_analog_mod',
-    'legacy_lo_res_delay',
-    'legacy_looper'
+    'legacy_lo_res_delay'
   ],
   'Secret Reverb': [
     'reverb_room',
@@ -48,14 +48,14 @@ export const selectorOrder: Record<Mode, string[]> = {
     'reverb_tile',
     'reverb_ducking',
     'reverb_plateaux',
+    'reverb_off',
     'reverb_cave',
     'reverb_plate',
     'reverb_ganymede',
     'reverb_chamber',
     'reverb_hot_springs',
     'reverb_hall',
-    'reverb_glitz',
-    'reverb_off'
+    'reverb_glitz'
   ]
 };
 

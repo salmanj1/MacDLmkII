@@ -535,6 +535,27 @@ type PresetLibraryEntry = {
     [autoNameFromSnapshot, buildPresetSnapshot, showToast, summaryFromSnapshot]
   );
 
+  const handleLibraryUpdate = useCallback(
+    (id: string) => {
+      const snapshot = buildPresetSnapshot();
+      const autoName = autoNameFromSnapshot(snapshot);
+      setPresetLibrary((prev) =>
+        prev.map((entry) =>
+          entry.id === id
+            ? {
+                ...entry,
+                name: entry.name || autoName,
+                summary: summaryFromSnapshot(snapshot),
+                snapshot
+              }
+            : entry
+        )
+      );
+      showToast('Preset updated', 'ok');
+    },
+    [autoNameFromSnapshot, buildPresetSnapshot, showToast, summaryFromSnapshot]
+  );
+
   const handleLibraryLoad = useCallback(
     async (id: string) => {
       const entry = presetLibrary.find((item) => item.id === id);
@@ -1013,18 +1034,19 @@ type PresetLibraryEntry = {
 
             <aside className={styles.librarySide}>
               <PresetLibraryPanel
-                entries={presetLibrary.map(({ id, name, createdAt, summary, description }) => ({
-                  id,
-                  name,
-                  createdAt,
-                  summary,
-                  description
-                }))}
-                loadingId={libraryLoadingId}
-                onSave={handleLibrarySave}
-                onLoad={handleLibraryLoad}
-                onDelete={handleLibraryDelete}
-              />
+            entries={presetLibrary.map(({ id, name, createdAt, summary, description }) => ({
+              id,
+              name,
+              createdAt,
+              summary,
+              description
+            }))}
+            loadingId={libraryLoadingId}
+            onSave={handleLibrarySave}
+            onLoad={handleLibraryLoad}
+            onUpdate={handleLibraryUpdate}
+            onDelete={handleLibraryDelete}
+          />
             </aside>
           </div>
 
