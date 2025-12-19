@@ -1,10 +1,9 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use std::sync::Mutex;
+use std::sync::{Mutex, mpsc};
 use std::fs;
 use std::path::PathBuf;
 use tauri_plugin_dialog::DialogExt;
-use tokio::sync::oneshot;
 
 mod midi;
 
@@ -107,7 +106,7 @@ async fn export_preset_bank_dialog(
   data: String,
 ) -> Result<Option<String>, String> {
   let dialog = app_handle.dialog();
-  let (tx, rx) = oneshot::channel();
+  let (tx, rx) = mpsc::channel();
 
   dialog
     .file()
@@ -115,10 +114,10 @@ async fn export_preset_bank_dialog(
     .set_file_name("preset-bank.json")
     .add_filter("JSON", &["json"])
     .save_file(move |file_path| {
-      let _ = tx.send(file_path.map(|fp| fp.path().to_path_buf()));
+      let _ = tx.send(file_path.map(|fp| fp.as_path().to_path_buf()));
     });
 
-  let chosen = rx.await.map_err(|e| e.to_string())?;
+  let chosen = rx.recv().map_err(|e| e.to_string())?;
 
   if let Some(path_buf) = chosen {
     fs::write(&path_buf, data).map_err(|e| e.to_string())?;
