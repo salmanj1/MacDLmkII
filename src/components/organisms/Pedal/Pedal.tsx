@@ -11,8 +11,7 @@ import {
   footswitchPositions,
   reverbSelectorPosition,
   reverbKnobPositions,
-  selectorPosition,
-  virtualSetPosition
+  selectorPosition
 } from './layout';
 import styles from './Pedal.module.less';
 
@@ -30,7 +29,7 @@ type PedalProps = {
   onReverbDetentChange: (detent: number) => void;
   onFootswitchPress?: (id: string) => void;
   onFootswitchHold?: (id: string) => void;
-  footswitchStatus?: Record<'A' | 'B' | 'C' | 'Tap' | 'Set', 'off' | 'on' | 'dim' | 'armed'>;
+  footswitchStatus?: Record<'A' | 'B' | 'C' | 'Tap', 'off' | 'on' | 'dim' | 'armed'>;
   onControlChange?: (id: string, value: number, domain: 'delay' | 'reverb') => void;
   controlValues?: {
     delay: Record<(typeof delayControls)[number]['id'], number>;
@@ -42,7 +41,7 @@ type PedalProps = {
     reverbTweak?: string;
     routing?: string;
   };
-  footswitchHints?: Record<'A' | 'B' | 'C' | 'Tap' | 'Set', string>;
+  footswitchHints?: Record<'A' | 'B' | 'C' | 'Tap', string>;
   debugLayout?: boolean;
 };
 
@@ -115,18 +114,11 @@ const Pedal = ({
       label: 'Tap',
       hint: footswitchHints?.Tap,
       status: footswitchStatus?.Tap
-    },
-    {
-      id: 'Set',
-      label: 'Set',
-      hint: footswitchHints?.Set,
-      status: footswitchStatus?.Set
     }
   ];
 
   const footswitchPositionPercentages = [
-    ...footswitchPositions.map((pos) => toPercent(pos)),
-    toPercent(virtualSetPosition)
+    ...footswitchPositions.map((pos) => toPercent(pos))
   ];
 
   const selectorPositionPercent = toPercent(selectorPosition);

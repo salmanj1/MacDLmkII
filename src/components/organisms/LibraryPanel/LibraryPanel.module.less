@@ -3,13 +3,10 @@
 .panel {
   border-radius: 1.7rem;
   border: 1px solid fade(@borderSoft, 65%);
-  background:
-    radial-gradient(circle at 12% 10%, fade(@glow, 10%), transparent 42%),
-    radial-gradient(circle at 92% 8%, fade(@accentWarm, 8%), transparent 32%),
-    linear-gradient(180deg, fade(@panel, 52%), fade(@panel, 78%));
+  background: fade(@panel, 82%);
   padding: 1rem 1.1rem 1.2rem;
-  box-shadow: @shadowPanel;
-  backdrop-filter: blur(12px);
+  box-shadow: none;
+  backdrop-filter: none;
   color: @textSecondary;
   min-height: 0;
 }
@@ -22,10 +19,10 @@
   margin-top: 0.25rem;
   border-radius: 1rem;
   border: 1px solid fade(@glow, 32%);
-  background: linear-gradient(180deg, fade(@glow, 18%), fade(@panel, 78%));
+  background: fade(@panel, 88%);
   padding: 1rem;
   color: @textSecondary;
-  box-shadow: inset 0 1px 0 fade(#fff, 6%);
+  box-shadow: none;
 }
 
 .qaHeader {
@@ -78,7 +75,8 @@
 }
 
 .suggestionItem:hover,
-.suggestionItem:focus-visible {
+.suggestionItem:focus-visible,
+.suggestionItemActive {
   border-color: fade(@glow, 45%);
   background: fade(@panel, 88%);
   outline: none;
@@ -119,10 +117,9 @@
   padding: 0.5rem 1rem;
   border-radius: 0.55rem;
   border: 1px solid fade(@borderSoft, 70%);
-  background: fade(@panel, 72%);
+  background: fade(@panel, 75%);
   color: @textPrimary;
   cursor: pointer;
-  box-shadow: inset 0 1px 0 fade(#fff, 5%);
   transition: border-color 120ms ease, outline 120ms ease, background 120ms ease;
   outline: none;
 }

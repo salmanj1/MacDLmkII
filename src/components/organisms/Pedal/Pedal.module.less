@@ -5,14 +5,14 @@
   width: min(980px, 100%);
   aspect-ratio: 1260 / 805;
   margin: 0 auto;
-  filter: drop-shadow(0 32px 58px fade(#000, 55%));
+  filter: none;
   font-family: 'Bahnschrift SemiBold Condensed', 'Space Grotesk', system-ui, sans-serif;
 }
 
 .faceplate {
   position: absolute;
   top: 0;
-  left: 2%;
+  left: 0;
   right: 0;
   bottom: 0;
   background: center / contain no-repeat url('/assets/dl4ii/original/DL4MkII Labeled.png');
@@ -25,7 +25,7 @@
 .overlay {
   position: absolute;
   top: 0;
-  left: 2%;
+  left: 0;
   right: 0;
   bottom: 0;
   z-index: 1;
@@ -42,8 +42,8 @@
   left: 0;
   top: 0;
   transform: translate(-50%, -50%);
-  width: clamp(32px, 3vw, 46px);
-  height: clamp(32px, 3vw, 46px);
+  width: clamp(28px, 2.8vw, 36px);
+  height: clamp(28px, 2.8vw, 36px);
   aspect-ratio: 1 / 1;
   background: center / contain no-repeat url('/assets/dl4ii/DL4 MkII Alt White.png');
   border: none;

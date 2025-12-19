@@ -10,7 +10,7 @@ import useMidiBridge from './hooks/useMidiBridge';
 import ErrorBoundary from './components/organisms/ErrorBoundary/ErrorBoundary';
 import KeyboardHelp from './components/molecules/KeyboardHelp/KeyboardHelp';
 import { delayControls, midiCC, reverbControls, tapSubdivisions } from './data/midi';
-import type { Mode } from './data/commonParams';
+import type { EffectInfo, Mode } from './data/commonParams';
 import useTapBlink from './hooks/useTapBlink';
 import { buildTapMessages } from './data/midiMessages';
 import { buildQaStats } from './utils/effectQa';
@@ -40,13 +40,12 @@ type PresetLibraryEntry = {
 };
 
   const [footswitchStatus, setFootswitchStatus] = useState<
-    Record<'A' | 'B' | 'C' | 'Tap' | 'Set', FootStatus>
+    Record<'A' | 'B' | 'C' | 'Tap', FootStatus>
   >({
     A: 'off',
     B: 'off',
     C: 'off',
-    Tap: 'off',
-    Set: 'off'
+    Tap: 'off'
   });
   const [tapSubdivisionIndex, setTapSubdivisionIndex] = useState(
     tapSubdivisions.findIndex((entry) => entry.value === 64) || 0
@@ -325,8 +324,7 @@ type PresetLibraryEntry = {
         A: activeId === 0 ? 'on' : 'off',
         B: activeId === 1 ? 'on' : 'off',
         C: activeId === 2 ? 'on' : 'off',
-        Tap: 'off',
-        Set: 'off'
+        Tap: 'off'
       });
       if (midiReady && selectedPort !== null) {
         await sendModelSelect(snapshot.mode, snapshot.detent);
@@ -516,7 +514,7 @@ type PresetLibraryEntry = {
   const handleFootswitch = useCallback(
     async (id: string) => {
       if (blinkLockRef.current) return;
-      if (id !== 'Set' && (!midiReady || selectedPort === null)) return;
+      if (!midiReady || selectedPort === null) return;
       if (['A', 'B', 'C'].includes(id)) {
         const current = footswitchStatus[id as 'A' | 'B' | 'C'];
         if (current === 'on') {
@@ -570,11 +568,6 @@ type PresetLibraryEntry = {
         tapBlink.trigger(tapBpm);
         return;
       }
-
-      if (id === 'Set') {
-        saveActivePreset();
-        return;
-      }
     },
     [
       footswitchStatus,
@@ -585,7 +578,6 @@ type PresetLibraryEntry = {
       setActivePreset,
       setDelayControlValues,
       mode,
-      saveActivePreset,
       tapBlink,
       tapBpm,
       tapSubdivisionIndex,
@@ -766,6 +758,18 @@ type PresetLibraryEntry = {
     return { tweak, tweez, reverbTweak, routing };
   }, [currentEffect, currentReverbEffect]);
 
+  const handleSelectEffect = useCallback(
+    (effect: EffectInfo) => {
+      if (effect.mode === 'Secret Reverb') {
+        setReverbDetent(effect.detent);
+        return;
+      }
+      setMode(effect.mode);
+      setDetentForMode(effect.mode, effect.detent);
+    },
+    [setDetentForMode, setMode]
+  );
+
   return (
     <ErrorBoundary
       fallbackTitle="UI hiccup"
@@ -834,7 +838,7 @@ type PresetLibraryEntry = {
             onSearchInputRef={(ref) => {
               searchInputRef.current = ref;
             }}
-            onSelectEffect={jumpToEffect}
+            onSelectEffect={handleSelectEffect}
             qaStats={qaStats}
             showQa={!!loadingError}
             loading={isLoading}

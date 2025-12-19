@@ -4,6 +4,7 @@ import SearchBox from '../../molecules/SearchBox/SearchBox';
 import Skeleton from '../../atoms/Skeleton/Skeleton';
 import EffectCard from '../../molecules/EffectCard/EffectCard';
 import styles from './LibraryPanel.module.less';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 type LibraryPanelProps = {
   filteredEffects: EffectInfo[];
@@ -35,9 +36,49 @@ const LibraryPanel = ({
   loading = false
 }: LibraryPanelProps) => {
   const suggestions = searchTerm ? filteredEffects.slice(0, 8) : [];
+  const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
+  const suggestionRefs = useMemo(
+    () => suggestions.map(() => ({ current: null as HTMLButtonElement | null })),
+    [suggestions]
+  );
+
+  useEffect(() => {
+    setHighlightedIndex(suggestions.length ? 0 : -1);
+  }, [suggestions.length]);
+
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (!suggestions.length) return;
+      if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        setHighlightedIndex((prev) => {
+          const next = prev < suggestions.length - 1 ? prev + 1 : 0;
+          suggestionRefs[next]?.current?.focus();
+          return next;
+        });
+      }
+      if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        setHighlightedIndex((prev) => {
+          const next = prev > 0 ? prev - 1 : suggestions.length - 1;
+          suggestionRefs[next]?.current?.focus();
+          return next;
+        });
+      }
+      if (event.key === 'Enter' && highlightedIndex >= 0) {
+        event.preventDefault();
+        const effect = suggestions[highlightedIndex];
+        if (effect) {
+          onSelectEffect(effect);
+          onSearchChange('');
+        }
+      }
+    },
+    [highlightedIndex, onSearchChange, onSelectEffect, suggestionRefs, suggestions]
+  );
 
   return (
-    <div className={styles.panel}>
+    <div className={styles.panel} onKeyDown={handleKeyDown}>
       <div className={styles.searchWrap}>
         <SearchBox
           value={searchTerm}
@@ -56,12 +97,14 @@ const LibraryPanel = ({
               </div>
             ))
           ) : suggestions.length ? (
-            suggestions.map((effect) => (
+            suggestions.map((effect, idx) => (
               <button
                 key={`${effect.mode}-${effect.detent}`}
                 type="button"
-                className={styles.suggestionItem}
+                className={`${styles.suggestionItem} ${idx === highlightedIndex ? styles.suggestionItemActive : ''}`}
                 role="option"
+                ref={(el) => (suggestionRefs[idx].current = el)}
+                tabIndex={idx === 0 ? 0 : -1}
                 onClick={() => {
                   onSelectEffect(effect);
                   onSearchChange('');
@@ -130,17 +173,7 @@ const LibraryPanel = ({
                     </div>
                   </div>
                 ))
-              : filteredEffects.map((effect) => {
-                  return (
-                    <EffectCard
-                      key={`${effect.mode}-${effect.detent}`}
-                      effect={effect}
-                      mode={mode}
-                      currentDetent={currentDetent}
-                      onSelect={onSelectEffect}
-                    />
-                  );
-                })}
+              : null}
           </div>
 
           {!loading && filteredEffects.length === 0 && (

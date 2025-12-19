@@ -288,9 +288,6 @@ const Knob = ({ mode, detent, onDetentChange, showLabels = true }: KnobProps) =>
           <div className={styles.currentLabel} aria-hidden>
             {detents[detent]?.label ?? ''}
           </div>
-          <div className={styles.indicator}>
-            <div className={styles.indicatorMark} />
-          </div>
         </div>
       </div>
     </div>

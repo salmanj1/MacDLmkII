@@ -36,5 +36,3 @@ export const footswitchPositions = [
   { x: 2262.7, y: 1910.1 },
   { x: 3191.7, y: 1910.1 }
 ];
-
-export const virtualSetPosition = { x: 3456, y: 1886 }; // 96% / 82% spot tucked near Tap
