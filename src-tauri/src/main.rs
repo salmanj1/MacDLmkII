@@ -99,6 +99,27 @@ fn export_preset_bank(data: String) -> Result<String, String> {
   Ok(path.to_string_lossy().to_string())
 }
 
+#[tauri::command]
+async fn export_preset_bank_dialog(
+  app_handle: tauri::AppHandle,
+  data: String,
+) -> Result<Option<String>, String> {
+  let path = tauri_plugin_dialog::FileDialogBuilder::new()
+    .set_title("Export preset bank")
+    .set_file_name("preset-bank.json")
+    .add_filter("JSON", &["json"])
+    .save_file(&app_handle)
+    .await
+    .map_err(|e| e.to_string())?;
+
+  if let Some(chosen) = path {
+    fs::write(&chosen, data).map_err(|e| e.to_string())?;
+    Ok(Some(chosen.to_string_lossy().to_string()))
+  } else {
+    Ok(None)
+  }
+}
+
 fn main() {
   tauri::Builder::default()
     .manage(Mutex::new(midi::MidiState::default()))
@@ -112,9 +133,11 @@ fn main() {
       midi_clock_status,
       start_midi_clock_send,
       stop_midi_clock_send,
-      export_preset_bank
+      export_preset_bank,
+      export_preset_bank_dialog
     ])
     .plugin(tauri_plugin_opener::init())
+    .plugin(tauri_plugin_dialog::init())
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }
