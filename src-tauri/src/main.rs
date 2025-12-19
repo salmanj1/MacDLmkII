@@ -1,6 +1,8 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use std::sync::Mutex;
+use std::fs;
+use tauri::api::dialog::blocking::FileDialogBuilder;
 
 mod midi;
 
@@ -83,6 +85,22 @@ fn send_midi_pc(
   mgr.send_pc(channel, program)
 }
 
+#[tauri::command]
+fn export_preset_bank(data: String) -> Result<(), String> {
+  let save_path = FileDialogBuilder::new()
+    .set_title("Export preset bank")
+    .set_file_name("preset-bank.json")
+    .add_filter("JSON", &["json"])
+    .save_file();
+
+  if let Some(path) = save_path {
+    fs::write(path, data).map_err(|e| e.to_string())
+  } else {
+    // User cancelled; not an error.
+    Ok(())
+  }
+}
+
 fn main() {
   tauri::Builder::default()
     .manage(Mutex::new(midi::MidiState::default()))
@@ -95,7 +113,8 @@ fn main() {
       disable_midi_clock_follow,
       midi_clock_status,
       start_midi_clock_send,
-      stop_midi_clock_send
+      stop_midi_clock_send,
+      export_preset_bank
     ])
     .plugin(tauri_plugin_opener::init())
     .run(tauri::generate_context!())

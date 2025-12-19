@@ -2,6 +2,7 @@ import { useMemo, useState, useRef } from 'react';
 import { usePresetBank, presetBankActions } from '../../../state/usePresetBank';
 import type { Preset } from '../../../state/usePresetBank';
 import styles from './PresetBankPanel.module.less';
+import { invoke } from '@tauri-apps/api/core';
 
 type Props = {
   onLoad?: (id: number) => void;
@@ -23,6 +24,14 @@ const PresetBankPanel = ({
   const { presets, filter, selectedId } = usePresetBank();
   const [contextId, setContextId] = useState<number | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  // Tauri runtime detection for download handling.
+  const isTauriRuntime =
+    typeof window !== 'undefined' &&
+    Boolean(
+      (window as unknown as { __TAURI_INTERNALS__?: unknown }).__TAURI_INTERNALS__ ??
+        (window as unknown as { __TAURI_IPC__?: unknown }).__TAURI_IPC__
+    );
 
   const filtered = useMemo(() => {
     const term = filter.trim().toLowerCase();
@@ -86,7 +95,18 @@ const PresetBankPanel = ({
     onUpdateTags?.(preset.id, tags);
   };
 
-  const handleExport = () => {
+  const handleExport = async () => {
+    if (isTauriRuntime) {
+      try {
+        await invoke('export_preset_bank', {
+          data: JSON.stringify(presets, null, 2)
+        });
+        return;
+      } catch (err) {
+        console.error('Failed to export presets', err);
+      }
+    }
+
     const blob = new Blob([JSON.stringify(presets, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
