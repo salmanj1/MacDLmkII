@@ -82,6 +82,22 @@ const saveToStorage = (presets: Preset[]) => {
   }
 };
 
+const syncSnapshotsToLocalStorage = (presets: Preset[]) => {
+  if (typeof localStorage === 'undefined') return;
+  presets.forEach((preset) => {
+    const key = `macdlmkii-preset-${preset.id}`;
+    try {
+      if (preset.snapshot) {
+        localStorage.setItem(key, JSON.stringify(preset.snapshot));
+      } else {
+        localStorage.removeItem(key);
+      }
+    } catch {
+      // ignore snapshot sync errors
+    }
+  });
+};
+
 const createStore = () => {
   let state: BankState = {
     presets: loadFromStorage() ?? buildInitialBank(),
@@ -146,7 +162,7 @@ const createStore = () => {
     setPresets(next);
   };
 
-const replaceBank = (presets: Preset[]) => {
+  const replaceBank = (presets: Preset[]) => {
     // normalize length to 128
     const normalized = Array.from({ length: 128 }, (_, idx) => {
       const found = presets.find((p) => p.id === idx);
@@ -178,6 +194,7 @@ const replaceBank = (presets: Preset[]) => {
         }
       );
     });
+    syncSnapshotsToLocalStorage(normalized);
     setPresets(normalized);
   };
 
