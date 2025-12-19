@@ -16,6 +16,12 @@ fn list_midi_outputs(state: tauri::State<'_, SharedMidi>) -> Result<Vec<String>,
 }
 
 #[tauri::command]
+fn list_midi_inputs(state: tauri::State<'_, SharedMidi>) -> Result<Vec<String>, String> {
+  let mgr = state.lock().map_err(|_| "MIDI state poisoned".to_string())?;
+  mgr.list_inputs()
+}
+
+#[tauri::command]
 fn select_midi_output(
   state: tauri::State<'_, SharedMidi>,
   index: usize,
@@ -138,6 +144,7 @@ fn main() {
       send_midi_pc,
       enable_midi_clock_follow,
       disable_midi_clock_follow,
+      list_midi_inputs,
       midi_clock_status,
       start_midi_clock_send,
       stop_midi_clock_send,

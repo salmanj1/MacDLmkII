@@ -53,6 +53,17 @@ impl MidiState {
     Ok(names)
   }
 
+  pub fn list_inputs(&self) -> Result<Vec<String>, String> {
+    let midi_in = MidiInput::new("MacDL MkII Clock In").map_err(|e| e.to_string())?;
+    let ports = midi_in.ports();
+    let mut names = Vec::with_capacity(ports.len());
+    for port in ports {
+      let name = midi_in.port_name(&port).map_err(|e| e.to_string())?;
+      names.push(name);
+    }
+    Ok(names)
+  }
+
   pub fn select_output(&mut self, index: usize) -> Result<(), String> {
     // Drop any existing connection before opening a new one.
     self.stop_clock_send();

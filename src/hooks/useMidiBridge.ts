@@ -208,7 +208,23 @@ const useMidiBridge = (): MidiBridge => {
   const enableClockFollow = useCallback(async () => {
     if (!ready || selectedPort === null) return;
     try {
-      await invoke('enable_midi_clock_follow', { index: selectedPort });
+      const inputs = await invoke<string[]>('list_midi_inputs');
+      if (!inputs || inputs.length === 0) {
+        setError('No MIDI inputs available for clock follow');
+        return;
+      }
+      const selectedName = ports[selectedPort];
+      const matchedIndex = selectedName
+        ? inputs.findIndex(
+            (name) => name.toLowerCase() === selectedName.toLowerCase()
+          )
+        : -1;
+      const inputIndex =
+        matchedIndex >= 0
+          ? matchedIndex
+          : Math.min(Math.max(selectedPort, 0), inputs.length - 1);
+
+      await invoke('enable_midi_clock_follow', { index: inputIndex });
       setClockFollowEnabled(true);
       await fetchClockStatus();
       setError(null);
@@ -218,7 +234,7 @@ const useMidiBridge = (): MidiBridge => {
       setError(toErrorMessage(err, 'Failed to enable MIDI clock follow'));
       setLastCommand(null);
     }
-  }, [fetchClockStatus, ready, selectedPort]);
+  }, [fetchClockStatus, ports, ready, selectedPort]);
 
   const disableClockFollow = useCallback(async () => {
     if (!ready) return;
