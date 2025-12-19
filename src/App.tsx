@@ -14,6 +14,7 @@ import type { EffectInfo, Mode } from './data/commonParams';
 import useTapBlink from './hooks/useTapBlink';
 import { buildTapMessages } from './data/midiMessages';
 import { buildQaStats } from './utils/effectQa';
+import { loadPresetLibrary, savePresetLibrary } from './utils/presetStorage';
 
 // Top-level page wiring: orchestrates data hooks, keyboard shortcuts, and composes the pedal UI
 // so layout remains predictable.
@@ -301,47 +302,48 @@ type PresetLibraryEntry = {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    try {
-      const raw = localStorage.getItem('macdlmkii-preset-library');
-      const parsed: PresetLibraryEntry[] | null = raw ? JSON.parse(raw) : null;
-      if (Array.isArray(parsed) && parsed.length > 0) {
-        setPresetLibrary(parsed);
-        return;
-      }
+    (async () => {
+      try {
+        const stored = await loadPresetLibrary<PresetLibraryEntry>();
+        if (Array.isArray(stored) && stored.length > 0) {
+          setPresetLibrary(stored);
+          return;
+        }
 
-      // Seed factory library entries if empty.
-      const tapIndex = tapSubdivisions.findIndex((entry) => entry.value === 64) || 0;
-      const delayDefaults = buildDelayDefaults();
-      const reverbDefaults = buildReverbDefaults();
-      const seeded: PresetLibraryEntry[] = factorySeeds.map(({ slot, name, detent, reverbDetent, description }) => {
-        const snapshot: PresetSnapshot = {
-          mode: 'MkII Delay',
-          detent,
-          reverbDetent,
-          delayControlValues: { ...delayDefaults },
-          reverbControlValues: { ...reverbDefaults },
-          tapSubdivisionIndex: tapIndex,
-          tapBpm: 120
-        };
-        return {
-          id: `factory-${slot}`,
-          name,
-          createdAt: Date.now(),
-          summary: summaryFromSnapshot(snapshot),
-          description,
-          snapshot
-        };
-      });
-      setPresetLibrary(seeded);
-      localStorage.setItem('macdlmkii-preset-library', JSON.stringify(seeded));
-    } catch (error) {
-      console.warn('Failed to load preset library', error);
-    }
+        // Seed factory library entries if empty.
+        const tapIndex = tapSubdivisions.findIndex((entry) => entry.value === 64) || 0;
+        const delayDefaults = buildDelayDefaults();
+        const reverbDefaults = buildReverbDefaults();
+        const seeded: PresetLibraryEntry[] = factorySeeds.map(({ slot, name, detent, reverbDetent, description }) => {
+          const snapshot: PresetSnapshot = {
+            mode: 'MkII Delay',
+            detent,
+            reverbDetent,
+            delayControlValues: { ...delayDefaults },
+            reverbControlValues: { ...reverbDefaults },
+            tapSubdivisionIndex: tapIndex,
+            tapBpm: 120
+          };
+          return {
+            id: `factory-${slot}`,
+            name,
+            createdAt: Date.now(),
+            summary: summaryFromSnapshot(snapshot),
+            description,
+            snapshot
+          };
+        });
+        setPresetLibrary(seeded);
+        await savePresetLibrary(seeded);
+      } catch (error) {
+        console.warn('Failed to load preset library', error);
+      }
+    })();
   }, [buildDelayDefaults, buildReverbDefaults, factorySeeds, summaryFromSnapshot]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    localStorage.setItem('macdlmkii-preset-library', JSON.stringify(presetLibrary));
+    savePresetLibrary(presetLibrary);
   }, [presetLibrary]);
 
   useEffect(() => {
