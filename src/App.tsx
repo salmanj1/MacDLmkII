@@ -744,31 +744,25 @@ type PresetSnapshot = {
       presetBankActions.updatePreset(index, (prev) => ({
         ...prev,
         parameters: {
-          delay: {
-            type: currentEffect?.model ?? mode,
-            time: delayControlValues[mode]?.time ?? 64,
-            repeats: delayControlValues[mode]?.repeats ?? 64,
-            tweak: delayControlValues[mode]?.tweak ?? 64,
-            tweez: delayControlValues[mode]?.tweez ?? 64,
-            mix: delayControlValues[mode]?.mix ?? 64,
-            tempoBpm: tapBpm,
-            subdivision: tapSubdivisions[tapSubdivisionIndex]
-              ? {
-                  label: tapSubdivisions[tapSubdivisionIndex].label,
-                  value: tapSubdivisions[tapSubdivisionIndex].value
-                }
-              : undefined
-          },
-          reverb: currentReverbEffect
+          delayType: currentEffect?.model ?? mode,
+          delayTime: delayControlValues[mode]?.time ?? 64,
+          delayRepeats: delayControlValues[mode]?.repeats ?? 64,
+          delayTweak: delayControlValues[mode]?.tweak ?? 64,
+          delayTweez: delayControlValues[mode]?.tweez ?? 64,
+          delayMix: delayControlValues[mode]?.mix ?? 64,
+          tempoBpm: tapBpm,
+          subdivision: tapSubdivisions[tapSubdivisionIndex]
             ? {
-                type: currentReverbEffect.model,
-                decay: reverbControlValues.decay ?? 64,
-                tweak: reverbControlValues.tweak ?? 64,
-                tweez: reverbControlValues.routing ?? 64,
-                mix: reverbControlValues.mix ?? 64,
-                routing: reverbControlValues.routing ?? 64
+                label: tapSubdivisions[tapSubdivisionIndex].label,
+                value: tapSubdivisions[tapSubdivisionIndex].value
               }
             : undefined,
+          reverbType: currentReverbEffect?.model,
+          reverbDecay: currentReverbEffect ? reverbControlValues.decay ?? 64 : undefined,
+          reverbTweak: currentReverbEffect ? reverbControlValues.tweak ?? 64 : undefined,
+          reverbTweez: currentReverbEffect ? reverbControlValues.routing ?? 64 : undefined,
+          reverbMix: currentReverbEffect ? reverbControlValues.mix ?? 64 : undefined,
+          reverbRouting: currentReverbEffect ? reverbControlValues.routing ?? 64 : undefined,
           routing: reverbControlValues.routing ?? 64
         },
         snapshot,
@@ -840,26 +834,20 @@ type PresetSnapshot = {
         return {
           ...prev,
           parameters: {
-            delay: {
-              type: currentEffect?.model ?? mode,
-              time: getDelayVal('time'),
-              repeats: getDelayVal('repeats'),
-              tweak: getDelayVal('tweak'),
-              tweez: getDelayVal('tweez'),
-              mix: getDelayVal('mix'),
-              tempoBpm: tapBpm,
-              subdivision: subdivision ? { label: subdivision.label, value: subdivision.value } : undefined
-            },
-            reverb: currentReverbEffect
-              ? {
-                  type: currentReverbEffect.model,
-                  decay: getReverbVal('decay'),
-                  tweak: getReverbVal('tweak'),
-                  tweez: getReverbVal('routing'),
-                  mix: getReverbVal('mix'),
-                  routing: getReverbVal('routing')
-                }
-              : undefined,
+            delayType: currentEffect?.model ?? mode,
+            delayTime: getDelayVal('time'),
+            delayRepeats: getDelayVal('repeats'),
+            delayTweak: getDelayVal('tweak'),
+            delayTweez: getDelayVal('tweez'),
+            delayMix: getDelayVal('mix'),
+            tempoBpm: tapBpm,
+            subdivision: subdivision ? { label: subdivision.label, value: subdivision.value } : undefined,
+            reverbType: currentReverbEffect?.model,
+            reverbDecay: currentReverbEffect ? getReverbVal('decay') : undefined,
+            reverbTweak: currentReverbEffect ? getReverbVal('tweak') : undefined,
+            reverbTweez: currentReverbEffect ? getReverbVal('routing') : undefined,
+            reverbMix: currentReverbEffect ? getReverbVal('mix') : undefined,
+            reverbRouting: currentReverbEffect ? getReverbVal('routing') : undefined,
             routing: getReverbVal('routing')
           },
           snapshot,

@@ -6,24 +6,20 @@ export type Preset = {
   tags: string[];
   description?: string;
   parameters: {
-    delay: {
-      type: string;
-      time: number;
-      repeats: number;
-      tweak: number;
-      tweez: number;
-      mix: number;
-      tempoBpm?: number | null;
-      subdivision?: { label: string; value: number };
-    };
-    reverb?: {
-      type: string;
-      decay: number;
-      tweak: number;
-      tweez: number;
-      mix: number;
-      routing?: number;
-    };
+    delayType: string;
+    delayTime: number;
+    delayRepeats: number;
+    delayTweak: number;
+    delayTweez: number;
+    delayMix: number;
+    tempoBpm?: number | null;
+    subdivision?: { label: string; value: number };
+    reverbType?: string;
+    reverbDecay?: number;
+    reverbTweak?: number;
+    reverbTweez?: number;
+    reverbMix?: number;
+    reverbRouting?: number;
     routing?: number;
   };
   lastModified: string; // ISO string for persistence
@@ -46,17 +42,20 @@ const buildInitialBank = (): Preset[] =>
     tags: [],
     description: '',
     parameters: {
-      delay: {
-        type: 'MkII',
-        time: 64,
-        repeats: 64,
-        tweak: 64,
-        tweez: 64,
-        mix: 64,
-        tempoBpm: 120,
-        subdivision: { label: '1/4', value: 64 }
-      },
-      reverb: undefined,
+      delayType: 'MkII',
+      delayTime: 64,
+      delayRepeats: 64,
+      delayTweak: 64,
+      delayTweez: 64,
+      delayMix: 64,
+      tempoBpm: 120,
+      subdivision: { label: '1/4', value: 64 },
+      reverbType: undefined,
+      reverbDecay: undefined,
+      reverbTweak: undefined,
+      reverbTweez: undefined,
+      reverbMix: undefined,
+      reverbRouting: undefined,
       routing: undefined
     },
     lastModified: new Date().toISOString(),
@@ -158,17 +157,20 @@ const replaceBank = (presets: Preset[]) => {
           tags: [],
           description: '',
           parameters: {
-            delay: {
-              type: 'MkII',
-              time: 64,
-              repeats: 64,
-              tweak: 64,
-              tweez: 64,
-              mix: 64,
-              tempoBpm: 120,
-              subdivision: { label: '1/4', value: 64 }
-            },
-            reverb: undefined,
+            delayType: 'MkII',
+            delayTime: 64,
+            delayRepeats: 64,
+            delayTweak: 64,
+            delayTweez: 64,
+            delayMix: 64,
+            tempoBpm: 120,
+            subdivision: { label: '1/4', value: 64 },
+            reverbType: undefined,
+            reverbDecay: undefined,
+            reverbTweak: undefined,
+            reverbTweez: undefined,
+            reverbMix: undefined,
+            reverbRouting: undefined,
             routing: undefined
           },
           lastModified: new Date().toISOString(),
