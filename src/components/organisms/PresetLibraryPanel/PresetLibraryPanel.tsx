@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import type { Mode } from '../../../data/commonParams';
 import styles from './PresetLibraryPanel.module.less';
 
