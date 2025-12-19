@@ -20,6 +20,7 @@ import { midiConnectionService } from './state/useMidiConnectionStore';
 import MidiDebuggerPanel from './components/molecules/MidiDebuggerPanel/MidiDebuggerPanel';
 import { logMidiMessage } from './state/useMidiDebugger';
 import { useIncomingMidi } from './hooks/useIncomingMidi';
+import ParameterDisplay from './components/molecules/ParameterDisplay/ParameterDisplay';
 
 // Top-level page wiring: orchestrates data hooks, keyboard shortcuts, and composes the pedal UI
 // so layout remains predictable.
@@ -45,10 +46,6 @@ type PresetLibraryEntry = {
   presetProgram?: number;
   snapshot: PresetSnapshot;
 };
-
-type MidiLogEntry =
-  | { ts: number; source: string; type: 'pc'; program: number }
-  | { ts: number; source: string; type: 'cc'; control: number; value: number };
 
   const snapshotsEqual = (a: PresetSnapshot | null, b: PresetSnapshot | null) => {
     if (!a || !b) return false;
@@ -86,8 +83,6 @@ type MidiLogEntry =
   const [tapTimestamps, setTapTimestamps] = useState<number[]>([]);
   const [activePreset, setActivePresetIndex] = useState<number | null>(null);
   const [reverbDetent, setReverbDetent] = useState(0);
-  const [midiLog, setMidiLog] = useState<MidiLogEntry[]>([]);
-  const [showMidiLog, setShowMidiLog] = useState(false);
   const [activeBaseline, setActiveBaseline] = useState<PresetSnapshot | null>(null);
   const [presetDirty, setPresetDirty] = useState(false);
   const [showDebugger, setShowDebugger] = useState(process.env.NODE_ENV === 'development');
@@ -457,11 +452,7 @@ type MidiLogEntry =
     setToast(null);
   }, []);
 
-  const logMidi = useCallback((entry: MidiLogEntry) => {
-    setMidiLog((prev) => {
-      const next = [...prev, entry];
-      return next.slice(-120);
-    });
+  const logMidi = useCallback((entry: { ts: number; source: string; type: 'pc'; program: number } | { ts: number; source: string; type: 'cc'; control: number; value: number }) => {
     const summary =
       entry.type === 'pc'
         ? `Program Change #${entry.program + 1}`
@@ -1171,30 +1162,6 @@ type MidiLogEntry =
     return undefined;
   }, [midiReady, selectedPort]);
 
-  const copyMidiLog = useCallback(async () => {
-    const formatted = midiLog
-      .slice(-120)
-      .map((entry) => {
-        const time = new Date(entry.ts).toISOString();
-        return entry.type === 'pc'
-          ? `${time} [${entry.source}] PC ${entry.program + 1}`
-          : `${time} [${entry.source}] CC ${entry.control} -> ${entry.value}`;
-      })
-      .reverse()
-      .join('\n');
-    if (!formatted) {
-      showToast('Nothing to copy yet', 'error');
-      return;
-    }
-    try {
-      await navigator.clipboard.writeText(formatted);
-      showToast('MIDI log copied', 'ok');
-    } catch (error) {
-      console.warn('Copy failed', error);
-      showToast('Copy failed', 'error');
-    }
-  }, [midiLog, showToast]);
-
   return (
     <ErrorBoundary
       fallbackTitle="UI hiccup"
@@ -1286,6 +1253,16 @@ type MidiLogEntry =
               />
 
               <ManualPane delayEffect={currentEffect} reverbEffect={currentReverbEffect} />
+
+              <div className={styles.panelCard}>
+                <h3 className={styles.panelTitle}>Parameters</h3>
+                <ParameterDisplay
+                  mode={mode}
+                  modelName={currentEffect?.model ?? null}
+                  values={delayControlValues[mode] ?? {}}
+                  altActive={mode === 'Legacy Delay'}
+                />
+              </div>
 
               {presetDirty && (
                 <div className={styles.dirtyBar}>
@@ -1473,20 +1450,9 @@ type MidiLogEntry =
             }
             disabled={!midiReady || selectedPort === null}
             aria-pressed={clock.sendEnabled}
-          >
-            {clock.sendEnabled ? 'Send Clock: On' : 'Send Clock'}
-          </button>
-        {process.env.NODE_ENV !== 'development' && (
-          <button
-            type="button"
-            className={styles.midiLogToggle}
-            onClick={() => setShowMidiLog((prev) => !prev)}
-            aria-pressed={showMidiLog}
-            aria-label="Toggle MIDI log"
-          >
-            📝
-          </button>
-        )}
+        >
+          {clock.sendEnabled ? 'Send Clock: On' : 'Send Clock'}
+        </button>
         </div>
         {midiError && (
           <span className={styles.midiError}>
@@ -1494,59 +1460,6 @@ type MidiLogEntry =
           </span>
         )}
       </div>
-      {showMidiLog && process.env.NODE_ENV !== 'development' && (
-        <div className={styles.midiLogPanel} role="log" aria-label="MIDI log">
-          <div className={styles.midiLogHeader}>
-            <span>MIDI Log</span>
-            <div className={styles.midiLogActions}>
-              <button
-                type="button"
-                className={styles.midiLogToggle}
-                onClick={copyMidiLog}
-                aria-label="Copy MIDI log to clipboard"
-              >
-                ⧉
-              </button>
-              <button
-                type="button"
-                className={styles.midiLogToggle}
-                onClick={() => setShowMidiLog(false)}
-                aria-label="Close MIDI log"
-              >
-                ✕
-              </button>
-            </div>
-          </div>
-          <div className={styles.midiLogList}>
-            {midiLog.length === 0 && <div className={styles.midiLogEmpty}>No MIDI sent yet.</div>}
-            {midiLog
-              .slice(-60)
-              .reverse()
-              .map((entry, idx) => {
-                const time = new Date(entry.ts).toLocaleTimeString(undefined, {
-                  hour12: false,
-                  hour: '2-digit',
-                  minute: '2-digit',
-                  second: '2-digit'
-                });
-                return (
-                  <div key={`${entry.ts}-${idx}`} className={styles.midiLogItem}>
-                    <div className={styles.midiLogMeta}>
-                      <span>{time}</span>
-                      <span>{entry.source}</span>
-                      <span className={styles.midiLogType}>{entry.type.toUpperCase()}</span>
-                    </div>
-                    <div className={styles.midiLogValue}>
-                      {entry.type === 'pc'
-                        ? `Program ${entry.program + 1}`
-                        : `CC ${entry.control} → ${entry.value}`}
-                    </div>
-                  </div>
-                );
-              })}
-          </div>
-        </div>
-      )}
       {showDebugger && process.env.NODE_ENV === 'development' && (
         <MidiDebuggerPanel onClose={() => setShowDebugger(false)} />
       )}

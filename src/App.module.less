@@ -211,6 +211,21 @@
   cursor: not-allowed;
 }
 
+.panelCard {
+  border: 1px solid fade(@borderSoft, 60%);
+  background: fade(@panel, 88%);
+  border-radius: 0.75rem;
+  padding: 0.75rem 0.9rem;
+  box-shadow: 0 16px 32px fade(#000, 35%);
+}
+
+.panelTitle {
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.35rem;
+  color: @textPrimary;
+}
+
 @media (max-width: 1280px) {
   .contentGrid {
     grid-template-columns: 1fr;
