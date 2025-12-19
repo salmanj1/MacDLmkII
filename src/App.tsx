@@ -570,7 +570,7 @@ type MidiLogEntry =
         C: activeId === 2 ? 'on' : 'off',
         Tap: 'off'
       });
-      suppressSendsUntilRef.current = Date.now() + 400;
+      suppressSendsUntilRef.current = Date.now() + 1000;
       if (midiReady && selectedPort !== null) {
         if (sendProgram && typeof effectiveProgram === 'number') {
           await sendProgramChangeLogged(effectiveProgram, source);
@@ -741,6 +741,7 @@ type MidiLogEntry =
       try {
         const snapshot: PresetSnapshot = JSON.parse(raw);
         const program = options?.programOverride ?? index;
+        suppressSendsUntilRef.current = Date.now() + 1000;
         await applyPresetSnapshot(snapshot, index, program, {
           sendProgram: options?.sendProgram !== false,
           sendControls: true,
@@ -766,7 +767,7 @@ type MidiLogEntry =
       });
       if (loaded) return;
 
-      suppressSendsUntilRef.current = Date.now() + 300;
+      suppressSendsUntilRef.current = Date.now() + 1000;
       // Reset control values back to mid to mirror hardware defaults on preset load.
       setDelayControlValues((prev) => ({
         ...prev,
@@ -1062,10 +1063,10 @@ type MidiLogEntry =
 
   useEffect(() => {
     if (!midiReady || selectedPort === null) return;
-    suppressSendsUntilRef.current = Date.now() + 250;
+    suppressSendsUntilRef.current = Date.now() + 1000;
     const timer = setTimeout(() => {
       syncToHardware();
-    }, 260);
+    }, 320);
     return () => clearTimeout(timer);
   }, [midiReady, selectedPort, syncToHardware]);
 
