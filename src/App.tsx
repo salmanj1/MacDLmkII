@@ -1249,15 +1249,19 @@ type PresetSnapshot = {
 
               <div className={styles.panelCard}>
                 <h3 className={styles.panelTitle}>Parameters</h3>
-                <ParameterDisplay
-                  mode={mode}
-                  modelName={currentEffect?.model ?? null}
-                  values={delayControlValues[mode] ?? {}}
-                  reverbModelName={currentReverbEffect?.model ?? null}
-                  reverbValues={currentReverbEffect ? reverbControlValues : undefined}
-                  altActive={mode === 'Legacy Delay'}
-                />
-              </div>
+              <ParameterDisplay
+                mode={mode}
+                modelName={currentEffect?.model ?? null}
+                values={delayControlValues[mode] ?? {}}
+                reverbModelName={currentReverbEffect?.model ?? null}
+                reverbValues={currentReverbEffect ? reverbControlValues : undefined}
+                delayDescription={currentEffect?.description ?? currentEffect?.inspiration ?? null}
+                reverbDescription={currentReverbEffect?.description ?? currentReverbEffect?.inspiration ?? null}
+                altActive={mode === 'Legacy Delay'}
+                onDelayChange={(id, value) => handleControlChange(id, value, 'delay')}
+                onReverbChange={(id, value) => handleControlChange(id, value, 'reverb')}
+              />
+            </div>
 
               {presetDirty && (
                 <div className={styles.dirtyBar}>

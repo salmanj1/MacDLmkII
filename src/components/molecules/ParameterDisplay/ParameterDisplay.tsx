@@ -9,6 +9,10 @@ type Props = {
   reverbModelName?: string | null;
   reverbValues?: Record<string, number>;
   altActive?: boolean;
+  onDelayChange?: (id: string, value: number) => void;
+  onReverbChange?: (id: string, value: number) => void;
+  delayDescription?: string | null;
+  reverbDescription?: string | null;
 };
 
 const formatValue = (val: number, unit: string, formatter?: (value: number) => string) => {
@@ -24,7 +28,11 @@ const ParameterDisplay: FC<Props> = ({
   values,
   reverbModelName,
   reverbValues,
-  altActive = false
+  altActive = false,
+  onDelayChange,
+  onReverbChange,
+  delayDescription,
+  reverbDescription
 }) => {
   const delayParams = getParameterSet(mode, modelName ?? undefined);
   const reverbParams = reverbModelName
@@ -33,8 +41,11 @@ const ParameterDisplay: FC<Props> = ({
 
   return (
     <div className="grid grid-cols-1 gap-4 rounded-lg border border-slate-700/70 bg-slate-900/80 p-3 text-slate-100 shadow-lg">
-      <div>
+      <div className="flex flex-col gap-2">
         <div className="mb-2 text-xs uppercase tracking-wide text-slate-400">Delay</div>
+        {delayDescription && (
+          <div className="text-sm text-slate-300 leading-snug">{delayDescription}</div>
+        )}
         <div className="grid grid-cols-2 gap-3">
           {delayParams.map((param) => {
             const raw = values[param.id] ?? 0;
@@ -45,6 +56,16 @@ const ParameterDisplay: FC<Props> = ({
                   <span>{label}</span>
                   <span className="text-xs text-slate-300">{formatValue(raw, param.unit, param.formatter)}</span>
                 </div>
+                {onDelayChange && (
+                  <input
+                    type="range"
+                    min={0}
+                    max={127}
+                    value={raw}
+                    onChange={(e) => onDelayChange(param.id, Number(e.target.value))}
+                    className="h-1.5 w-full cursor-pointer accent-emerald-400"
+                  />
+                )}
                 <div className="relative h-1.5 overflow-hidden rounded-full bg-slate-700">
                   <div
                     className="h-full rounded-full bg-emerald-400"
@@ -59,8 +80,11 @@ const ParameterDisplay: FC<Props> = ({
       </div>
 
       {reverbParams.length > 0 && reverbValues && (
-        <div>
+        <div className="flex flex-col gap-2">
           <div className="mb-2 text-xs uppercase tracking-wide text-slate-400">Reverb</div>
+          {reverbDescription && (
+            <div className="text-sm text-slate-300 leading-snug">{reverbDescription}</div>
+          )}
           <div className="grid grid-cols-2 gap-3">
             {reverbParams.map((param) => {
               const raw = reverbValues[param.id] ?? 0;
@@ -71,6 +95,16 @@ const ParameterDisplay: FC<Props> = ({
                     <span>{label}</span>
                     <span className="text-xs text-slate-300">{formatValue(raw, param.unit, param.formatter)}</span>
                   </div>
+                  {onReverbChange && (
+                    <input
+                      type="range"
+                      min={0}
+                      max={127}
+                      value={raw}
+                      onChange={(e) => onReverbChange(param.id, Number(e.target.value))}
+                      className="h-1.5 w-full cursor-pointer accent-indigo-400"
+                    />
+                  )}
                   <div className="relative h-1.5 overflow-hidden rounded-full bg-slate-700">
                     <div
                       className="h-full rounded-full bg-indigo-400"
