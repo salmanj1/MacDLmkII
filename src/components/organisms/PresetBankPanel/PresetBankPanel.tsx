@@ -102,7 +102,7 @@ const PresetBankPanel = ({
       try {
         const parsed = JSON.parse(String(reader.result));
         if (!Array.isArray(parsed)) return;
-        presetBankActions.replaceBank(parsed);
+        presetBankActions.replaceBank(parsed as Preset[]);
       } catch {
         // ignore bad import
       }
