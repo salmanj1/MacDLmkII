@@ -162,6 +162,31 @@
   pointer-events: auto;
 }
 
+.dirtyBar {
+  margin-top: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid fade(@borderSoft, 60%);
+  border-radius: 0.7rem;
+  background: fade(@panel, 85%);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.dirtyBar button {
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.5rem;
+  border: 1px solid fade(@borderSoft, 70%);
+  background: fade(@panel, 90%);
+  color: @textPrimary;
+  cursor: pointer;
+}
+
+.dirtyBar button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .midiPanel {
   margin-top: 0.75rem;
   margin-left: auto;

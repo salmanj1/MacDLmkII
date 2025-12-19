@@ -39,6 +39,26 @@ type PresetLibraryEntry = {
   snapshot: PresetSnapshot;
 };
 
+  const snapshotsEqual = (a: PresetSnapshot | null, b: PresetSnapshot | null) => {
+    if (!a || !b) return false;
+    return JSON.stringify(a) === JSON.stringify(b);
+  };
+
+  const {
+    mode,
+    setMode,
+    effects,
+    filteredEffects,
+    currentEffect,
+    currentDetent,
+    setDetentForMode,
+    jumpToEffect,
+    searchTerm,
+    setSearchTerm,
+    loadingError,
+    isLoading
+  } = useEffectLibrary();
+
   const [footswitchStatus, setFootswitchStatus] = useState<
     Record<'A' | 'B' | 'C' | 'Tap', FootStatus>
   >({
@@ -55,6 +75,56 @@ type PresetLibraryEntry = {
   const [tapTimestamps, setTapTimestamps] = useState<number[]>([]);
   const [activePreset, setActivePresetIndex] = useState<number | null>(null);
   const [reverbDetent, setReverbDetent] = useState(0);
+  const [activeBaseline, setActiveBaseline] = useState<PresetSnapshot | null>(null);
+  const [presetDirty, setPresetDirty] = useState(false);
+
+  const factorySeeds = useMemo(
+    () => [
+      {
+        slot: 0,
+        name: 'Preset A — Adriatic + Ganymede',
+        detent: 12, // Adriatic
+        reverbDetent: 10, // Ganymede
+        description: 'Delay: Adriatic. Reverb: Ganymede. Expression: Time, Repeats, Tweez.'
+      },
+      {
+        slot: 1,
+        name: 'Preset B — Cosmos + Plate',
+        detent: 10, // Cosmos
+        reverbDetent: 9, // Plate
+        description: 'Delay: Cosmos Echo. Reverb: Plate. Expression: Repeats, Tweez.'
+      },
+      {
+        slot: 2,
+        name: 'Preset C — Multi-Pass + Searchlights',
+        detent: 11, // Multi-Pass
+        reverbDetent: 1, // Searchlights
+        description: 'Delay: Multi-Pass. Reverb: Searchlights. Expression: Repeats, Mix.'
+      },
+      {
+        slot: 3,
+        name: 'Preset D — Vintage Digital + Hall',
+        detent: 0, // Vintage Digital
+        reverbDetent: 13, // Hall
+        description: 'Delay: Vintage Digital. Reverb: Hall. Expression: Repeats, Tweak, Tweez.'
+      },
+      {
+        slot: 4,
+        name: 'Preset E — Glitch + Particle Verb',
+        detent: 14, // Glitch
+        reverbDetent: 2, // Particle Verb
+        description: 'Delay: Glitch. Reverb: Particle Verb. Expression: Repeats, Tweak (pitch), Tweez.'
+      },
+      {
+        slot: 5,
+        name: 'Preset F — Transistor + Hot Springs',
+        detent: 9, // Transistor
+        reverbDetent: 12, // Hot Springs
+        description: 'Delay: Transistor Tape. Reverb: Hot Springs. Expression: Time, Repeats, Tweez.'
+      }
+    ],
+    []
+  );
   const [presetLibrary, setPresetLibrary] = useState<PresetLibraryEntry[]>([]);
   const [libraryLoadingId, setLibraryLoadingId] = useState<string | null>(null);
   const [delayControlValues, setDelayControlValues] = useState<
@@ -82,20 +152,33 @@ type PresetLibraryEntry = {
     )
   );
 
-  const {
-    mode,
-    setMode,
-    effects,
-    filteredEffects,
-    currentEffect,
-    currentDetent,
-    setDetentForMode,
-    jumpToEffect,
-    searchTerm,
-    setSearchTerm,
-    loadingError,
-    isLoading
-  } = useEffectLibrary();
+  const autoNameFromSnapshot = useCallback(
+    (snapshot: PresetSnapshot) => {
+      const delayModel =
+        effects.find((entry) => entry.mode === snapshot.mode && entry.detent === snapshot.detent)
+          ?.model ?? snapshot.mode;
+      const reverbModel =
+        effects.find((entry) => entry.mode === 'Secret Reverb' && entry.detent === snapshot.reverbDetent)
+          ?.model ?? null;
+      const parts = [delayModel];
+      if (reverbModel) parts.push(reverbModel);
+      return parts.filter(Boolean).join(' + ') || 'Untitled preset';
+    },
+    [effects]
+  );
+
+  const summaryFromSnapshot = useCallback(
+    (snapshot: PresetSnapshot) => {
+      const delayModel =
+        effects.find((entry) => entry.mode === snapshot.mode && entry.detent === snapshot.detent)
+          ?.model ?? snapshot.mode;
+      const reverbModel =
+        effects.find((entry) => entry.mode === 'Secret Reverb' && entry.detent === snapshot.reverbDetent)
+          ?.model ?? 'No reverb';
+      return `${delayModel} | Reverb: ${reverbModel}`;
+    },
+    [effects]
+  );
   const reverbEffects = useMemo(
     () => effects.filter((entry) => entry.mode === 'Secret Reverb'),
     [effects]
@@ -168,22 +251,97 @@ type PresetLibraryEntry = {
     }));
   }, [tapBlink.blinkOn, tapModeActive]);
 
+  const buildDelayDefaults = useCallback(() => {
+    const defaults = delayControls.reduce(
+      (acc, ctrl) => ({ ...acc, [ctrl.id]: 64 }),
+      {} as Record<(typeof delayControls)[number]['id'], number>
+    );
+    return {
+      'MkII Delay': { ...defaults },
+      'Legacy Delay': { ...defaults },
+      'Secret Reverb': { ...defaults }
+    };
+  }, []);
+
+  const buildReverbDefaults = useCallback(() => {
+    return reverbControls.reduce(
+      (acc, ctrl) => ({
+        ...acc,
+        [ctrl.id]: ctrl.id === 'mix' ? 0 : 64
+      }),
+      {} as Record<(typeof reverbControls)[number]['id'], number>
+    );
+  }, []);
+
+  const seedFactoryPresets = useCallback(() => {
+    if (typeof window === 'undefined') return;
+
+    const tapIndex = tapSubdivisions.findIndex((entry) => entry.value === 64) || 0;
+    const delayDefaults = buildDelayDefaults();
+    const reverbDefaults = buildReverbDefaults();
+
+    factorySeeds.forEach(({ slot: index, detent, reverbDetent }) => {
+      const snapshot: PresetSnapshot = {
+        mode: 'MkII Delay',
+        detent,
+        reverbDetent,
+        delayControlValues: buildDelayDefaults(),
+        reverbControlValues: buildReverbDefaults(),
+        tapSubdivisionIndex: tapIndex,
+        tapBpm: 120
+      };
+      localStorage.setItem(`macdlmkii-preset-${index}`, JSON.stringify(snapshot));
+    });
+  }, [buildDelayDefaults, buildReverbDefaults, factorySeeds]);
+
   useEffect(() => {
     if (typeof window === 'undefined') return;
     try {
       const raw = localStorage.getItem('macdlmkii-preset-library');
-      if (!raw) return;
-      const parsed: PresetLibraryEntry[] = JSON.parse(raw);
-      if (Array.isArray(parsed)) setPresetLibrary(parsed);
+      const parsed: PresetLibraryEntry[] | null = raw ? JSON.parse(raw) : null;
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        setPresetLibrary(parsed);
+        return;
+      }
+
+      // Seed factory library entries if empty.
+      const tapIndex = tapSubdivisions.findIndex((entry) => entry.value === 64) || 0;
+      const delayDefaults = buildDelayDefaults();
+      const reverbDefaults = buildReverbDefaults();
+      const seeded: PresetLibraryEntry[] = factorySeeds.map(({ slot, name, detent, reverbDetent, description }) => {
+        const snapshot: PresetSnapshot = {
+          mode: 'MkII Delay',
+          detent,
+          reverbDetent,
+          delayControlValues: { ...delayDefaults },
+          reverbControlValues: { ...reverbDefaults },
+          tapSubdivisionIndex: tapIndex,
+          tapBpm: 120
+        };
+        return {
+          id: `factory-${slot}`,
+          name,
+          createdAt: Date.now(),
+          summary: summaryFromSnapshot(snapshot),
+          description,
+          snapshot
+        };
+      });
+      setPresetLibrary(seeded);
+      localStorage.setItem('macdlmkii-preset-library', JSON.stringify(seeded));
     } catch (error) {
       console.warn('Failed to load preset library', error);
     }
-  }, []);
+  }, [buildDelayDefaults, buildReverbDefaults, factorySeeds, summaryFromSnapshot]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
     localStorage.setItem('macdlmkii-preset-library', JSON.stringify(presetLibrary));
   }, [presetLibrary]);
+
+  useEffect(() => {
+    seedFactoryPresets();
+  }, [seedFactoryPresets]);
 
   const buildPresetSnapshot = useCallback((): PresetSnapshot => {
     return {
@@ -203,6 +361,21 @@ type PresetLibraryEntry = {
     reverbDetent,
     tapBpm,
     tapSubdivisionIndex
+  ]);
+
+  useEffect(() => {
+    const current = buildPresetSnapshot();
+    setPresetDirty(activeBaseline ? !snapshotsEqual(current, activeBaseline) : false);
+  }, [
+    activeBaseline,
+    buildPresetSnapshot,
+    currentDetent,
+    delayControlValues,
+    mode,
+    reverbControlValues,
+    reverbDetent,
+    tapSubdivisionIndex,
+    tapBpm
   ]);
 
   const handleDetentChange = useCallback(
@@ -252,34 +425,6 @@ type PresetLibraryEntry = {
     setToast(null);
   }, []);
 
-  const autoNameFromSnapshot = useCallback(
-    (snapshot: PresetSnapshot) => {
-      const delayModel =
-        effects.find((entry) => entry.mode === snapshot.mode && entry.detent === snapshot.detent)
-          ?.model ?? snapshot.mode;
-      const reverbModel =
-        effects.find((entry) => entry.mode === 'Secret Reverb' && entry.detent === snapshot.reverbDetent)
-          ?.model ?? null;
-      const parts = [delayModel];
-      if (reverbModel) parts.push(reverbModel);
-      return parts.filter(Boolean).join(' + ') || 'Untitled preset';
-    },
-    [effects]
-  );
-
-  const summaryFromSnapshot = useCallback(
-    (snapshot: PresetSnapshot) => {
-      const delayModel =
-        effects.find((entry) => entry.mode === snapshot.mode && entry.detent === snapshot.detent)
-          ?.model ?? snapshot.mode;
-      const reverbModel =
-        effects.find((entry) => entry.mode === 'Secret Reverb' && entry.detent === snapshot.reverbDetent)
-          ?.model ?? 'No reverb';
-      return `${delayModel} | Reverb: ${reverbModel}`;
-    },
-    [effects]
-  );
-
   const sendAllControls = useCallback(async () => {
     if (!midiReady || selectedPort === null) return;
     const delayValues = delayControlValues[mode] || {};
@@ -319,6 +464,7 @@ type PresetLibraryEntry = {
       setTapBpm(snapshot.tapBpm);
       setTapModeActive(true);
       setActivePresetIndex(presetIndex);
+      setActiveBaseline(snapshot);
       const activeId = presetIndex === null ? null : presetIndex % 3;
       setFootswitchStatus({
         A: activeId === 0 ? 'on' : 'off',
@@ -450,11 +596,33 @@ type PresetLibraryEntry = {
       A: activeId === 0 ? 'on' : 'off',
       B: activeId === 1 ? 'on' : 'off',
       C: activeId === 2 ? 'on' : 'off',
-      Tap: 'off',
-      Set: 'off'
+      Tap: 'off'
     });
     setActivePresetIndex(index);
-  }, [loadPresetFromStorage, midiReady, mode, sendAllControls, selectedPort, sendCC, sendProgramChange]);
+    setActiveBaseline({
+      mode,
+      detent: currentDetent,
+      reverbDetent,
+      delayControlValues,
+      reverbControlValues,
+      tapSubdivisionIndex,
+      tapBpm
+    });
+  }, [
+    loadPresetFromStorage,
+    midiReady,
+    mode,
+    sendAllControls,
+    selectedPort,
+    sendCC,
+    sendProgramChange,
+    currentDetent,
+    reverbDetent,
+    delayControlValues,
+    reverbControlValues,
+    tapSubdivisionIndex,
+    tapBpm
+  ]);
 
   const toggleBypass = useCallback(async (nextStatus: 'on' | 'dim') => {
     if (!midiReady || selectedPort === null) return;
@@ -494,6 +662,7 @@ type PresetLibraryEntry = {
       const raw = JSON.stringify(snapshot);
       localStorage.setItem(`macdlmkii-preset-${activePreset}`, raw);
       showToast(`Preset ${activePreset + 1} saved`, 'ok');
+      setActiveBaseline(snapshot);
       return true;
     } catch (error) {
       showToast('Failed to save preset', 'error');
@@ -845,6 +1014,23 @@ type PresetLibraryEntry = {
           />
 
           <ManualPane delayEffect={currentEffect} reverbEffect={currentReverbEffect} />
+
+          {presetDirty && (
+            <div className={styles.dirtyBar}>
+              <span>Unsaved changes</span>
+              <button
+                type="button"
+                onClick={() => {
+                  if (saveActivePreset()) {
+                    setActiveBaseline(buildPresetSnapshot());
+                  }
+                }}
+                disabled={activePreset === null}
+              >
+                Save preset
+              </button>
+            </div>
+          )}
 
           <PresetLibraryPanel
             entries={presetLibrary.map(({ id, name, createdAt, summary, description }) => ({

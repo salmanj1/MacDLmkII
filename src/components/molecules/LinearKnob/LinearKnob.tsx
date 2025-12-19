@@ -6,13 +6,14 @@ type LinearKnobProps = {
   label: string;
   value: number;
   onChange: (next: number) => void;
+  showLabel?: boolean;
 };
 
 /**
  * Simple vertical drag/wheel control styled to sit over the DL4 faceplate positions.
  * Values are clamped 0-127 to align with MIDI CC range.
  */
-const LinearKnob = ({ label, value, onChange }: LinearKnobProps) => {
+const LinearKnob = ({ label, value, onChange, showLabel = true }: LinearKnobProps) => {
   const clamp = useCallback((next: number) => Math.max(0, Math.min(127, next)), []);
   const dragStart = useRef<{ y: number; value: number } | null>(null);
   const frameRef = useRef<HTMLDivElement | null>(null);
@@ -143,7 +144,7 @@ const LinearKnob = ({ label, value, onChange }: LinearKnobProps) => {
         onChange={(event) => onChange(clamp(Number(event.target.value)))}
         onPointerDown={handlePointerDown}
       />
-      <div className={styles.label}>{label}</div>
+      {showLabel && <div className={styles.label}>{label}</div>}
     </div>
   );
 };

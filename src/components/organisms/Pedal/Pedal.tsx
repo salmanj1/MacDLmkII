@@ -189,6 +189,7 @@ const Pedal = ({
                 }
                 value={controlValues?.delay?.[control.id] ?? 0}
                 onChange={(value) => onControlChange?.(control.id, value, 'delay')}
+                showLabel={control.id === 'tweak' || control.id === 'tweez'}
               />
             </div>
           ))}
@@ -212,6 +213,7 @@ const Pedal = ({
                 }
                 value={controlValues?.reverb?.[control.id] ?? 0}
                 onChange={(value) => onControlChange?.(control.id, value, 'reverb')}
+                showLabel={control.id === 'tweak' || control.id === 'tweez'}
               />
             </div>
           ))}
