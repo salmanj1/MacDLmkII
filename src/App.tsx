@@ -85,42 +85,42 @@ type PresetLibraryEntry = {
         name: 'Preset A — Adriatic + Ganymede',
         detent: 12, // Adriatic
         reverbDetent: 10, // Ganymede
-        description: 'Delay: Adriatic. Reverb: Ganymede. Expression: Time, Repeats, Tweez.'
+        description: 'Expression assigns: Time, Repeats, Tweez.'
       },
       {
         slot: 1,
         name: 'Preset B — Cosmos + Plate',
         detent: 10, // Cosmos
         reverbDetent: 9, // Plate
-        description: 'Delay: Cosmos Echo. Reverb: Plate. Expression: Repeats, Tweez.'
+        description: 'Expression assigns: Repeats, Tweez.'
       },
       {
         slot: 2,
         name: 'Preset C — Multi-Pass + Searchlights',
         detent: 11, // Multi-Pass
         reverbDetent: 1, // Searchlights
-        description: 'Delay: Multi-Pass. Reverb: Searchlights. Expression: Repeats, Mix.'
+        description: 'Expression assigns: Repeats, Mix.'
       },
       {
         slot: 3,
         name: 'Preset D — Vintage Digital + Hall',
         detent: 0, // Vintage Digital
         reverbDetent: 13, // Hall
-        description: 'Delay: Vintage Digital. Reverb: Hall. Expression: Repeats, Tweak, Tweez.'
+        description: 'Expression assigns: Repeats, Tweak, Tweez.'
       },
       {
         slot: 4,
         name: 'Preset E — Glitch + Particle Verb',
         detent: 14, // Glitch
         reverbDetent: 2, // Particle Verb
-        description: 'Delay: Glitch. Reverb: Particle Verb. Expression: Repeats, Tweak (pitch), Tweez.'
+        description: 'Expression assigns: Repeats, Tweak (pitch), Tweez.'
       },
       {
         slot: 5,
         name: 'Preset F — Transistor + Hot Springs',
         detent: 9, // Transistor
         reverbDetent: 12, // Hot Springs
-        description: 'Delay: Transistor Tape. Reverb: Hot Springs. Expression: Time, Repeats, Tweez.'
+        description: 'Expression assigns: Time, Repeats, Tweez.'
       }
     ],
     []
@@ -175,7 +175,12 @@ type PresetLibraryEntry = {
       const reverbModel =
         effects.find((entry) => entry.mode === 'Secret Reverb' && entry.detent === snapshot.reverbDetent)
           ?.model ?? 'No reverb';
-      return `${delayModel} | Reverb: ${reverbModel}`;
+      const normalize = (value: string) => value.replace(/\s+/g, ' ').trim();
+      const delayLabel = `${normalize(delayModel)} delay`;
+      const hasReverb = reverbModel && !/reverb off/i.test(reverbModel);
+      return hasReverb
+        ? `${delayLabel} + ${normalize(reverbModel)} reverb`
+        : delayLabel;
     },
     [effects]
   );
@@ -973,101 +978,107 @@ type PresetLibraryEntry = {
 
       <KeyboardHelp isOpen={showHelp} onClose={() => setShowHelp(false)} />
 
-        <main className={styles.main}>
-          {loadingError && <p className={styles.error}>{loadingError}</p>}
+      <main className={styles.main}>
+        {loadingError && <p className={styles.error}>{loadingError}</p>}
 
-      <div className={styles.contentGrid}>
-        <section className={styles.pedalWrap}>
-          <Pedal
-            mode={mode}
-            detent={currentDetent}
-            reverbDetent={reverbDetent}
-            onModeChange={setMode}
-            onDetentChange={handleDetentChange}
-            onReverbDetentChange={setReverbDetent}
-            onFootswitchPress={handleFootswitch}
-            onFootswitchHold={handleFootswitchHold}
-            footswitchStatus={footswitchStatus}
-            onControlChange={handleControlChange}
-            controlValues={{
-              delay: delayControlValues[mode],
-              reverb: reverbControlValues
-            }}
-            controlLabels={controlLabels}
-          />
-        </section>
-
-        <section className={styles.infoColumn}>
-          <LibraryPanel
-            filteredEffects={filteredEffects}
-            mode={mode}
-            currentDetent={currentDetent}
-            searchTerm={searchTerm}
-            onSearchChange={setSearchTerm}
-            onSearchInputRef={(ref) => {
-              searchInputRef.current = ref;
-            }}
-            onSelectEffect={handleSelectEffect}
-            qaStats={qaStats}
-            showQa={!!loadingError}
-            loading={isLoading}
-          />
-
-          <ManualPane delayEffect={currentEffect} reverbEffect={currentReverbEffect} />
-
-          {presetDirty && (
-            <div className={styles.dirtyBar}>
-              <span>Unsaved changes</span>
-              <button
-                type="button"
-                onClick={() => {
-                  if (saveActivePreset()) {
-                    setActiveBaseline(buildPresetSnapshot());
-                  }
+        <div className={styles.contentGrid}>
+          <div className={styles.pedalRow}>
+            <section className={styles.pedalWrap}>
+              <Pedal
+                mode={mode}
+                detent={currentDetent}
+                reverbDetent={reverbDetent}
+                onModeChange={setMode}
+                onDetentChange={handleDetentChange}
+                onReverbDetentChange={setReverbDetent}
+                onFootswitchPress={handleFootswitch}
+                onFootswitchHold={handleFootswitchHold}
+                footswitchStatus={footswitchStatus}
+                onControlChange={handleControlChange}
+                controlValues={{
+                  delay: delayControlValues[mode],
+                  reverb: reverbControlValues
                 }}
-                disabled={activePreset === null}
-              >
-                Save preset
-              </button>
-            </div>
-          )}
+                controlLabels={controlLabels}
+              />
+            </section>
 
-          <PresetLibraryPanel
-            entries={presetLibrary.map(({ id, name, createdAt, summary, description }) => ({
-              id,
-              name,
-              createdAt,
-              summary,
-              description
-            }))}
-            loadingId={libraryLoadingId}
-            onSave={handleLibrarySave}
-            onLoad={handleLibraryLoad}
-            onDelete={handleLibraryDelete}
-          />
-
-          <div className={styles.infoBadge}>
-            <a
-              className={styles.infoButton}
-              href="https://github.com/DavidMolTor/DL4II_Control"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Project information"
-            >
-              i
-            </a>
-            <div className={styles.infoCard}>
-              <div>Developed by David Molina Toro</div>
-              <div>GNU General Public License</div>
-              <div>This software uses Leslie Sanford&apos;s MIDI Toolkit</div>
-            </div>
+            <aside className={styles.librarySide}>
+              <PresetLibraryPanel
+                entries={presetLibrary.map(({ id, name, createdAt, summary, description }) => ({
+                  id,
+                  name,
+                  createdAt,
+                  summary,
+                  description
+                }))}
+                loadingId={libraryLoadingId}
+                onSave={handleLibrarySave}
+                onLoad={handleLibraryLoad}
+                onDelete={handleLibraryDelete}
+              />
+            </aside>
           </div>
-        </section>
-      </div>
 
-      <div className={styles.midiBar} aria-live="polite">
-        <span className={styles.midiStatus}>{clock.followEnabled && clock.bpm ? `Clock ${Math.round(clock.bpm)} BPM` : midiStatus}</span>
-        <select
+          <section className={styles.infoColumn}>
+            <div className={styles.stack}>
+              <LibraryPanel
+                filteredEffects={filteredEffects}
+                mode={mode}
+                currentDetent={currentDetent}
+                searchTerm={searchTerm}
+                onSearchChange={setSearchTerm}
+                onSearchInputRef={(ref) => {
+                  searchInputRef.current = ref;
+                }}
+                onSelectEffect={handleSelectEffect}
+                qaStats={qaStats}
+                showQa={!!loadingError}
+                loading={isLoading}
+              />
+
+              <ManualPane delayEffect={currentEffect} reverbEffect={currentReverbEffect} />
+
+              {presetDirty && (
+                <div className={styles.dirtyBar}>
+                  <span>Unsaved changes</span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (saveActivePreset()) {
+                        setActiveBaseline(buildPresetSnapshot());
+                      }
+                    }}
+                    disabled={activePreset === null}
+                  >
+                    Save preset
+                  </button>
+                </div>
+              )}
+            </div>
+
+            <div className={styles.infoBadge}>
+              <a
+                className={styles.infoButton}
+                href="https://github.com/DavidMolTor/DL4II_Control"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Project information"
+              >
+                i
+              </a>
+              <div className={styles.infoCard}>
+                <div>Developed by David Molina Toro</div>
+                <div>GNU General Public License</div>
+                <div>This software uses Leslie Sanford&apos;s MIDI Toolkit</div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div className={styles.midiBar} aria-live="polite">
+          <span className={styles.midiStatus}>{clock.followEnabled && clock.bpm ? `Clock ${Math.round(clock.bpm)} BPM` : midiStatus}</span>
+          <select
           className={styles.midiSelect}
           value={selectedPort ?? ''}
           onChange={async (event) => {

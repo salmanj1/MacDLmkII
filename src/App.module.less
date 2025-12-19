@@ -64,8 +64,16 @@
 .contentGrid {
   width: 100%;
   display: grid;
-  gap: 0.7rem;
+  gap: 0.9rem;
   grid-template-columns: 1fr;
+  align-items: start;
+}
+
+.pedalRow {
+  display: grid;
+  grid-template-columns: minmax(960px, 1fr) 360px;
+  gap: 0.9rem;
+  align-items: start;
 }
 
 .pedalWrap {
@@ -79,11 +87,26 @@
 .infoColumn {
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
+  gap: 0.6rem;
   min-height: 0;
   position: relative;
-  width: min(980px, 100%);
+  width: min(1200px, 100%);
   margin: 0 auto;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.librarySide {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  position: sticky;
+  top: 1rem;
 }
 
 .debugToggle {
@@ -185,6 +208,26 @@
 .dirtyBar button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+@media (max-width: 1280px) {
+  .contentGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .pedalRow {
+    grid-template-columns: 1fr;
+  }
+
+  .infoColumn {
+    position: relative;
+    max-width: none;
+    width: min(980px, 100%);
+  }
+
+  .librarySide {
+    position: relative;
+  }
 }
 
 .midiPanel {

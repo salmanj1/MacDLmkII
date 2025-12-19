@@ -1,11 +1,11 @@
 @import '../../../styles/tokens.less';
 
 .panel {
-  background: fade(@bgDeep, 86%);
-  border: 1px solid fade(#e2e8f0, 12%);
-  border-radius: 0.9rem;
-  padding: 0.9rem 1rem;
-  box-shadow: 0 10px 30px fade(#000, 35%);
+  background: fade(@panel, 88%);
+  border: 1px solid fade(@borderSoft, 55%);
+  border-radius: 0.75rem;
+  padding: 0.8rem 0.95rem;
+  box-shadow: none;
   color: @textPrimary;
   display: grid;
   gap: 0.65rem;
@@ -29,37 +29,37 @@
 .saveRow {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0.4rem;
+  gap: 0.35rem;
 }
 
 .input {
   width: 100%;
-  padding: 0.55rem 0.65rem;
-  border-radius: 0.6rem;
-  border: 1px solid fade(#e2e8f0, 18%);
-  background: fade(@bgDeep, 85%);
+  padding: 0.5rem 0.6rem;
+  border-radius: 0.55rem;
+  border: 1px solid fade(@borderSoft, 60%);
+  background: fade(@panel, 92%);
   color: @textPrimary;
 }
 
 .textarea {
   width: 100%;
-  padding: 0.5rem 0.65rem;
-  border-radius: 0.6rem;
-  border: 1px solid fade(#e2e8f0, 18%);
-  background: fade(@bgDeep, 85%);
+  padding: 0.45rem 0.6rem;
+  border-radius: 0.55rem;
+  border: 1px solid fade(@borderSoft, 60%);
+  background: fade(@panel, 92%);
   color: @textPrimary;
   resize: vertical;
 }
 
 .saveButton {
-  border: 1px solid fade(@glow, 40%);
-  background: linear-gradient(180deg, fade(@glow, 35%), fade(@panel, 85%));
-  color: #0b1513;
-  font-weight: 800;
-  padding: 0.55rem 0.8rem;
-  border-radius: 0.6rem;
+  border: 1px solid fade(@glow, 35%);
+  background: fade(@panel, 92%);
+  color: @textPrimary;
+  font-weight: 700;
+  padding: 0.5rem 0.7rem;
+  border-radius: 0.55rem;
   cursor: pointer;
-  box-shadow: 0 8px 18px fade(#000, 32%);
+  box-shadow: none;
 }
 
 .list {
@@ -76,10 +76,10 @@
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
-  padding: 0.6rem 0.75rem;
-  border-radius: 0.65rem;
-  background: fade(#0b1724, 65%);
-  border: 1px solid fade(#e2e8f0, 10%);
+  padding: 0.55rem 0.65rem;
+  border-radius: 0.6rem;
+  background: fade(@panel, 94%);
+  border: 1px solid fade(@borderSoft, 45%);
 }
 
 .meta {
@@ -116,8 +116,8 @@
 }
 
 .loadButton {
-  border: 1px solid fade(@glow, 35%);
-  background: fade(@bgDeep, 85%);
+  border: 1px solid fade(@borderSoft, 60%);
+  background: fade(@panel, 95%);
   color: @textPrimary;
   padding: 0.4rem 0.6rem;
   border-radius: 0.55rem;
@@ -126,7 +126,7 @@
 
 .deleteButton {
   border: 1px solid fade(#ef4444, 30%);
-  background: fade(#0f172a, 80%);
+  background: fade(@panel, 92%);
   color: #ef4444;
   padding: 0.35rem 0.55rem;
   border-radius: 0.55rem;
