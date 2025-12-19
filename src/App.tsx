@@ -1034,18 +1034,12 @@ type PresetLibraryEntry = {
 
             <aside className={styles.librarySide}>
               <PresetLibraryPanel
-            entries={presetLibrary.map(({ id, name, createdAt, summary, description }) => ({
-              id,
-              name,
-              createdAt,
-              summary,
-              description
-            }))}
-            loadingId={libraryLoadingId}
-            onSave={handleLibrarySave}
-            onLoad={handleLibraryLoad}
-            onUpdate={handleLibraryUpdate}
-            onDelete={handleLibraryDelete}
+                entries={presetLibrary}
+                loadingId={libraryLoadingId}
+                onSave={handleLibrarySave}
+                onLoad={handleLibraryLoad}
+                onUpdate={handleLibraryUpdate}
+                onDelete={handleLibraryDelete}
           />
             </aside>
           </div>

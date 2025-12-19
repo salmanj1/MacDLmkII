@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import type { Mode } from '../../../data/commonParams';
 import styles from './PresetLibraryPanel.module.less';
 
 type PresetLibraryEntry = {
@@ -7,6 +8,15 @@ type PresetLibraryEntry = {
   createdAt: number;
   summary: string;
   description?: string;
+  snapshot: {
+    mode: Mode;
+    detent: number;
+    reverbDetent: number;
+    delayControlValues: Record<Mode, Record<string, number>>;
+    reverbControlValues: Record<string, number>;
+    tapSubdivisionIndex: number;
+    tapBpm: number;
+  };
 };
 
 type PresetLibraryPanelProps = {
@@ -34,7 +44,9 @@ const PresetLibraryPanel = ({
       <div className={styles.header}>
         <div>
           <div className={styles.title}>Preset Library</div>
-          <div className={styles.subtitle}>Store extra presets locally and load them later.</div>
+          <div className={styles.subtitle}>
+            Save the current pedal state here, then load or replace slots later.
+          </div>
         </div>
         <div className={styles.saveRow}>
           <input
@@ -58,8 +70,9 @@ const PresetLibraryPanel = ({
               setName('');
               setDescription('');
             }}
+            aria-label="Save current preset"
           >
-            Save
+            💾
           </button>
         </div>
       </div>
@@ -69,17 +82,31 @@ const PresetLibraryPanel = ({
         {entries.map((entry) => (
           <div key={entry.id} className={styles.row} role="listitem">
             <div className={styles.meta}>
-              <div className={styles.name}>{entry.name}</div>
-              <div className={styles.date}>
-                {new Date(entry.createdAt).toLocaleString(undefined, {
-                  month: 'short',
-                  day: 'numeric'
-                })}
+              <div className={styles.nameLine}>
+                <span className={styles.name}>
+                  {(entry.name.split('—')[0] || entry.name).trim() || 'Preset'}
+                </span>
+                <span className={styles.date}>
+                  {new Date(entry.createdAt).toLocaleString(undefined, {
+                    month: 'short',
+                    day: 'numeric'
+                  })}
+                </span>
               </div>
-              <div className={styles.summary}>{entry.summary}</div>
+              <div className={styles.summary}>{entry.summary || entry.description}</div>
               {entry.description ? (
                 <div className={styles.description}>{entry.description}</div>
               ) : null}
+              <div className={styles.expressionValues}>
+                {(() => {
+                  const delayValues = entry.snapshot.delayControlValues[entry.snapshot.mode] || {};
+                  const read = (id: string) => {
+                    const val = delayValues[id];
+                    return typeof val === 'number' ? val : '—';
+                  };
+                  return `Knobs: Time ${read('time')} · Repeats ${read('repeats')} · Tweez ${read('tweez')}`;
+                })()}
+              </div>
             </div>
             <div className={styles.actions}>
               <button
@@ -87,16 +114,18 @@ const PresetLibraryPanel = ({
                 className={styles.loadButton}
                 onClick={() => onLoad(entry.id)}
                 disabled={loadingId === entry.id}
+                aria-label={`Load ${entry.name}`}
               >
-                {loadingId === entry.id ? 'Loading…' : 'Load'}
+                {loadingId === entry.id ? '…' : '⟳'}
               </button>
               <button
                 type="button"
                 className={styles.updateButton}
                 onClick={() => onUpdate(entry.id)}
                 disabled={loadingId === entry.id}
+                aria-label={`Update ${entry.name} with current settings`}
               >
-                Update
+                ↻
               </button>
               <button
                 type="button"
