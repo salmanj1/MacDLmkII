@@ -1,3 +1,5 @@
+// Builds the effect catalog (delay/reverb models) from skeleton JSON and ordering.
+// This powers selector labels, descriptions, and tweak/tweez text you see in the UI.
 import type {
   DetentMeta,
   EffectInfo,

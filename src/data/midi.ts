@@ -1,3 +1,5 @@
+// Central MIDI map: CCs, program indices, and knob→CC wiring used across the UI.
+// Adjust here if the pedal’s MIDI spec changes; UI knobs and preset payloads will follow.
 import type { Mode } from './commonParams';
 
 export const midiCC = {

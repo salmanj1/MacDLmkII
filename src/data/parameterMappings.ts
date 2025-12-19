@@ -1,3 +1,5 @@
+// Maps each delay/reverb model to the labels/units shown in the Parameters panel.
+// This drives what the PM sees for Time/Repeats/Tweak/Tweez/Mix per model.
 import type { Mode } from './commonParams';
 
 export type ParameterDisplay = {

@@ -1,3 +1,5 @@
+// Lightweight global store for the 128-slot preset bank: names, tags, params, import/export.
+// PMs can scan this file to see what persists and how presets are updated/duplicated/reordered.
 import { useSyncExternalStore } from 'react';
 
 export type Preset = {

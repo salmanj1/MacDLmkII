@@ -1,3 +1,5 @@
+// Helpers that translate UI intents (select model, change tap subdivision) into MIDI messages.
+// Used by the preset bank and live controls to stay in sync with the pedal.
 import type { Mode } from './commonParams';
 import { midiCC, modelValueForMode } from './midi';
 
@@ -36,4 +38,3 @@ export const buildTapMessages = (subdivision: number): MidiMessage[] => [
   { type: 'cc', control: midiCC.delayNotes, value: subdivision },
   { type: 'cc', control: midiCC.tapTempo, value: 127 }
 ];
-
