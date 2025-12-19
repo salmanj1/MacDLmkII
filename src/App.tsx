@@ -558,6 +558,49 @@ type PresetLibraryEntry = {
     [autoNameFromSnapshot, buildPresetSnapshot, showToast, summaryFromSnapshot]
   );
 
+  const handleLibraryExport = useCallback(() => {
+    const blob = new Blob([JSON.stringify(presetLibrary, null, 2)], {
+      type: 'application/json'
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'macdlmkii-presets.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  }, [presetLibrary]);
+
+  const handleLibraryImport = useCallback(
+    (file: File) => {
+      const reader = new FileReader();
+      reader.onload = async () => {
+        try {
+          const parsed = JSON.parse(String(reader.result));
+          if (!Array.isArray(parsed)) {
+            showToast('Import failed: expected an array', 'error');
+            return;
+          }
+          const normalized = parsed.map((entry: any, idx: number) => ({
+            id: typeof entry.id === 'string' ? entry.id : `import-${Date.now()}-${idx}`,
+            name: String(entry.name ?? `Imported ${idx + 1}`),
+            createdAt: typeof entry.createdAt === 'number' ? entry.createdAt : Date.now(),
+            summary: String(entry.summary ?? ''),
+            description: typeof entry.description === 'string' ? entry.description : undefined,
+            snapshot: entry.snapshot
+          })) as PresetLibraryEntry[];
+          setPresetLibrary(normalized);
+          await savePresetLibrary(normalized);
+          showToast('Imported presets', 'ok');
+        } catch (error) {
+          console.warn('Import failed', error);
+          showToast('Import failed', 'error');
+        }
+      };
+      reader.readAsText(file);
+    },
+    [showToast]
+  );
+
   const handleLibraryLoad = useCallback(
     async (id: string) => {
       const entry = presetLibrary.find((item) => item.id === id);
@@ -1039,9 +1082,11 @@ type PresetLibraryEntry = {
                 entries={presetLibrary}
                 loadingId={libraryLoadingId}
                 onSave={handleLibrarySave}
-                onLoad={handleLibraryLoad}
-                onUpdate={handleLibraryUpdate}
-                onDelete={handleLibraryDelete}
+            onLoad={handleLibraryLoad}
+            onUpdate={handleLibraryUpdate}
+            onDelete={handleLibraryDelete}
+            onExport={handleLibraryExport}
+            onImport={handleLibraryImport}
           />
             </aside>
           </div>

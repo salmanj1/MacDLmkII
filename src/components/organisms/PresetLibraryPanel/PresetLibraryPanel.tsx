@@ -26,6 +26,8 @@ type PresetLibraryPanelProps = {
   onLoad: (id: string) => void;
   onUpdate: (id: string) => void;
   onDelete: (id: string) => void;
+  onExport: () => void;
+  onImport: (file: File) => void;
 };
 
 const PresetLibraryPanel = ({
@@ -34,10 +36,13 @@ const PresetLibraryPanel = ({
   onSave,
   onLoad,
   onUpdate,
-  onDelete
+  onDelete,
+  onExport,
+  onImport
 }: PresetLibraryPanelProps) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  const importRef = useRef<HTMLInputElement | null>(null);
 
   return (
     <section className={styles.panel} aria-label="Preset library">
@@ -74,6 +79,30 @@ const PresetLibraryPanel = ({
           >
             💾
           </button>
+        </div>
+        <div className={styles.importExportRow}>
+          <button type="button" className={styles.smallButton} onClick={onExport} aria-label="Export presets">
+            ⇩ Export
+          </button>
+          <button
+            type="button"
+            className={styles.smallButton}
+            onClick={() => importRef.current?.click()}
+            aria-label="Import presets"
+          >
+            ⇧ Import
+          </button>
+          <input
+            ref={importRef}
+            type="file"
+            accept="application/json"
+            className={styles.fileInput}
+            onChange={(event) => {
+              const file = event.target.files?.[0];
+              if (file) onImport(file);
+              event.target.value = '';
+            }}
+          />
         </div>
       </div>
 

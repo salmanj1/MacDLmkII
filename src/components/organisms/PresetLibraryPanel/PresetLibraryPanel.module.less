@@ -65,6 +65,27 @@
   white-space: nowrap;
 }
 
+.importExportRow {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.smallButton {
+  border: 1px solid fade(@borderSoft, 60%);
+  background: fade(@panel, 94%);
+  color: @textPrimary;
+  padding: 0.35rem 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.fileInput {
+  display: none;
+}
+
 .list {
   display: grid;
   gap: 0.5rem;
