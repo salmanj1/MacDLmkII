@@ -490,9 +490,10 @@ type PresetLibraryEntry = {
       snapshot: PresetSnapshot,
       presetIndex: number | null = null,
       programOverride?: number,
-      opts?: { sendProgram?: boolean }
+      opts?: { sendProgram?: boolean; sendControls?: boolean }
     ) => {
       const sendProgram = opts?.sendProgram !== false;
+      const sendControls = opts?.sendControls !== false;
       setMode(snapshot.mode);
       setDetentForMode(snapshot.mode, snapshot.detent);
       setReverbDetent(typeof snapshot.reverbDetent === 'number' ? snapshot.reverbDetent : 0);
@@ -501,12 +502,12 @@ type PresetLibraryEntry = {
       setTapSubdivisionIndex(snapshot.tapSubdivisionIndex);
       setTapBpm(snapshot.tapBpm);
       setTapModeActive(true);
-        const effectiveProgram = programOverride ?? presetIndex;
-        setActivePresetIndex(effectiveProgram ?? null);
-        setActiveBaseline(snapshot);
-        const activeId = effectiveProgram === null || effectiveProgram === undefined ? null : effectiveProgram % 3;
-        setFootswitchStatus({
-          A: activeId === 0 ? 'on' : 'off',
+      const effectiveProgram = programOverride ?? presetIndex;
+      setActivePresetIndex(effectiveProgram ?? null);
+      setActiveBaseline(snapshot);
+      const activeId = effectiveProgram === null || effectiveProgram === undefined ? null : effectiveProgram % 3;
+      setFootswitchStatus({
+        A: activeId === 0 ? 'on' : 'off',
         B: activeId === 1 ? 'on' : 'off',
         C: activeId === 2 ? 'on' : 'off',
         Tap: 'off'
@@ -515,10 +516,12 @@ type PresetLibraryEntry = {
         if (sendProgram && typeof effectiveProgram === 'number') {
           await sendProgramChange(effectiveProgram);
         }
-        await sendCC(midiCC.presetBypass, 64);
-        await sendModelSelect(snapshot.mode, snapshot.detent);
-        await sendModelSelect('Secret Reverb', snapshot.reverbDetent);
-        await sendAllControls();
+        if (sendControls) {
+          await sendCC(midiCC.presetBypass, 64);
+          await sendModelSelect(snapshot.mode, snapshot.detent);
+          await sendModelSelect('Secret Reverb', snapshot.reverbDetent);
+          await sendAllControls();
+        }
       }
       if (effectiveProgram === 0) {
         await blinkFootswitch('A');
@@ -630,8 +633,14 @@ type PresetLibraryEntry = {
       const entry = presetLibrary.find((item) => item.id === id);
       if (!entry) return;
       setLibraryLoadingId(id);
-      const program = typeof entry.presetProgram === 'number' ? entry.presetProgram : null;
-      await applyPresetSnapshot(entry.snapshot, program, program ?? undefined, { sendProgram: true });
+      const program =
+        typeof entry.presetProgram === 'number'
+          ? entry.presetProgram
+          : Math.max(0, presetLibrary.findIndex((e) => e.id === id));
+      await applyPresetSnapshot(entry.snapshot, program, program, {
+        sendProgram: true,
+        sendControls: true
+      });
       setLibraryLoadingId(null);
       showToast(`Loaded "${entry.name}" from library`, 'ok');
     },
@@ -668,7 +677,7 @@ type PresetLibraryEntry = {
       if (!raw) return false;
       try {
         const snapshot: PresetSnapshot = JSON.parse(raw);
-        await applyPresetSnapshot(snapshot, index, index, { sendProgram: false });
+        await applyPresetSnapshot(snapshot, index, index, { sendProgram: false, sendControls: true });
         return true;
       } catch (error) {
         console.warn('Failed to load preset snapshot', error);
