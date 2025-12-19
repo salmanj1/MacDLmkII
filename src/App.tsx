@@ -458,6 +458,23 @@ type PresetLibraryEntry = {
     tapSubdivisionIndex
   ]);
 
+  const blinkFootswitch = useCallback(async (id: 'A' | 'B' | 'C') => {
+    if (blinkLockRef.current) return;
+    blinkLockRef.current = true;
+    const cycles = 4;
+    const intervalMs = 500;
+    try {
+      for (let i = 0; i < cycles; i += 1) {
+        setFootswitchStatus((prev) => ({ ...prev, [id]: 'off' }));
+        await sleep(intervalMs);
+        setFootswitchStatus((prev) => ({ ...prev, [id]: 'on' }));
+        await sleep(intervalMs);
+      }
+    } finally {
+      blinkLockRef.current = false;
+    }
+  }, []);
+
   const applyPresetSnapshot = useCallback(
     async (snapshot: PresetSnapshot, presetIndex: number | null = null) => {
       setMode(snapshot.mode);
@@ -642,23 +659,6 @@ type PresetLibraryEntry = {
     const value = nextStatus === 'dim' ? 0 : 64;
     await sendCC(midiCC.presetBypass, value);
   }, [midiReady, selectedPort, sendCC]);
-
-  const blinkFootswitch = useCallback(async (id: 'A' | 'B' | 'C') => {
-    if (blinkLockRef.current) return;
-    blinkLockRef.current = true;
-    const cycles = 4;
-    const intervalMs = 500;
-    try {
-      for (let i = 0; i < cycles; i += 1) {
-        setFootswitchStatus((prev) => ({ ...prev, [id]: 'off' }));
-        await sleep(intervalMs);
-        setFootswitchStatus((prev) => ({ ...prev, [id]: 'on' }));
-        await sleep(intervalMs);
-      }
-    } finally {
-      blinkLockRef.current = false;
-    }
-  }, []);
 
   const saveActivePreset = useCallback(() => {
     if (activePreset === null) return false;
