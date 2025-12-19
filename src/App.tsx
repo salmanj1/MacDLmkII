@@ -37,6 +37,7 @@ type PresetLibraryEntry = {
   createdAt: number;
   summary: string;
   description?: string;
+  presetProgram?: number;
   snapshot: PresetSnapshot;
 };
 
@@ -86,6 +87,7 @@ type PresetLibraryEntry = {
         name: 'Preset A — Adriatic + Ganymede',
         detent: 12, // Adriatic
         reverbDetent: 10, // Ganymede
+        presetProgram: 0,
         description: 'Expression assigns: Time, Repeats, Tweez.'
       },
       {
@@ -93,6 +95,7 @@ type PresetLibraryEntry = {
         name: 'Preset B — Cosmos + Plate',
         detent: 10, // Cosmos
         reverbDetent: 9, // Plate
+        presetProgram: 1,
         description: 'Expression assigns: Repeats, Tweez.'
       },
       {
@@ -100,6 +103,7 @@ type PresetLibraryEntry = {
         name: 'Preset C — Multi-Pass + Searchlights',
         detent: 11, // Multi-Pass
         reverbDetent: 1, // Searchlights
+        presetProgram: 2,
         description: 'Expression assigns: Repeats, Mix.'
       },
       {
@@ -107,6 +111,7 @@ type PresetLibraryEntry = {
         name: 'Preset D — Vintage Digital + Hall',
         detent: 0, // Vintage Digital
         reverbDetent: 13, // Hall
+        presetProgram: 3,
         description: 'Expression assigns: Repeats, Tweak, Tweez.'
       },
       {
@@ -114,6 +119,7 @@ type PresetLibraryEntry = {
         name: 'Preset E — Glitch + Particle Verb',
         detent: 14, // Glitch
         reverbDetent: 2, // Particle Verb
+        presetProgram: 4,
         description: 'Expression assigns: Repeats, Tweak (pitch), Tweez.'
       },
       {
@@ -121,6 +127,7 @@ type PresetLibraryEntry = {
         name: 'Preset F — Transistor + Hot Springs',
         detent: 9, // Transistor
         reverbDetent: 12, // Hot Springs
+        presetProgram: 5,
         description: 'Expression assigns: Time, Repeats, Tweez.'
       }
     ],
@@ -330,6 +337,7 @@ type PresetLibraryEntry = {
             createdAt: Date.now(),
             summary: summaryFromSnapshot(snapshot),
             description,
+            presetProgram,
             snapshot
           };
         });
@@ -478,7 +486,7 @@ type PresetLibraryEntry = {
   }, []);
 
   const applyPresetSnapshot = useCallback(
-    async (snapshot: PresetSnapshot, presetIndex: number | null = null) => {
+    async (snapshot: PresetSnapshot, presetIndex: number | null = null, programOverride?: number) => {
       setMode(snapshot.mode);
       setDetentForMode(snapshot.mode, snapshot.detent);
       setReverbDetent(typeof snapshot.reverbDetent === 'number' ? snapshot.reverbDetent : 0);
@@ -487,9 +495,10 @@ type PresetLibraryEntry = {
       setTapSubdivisionIndex(snapshot.tapSubdivisionIndex);
       setTapBpm(snapshot.tapBpm);
       setTapModeActive(true);
-      setActivePresetIndex(presetIndex);
+      const effectiveProgram = programOverride ?? presetIndex;
+      setActivePresetIndex(effectiveProgram ?? null);
       setActiveBaseline(snapshot);
-      const activeId = presetIndex === null ? null : presetIndex % 3;
+      const activeId = effectiveProgram === null || effectiveProgram === undefined ? null : effectiveProgram % 3;
       setFootswitchStatus({
         A: activeId === 0 ? 'on' : 'off',
         B: activeId === 1 ? 'on' : 'off',
@@ -497,11 +506,15 @@ type PresetLibraryEntry = {
         Tap: 'off'
       });
       if (midiReady && selectedPort !== null) {
+        if (typeof effectiveProgram === 'number') {
+          await sendProgramChange(effectiveProgram);
+          await sendCC(midiCC.presetBypass, 64);
+        }
         await sendModelSelect(snapshot.mode, snapshot.detent);
         await sendModelSelect('Secret Reverb', snapshot.reverbDetent);
         await sendAllControls();
       }
-      if (presetIndex === 0) {
+      if (effectiveProgram === 0) {
         await blinkFootswitch('A');
       }
     },
@@ -511,7 +524,9 @@ type PresetLibraryEntry = {
       selectedPort,
       sendAllControls,
       sendModelSelect,
-      setDetentForMode
+      sendProgramChange,
+      setDetentForMode,
+      sendCC
     ]
   );
 
@@ -529,6 +544,7 @@ type PresetLibraryEntry = {
         createdAt: Date.now(),
         summary: summaryFromSnapshot(snapshot),
         description: description?.trim() || undefined,
+        presetProgram: activePreset ?? 0,
         snapshot
       };
       setPresetLibrary((prev) => [entry, ...prev]);
@@ -586,6 +602,8 @@ type PresetLibraryEntry = {
             createdAt: typeof entry.createdAt === 'number' ? entry.createdAt : Date.now(),
             summary: String(entry.summary ?? ''),
             description: typeof entry.description === 'string' ? entry.description : undefined,
+            presetProgram:
+              typeof entry.presetProgram === 'number' ? entry.presetProgram : undefined,
             snapshot: entry.snapshot
           })) as PresetLibraryEntry[];
           setPresetLibrary(normalized);
@@ -606,7 +624,8 @@ type PresetLibraryEntry = {
       const entry = presetLibrary.find((item) => item.id === id);
       if (!entry) return;
       setLibraryLoadingId(id);
-      await applyPresetSnapshot(entry.snapshot, null);
+      const program = typeof entry.presetProgram === 'number' ? entry.presetProgram : null;
+      await applyPresetSnapshot(entry.snapshot, program, program ?? undefined);
       setLibraryLoadingId(null);
       showToast(`Loaded "${entry.name}" from library`, 'ok');
     },
