@@ -1,3 +1,4 @@
+// Dev/support panel: shows live MIDI traffic with filters, copy/export, and clear.
 import type { FC } from 'react';
 import { useMemo, useState } from 'react';
 import {

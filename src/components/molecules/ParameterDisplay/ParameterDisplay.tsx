@@ -1,3 +1,5 @@
+// User-facing parameter panel: mirrors knob labels/values for the current delay + reverb.
+// Sliders (when provided) send the same updates as turning the knobs on the pedal.
 import type { FC } from 'react';
 import { getParameterSet } from '../../../data/parameterMappings';
 import type { Mode } from '../../../data/commonParams';

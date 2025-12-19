@@ -1,3 +1,5 @@
+// 128-slot preset browser: search, load (PC send), save current, drag-to-reorder,
+// import/export JSON, rename, duplicate, tag, and mark unsaved changes.
 import { useMemo, useState, useRef } from 'react';
 import { usePresetBank, presetBankActions } from '../../../state/usePresetBank';
 import type { Preset } from '../../../state/usePresetBank';
