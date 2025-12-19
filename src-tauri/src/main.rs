@@ -3,6 +3,7 @@
 use std::sync::Mutex;
 use std::fs;
 use std::path::PathBuf;
+use tauri_plugin_dialog::DialogExt;
 
 mod midi;
 
@@ -104,11 +105,13 @@ async fn export_preset_bank_dialog(
   app_handle: tauri::AppHandle,
   data: String,
 ) -> Result<Option<String>, String> {
-  let path = tauri_plugin_dialog::FileDialogBuilder::new()
+  let dialog = app_handle.dialog();
+  let path = dialog
+    .file()
     .set_title("Export preset bank")
     .set_file_name("preset-bank.json")
     .add_filter("JSON", &["json"])
-    .save_file(&app_handle)
+    .save_file()
     .await
     .map_err(|e| e.to_string())?;
 
