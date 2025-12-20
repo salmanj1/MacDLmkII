@@ -18,6 +18,7 @@ export type Preset = {
     delayMix: number;
     tempoBpm?: number | null;
     subdivision?: { label: string; value: number };
+    bypass?: boolean;
     reverbType?: string;
     reverbDecay?: number;
     reverbTweak?: number;
@@ -52,6 +53,7 @@ const normalizePreset = (preset: Preset): Preset => {
     parameters: {
       ...preset.parameters,
       subdivision: subdivision ? { label: subdivision.label, value: subdivision.value } : undefined,
+      bypass: !!preset.parameters.bypass,
       reverbRouting: normalizedRouting ?? preset.parameters.reverbRouting,
       routing: normalizedRouting ?? preset.parameters.routing
     }
@@ -73,6 +75,7 @@ const buildInitialBank = (): Preset[] =>
       delayMix: 64,
       tempoBpm: 120,
       subdivision: { label: defaultSubdivision.label, value: defaultSubdivision.value },
+      bypass: false,
       reverbType: undefined,
       reverbDecay: undefined,
       reverbTweak: undefined,
@@ -207,6 +210,7 @@ const createStore = () => {
             delayMix: 64,
             tempoBpm: 120,
             subdivision: { label: defaultSubdivision.label, value: defaultSubdivision.value },
+            bypass: false,
             reverbType: undefined,
             reverbDecay: undefined,
             reverbTweak: undefined,
