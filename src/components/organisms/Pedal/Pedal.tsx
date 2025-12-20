@@ -26,6 +26,7 @@ type PedalProps = {
   mode: Mode;
   detent: number;
   reverbDetent: number;
+  bypassed?: boolean;
   onModeChange: (mode: Mode) => void;
   onDetentChange: (detent: number) => void;
   onReverbDetentChange: (detent: number) => void;
@@ -55,6 +56,7 @@ const Pedal = ({
   mode,
   detent,
   reverbDetent,
+  bypassed = false,
   onModeChange,
   onDetentChange,
   onReverbDetentChange,
@@ -129,7 +131,10 @@ const Pedal = ({
 
   return (
     <section className={styles.shell} aria-label="DL4 MkII pedal">
-      <div className={styles.faceplate} aria-hidden />
+      <div
+        className={`${styles.faceplate} ${bypassed ? styles.faceplateBypassed : ''}`}
+        aria-hidden
+      />
       <div className={styles.overlay}>
         <div
           className={styles.selectorSlot}

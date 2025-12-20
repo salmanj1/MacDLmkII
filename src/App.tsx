@@ -23,6 +23,7 @@ import PresetBankPanel from './components/organisms/PresetBankPanel/PresetBankPa
 import { presetBankActions } from './state/usePresetBank';
 import { defaultSubdivision, normalizeSubdivisionValue, subdivisions, type SubdivisionId } from './data/subdivisions';
 import { defaultRoutingValue, normalizeRoutingValue } from './data/routing';
+import BypassButton from './components/molecules/BypassButton/BypassButton';
 
 // Top-level page wiring: orchestrates data hooks, keyboard shortcuts, and composes the pedal UI
 // so layout remains predictable.
@@ -35,6 +36,7 @@ type PresetSnapshot = {
   reverbControlValues: Record<(typeof reverbControls)[number]['id'], number>;
   tapSubdivisionIndex: number;
   tapBpm: number;
+  bypassed: boolean;
 };
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 const defaultTapSubdivisionIndex = (() => {
@@ -79,7 +81,8 @@ const normalizePresetSnapshot = (snapshot: PresetSnapshot): PresetSnapshot => {
     ...snapshot,
     tapSubdivisionIndex:
       normalizedTapIndex >= 0 ? normalizedTapIndex : defaultTapSubdivisionIndex,
-    reverbControlValues: normalizedReverbValues
+    reverbControlValues: normalizedReverbValues,
+    bypassed: !!snapshot.bypassed
   };
 };
 
@@ -118,6 +121,7 @@ const App = () => {
   const [tapTimestamps, setTapTimestamps] = useState<number[]>([]);
   const [activePreset, setActivePresetIndex] = useState<number | null>(null);
   const [reverbDetent, setReverbDetent] = useState(0);
+  const [bypassed, setBypassed] = useState(false);
   const [activeBaseline, setActiveBaseline] = useState<PresetSnapshot | null>(null);
   const [presetDirty, setPresetDirty] = useState(false);
   const [showDebugger, setShowDebugger] = useState(false);
@@ -370,6 +374,26 @@ const App = () => {
     await clock.startSend(tapBpm);
   }, [clock, midiReady, selectedPort, tapBpm]);
 
+  const setBypassState = useCallback(
+    async (next: boolean, source = 'bypass') => {
+      setBypassed(next);
+      setFootswitchStatus((prev) => {
+        const activeId = activePreset === null ? null : activePreset % 3;
+        const status = next ? 'dim' : 'on';
+        return {
+          ...prev,
+          A: activeId === 0 ? status : prev.A,
+          B: activeId === 1 ? status : prev.B,
+          C: activeId === 2 ? status : prev.C
+        };
+      });
+      if (!midiReady || selectedPort === null) return;
+      const value = next ? 64 : 0;
+      await sendCCLogged(midiCC.presetBypass, value, source);
+    },
+    [activePreset, midiReady, selectedPort, sendCCLogged]
+  );
+
   const pushTempoToHardware = useCallback(
     async (bpm: number) => {
       if (!midiReady || selectedPort === null) return;
@@ -490,7 +514,8 @@ const App = () => {
         delayControlValues: { ...delayDefaults },
         reverbControlValues: { ...reverbDefaults },
         tapSubdivisionIndex: tapIndex,
-        tapBpm: 120
+        tapBpm: 120,
+        bypassed: false
       }
     }));
     factorySeeds.forEach(({ slot, name, detent, reverbDetent, description }) => {
@@ -501,7 +526,8 @@ const App = () => {
         delayControlValues: { ...delayDefaults },
         reverbControlValues: { ...reverbDefaults },
         tapSubdivisionIndex: tapIndex,
-        tapBpm: 120
+        tapBpm: 120,
+        bypassed: false
       };
       if (base[slot]) {
         base[slot] = {
@@ -545,9 +571,11 @@ const App = () => {
       delayControlValues,
       reverbControlValues,
       tapSubdivisionIndex,
-      tapBpm
+      tapBpm,
+      bypassed
     };
   }, [
+    bypassed,
     currentDetent,
     delayControlValues,
     mode,
@@ -569,7 +597,8 @@ const App = () => {
     reverbControlValues,
     reverbDetent,
     tapSubdivisionIndex,
-    tapBpm
+    tapBpm,
+    bypassed
   ]);
 
   const handleDetentChange = useCallback(
@@ -749,15 +778,17 @@ const App = () => {
       setReverbControlValues(snapshot.reverbControlValues);
       setTapSubdivisionIndex(snapshot.tapSubdivisionIndex);
       setTapBpm(snapshot.tapBpm);
+      setBypassed(!!snapshot.bypassed);
       setTapModeActive(true);
       const effectiveProgram = programOverride ?? presetIndex;
       setActivePresetIndex(effectiveProgram ?? null);
       setActiveBaseline(snapshot);
       const activeId = effectiveProgram === null || effectiveProgram === undefined ? null : effectiveProgram % 3;
+      const activeFootStatus = snapshot.bypassed ? 'dim' : 'on';
       setFootswitchStatus({
-        A: activeId === 0 ? 'on' : 'off',
-        B: activeId === 1 ? 'on' : 'off',
-        C: activeId === 2 ? 'on' : 'off',
+        A: activeId === 0 ? activeFootStatus : 'off',
+        B: activeId === 1 ? activeFootStatus : 'off',
+        C: activeId === 2 ? activeFootStatus : 'off',
         Tap: 'off'
       });
       suppressSendsUntilRef.current = Date.now() + 1000;
@@ -766,7 +797,11 @@ const App = () => {
           await sendProgramChangeLogged(effectiveProgram, source);
         }
         if (sendControls) {
-          await sendCCLogged(midiCC.presetBypass, 64, source);
+          await sendCCLogged(
+            midiCC.presetBypass,
+            snapshot.bypassed ? 64 : 0,
+            source
+          );
           await sendModelSelectLogged(snapshot.mode, snapshot.detent, source);
           await sendModelSelectLogged('Secret Reverb', snapshot.reverbDetent, source);
           await sendAllControls(source);
@@ -794,7 +829,8 @@ const App = () => {
     onModeChange: setMode,
     onDelayStep: stepDelayDetent,
     onReverbStep: stepReverbDetent,
-    onHelpToggle: () => setShowHelp((prev) => !prev)
+    onHelpToggle: () => setShowHelp((prev) => !prev),
+    onBypassToggle: () => setBypassState(!bypassed, 'keyboard')
   });
 
   useEffect(() => {
@@ -861,10 +897,11 @@ const App = () => {
           {} as Record<(typeof reverbControls)[number]['id'], number>
         )
       );
+      setBypassed(false);
 
       if (midiReady && selectedPort !== null) {
         await sendProgramChangeLogged(program, 'footswitch');
-        await sendCCLogged(midiCC.presetBypass, 64, 'footswitch');
+        await sendCCLogged(midiCC.presetBypass, 0, 'footswitch');
         await sendAllControls('footswitch');
       }
 
@@ -882,7 +919,8 @@ const App = () => {
         delayControlValues,
         reverbControlValues,
         tapSubdivisionIndex,
-        tapBpm
+        tapBpm,
+        bypassed: false
       };
       setActivePresetIndex(index);
       setActiveBaseline(snapshot);
@@ -903,6 +941,7 @@ const App = () => {
                 value: tapSubdivisions[tapSubdivisionIndex].value
               }
             : undefined,
+          bypass: bypassed,
           reverbType: currentReverbEffect?.model,
           reverbDecay: currentReverbEffect ? reverbControlValues.decay ?? 64 : undefined,
           reverbTweak: currentReverbEffect ? reverbControlValues.tweak ?? 64 : undefined,
@@ -944,12 +983,6 @@ const App = () => {
     ]
   );
 
-  const toggleBypass = useCallback(async (nextStatus: 'on' | 'dim') => {
-    if (!midiReady || selectedPort === null) return;
-    const value = nextStatus === 'dim' ? 0 : 64;
-    await sendCCLogged(midiCC.presetBypass, value, 'bypass');
-  }, [midiReady, selectedPort, sendCCLogged]);
-
   const saveActivePreset = useCallback(() => {
     if (activePreset === null) return false;
     const delayVals = delayControlValues[mode] ?? {};
@@ -961,7 +994,8 @@ const App = () => {
       delayControlValues,
       reverbControlValues: reverbVals,
       tapSubdivisionIndex,
-      tapBpm
+      tapBpm,
+      bypassed
     };
     try {
       const raw = JSON.stringify(snapshot);
@@ -992,6 +1026,7 @@ const App = () => {
             delayMix: getDelayVal('mix'),
             tempoBpm: tapBpm,
             subdivision: subdivision ? { label: subdivision.label, value: subdivision.value } : undefined,
+            bypass: bypassed,
             reverbType: currentReverbEffect?.model,
             reverbDecay: currentReverbEffect ? getReverbVal('decay') : undefined,
             reverbTweak: currentReverbEffect ? getReverbVal('tweak') : undefined,
@@ -1023,7 +1058,8 @@ const App = () => {
     reverbControlValues,
     showToast,
     tapBpm,
-    tapSubdivisionIndex
+    tapSubdivisionIndex,
+    bypassed
   ]);
 
   const handleFootswitch = useCallback(
@@ -1034,12 +1070,12 @@ const App = () => {
         const current = footswitchStatus[id as 'A' | 'B' | 'C'];
         if (current === 'on') {
           setFootswitchStatus((prev) => ({ ...prev, [id]: 'dim' }));
-          await toggleBypass('dim');
+          await setBypassState(true, 'footswitch-bypass');
           return;
         }
         if (current === 'dim') {
           setFootswitchStatus((prev) => ({ ...prev, [id]: 'on' }));
-          await toggleBypass('on');
+          await setBypassState(false, 'footswitch-bypass');
           return;
         }
         const idx = id === 'A' ? 0 : id === 'B' ? 1 : 2;
@@ -1097,7 +1133,7 @@ const App = () => {
       tapBlink,
       tapBpm,
       tapSubdivisionIndex,
-      toggleBypass
+      setBypassState
     ]
   );
 
@@ -1210,10 +1246,12 @@ const App = () => {
   const syncToHardware = useCallback(async () => {
     if (!currentEffect || !midiReady || selectedPort === null) return;
     if (Date.now() < suppressSendsUntilRef.current) return;
+    await sendCCLogged(midiCC.presetBypass, bypassed ? 64 : 0, 'sync');
     await sendModelSelectLogged(mode, currentDetent, 'sync');
     await sendModelSelectLogged('Secret Reverb', reverbDetent, 'sync');
     await sendAllControls('sync');
   }, [
+    bypassed,
     currentDetent,
     currentEffect,
     midiReady,
@@ -1264,6 +1302,7 @@ const App = () => {
       if (typeof parsed.tapBpm === 'number') setTapBpm(parsed.tapBpm);
       if (typeof parsed.reverbDetent === 'number') setReverbDetent(parsed.reverbDetent);
       if (typeof parsed.activePreset === 'number') setActivePresetIndex(parsed.activePreset);
+      if (typeof parsed.bypassed === 'boolean') setBypassed(parsed.bypassed);
     } catch (error) {
       console.warn('Failed to load UI state', error);
     }
@@ -1279,10 +1318,21 @@ const App = () => {
       reverbDetent,
       activePreset,
       mode,
-      currentDetent
+      currentDetent,
+      bypassed
     };
     localStorage.setItem('macdlmkii-ui', JSON.stringify(snapshot));
-  }, [activePreset, currentDetent, delayControlValues, mode, reverbControlValues, tapSubdivisionIndex, tapBpm, reverbDetent]);
+  }, [
+    activePreset,
+    currentDetent,
+    delayControlValues,
+    mode,
+    reverbControlValues,
+    tapSubdivisionIndex,
+    tapBpm,
+    reverbDetent,
+    bypassed
+  ]);
 
   useEffect(() => {
     if (midiError) {
@@ -1369,6 +1419,7 @@ const App = () => {
                 mode={mode}
                 detent={currentDetent}
                 reverbDetent={reverbDetent}
+                bypassed={bypassed}
                 onModeChange={setMode}
                 onDetentChange={handleDetentChange}
                 onReverbDetentChange={handleReverbDetentChange}
@@ -1485,12 +1536,16 @@ const App = () => {
               </div>
             </div>
           </section>
-        </div>
+      </div>
 
-        <div className={styles.midiBar} aria-live="polite">
-          <MidiHealthIndicator showMeta />
-          <span className={styles.midiStatus}>{clock.followEnabled && clock.bpm ? `Clock ${Math.round(clock.bpm)} BPM` : midiStatus}</span>
-          <select
+      <div className={styles.midiBar} aria-live="polite">
+        <MidiHealthIndicator showMeta />
+        <BypassButton
+          bypassed={bypassed}
+          onToggle={() => setBypassState(!bypassed, 'ui-bypass')}
+        />
+        <span className={styles.midiStatus}>{clock.followEnabled && clock.bpm ? `Clock ${Math.round(clock.bpm)} BPM` : midiStatus}</span>
+        <select
           className={styles.midiSelect}
           value={selectedPort ?? ''}
           onChange={async (event) => {
