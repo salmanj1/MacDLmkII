@@ -145,22 +145,10 @@ const RoutingSelector = ({ value, label = 'Routing', onChange }: RoutingSelector
             <div className={knobStyles.capIndicator} />
           </div>
         </div>
-
-        <div className={styles.legend} aria-hidden>
-          {routingOptions.map((option, idx) => {
-            const isActive = idx === safeIndex;
-            return (
-              <span
-                key={option.value}
-                className={`${styles.legendItem} ${isActive ? styles.legendItemActive : ''}`}
-              >
-                {option.label}
-              </span>
-            );
-          })}
-        </div>
       </div>
-      <div className={`${knobStyles.label} ${styles.label}`}>{label}</div>
+      <div className={`${knobStyles.label} ${styles.label}`}>
+        {label}: {activeLabel}
+      </div>
     </div>
   );
 };
