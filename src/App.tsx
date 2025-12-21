@@ -374,26 +374,6 @@ const App = () => {
     await clock.startSend(tapBpm);
   }, [clock, midiReady, selectedPort, tapBpm]);
 
-  const setBypassState = useCallback(
-    async (next: boolean, source = 'bypass') => {
-      setBypassed(next);
-      setFootswitchStatus((prev) => {
-        const activeId = activePreset === null ? null : activePreset % 3;
-        const status = next ? 'dim' : 'on';
-        return {
-          ...prev,
-          A: activeId === 0 ? status : prev.A,
-          B: activeId === 1 ? status : prev.B,
-          C: activeId === 2 ? status : prev.C
-        };
-      });
-      if (!midiReady || selectedPort === null) return;
-      const value = next ? 64 : 0;
-      await sendCCLogged(midiCC.presetBypass, value, source);
-    },
-    [activePreset, midiReady, selectedPort, sendCCLogged]
-  );
-
   const pushTempoToHardware = useCallback(
     async (bpm: number) => {
       if (!midiReady || selectedPort === null) return;
@@ -675,6 +655,26 @@ const App = () => {
       await sendCC(control, value);
     },
     [logMidi, sendCC]
+  );
+
+  const setBypassState = useCallback(
+    async (next: boolean, source = 'bypass') => {
+      setBypassed(next);
+      setFootswitchStatus((prev) => {
+        const activeId = activePreset === null ? null : activePreset % 3;
+        const status = next ? 'dim' : 'on';
+        return {
+          ...prev,
+          A: activeId === 0 ? status : prev.A,
+          B: activeId === 1 ? status : prev.B,
+          C: activeId === 2 ? status : prev.C
+        };
+      });
+      if (!midiReady || selectedPort === null) return;
+      const value = next ? 64 : 0;
+      await sendCCLogged(midiCC.presetBypass, value, source);
+    },
+    [activePreset, midiReady, selectedPort, sendCCLogged]
   );
 
   const sendModelSelectLogged = useCallback(
