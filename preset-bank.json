@@ -1,0 +1,4228 @@
+[
+  {
+    "id": 0,
+    "name": "Adriatic Bloom",
+    "tags": [
+      "Ambient",
+      "Modulated"
+    ],
+    "description": "Lush modulated repeats into a smooth plate-style space.",
+    "parameters": {
+      "delayType": "Adriatic",
+      "delayTime": 70,
+      "delayRepeats": 60,
+      "delayTweak": 80,
+      "delayTweez": 60,
+      "delayMix": 55,
+      "tempoBpm": 95,
+      "subdivision": {
+        "label": "1/8",
+        "value": 1
+      },
+      "bypass": false,
+      "reverbType": "Ganymede",
+      "reverbDecay": 70,
+      "reverbTweak": 40,
+      "reverbTweez": 2,
+      "reverbMix": 50,
+      "reverbRouting": 2,
+      "routing": 2
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "MkII Delay",
+      "detent": 12,
+      "reverbDetent": 10,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 70,
+          "repeats": 60,
+          "tweak": 80,
+          "tweez": 60,
+          "mix": 55
+        },
+        "Legacy Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 70,
+        "tweak": 40,
+        "routing": 2,
+        "mix": 50
+      },
+      "tapSubdivisionIndex": 1,
+      "tapBpm": 95,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 1,
+    "name": "Cosmos Orbit",
+    "tags": [
+      "Atmosphere",
+      "Space"
+    ],
+    "description": "Multi-head repeats with a focused plate tail.",
+    "parameters": {
+      "delayType": "Cosmos",
+      "delayTime": 78,
+      "delayRepeats": 65,
+      "delayTweak": 90,
+      "delayTweez": 55,
+      "delayMix": 60,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false,
+      "reverbType": "Plate",
+      "reverbDecay": 55,
+      "reverbTweak": 35,
+      "reverbTweez": 1,
+      "reverbMix": 40,
+      "reverbRouting": 1,
+      "routing": 1
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "MkII Delay",
+      "detent": 10,
+      "reverbDetent": 9,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 78,
+          "repeats": 65,
+          "tweak": 90,
+          "tweez": 55,
+          "mix": 60
+        },
+        "Legacy Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 55,
+        "tweak": 35,
+        "routing": 1,
+        "mix": 40
+      },
+      "tapSubdivisionIndex": 4,
+      "tapBpm": 120,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 2,
+    "name": "Multi-Pass Search",
+    "tags": [
+      "Rhythmic",
+      "Ambient"
+    ],
+    "description": "Patterned repeats with a shimmering halo.",
+    "parameters": {
+      "delayType": "Multi Pass",
+      "delayTime": 60,
+      "delayRepeats": 70,
+      "delayTweak": 55,
+      "delayTweez": 40,
+      "delayMix": 65,
+      "tempoBpm": 90,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false,
+      "reverbType": "Searchlights",
+      "reverbDecay": 60,
+      "reverbTweak": 45,
+      "reverbTweez": 1,
+      "reverbMix": 45,
+      "reverbRouting": 1,
+      "routing": 1
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "MkII Delay",
+      "detent": 11,
+      "reverbDetent": 1,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 60,
+          "repeats": 70,
+          "tweak": 55,
+          "tweez": 40,
+          "mix": 65
+        },
+        "Legacy Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 60,
+        "tweak": 45,
+        "routing": 1,
+        "mix": 45
+      },
+      "tapSubdivisionIndex": 4,
+      "tapBpm": 90,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 3,
+    "name": "Vintage Hall",
+    "tags": [
+      "Clean",
+      "Digital"
+    ],
+    "description": "Early digital repeats and a wide hall tail.",
+    "parameters": {
+      "delayType": "Vintage Digital",
+      "delayTime": 64,
+      "delayRepeats": 50,
+      "delayTweak": 35,
+      "delayTweez": 30,
+      "delayMix": 50,
+      "tempoBpm": 110,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false,
+      "reverbType": "Hall",
+      "reverbDecay": 65,
+      "reverbTweak": 30,
+      "reverbTweez": 1,
+      "reverbMix": 40,
+      "reverbRouting": 1,
+      "routing": 1
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "MkII Delay",
+      "detent": 0,
+      "reverbDetent": 13,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 64,
+          "repeats": 50,
+          "tweak": 35,
+          "tweez": 30,
+          "mix": 50
+        },
+        "Legacy Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 65,
+        "tweak": 30,
+        "routing": 1,
+        "mix": 40
+      },
+      "tapSubdivisionIndex": 4,
+      "tapBpm": 110,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 4,
+    "name": "Glitch Particles",
+    "tags": [
+      "Experimental",
+      "Glitch"
+    ],
+    "description": "Pitchy slices with granular reverb dust.",
+    "parameters": {
+      "delayType": "Glitch",
+      "delayTime": 50,
+      "delayRepeats": 60,
+      "delayTweak": 85,
+      "delayTweez": 70,
+      "delayMix": 45,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/8",
+        "value": 1
+      },
+      "bypass": false,
+      "reverbType": "Particle",
+      "reverbDecay": 55,
+      "reverbTweak": 60,
+      "reverbTweez": 0,
+      "reverbMix": 35,
+      "reverbRouting": 0,
+      "routing": 0
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "MkII Delay",
+      "detent": 14,
+      "reverbDetent": 2,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 50,
+          "repeats": 60,
+          "tweak": 85,
+          "tweez": 70,
+          "mix": 45
+        },
+        "Legacy Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 55,
+        "tweak": 60,
+        "routing": 0,
+        "mix": 35
+      },
+      "tapSubdivisionIndex": 1,
+      "tapBpm": 120,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 5,
+    "name": "Transistor Springs",
+    "tags": [
+      "Vintage",
+      "Spring"
+    ],
+    "description": "Warm transistor echo with a surfy spring bed.",
+    "parameters": {
+      "delayType": "Transistor",
+      "delayTime": 58,
+      "delayRepeats": 55,
+      "delayTweak": 70,
+      "delayTweez": 45,
+      "delayMix": 50,
+      "tempoBpm": 105,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false,
+      "reverbType": "Hot Springs",
+      "reverbDecay": 45,
+      "reverbTweak": 35,
+      "reverbTweez": 1,
+      "reverbMix": 45,
+      "reverbRouting": 1,
+      "routing": 1
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "MkII Delay",
+      "detent": 9,
+      "reverbDetent": 12,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 58,
+          "repeats": 55,
+          "tweak": 70,
+          "tweez": 45,
+          "mix": 50
+        },
+        "Legacy Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 45,
+        "tweak": 35,
+        "routing": 1,
+        "mix": 45
+      },
+      "tapSubdivisionIndex": 4,
+      "tapBpm": 105,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 6,
+    "name": "Heliosphere Swell",
+    "tags": [
+      "Ambient",
+      "Shimmer"
+    ],
+    "description": "Slow washes with modulated shimmer tail.",
+    "parameters": {
+      "delayType": "Heliosphere",
+      "delayTime": 80,
+      "delayRepeats": 75,
+      "delayTweak": 90,
+      "delayTweez": 55,
+      "delayMix": 70,
+      "tempoBpm": 75,
+      "subdivision": {
+        "label": "1/2",
+        "value": 7
+      },
+      "bypass": false,
+      "reverbType": "Plateaux",
+      "reverbDecay": 80,
+      "reverbTweak": 45,
+      "reverbTweez": 2,
+      "reverbMix": 60,
+      "reverbRouting": 2,
+      "routing": 2
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "MkII Delay",
+      "detent": 8,
+      "reverbDetent": 7,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 80,
+          "repeats": 75,
+          "tweak": 90,
+          "tweez": 55,
+          "mix": 70
+        },
+        "Legacy Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 80,
+        "tweak": 45,
+        "routing": 2,
+        "mix": 60
+      },
+      "tapSubdivisionIndex": 7,
+      "tapBpm": 75,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 7,
+    "name": "Elephant Chorus",
+    "tags": [
+      "Modulated",
+      "Chorus"
+    ],
+    "description": "Chorused repeats with a tight chamber bloom.",
+    "parameters": {
+      "delayType": "Elephant Man",
+      "delayTime": 72,
+      "delayRepeats": 60,
+      "delayTweak": 70,
+      "delayTweez": 85,
+      "delayMix": 55,
+      "tempoBpm": 100,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false,
+      "reverbType": "Chamber",
+      "reverbDecay": 55,
+      "reverbTweak": 30,
+      "reverbTweez": 1,
+      "reverbMix": 35,
+      "reverbRouting": 1,
+      "routing": 1
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "MkII Delay",
+      "detent": 13,
+      "reverbDetent": 11,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 72,
+          "repeats": 60,
+          "tweak": 70,
+          "tweez": 85,
+          "mix": 55
+        },
+        "Legacy Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 55,
+        "tweak": 30,
+        "routing": 1,
+        "mix": 35
+      },
+      "tapSubdivisionIndex": 4,
+      "tapBpm": 100,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 8,
+    "name": "Pitch Sparkle",
+    "tags": [
+      "Shimmer",
+      "Pitch"
+    ],
+    "description": "Pitch-shifted repeats with a bright bloom.",
+    "parameters": {
+      "delayType": "Pitch Echo",
+      "delayTime": 55,
+      "delayRepeats": 55,
+      "delayTweak": 90,
+      "delayTweez": 75,
+      "delayMix": 45,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/8",
+        "value": 1
+      },
+      "bypass": false,
+      "reverbType": "Glitz",
+      "reverbDecay": 60,
+      "reverbTweak": 80,
+      "reverbTweez": 2,
+      "reverbMix": 55,
+      "reverbRouting": 2,
+      "routing": 2
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "MkII Delay",
+      "detent": 4,
+      "reverbDetent": 14,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 55,
+          "repeats": 55,
+          "tweak": 90,
+          "tweez": 75,
+          "mix": 45
+        },
+        "Legacy Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 60,
+        "tweak": 80,
+        "routing": 2,
+        "mix": 55
+      },
+      "tapSubdivisionIndex": 1,
+      "tapBpm": 120,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 9,
+    "name": "Harmony Dream",
+    "tags": [
+      "Harmony",
+      "Lead"
+    ],
+    "description": "Harmonized repeats with a polished plate tail.",
+    "parameters": {
+      "delayType": "Harmony",
+      "delayTime": 64,
+      "delayRepeats": 60,
+      "delayTweak": 50,
+      "delayTweez": 80,
+      "delayMix": 55,
+      "tempoBpm": 90,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false,
+      "reverbType": "Plate",
+      "reverbDecay": 60,
+      "reverbTweak": 35,
+      "reverbTweez": 1,
+      "reverbMix": 45,
+      "reverbRouting": 1,
+      "routing": 1
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "MkII Delay",
+      "detent": 7,
+      "reverbDetent": 9,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 64,
+          "repeats": 60,
+          "tweak": 50,
+          "tweez": 80,
+          "mix": 55
+        },
+        "Legacy Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 60,
+        "tweak": 35,
+        "routing": 1,
+        "mix": 45
+      },
+      "tapSubdivisionIndex": 4,
+      "tapBpm": 90,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 10,
+    "name": "Euclidean Pulse",
+    "tags": [
+      "Rhythmic",
+      "Pattern"
+    ],
+    "description": "Step-based echoes for percussive patterns.",
+    "parameters": {
+      "delayType": "Euclidean",
+      "delayTime": 52,
+      "delayRepeats": 70,
+      "delayTweak": 75,
+      "delayTweez": 45,
+      "delayMix": 60,
+      "tempoBpm": 110,
+      "subdivision": {
+        "label": "1/8",
+        "value": 1
+      },
+      "bypass": false,
+      "reverbType": "Tile",
+      "reverbDecay": 40,
+      "reverbTweak": 25,
+      "reverbTweez": 1,
+      "reverbMix": 30,
+      "reverbRouting": 1,
+      "routing": 1
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "MkII Delay",
+      "detent": 2,
+      "reverbDetent": 5,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 52,
+          "repeats": 70,
+          "tweak": 75,
+          "tweez": 45,
+          "mix": 60
+        },
+        "Legacy Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 40,
+        "tweak": 25,
+        "routing": 1,
+        "mix": 30
+      },
+      "tapSubdivisionIndex": 1,
+      "tapBpm": 110,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 11,
+    "name": "Crisscross Grid",
+    "tags": [
+      "Stereo",
+      "Rhythmic"
+    ],
+    "description": "Dual lines crossfeed for wide rhythmic taps.",
+    "parameters": {
+      "delayType": "Crisscross",
+      "delayTime": 48,
+      "delayRepeats": 50,
+      "delayTweak": 70,
+      "delayTweez": 85,
+      "delayMix": 55,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/8",
+        "value": 1
+      },
+      "bypass": false,
+      "reverbType": "Room",
+      "reverbDecay": 35,
+      "reverbTweak": 20,
+      "reverbTweez": 1,
+      "reverbMix": 25,
+      "reverbRouting": 1,
+      "routing": 1
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "MkII Delay",
+      "detent": 1,
+      "reverbDetent": 0,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 48,
+          "repeats": 50,
+          "tweak": 70,
+          "tweez": 85,
+          "mix": 55
+        },
+        "Legacy Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 35,
+        "tweak": 20,
+        "routing": 1,
+        "mix": 25
+      },
+      "tapSubdivisionIndex": 1,
+      "tapBpm": 120,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 12,
+    "name": "Dual Dotted",
+    "tags": [
+      "Dual",
+      "Wide"
+    ],
+    "description": "Offset dual repeats for stereo width.",
+    "parameters": {
+      "delayType": "Dual Delay",
+      "delayTime": 55,
+      "delayRepeats": 55,
+      "delayTweak": 85,
+      "delayTweez": 60,
+      "delayMix": 55,
+      "tempoBpm": 100,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false,
+      "reverbType": "Hall",
+      "reverbDecay": 55,
+      "reverbTweak": 25,
+      "reverbTweez": 1,
+      "reverbMix": 35,
+      "reverbRouting": 1,
+      "routing": 1
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "MkII Delay",
+      "detent": 3,
+      "reverbDetent": 13,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 55,
+          "repeats": 55,
+          "tweak": 85,
+          "tweez": 60,
+          "mix": 55
+        },
+        "Legacy Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 55,
+        "tweak": 25,
+        "routing": 1,
+        "mix": 35
+      },
+      "tapSubdivisionIndex": 4,
+      "tapBpm": 100,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 13,
+    "name": "Ducked Lead",
+    "tags": [
+      "Lead",
+      "Clean"
+    ],
+    "description": "Delays tuck under the dry signal, then bloom.",
+    "parameters": {
+      "delayType": "Ducked",
+      "delayTime": 50,
+      "delayRepeats": 65,
+      "delayTweak": 65,
+      "delayTweez": 60,
+      "delayMix": 40,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/8",
+        "value": 1
+      },
+      "bypass": false,
+      "reverbType": "Room",
+      "reverbDecay": 30,
+      "reverbTweak": 20,
+      "reverbTweez": 1,
+      "reverbMix": 25,
+      "reverbRouting": 1,
+      "routing": 1
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "MkII Delay",
+      "detent": 6,
+      "reverbDetent": 0,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 50,
+          "repeats": 65,
+          "tweak": 65,
+          "tweez": 60,
+          "mix": 40
+        },
+        "Legacy Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 30,
+        "tweak": 20,
+        "routing": 1,
+        "mix": 25
+      },
+      "tapSubdivisionIndex": 1,
+      "tapBpm": 120,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 14,
+    "name": "ADT Double",
+    "tags": [
+      "Double",
+      "Thick"
+    ],
+    "description": "Short ADT-style thickening with light room verb.",
+    "parameters": {
+      "delayType": "ADT",
+      "delayTime": 40,
+      "delayRepeats": 35,
+      "delayTweak": 30,
+      "delayTweez": 65,
+      "delayMix": 35,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false,
+      "reverbType": "Room",
+      "reverbDecay": 30,
+      "reverbTweak": 20,
+      "reverbTweez": 1,
+      "reverbMix": 20,
+      "reverbRouting": 1,
+      "routing": 1
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "MkII Delay",
+      "detent": 5,
+      "reverbDetent": 0,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 40,
+          "repeats": 35,
+          "tweak": 30,
+          "tweez": 65,
+          "mix": 35
+        },
+        "Legacy Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 30,
+        "tweak": 20,
+        "routing": 1,
+        "mix": 20
+      },
+      "tapSubdivisionIndex": 4,
+      "tapBpm": 120,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 15,
+    "name": "Cosmos Wash",
+    "tags": [
+      "Ambient",
+      "Huge"
+    ],
+    "description": "Massive multi-head repeats into a cavern.",
+    "parameters": {
+      "delayType": "Cosmos",
+      "delayTime": 85,
+      "delayRepeats": 90,
+      "delayTweak": 100,
+      "delayTweez": 70,
+      "delayMix": 75,
+      "tempoBpm": 70,
+      "subdivision": {
+        "label": "1/2",
+        "value": 7
+      },
+      "bypass": false,
+      "reverbType": "Cave",
+      "reverbDecay": 85,
+      "reverbTweak": 40,
+      "reverbTweez": 2,
+      "reverbMix": 65,
+      "reverbRouting": 2,
+      "routing": 2
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "MkII Delay",
+      "detent": 10,
+      "reverbDetent": 8,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 85,
+          "repeats": 90,
+          "tweak": 100,
+          "tweez": 70,
+          "mix": 75
+        },
+        "Legacy Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 85,
+        "tweak": 40,
+        "routing": 2,
+        "mix": 65
+      },
+      "tapSubdivisionIndex": 7,
+      "tapBpm": 70,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 16,
+    "name": "Adriatic Drift",
+    "tags": [
+      "Vintage",
+      "Modulated"
+    ],
+    "description": "Tape-style modulated echoes with a balanced plate.",
+    "parameters": {
+      "delayType": "Adriatic",
+      "delayTime": 65,
+      "delayRepeats": 55,
+      "delayTweak": 50,
+      "delayTweez": 70,
+      "delayMix": 50,
+      "tempoBpm": 105,
+      "subdivision": {
+        "label": "1/8",
+        "value": 1
+      },
+      "bypass": false,
+      "reverbType": "Plate",
+      "reverbDecay": 55,
+      "reverbTweak": 35,
+      "reverbTweez": 1,
+      "reverbMix": 40,
+      "reverbRouting": 1,
+      "routing": 1
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "MkII Delay",
+      "detent": 12,
+      "reverbDetent": 9,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 65,
+          "repeats": 55,
+          "tweak": 50,
+          "tweez": 70,
+          "mix": 50
+        },
+        "Legacy Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 55,
+        "tweak": 35,
+        "routing": 1,
+        "mix": 40
+      },
+      "tapSubdivisionIndex": 1,
+      "tapBpm": 105,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 17,
+    "name": "Vintage Search",
+    "tags": [
+      "LoFi",
+      "Ambient"
+    ],
+    "description": "Lo-fi digital repeats soaked in shimmer.",
+    "parameters": {
+      "delayType": "Vintage Digital",
+      "delayTime": 60,
+      "delayRepeats": 45,
+      "delayTweak": 25,
+      "delayTweez": 50,
+      "delayMix": 45,
+      "tempoBpm": 100,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false,
+      "reverbType": "Searchlights",
+      "reverbDecay": 65,
+      "reverbTweak": 55,
+      "reverbTweez": 0,
+      "reverbMix": 50,
+      "reverbRouting": 0,
+      "routing": 0
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "MkII Delay",
+      "detent": 0,
+      "reverbDetent": 1,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 60,
+          "repeats": 45,
+          "tweak": 25,
+          "tweez": 50,
+          "mix": 45
+        },
+        "Legacy Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 65,
+        "tweak": 55,
+        "routing": 0,
+        "mix": 50
+      },
+      "tapSubdivisionIndex": 4,
+      "tapBpm": 100,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 18,
+    "name": "Tape Echo Slap",
+    "tags": [
+      "Slapback",
+      "Tape"
+    ],
+    "description": "Short slapback repeats with subtle room.",
+    "parameters": {
+      "delayType": "Tape Echo",
+      "delayTime": 35,
+      "delayRepeats": 30,
+      "delayTweak": 55,
+      "delayTweez": 60,
+      "delayMix": 35,
+      "tempoBpm": 115,
+      "subdivision": {
+        "label": "1/8T",
+        "value": 0
+      },
+      "bypass": false,
+      "reverbType": "Room",
+      "reverbDecay": 25,
+      "reverbTweak": 20,
+      "reverbTweez": 1,
+      "reverbMix": 20,
+      "reverbRouting": 1,
+      "routing": 1
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "Legacy Delay",
+      "detent": 9,
+      "reverbDetent": 0,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Legacy Delay": {
+          "time": 35,
+          "repeats": 30,
+          "tweak": 55,
+          "tweez": 60,
+          "mix": 35
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 25,
+        "tweak": 20,
+        "routing": 1,
+        "mix": 20
+      },
+      "tapSubdivisionIndex": 0,
+      "tapBpm": 115,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 19,
+    "name": "Analog Warm",
+    "tags": [
+      "Warm",
+      "Analog"
+    ],
+    "description": "Warm analog repeats with a light plate bed.",
+    "parameters": {
+      "delayType": "Analog",
+      "delayTime": 45,
+      "delayRepeats": 45,
+      "delayTweak": 40,
+      "delayTweez": 35,
+      "delayMix": 40,
+      "tempoBpm": 100,
+      "subdivision": {
+        "label": "1/8",
+        "value": 1
+      },
+      "bypass": false,
+      "reverbType": "Plate",
+      "reverbDecay": 45,
+      "reverbTweak": 25,
+      "reverbTweez": 1,
+      "reverbMix": 30,
+      "reverbRouting": 1,
+      "routing": 1
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "Legacy Delay",
+      "detent": 12,
+      "reverbDetent": 9,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Legacy Delay": {
+          "time": 45,
+          "repeats": 45,
+          "tweak": 40,
+          "tweez": 35,
+          "mix": 40
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 45,
+        "tweak": 25,
+        "routing": 1,
+        "mix": 30
+      },
+      "tapSubdivisionIndex": 1,
+      "tapBpm": 100,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 20,
+    "name": "Analog Mod Lush",
+    "tags": [
+      "Modulated",
+      "Lush"
+    ],
+    "description": "Analog modulation with a roomy chamber tail.",
+    "parameters": {
+      "delayType": "Analog Mod",
+      "delayTime": 55,
+      "delayRepeats": 55,
+      "delayTweak": 60,
+      "delayTweez": 75,
+      "delayMix": 50,
+      "tempoBpm": 90,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false,
+      "reverbType": "Chamber",
+      "reverbDecay": 55,
+      "reverbTweak": 35,
+      "reverbTweez": 1,
+      "reverbMix": 40,
+      "reverbRouting": 1,
+      "routing": 1
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "Legacy Delay",
+      "detent": 13,
+      "reverbDetent": 11,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Legacy Delay": {
+          "time": 55,
+          "repeats": 55,
+          "tweak": 60,
+          "tweez": 75,
+          "mix": 50
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 55,
+        "tweak": 35,
+        "routing": 1,
+        "mix": 40
+      },
+      "tapSubdivisionIndex": 4,
+      "tapBpm": 90,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 21,
+    "name": "Echo Platter Drive",
+    "tags": [
+      "Tape",
+      "Drive"
+    ],
+    "description": "Tape platter texture with a focused plate verb.",
+    "parameters": {
+      "delayType": "Echo Platter",
+      "delayTime": 60,
+      "delayRepeats": 60,
+      "delayTweak": 70,
+      "delayTweez": 65,
+      "delayMix": 50,
+      "tempoBpm": 95,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false,
+      "reverbType": "Plate",
+      "reverbDecay": 45,
+      "reverbTweak": 30,
+      "reverbTweez": 1,
+      "reverbMix": 35,
+      "reverbRouting": 1,
+      "routing": 1
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "Legacy Delay",
+      "detent": 2,
+      "reverbDetent": 9,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Legacy Delay": {
+          "time": 60,
+          "repeats": 60,
+          "tweak": 70,
+          "tweez": 65,
+          "mix": 50
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 45,
+        "tweak": 30,
+        "routing": 1,
+        "mix": 35
+      },
+      "tapSubdivisionIndex": 4,
+      "tapBpm": 95,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 22,
+    "name": "Ping Pong Hall",
+    "tags": [
+      "Stereo",
+      "PingPong"
+    ],
+    "description": "Bouncing repeats with a wide hall tail.",
+    "parameters": {
+      "delayType": "Ping Pong",
+      "delayTime": 55,
+      "delayRepeats": 50,
+      "delayTweak": 70,
+      "delayTweez": 60,
+      "delayMix": 55,
+      "tempoBpm": 115,
+      "subdivision": {
+        "label": "1/8",
+        "value": 1
+      },
+      "bypass": false,
+      "reverbType": "Hall",
+      "reverbDecay": 60,
+      "reverbTweak": 30,
+      "reverbTweez": 1,
+      "reverbMix": 35,
+      "reverbRouting": 1,
+      "routing": 1
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "Legacy Delay",
+      "detent": 4,
+      "reverbDetent": 13,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Legacy Delay": {
+          "time": 55,
+          "repeats": 50,
+          "tweak": 70,
+          "tweez": 60,
+          "mix": 55
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 60,
+        "tweak": 30,
+        "routing": 1,
+        "mix": 35
+      },
+      "tapSubdivisionIndex": 1,
+      "tapBpm": 115,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 23,
+    "name": "Reverse Cave",
+    "tags": [
+      "Reverse",
+      "Ambient"
+    ],
+    "description": "Reverse washes into a cavernous space.",
+    "parameters": {
+      "delayType": "Reverse",
+      "delayTime": 70,
+      "delayRepeats": 65,
+      "delayTweak": 60,
+      "delayTweez": 55,
+      "delayMix": 50,
+      "tempoBpm": 80,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false,
+      "reverbType": "Cave",
+      "reverbDecay": 75,
+      "reverbTweak": 40,
+      "reverbTweez": 2,
+      "reverbMix": 55,
+      "reverbRouting": 2,
+      "routing": 2
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "Legacy Delay",
+      "detent": 5,
+      "reverbDetent": 8,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Legacy Delay": {
+          "time": 70,
+          "repeats": 65,
+          "tweak": 60,
+          "tweez": 55,
+          "mix": 50
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 75,
+        "tweak": 40,
+        "routing": 2,
+        "mix": 55
+      },
+      "tapSubdivisionIndex": 4,
+      "tapBpm": 80,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 24,
+    "name": "Auto-Vol Swell",
+    "tags": [
+      "Swell",
+      "Ambient"
+    ],
+    "description": "Auto-swells that rise into shimmer.",
+    "parameters": {
+      "delayType": "Auto-Vol",
+      "delayTime": 60,
+      "delayRepeats": 55,
+      "delayTweak": 70,
+      "delayTweez": 80,
+      "delayMix": 45,
+      "tempoBpm": 90,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false,
+      "reverbType": "Searchlights",
+      "reverbDecay": 65,
+      "reverbTweak": 55,
+      "reverbTweez": 2,
+      "reverbMix": 50,
+      "reverbRouting": 2,
+      "routing": 2
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "Legacy Delay",
+      "detent": 7,
+      "reverbDetent": 1,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Legacy Delay": {
+          "time": 60,
+          "repeats": 55,
+          "tweak": 70,
+          "tweez": 80,
+          "mix": 45
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 65,
+        "tweak": 55,
+        "routing": 2,
+        "mix": 50
+      },
+      "tapSubdivisionIndex": 4,
+      "tapBpm": 90,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 25,
+    "name": "Multi-Head Tape",
+    "tags": [
+      "MultiHead",
+      "Vintage"
+    ],
+    "description": "Multi-head taps for classic rhythmic echo.",
+    "parameters": {
+      "delayType": "Multi-Head",
+      "delayTime": 65,
+      "delayRepeats": 65,
+      "delayTweak": 80,
+      "delayTweez": 70,
+      "delayMix": 55,
+      "tempoBpm": 105,
+      "subdivision": {
+        "label": "1/8",
+        "value": 1
+      },
+      "bypass": false,
+      "reverbType": "Hall",
+      "reverbDecay": 55,
+      "reverbTweak": 25,
+      "reverbTweez": 1,
+      "reverbMix": 35,
+      "reverbRouting": 1,
+      "routing": 1
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "Legacy Delay",
+      "detent": 10,
+      "reverbDetent": 13,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Legacy Delay": {
+          "time": 65,
+          "repeats": 65,
+          "tweak": 80,
+          "tweez": 70,
+          "mix": 55
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 55,
+        "tweak": 25,
+        "routing": 1,
+        "mix": 35
+      },
+      "tapSubdivisionIndex": 1,
+      "tapBpm": 105,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 26,
+    "name": "Sweep Phaser",
+    "tags": [
+      "Modulated",
+      "SciFi"
+    ],
+    "description": "Sweeping filters with a glowing tail.",
+    "parameters": {
+      "delayType": "Sweep",
+      "delayTime": 55,
+      "delayRepeats": 55,
+      "delayTweak": 75,
+      "delayTweez": 70,
+      "delayMix": 50,
+      "tempoBpm": 100,
+      "subdivision": {
+        "label": "1/8",
+        "value": 1
+      },
+      "bypass": false,
+      "reverbType": "Glitz",
+      "reverbDecay": 50,
+      "reverbTweak": 60,
+      "reverbTweez": 1,
+      "reverbMix": 35,
+      "reverbRouting": 1,
+      "routing": 1
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "Legacy Delay",
+      "detent": 11,
+      "reverbDetent": 14,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Legacy Delay": {
+          "time": 55,
+          "repeats": 55,
+          "tweak": 75,
+          "tweez": 70,
+          "mix": 50
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 50,
+        "tweak": 60,
+        "routing": 1,
+        "mix": 35
+      },
+      "tapSubdivisionIndex": 1,
+      "tapBpm": 100,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 27,
+    "name": "Lo Res Lofi",
+    "tags": [
+      "LoFi",
+      "Digital"
+    ],
+    "description": "Bitty repeats with a short tiled space.",
+    "parameters": {
+      "delayType": "Lo Res Delay",
+      "delayTime": 50,
+      "delayRepeats": 50,
+      "delayTweak": 40,
+      "delayTweez": 30,
+      "delayMix": 45,
+      "tempoBpm": 90,
+      "subdivision": {
+        "label": "1/8",
+        "value": 1
+      },
+      "bypass": false,
+      "reverbType": "Tile",
+      "reverbDecay": 35,
+      "reverbTweak": 25,
+      "reverbTweez": 1,
+      "reverbMix": 25,
+      "reverbRouting": 1,
+      "routing": 1
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "Legacy Delay",
+      "detent": 14,
+      "reverbDetent": 5,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Legacy Delay": {
+          "time": 50,
+          "repeats": 50,
+          "tweak": 40,
+          "tweez": 30,
+          "mix": 45
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 35,
+        "tweak": 25,
+        "routing": 1,
+        "mix": 25
+      },
+      "tapSubdivisionIndex": 1,
+      "tapBpm": 90,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 28,
+    "name": "Digital Mod Clean",
+    "tags": [
+      "Clean",
+      "Mod"
+    ],
+    "description": "Clean modulated repeats with a tight room.",
+    "parameters": {
+      "delayType": "Digital W/ Mod",
+      "delayTime": 55,
+      "delayRepeats": 45,
+      "delayTweak": 50,
+      "delayTweez": 60,
+      "delayMix": 45,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/8",
+        "value": 1
+      },
+      "bypass": false,
+      "reverbType": "Room",
+      "reverbDecay": 30,
+      "reverbTweak": 20,
+      "reverbTweez": 1,
+      "reverbMix": 25,
+      "reverbRouting": 1,
+      "routing": 1
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "Legacy Delay",
+      "detent": 1,
+      "reverbDetent": 0,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Legacy Delay": {
+          "time": 55,
+          "repeats": 45,
+          "tweak": 50,
+          "tweez": 60,
+          "mix": 45
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 30,
+        "tweak": 20,
+        "routing": 1,
+        "mix": 25
+      },
+      "tapSubdivisionIndex": 1,
+      "tapBpm": 120,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 29,
+    "name": "Tube Echo Grit",
+    "tags": [
+      "Grit",
+      "Vintage"
+    ],
+    "description": "Tube echo grind with a springy tail.",
+    "parameters": {
+      "delayType": "Tube Echo",
+      "delayTime": 60,
+      "delayRepeats": 60,
+      "delayTweak": 70,
+      "delayTweez": 75,
+      "delayMix": 50,
+      "tempoBpm": 95,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false,
+      "reverbType": "Hot Springs",
+      "reverbDecay": 45,
+      "reverbTweak": 30,
+      "reverbTweez": 1,
+      "reverbMix": 35,
+      "reverbRouting": 1,
+      "routing": 1
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": false,
+    "snapshot": {
+      "mode": "Legacy Delay",
+      "detent": 8,
+      "reverbDetent": 12,
+      "delayControlValues": {
+        "MkII Delay": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        },
+        "Legacy Delay": {
+          "time": 60,
+          "repeats": 60,
+          "tweak": 70,
+          "tweez": 75,
+          "mix": 50
+        },
+        "Secret Reverb": {
+          "time": 64,
+          "repeats": 64,
+          "tweak": 64,
+          "tweez": 64,
+          "mix": 64
+        }
+      },
+      "reverbControlValues": {
+        "decay": 45,
+        "tweak": 30,
+        "routing": 1,
+        "mix": 35
+      },
+      "tapSubdivisionIndex": 4,
+      "tapBpm": 95,
+      "bypassed": false
+    }
+  },
+  {
+    "id": 30,
+    "name": "Preset 31",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 31,
+    "name": "Preset 32",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 32,
+    "name": "Preset 33",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 33,
+    "name": "Preset 34",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 34,
+    "name": "Preset 35",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 35,
+    "name": "Preset 36",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 36,
+    "name": "Preset 37",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 37,
+    "name": "Preset 38",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 38,
+    "name": "Preset 39",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 39,
+    "name": "Preset 40",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 40,
+    "name": "Preset 41",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 41,
+    "name": "Preset 42",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 42,
+    "name": "Preset 43",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 43,
+    "name": "Preset 44",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 44,
+    "name": "Preset 45",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 45,
+    "name": "Preset 46",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 46,
+    "name": "Preset 47",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 47,
+    "name": "Preset 48",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 48,
+    "name": "Preset 49",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 49,
+    "name": "Preset 50",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 50,
+    "name": "Preset 51",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 51,
+    "name": "Preset 52",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 52,
+    "name": "Preset 53",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 53,
+    "name": "Preset 54",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 54,
+    "name": "Preset 55",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 55,
+    "name": "Preset 56",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 56,
+    "name": "Preset 57",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 57,
+    "name": "Preset 58",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 58,
+    "name": "Preset 59",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 59,
+    "name": "Preset 60",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 60,
+    "name": "Preset 61",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 61,
+    "name": "Preset 62",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 62,
+    "name": "Preset 63",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 63,
+    "name": "Preset 64",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 64,
+    "name": "Preset 65",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 65,
+    "name": "Preset 66",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 66,
+    "name": "Preset 67",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 67,
+    "name": "Preset 68",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 68,
+    "name": "Preset 69",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 69,
+    "name": "Preset 70",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 70,
+    "name": "Preset 71",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 71,
+    "name": "Preset 72",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 72,
+    "name": "Preset 73",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 73,
+    "name": "Preset 74",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 74,
+    "name": "Preset 75",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 75,
+    "name": "Preset 76",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 76,
+    "name": "Preset 77",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 77,
+    "name": "Preset 78",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 78,
+    "name": "Preset 79",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 79,
+    "name": "Preset 80",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 80,
+    "name": "Preset 81",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 81,
+    "name": "Preset 82",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 82,
+    "name": "Preset 83",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 83,
+    "name": "Preset 84",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 84,
+    "name": "Preset 85",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 85,
+    "name": "Preset 86",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 86,
+    "name": "Preset 87",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 87,
+    "name": "Preset 88",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 88,
+    "name": "Preset 89",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 89,
+    "name": "Preset 90",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 90,
+    "name": "Preset 91",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 91,
+    "name": "Preset 92",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 92,
+    "name": "Preset 93",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 93,
+    "name": "Preset 94",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 94,
+    "name": "Preset 95",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 95,
+    "name": "Preset 96",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 96,
+    "name": "Preset 97",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 97,
+    "name": "Preset 98",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 98,
+    "name": "Preset 99",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 99,
+    "name": "Preset 100",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 100,
+    "name": "Preset 101",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 101,
+    "name": "Preset 102",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 102,
+    "name": "Preset 103",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 103,
+    "name": "Preset 104",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 104,
+    "name": "Preset 105",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 105,
+    "name": "Preset 106",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 106,
+    "name": "Preset 107",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 107,
+    "name": "Preset 108",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 108,
+    "name": "Preset 109",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 109,
+    "name": "Preset 110",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 110,
+    "name": "Preset 111",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 111,
+    "name": "Preset 112",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 112,
+    "name": "Preset 113",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 113,
+    "name": "Preset 114",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 114,
+    "name": "Preset 115",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 115,
+    "name": "Preset 116",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 116,
+    "name": "Preset 117",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 117,
+    "name": "Preset 118",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 118,
+    "name": "Preset 119",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 119,
+    "name": "Preset 120",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 120,
+    "name": "Preset 121",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 121,
+    "name": "Preset 122",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 122,
+    "name": "Preset 123",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 123,
+    "name": "Preset 124",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 124,
+    "name": "Preset 125",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 125,
+    "name": "Preset 126",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 126,
+    "name": "Preset 127",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  },
+  {
+    "id": 127,
+    "name": "Preset 128",
+    "tags": [],
+    "description": "",
+    "parameters": {
+      "delayType": "MkII",
+      "delayTime": 64,
+      "delayRepeats": 64,
+      "delayTweak": 64,
+      "delayTweez": 64,
+      "delayMix": 64,
+      "tempoBpm": 120,
+      "subdivision": {
+        "label": "1/4",
+        "value": 4
+      },
+      "bypass": false
+    },
+    "lastModified": "2025-12-21T01:53:58.831Z",
+    "isEmpty": true
+  }
+]
