@@ -298,11 +298,12 @@ const App = () => {
     return `Connected: ${ports[selectedPort] ?? 'Port'}`;
   }, [midiReady, ports, selectedPort]);
 
-  useEffect(() => {
-    if (clock.followEnabled && typeof clock.bpm === 'number') {
-      setTapBpm(Math.round(clock.bpm));
-    }
-  }, [clock.bpm, clock.followEnabled]);
+  // Clock follow disabled for now; re-enable if we expose follow controls again.
+  // useEffect(() => {
+  //   if (clock.followEnabled && typeof clock.bpm === 'number') {
+  //     setTapBpm(Math.round(clock.bpm));
+  //   }
+  // }, [clock.bpm, clock.followEnabled]);
 
   const [toast, setToast] = useState<{ id: number; message: string; kind: 'error' | 'ok' } | null>(null);
   const [showHelp, setShowHelp] = useState(false);
@@ -387,7 +388,8 @@ const App = () => {
     [midiReady, selectedPort, sendMessages, selectedSubdivision]
   );
 
-  const tempoSource = clock.followEnabled && typeof clock.bpm === 'number' ? 'clock' : 'manual';
+  // Clock follow disabled; always treat tempo as manual/tap.
+  const tempoSource = 'manual';
   const displayBpm =
     tempoSource === 'clock' && typeof clock.bpm === 'number' ? Math.round(clock.bpm) : tapBpm;
 
@@ -1646,15 +1648,6 @@ const App = () => {
           disabled={!midiReady}
         >
           ↻
-        </button>
-        <button
-          type="button"
-          className={styles.midiRefresh}
-          onClick={clock.followEnabled ? clock.disableFollow : clock.enableFollow}
-          disabled={!midiReady || selectedPort === null}
-          aria-pressed={clock.followEnabled}
-        >
-          {clock.followEnabled ? 'Clock: On' : 'Clock: Off'}
         </button>
         {process.env.NODE_ENV === 'development' && (
           <button
