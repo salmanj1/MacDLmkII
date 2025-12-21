@@ -85,7 +85,7 @@ export const parameterMappings: Record<Mode, Record<ModelKey, ParameterDisplay[]
     ADT: [
       { id: 'time', primaryLabel: 'Delay', unit: 'ms', formatter: millis },
       { id: 'repeats', primaryLabel: 'Repeats', unit: '%', formatter: percent },
-      { id: 'tweak', primaryLabel: 'Distortion', unit: 'generic' },
+      { id: 'tweak', primaryLabel: 'Distortion Deck 2', unit: 'generic' },
       { id: 'tweez', primaryLabel: 'Deck 2 Mod Depth', unit: 'generic' },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
@@ -148,8 +148,8 @@ export const parameterMappings: Record<Mode, Record<ModelKey, ParameterDisplay[]
     Glitch: [
       { id: 'time', primaryLabel: 'Time/Subdiv', unit: 'ms', formatter: millis },
       { id: 'repeats', primaryLabel: 'Repeats', unit: '%', formatter: percent },
-      { id: 'tweak', primaryLabel: 'Pitch Slice/Drift/Shuffle', unit: 'generic' },
-      { id: 'tweez', primaryLabel: 'Pitch Slice/Drift/Shuffle', unit: 'generic' },
+      { id: 'tweak', primaryLabel: 'Pitch', unit: 'generic' },
+      { id: 'tweez', primaryLabel: 'Slice/Drift/Shuffle', unit: 'generic' },
       { id: 'mix', primaryLabel: 'Mix', unit: '%', formatter: percent }
     ],
     Looper: [
@@ -404,7 +404,7 @@ export const parameterMappings: Record<Mode, Record<ModelKey, ParameterDisplay[]
     ],
     'Searchlights': [
       { id: 'repeats', primaryLabel: 'Decay', unit: 'generic' },
-      { id: 'tweak', primaryLabel: 'Mod Intensity', unit: 'generic' },
+      { id: 'tweak', primaryLabel: 'Mod Mix/Depth', unit: 'generic' },
       {
         id: 'tweez',
         primaryLabel: 'Routing',
